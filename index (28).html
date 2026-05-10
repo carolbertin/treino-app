@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Treinos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0f0f;--bg2:#1a1a1a;--bg3:#242424;--bg4:#2e2e2e;--border:#2e2e2e;--border2:#3a3a3a;--text:#f0f0f0;--text2:#888;--text3:#444;--accent:#c8f060;--accent2:#a8d040;--danger:#ff5555;--info:#60a8f0;--warn:#f0a830;--success:#50d080;--radius:14px;--rsm:8px;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:3px;}
+.screen{display:none;min-height:100vh;flex-direction:column;}.screen.active{display:flex;}
+/* LOGIN */
+#screen-login{align-items:center;justify-content:center;padding:2rem;}
+.login-box{width:100%;max-width:360px;text-align:center;}
+.login-logo{width:64px;height:64px;background:var(--accent);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 2rem;font-size:28px;}
+.btn-google{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:16px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);font-family:inherit;font-size:15px;font-weight:500;color:var(--text);cursor:pointer;transition:all .2s;}
+.btn-google:hover{border-color:var(--accent);}
+.btn-google svg{width:20px;height:20px;flex-shrink:0;}
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.topbar-title{font-size:16px;font-weight:600;flex:1;text-align:center;}
+.topbar-left,.topbar-right{width:60px;}
+.topbar-right{text-align:right;}
+.btn-back{background:none;border:none;color:var(--text2);cursor:pointer;font-size:22px;padding:4px;}
+.btn-top-action{background:none;border:none;color:var(--accent);cursor:pointer;font-size:14px;font-weight:500;font-family:inherit;}
+.avatar{width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid var(--border2);cursor:pointer;}
+.avatar-ph{width:32px;height:32px;border-radius:50%;background:var(--bg3);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--accent);cursor:pointer;margin-left:auto;}
+/* BOTTOM TABS */
+.bottom-tabs{display:flex;background:var(--bg);border-top:1px solid var(--border);padding:8px 0 20px;}
+.bottom-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 4px;transition:all .15s;}
+.bottom-tab-icon{font-size:22px;line-height:1;}
+.bottom-tab-label{font-size:10px;color:var(--text2);font-weight:500;letter-spacing:.03em;}
+.bottom-tab.active .bottom-tab-icon{filter:drop-shadow(0 0 6px rgba(200,240,96,.6));}
+.bottom-tab.active .bottom-tab-label{color:var(--accent);}
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:20px;}
+.tab-pane{display:none;}.tab-pane.active{display:block;}
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px;}
+.card-click{cursor:pointer;transition:all .18s;}.card-click:hover{border-color:var(--border2);}.card-click:active{transform:scale(.98);}
+.card-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+/* BUTTONS */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 20px;border-radius:var(--radius);font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;border:none;transition:all .18s;width:100%;}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--accent);color:#0a0a0a;}
+.btn-secondary{background:var(--bg3);color:var(--text);border:1px solid var(--border2);}
+.btn-danger{background:rgba(255,85,85,.1);color:var(--danger);border:1px solid rgba(255,85,85,.25);}
+.btn-ghost{background:none;border:none;color:var(--text2);font-family:inherit;font-size:14px;cursor:pointer;padding:6px 8px;}
+.btn-sm{padding:8px 14px;font-size:13px;border-radius:var(--rsm);width:auto;}
+.btn-icon{width:36px;height:36px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;flex-shrink:0;}
+/* INPUTS */
+.field{margin-bottom:14px;}
+.field label,.field-label{display:block;font-size:11px;color:var(--text2);margin-bottom:5px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;}
+.inp{width:100%;padding:11px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rsm);color:var(--text);font-family:inherit;font-size:14px;outline:none;transition:border-color .2s;appearance:none;}
+.inp:focus{border-color:var(--accent);}
+.inp-sm{padding:8px 12px;font-size:13px;}
+textarea.inp{resize:vertical;min-height:70px;line-height:1.5;}
+select.inp option{background:var(--bg3);}
+/* LABELS */
+.section-label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;margin-top:20px;}
+.section-label:first-child{margin-top:0;}
+/* HOME */
+.greeting{padding:20px 20px 4px;}
+.greeting-name{font-size:22px;font-weight:600;}
+.greeting-sub{font-size:13px;color:var(--text2);margin-top:3px;}
+.sessoes-grid{padding:0 20px 16px;}
+.sessao-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
+.sessao-item:last-child{border-bottom:none;}
+.sessao-data{font-size:12px;color:var(--text3);font-family:"DM Mono",monospace;width:52px;flex-shrink:0;}
+.sessao-nome{font-size:14px;font-weight:500;flex:1;padding:0 12px;}
+.sessao-tag{font-size:11px;color:var(--text2);background:var(--bg3);padding:3px 9px;border-radius:20px;}
+/* TREINO GRID */
+.treino-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 20px 20px;}
+.treino-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 14px;cursor:pointer;transition:all .18s;text-align:center;position:relative;}
+.treino-card:hover{border-color:var(--border2);transform:translateY(-1px);}
+.treino-card:active{transform:scale(.97);}
+.treino-letra{font-size:30px;font-weight:600;color:var(--accent);font-family:"DM Mono",monospace;line-height:1;}
+.treino-nome{font-size:12px;color:var(--text2);margin-top:6px;}
+.treino-count{font-size:11px;color:var(--text3);margin-top:2px;}
+/* LISTA EXERCÍCIOS */
+.progress-header{padding:0 20px 12px;display:flex;align-items:center;gap:10px;}
+.progress-track{flex:1;height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s;}
+.progress-text{font-size:12px;color:var(--text2);font-family:"DM Mono",monospace;white-space:nowrap;}
+.instrucoes-box{margin:0 20px 16px;background:rgba(200,240,96,.05);border:1px solid rgba(200,240,96,.15);border-radius:var(--rsm);padding:12px 14px;}
+.instrucoes-label{font-size:10px;color:var(--accent);font-weight:600;letter-spacing:.08em;margin-bottom:4px;}
+.instrucoes-text{font-size:13px;color:var(--text2);line-height:1.6;white-space:pre-line;}
+.ex-item{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:8px;cursor:pointer;transition:all .15s;position:relative;}
+.ex-item:hover{border-color:var(--border2);}
+.ex-item:active{transform:scale(.98);}
+.ex-item.done{opacity:.55;}
+.ex-num{width:30px;height:30px;border-radius:7px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--text2);font-family:"DM Mono",monospace;flex-shrink:0;}
+.ex-item.done .ex-num{background:rgba(200,240,96,.12);color:var(--accent);}
+.ex-body{flex:1;min-width:0;}
+.ex-nome{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ex-prescricao{font-size:12px;color:var(--accent);font-weight:500;margin-top:2px;}
+.ex-tipo{font-size:11px;color:var(--text2);margin-top:1px;}
+.ex-badges{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;}
+.badge-subst{font-size:10px;color:var(--info);background:rgba(96,168,240,.1);border:1px solid rgba(96,168,240,.2);border-radius:20px;padding:2px 8px;}
+.badge-obs{font-size:10px;color:var(--warn);background:rgba(240,168,48,.1);border:1px solid rgba(240,168,48,.2);border-radius:20px;padding:2px 8px;}
+.ex-arrow{color:var(--text3);font-size:18px;flex-shrink:0;}
+/* VISÃO PLANILHA */
+.planilha-wrap{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px;}
+.planilha-head{display:grid;grid-template-columns:28px 1fr 80px 70px;background:var(--bg3);padding:7px 12px;border-bottom:1px solid var(--border);}
+.planilha-head span{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;}
+.planilha-row{display:grid;grid-template-columns:28px 1fr 80px 70px;padding:10px 12px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;align-items:center;}
+.planilha-row:last-child{border-bottom:none;}
+.planilha-row:hover{background:var(--bg3);}
+.planilha-row.done{opacity:.5;}
+.pl-num{font-size:11px;color:var(--text3);font-family:"DM Mono",monospace;}
+.pl-nome{font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:8px;}
+.pl-tipo{font-size:11px;color:var(--text2);}
+.pl-meta{font-size:12px;font-family:"DM Mono",monospace;color:var(--accent);}
+/* DETALHE EXERCÍCIO */
+.video-wrap{background:#000;border-radius:var(--radius);overflow:hidden;aspect-ratio:16/9;margin-bottom:14px;display:flex;align-items:center;justify-content:center;}
+.video-wrap iframe{width:100%;height:100%;border:none;}
+.video-ph{color:var(--text3);font-size:13px;}
+.prescricao-box{background:var(--bg2);border:1px solid rgba(200,240,96,.25);border-radius:var(--rsm);padding:14px 16px;margin-bottom:16px;}
+.prescricao-label{font-size:10px;color:var(--accent);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
+.prescricao-texto{font-size:20px;font-weight:600;color:var(--accent);font-family:"DM Mono",monospace;line-height:1.3;}
+.prescricao-tipo{font-size:12px;color:var(--text2);margin-top:4px;}
+.sugestao-box{background:rgba(200,240,96,.06);border:1px solid rgba(200,240,96,.15);border-radius:var(--rsm);padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.sugestao-icon{font-size:18px;flex-shrink:0;}
+.sugestao-text{font-size:12px;color:var(--text2);}
+.sugestao-val{font-size:16px;font-weight:600;color:var(--accent);font-family:"DM Mono",monospace;}
+.ultimo-box{background:var(--bg3);border-radius:var(--rsm);padding:12px 14px;margin-bottom:16px;}
+.ultimo-label{font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
+.ultimo-series{display:flex;flex-direction:column;gap:4px;}
+.ultimo-serie-row{font-size:13px;font-family:"DM Mono",monospace;color:var(--text2);}
+.ultimo-serie-row span{color:var(--text);}
+/* REGISTRO SÉRIES */
+.series-container{margin-bottom:16px;}
+.serie-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm);padding:12px 14px;margin-bottom:8px;transition:border-color .2s;}
+.serie-card.active{border-color:var(--accent);}
+.serie-card.done{opacity:.6;}
+.serie-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.serie-num-badge{font-size:11px;font-weight:600;color:var(--text2);background:var(--bg3);padding:3px 10px;border-radius:20px;font-family:"DM Mono",monospace;}
+.serie-card.active .serie-num-badge{color:var(--accent);background:rgba(200,240,96,.1);}
+.serie-card.done .serie-num-badge{color:var(--accent);}
+.serie-check-btn{width:30px;height:30px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .15s;}
+.serie-card.done .serie-check-btn{background:rgba(200,240,96,.15);border-color:rgba(200,240,96,.3);color:var(--accent);}
+.serie-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.serie-field{background:var(--bg3);border-radius:var(--rsm);padding:10px 12px;}
+.serie-field-label{font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.06em;margin-bottom:4px;}
+.serie-input-big{background:none;border:none;color:var(--text);font-family:"DM Mono",monospace;font-size:24px;font-weight:500;width:100%;outline:none;}
+.serie-prev{font-size:10px;color:var(--text3);margin-top:4px;}
+/* CLUSTER: mini-blocos */
+.cluster-row{display:flex;gap:6px;margin-bottom:8px;}
+.cluster-bloco{flex:1;background:var(--bg3);border-radius:6px;padding:8px;text-align:center;}
+.cluster-bloco-label{font-size:9px;color:var(--text3);letter-spacing:.06em;margin-bottom:4px;}
+.cluster-bloco-input{background:none;border:none;color:var(--accent);font-family:"DM Mono",monospace;font-size:18px;font-weight:600;width:100%;text-align:center;outline:none;}
+/* TIMER */
+.timer-bar{background:var(--bg3);border-radius:8px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.timer-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.timer-text{font-size:13px;color:var(--text2);flex:1;}
+.timer-num{font-size:16px;font-weight:600;font-family:"DM Mono",monospace;color:var(--accent);}
+.timer-skip{font-size:12px;color:var(--text3);cursor:pointer;padding:4px 8px;}
+/* PSE */
+.pse-row{display:flex;gap:6px;margin-bottom:16px;}
+.pse-btn{flex:1;padding:10px 6px;border-radius:var(--rsm);border:1px solid var(--border2);background:var(--bg3);cursor:pointer;text-align:center;font-size:11px;color:var(--text2);transition:all .15s;font-family:inherit;}
+.pse-btn.active{border-color:var(--accent);background:rgba(200,240,96,.1);color:var(--accent);}
+.pse-emoji{font-size:18px;margin-bottom:4px;}
+/* CARDIO */
+.cardio-form{padding:0;}
+/* PAINEL PROF */
+.prof-tabs{display:flex;border-bottom:1px solid var(--border);}
+.prof-tab{flex:1;padding:13px 8px;text-align:center;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .18s;}
+.prof-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.tab-content{display:none;}.tab-content.active{display:block;}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.stat{background:var(--bg3);border-radius:var(--rsm);padding:14px;}
+.stat-val{font-size:28px;font-weight:600;font-family:"DM Mono",monospace;color:var(--accent);}
+.stat-label{font-size:12px;color:var(--text2);margin-top:2px;}
+.aluno-row{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:13px 16px;margin-bottom:8px;cursor:pointer;transition:all .18s;}
+.aluno-row:hover{border-color:var(--border2);}
+.aluno-av{width:38px;height:38px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--accent);flex-shrink:0;}
+.aluno-info{flex:1;min-width:0;}
+.aluno-nome{font-size:15px;font-weight:500;}
+.aluno-meta{font-size:12px;color:var(--text2);margin-top:2px;}
+/* PROF TREINO: EXERCÍCIO EXPANSÍVEL */
+.ex-prof-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;overflow:hidden;}
+.ex-prof-header{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;}
+.ex-prof-header:hover{background:var(--bg3);}
+.ex-prof-num{width:26px;height:26px;border-radius:6px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--text2);font-family:"DM Mono",monospace;flex-shrink:0;}
+.ex-prof-info{flex:1;min-width:0;}
+.ex-prof-nome{font-size:15px;font-weight:600;color:var(--text);}
+.ex-prof-tipo{font-size:12px;color:var(--text2);margin-top:1px;}
+.ex-prof-meta{font-size:13px;color:var(--accent);font-weight:600;font-family:"DM Mono",monospace;margin-top:2px;}
+.ex-prof-chevron{font-size:16px;color:var(--text3);transition:transform .2s;}
+.ex-prof-chevron.open{transform:rotate(180deg);}
+.ex-prof-body{display:none;padding:0 16px 14px;border-top:1px solid var(--border);}
+.ex-prof-body.open{display:block;}
+/* EVOLUÇÃO TIPO EXCEL */
+.excel-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.excel-tab{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);transition:all .15s;white-space:nowrap;}
+.excel-tab.active{background:rgba(200,240,96,.1);color:var(--accent);border-color:rgba(200,240,96,.3);}
+.excel-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--rsm);}
+.excel-table{border-collapse:collapse;min-width:100%;font-size:12px;}
+.excel-table th{background:var(--bg3);padding:8px 12px;text-align:center;font-weight:600;color:var(--text2);border-right:1px solid var(--border);border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0;}
+.excel-table th.col-ex{text-align:left;min-width:140px;position:sticky;left:0;z-index:2;background:var(--bg3);}
+.excel-table td{padding:8px 12px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);text-align:center;white-space:nowrap;vertical-align:middle;}
+.excel-table td.col-ex{text-align:left;font-weight:500;background:var(--bg2);position:sticky;left:0;z-index:1;}
+.excel-table tr:last-child td{border-bottom:none;}
+.excel-cell{font-family:"DM Mono",monospace;font-size:12px;color:var(--text);}
+.excel-cell.vazia{color:var(--text3);}
+.excel-cell-obs{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--warn);margin-left:4px;vertical-align:middle;}
+.excel-cell-subst{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--info);margin-left:2px;vertical-align:middle;}
+/* EDITOR */
+#screen-editor{background:var(--bg);}
+.ex-editor-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:15px;margin-bottom:12px;}
+.ex-editor-header{display:flex;align-items:center;gap:10px;margin-bottom:13px;padding-bottom:11px;border-bottom:1px solid var(--border);}
+.ex-editor-num{min-width:26px;height:26px;border-radius:6px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--text2);font-family:"DM Mono",monospace;}
+.ex-editor-lbl{font-size:14px;font-weight:500;flex:1;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tipo-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px;}
+.tipo-pill{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);transition:all .15s;user-select:none;white-space:nowrap;}
+.tipo-pill.active{background:rgba(200,240,96,.1);color:var(--accent);border-color:rgba(200,240,96,.3);}
+.sub-section{background:var(--bg3);border-radius:var(--rsm);padding:12px;margin-top:4px;}
+.sub-section-label{font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+.subst-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rsm);padding:12px;margin-bottom:8px;}
+/* MODAL */
+.modal-bd{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:300;display:none;align-items:flex-end;justify-content:center;}
+.modal-bd.open{display:flex;}
+.modal{background:var(--bg2);border-radius:18px 18px 0 0;padding:20px 20px 40px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;border:1px solid var(--border);animation:slideUp .22s ease;}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.modal-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 18px;}
+.modal-title{font-size:17px;font-weight:600;margin-bottom:16px;}
+/* TOAST */
+#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--bg3);border:1px solid var(--border2);border-radius:30px;padding:11px 18px;font-size:13px;z-index:999;transition:transform .3s;white-space:nowrap;pointer-events:none;}
+#toast.show{transform:translateX(-50%) translateY(0);}
+/* LOADING */
+#loading{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;transition:opacity .4s;}
+#loading.hidden{opacity:0;pointer-events:none;}
+.spinner{width:30px;height:30px;border:2px solid var(--bg3);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+/* UTILS */
+.divider{border:none;border-top:1px solid var(--border);margin:14px 0;}
+.empty{text-align:center;padding:40px 20px;color:var(--text3);}
+.empty-icon{font-size:36px;margin-bottom:10px;}
+.mt-8{margin-top:8px;}.mt-12{margin-top:12px;}.mt-16{margin-top:16px;}
+.mb-8{margin-bottom:8px;}.mb-12{margin-bottom:12px;}.mb-16{margin-bottom:16px;}
+.flex{display:flex;}.flex-1{flex:1;}.gap-8{gap:8px;}.gap-10{gap:10px;}
+.text-sm{font-size:13px;}.text-xs{font-size:11px;}.text-muted{color:var(--text2);}
+.fw-500{font-weight:500;}.font-mono{font-family:"DM Mono",monospace;}
+.grupo-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.grupo-bar-label{font-size:12px;min-width:100px;color:var(--text2);}
+.grupo-bar-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.grupo-bar-fill{height:100%;border-radius:3px;background:var(--accent);}
+.grupo-bar-val{font-size:11px;font-family:"DM Mono",monospace;color:var(--accent);min-width:22px;text-align:right;}
+@media(min-width:600px){.treino-grid{grid-template-columns:repeat(3,1fr);}body{max-width:640px;margin:0 auto;}}
+</style>
+</head>
+<body>
+<div id="loading"><div class="spinner"></div></div>
+<div id="toast"></div>
+
+<!-- LOGIN -->
+<div id="screen-login" class="screen">
+  <div class="login-box">
+    <div class="login-logo">&#x1F4AA;</div>
+    <h1 style="font-size:26px;font-weight:600;margin-bottom:8px;">Treinos</h1>
+    <p style="color:var(--text2);font-size:14px;margin-bottom:2rem;line-height:1.5;">Acesse com sua conta Google</p>
+    <button class="btn-google" onclick="loginGoogle()">
+      <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Entrar com Google
+    </button>
+  </div>
+</div>
+
+<!-- HOME ALUNO -->
+<div id="screen-home" class="screen">
+  <div class="topbar">
+    <div class="topbar-left"></div>
+    <div class="topbar-title">Treinos</div>
+    <div class="topbar-right"><div id="av-home"></div></div>
+  </div>
+  <div style="overflow-y:auto;flex:1;">
+    <div class="greeting">
+      <div class="greeting-name" id="g-nome">Ol&#xE1;!</div>
+      <div class="greeting-sub" id="g-sub">Qual treino vai fazer hoje?</div>
+    </div>
+    <!-- Últimas sessões -->
+    <div style="padding:16px 20px 0;">
+      <div class="section-label">&#xDA;ltimas sess&#xF5;es</div>
+      <div class="sessoes-grid" style="padding:0;" id="ultimas-sessoes">
+        <div style="color:var(--text3);font-size:13px;">Nenhum registro ainda</div>
+      </div>
+    </div>
+    <div style="height:16px;"></div>
+    <!-- Treinos -->
+    <div style="padding:0 20px 8px;"><div class="section-label">Selecionar treino</div></div>
+    <div class="treino-grid" id="treino-grid"></div>
+  </div>
+  <div class="bottom-tabs">
+    <div class="bottom-tab active" onclick="showHomeTab('treino')">
+      <div class="bottom-tab-icon">&#x1F3CB;</div>
+      <div class="bottom-tab-label">Treino</div>
+    </div>
+    <div class="bottom-tab" onclick="showHomeTab('cardio')">
+      <div class="bottom-tab-icon">&#x1F3C3;</div>
+      <div class="bottom-tab-label">Cardio</div>
+    </div>
+  </div>
+</div>
+
+<!-- LISTA EXERCÍCIOS -->
+<div id="screen-treino" class="screen">
+  <div class="topbar">
+    <div class="topbar-left"><button class="btn-back" onclick="goTo('home')">&#x2190;</button></div>
+    <div class="topbar-title" id="treino-title">Treino</div>
+    <div class="topbar-right" style="text-align:right;"><button class="btn-top-action" id="btn-toggle-view" onclick="toggleView()">&#x2261;</button></div>
+  </div>
+  <div id="progresso-wrap" style="display:none;" class="progress-header">
+    <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="progress-text" id="progress-text">0/0</div>
+  </div>
+  <div id="instrucoes-box" style="display:none;" class="instrucoes-box">
+    <div class="instrucoes-label">INSTRU&#xC7;&#xD5;ES</div>
+    <div class="instrucoes-text" id="instrucoes-text"></div>
+  </div>
+  <div class="content" style="padding-top:8px;">
+    <div id="ex-list"></div>
+  </div>
+  <div style="padding:12px 20px 24px;">
+    <button class="btn btn-primary" onclick="finalizarTreino()">Finalizar treino &#x2713;</button>
+  </div>
+</div>
+
+<!-- DETALHE EXERCÍCIO -->
+<div id="screen-exercicio" class="screen">
+  <div class="topbar">
+    <div class="topbar-left"><button class="btn-back" onclick="goTo('treino')">&#x2190;</button></div>
+    <div class="topbar-title" id="ex-title-bar">Exerc&#xED;cio</div>
+    <div class="topbar-right"><button class="btn-top-action" onclick="salvarRegistro()">Salvar</button></div>
+  </div>
+  <div class="content">
+    <div id="ex-video-wrap" class="video-wrap"><div class="video-ph">&#x25B6; Sem v&#xED;deo</div></div>
+    <div id="ex-img-wrap"></div>
+    <!-- Prescrição em destaque -->
+    <div class="prescricao-box" id="prescricao-box">
+      <div class="prescricao-label">PRESCRI&#xC7;&#xC3;O</div>
+      <div class="prescricao-texto" id="presc-texto">—</div>
+      <div class="prescricao-tipo" id="presc-tipo"></div>
+    </div>
+    <!-- Sugestão de carga -->
+    <div class="sugestao-box" id="sugestao-box" style="display:none;">
+      <div class="sugestao-icon">&#x1F4A1;</div>
+      <div>
+        <div class="sugestao-text">Sugest&#xE3;o baseada no hist&#xF3;rico</div>
+        <div class="sugestao-val" id="sugestao-val">—</div>
+      </div>
+    </div>
+    <!-- Último registro -->
+    <div class="ultimo-box" id="ultimo-box">
+      <div class="ultimo-label">&#xDA;LTIMO REGISTRO</div>
+      <div class="ultimo-series" id="ultimo-series">
+        <div style="color:var(--text3);font-size:13px;">&#x23F3; carregando...</div>
+      </div>
+    </div>
+    <!-- Academia -->
+    <div class="field">
+      <label>Academia / unidade</label>
+      <input class="inp" id="inp-academia" type="text" placeholder="Ex: Panobianco Jundiaí" list="academias-recentes">
+      <datalist id="academias-recentes"></datalist>
+    </div>
+    <!-- Séries -->
+    <div class="section-label">Registrar</div>
+    <div id="series-container" class="series-container"></div>
+    <!-- Observações -->
+    <div class="field">
+      <label>Observa&#xE7;&#xF5;es</label>
+      <textarea class="inp" id="obs-inp" placeholder="Dor, dificuldade, como foi..."></textarea>
+    </div>
+    <!-- PSE -->
+    <div class="field">
+      <label>Esfor&#xE7;o percebido</label>
+      <div class="pse-row" id="pse-row">
+        <div class="pse-btn" data-pse="1" onclick="setPSE(1)"><div class="pse-emoji">&#x1F634;</div><div>F&#xE1;cil</div></div>
+        <div class="pse-btn" data-pse="2" onclick="setPSE(2)"><div class="pse-emoji">&#x1F4AA;</div><div>Certo</div></div>
+        <div class="pse-btn" data-pse="3" onclick="setPSE(3)"><div class="pse-emoji">&#x1F525;</div><div>Pesado</div></div>
+        <div class="pse-btn" data-pse="4" onclick="setPSE(4)"><div class="pse-emoji">&#x1F635;</div><div>Demais</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARDIO -->
+<div id="screen-cardio" class="screen">
+  <div class="topbar">
+    <div class="topbar-left"><button class="btn-back" onclick="goTo('home')">&#x2190;</button></div>
+    <div class="topbar-title">Cardio</div>
+    <div class="topbar-right"><button class="btn-top-action" onclick="salvarCardio()">Salvar</button></div>
+  </div>
+  <div class="content">
+    <div class="field"><label>Tipo de cardio</label><input class="inp" id="cardio-tipo" type="text" placeholder="Ex: esteira, bike, caminhada..."></div>
+    <div class="field"><label>Descri&#xE7;&#xE3;o</label><textarea class="inp" id="cardio-desc" placeholder="Ex: 20min caminhada 5km/h + 10min corrida 9km/h"></textarea></div>
+    <div class="field"><label>Dura&#xE7;&#xE3;o total (min)</label><input class="inp" id="cardio-dur" type="number" inputmode="numeric" placeholder="30"></div>
+    <div class="field">
+      <label>Esfor&#xE7;o percebido (PSE 0–10)</label>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:4px;">
+        <input type="range" id="cardio-pse" min="0" max="10" value="5" style="flex:1;" oninput="document.getElementById('cardio-pse-val').textContent=this.value">
+        <span id="cardio-pse-val" style="font-size:20px;font-weight:600;font-family:var(--font-mono,monospace);color:var(--accent);min-width:20px;">5</span>
+      </div>
+    </div>
+    <hr class="divider">
+    <div class="section-label">Hist&#xF3;rico</div>
+    <div id="cardio-historico"></div>
+  </div>
+</div>
+
+<!-- PAINEL PROFESSOR -->
+<div id="screen-prof" class="screen">
+  <div class="topbar">
+    <div class="topbar-left"></div>
+    <div class="topbar-title">Professor</div>
+    <div class="topbar-right"><div id="av-prof"></div></div>
+  </div>
+  <div class="prof-tabs">
+    <div class="prof-tab active" onclick="switchTab('alunos')">Alunos</div>
+    <div class="prof-tab" onclick="switchTab('exercicios')">Exerc&#xED;cios</div>
+    <div class="prof-tab" onclick="switchTab('evolucao')">Evolu&#xE7;&#xE3;o</div>
+  </div>
+  <div class="tab-content active content" id="tab-alunos">
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val" id="stat-total">0</div><div class="stat-label">Alunos ativos</div></div>
+      <div class="stat"><div class="stat-val" id="stat-hoje">0</div><div class="stat-label">Treinos hoje</div></div>
+    </div>
+    <button class="btn btn-secondary mb-12" onclick="abrirModalAluno()" style="margin-bottom:12px;">+ Adicionar aluno</button>
+    <div id="lista-alunos"></div>
+  </div>
+  <div class="tab-content content" id="tab-exercicios">
+    <button class="btn btn-secondary mb-12" onclick="abrirModalEx()" style="margin-bottom:12px;">+ Novo exerc&#xED;cio</button>
+    <div id="lista-ex-banco"></div>
+  </div>
+  <div class="tab-content content" id="tab-evolucao">
+    <div class="field"><label>Aluno</label>
+      <select class="inp" id="sel-al-ev" onchange="carregarEvolucao()"><option value="">— selecione —</option></select>
+    </div>
+    <div id="evolucao-treinos-tabs" class="excel-tabs"></div>
+    <div id="evolucao-tabela-wrap"></div>
+  </div>
+</div>
+
+<!-- VISÃO TREINO PROF -->
+<div id="screen-prof-treino" class="screen">
+  <div class="topbar">
+    <div class="topbar-left"><button class="btn-back" id="btn-back-pt">&#x2190;</button></div>
+    <div class="topbar-title" id="pt-title">Treino</div>
+    <div class="topbar-right"><button class="btn-top-action" id="btn-editar-pt">Editar</button></div>
+  </div>
+  <div class="content">
+    <div id="pt-instrucoes"></div>
+    <div id="pt-exercicios"></div>
+    <div class="section-label" style="margin-top:20px;">Volume por grupo muscular</div>
+    <div id="pt-volume"></div>
+  </div>
+</div>
+
+<!-- EDITOR -->
+<div id="screen-editor" class="screen">
+  <div class="topbar">
+    <div class="topbar-left"><button class="btn-back" onclick="fecharEditor()">&#x2190;</button></div>
+    <div class="topbar-title" id="editor-title">Treino</div>
+    <div class="topbar-right"><button class="btn-top-action" onclick="salvarTreino()">Salvar</button></div>
+  </div>
+  <div class="content">
+    <div class="field"><label>Nome do treino</label><input class="inp" id="ed-nome" type="text" placeholder="Ex: Inferior 1, Superior A..."></div>
+    <div class="field"><label>Instru&#xE7;&#xF5;es gerais</label><textarea class="inp" id="ed-obs" placeholder="Ex: Feeder set - 90s / Work set - acima de 2min..."></textarea></div>
+    <hr class="divider">
+    <div class="section-label">Exerc&#xED;cios</div>
+    <div id="ed-exercicios"></div>
+    <button class="btn btn-secondary mt-8" onclick="addExEditor()" style="margin-top:8px;">+ Adicionar exerc&#xED;cio</button>
+    <div style="height:40px;"></div>
+  </div>
+</div>
+
+<!-- MODAIS -->
+<div class="modal-bd" id="modal-aluno">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Adicionar aluno</div>
+    <div class="field"><label>Nome completo</label><input class="inp" id="al-nome" type="text"></div>
+    <div class="field"><label>E-mail Google</label><input class="inp" id="al-email" type="email"></div>
+    <div style="display:flex;gap:10px;"><button class="btn btn-secondary flex-1" onclick="fecharModal('modal-aluno')">Cancelar</button><button class="btn btn-primary flex-1" onclick="salvarAluno()">Salvar</button></div>
+  </div>
+</div>
+
+<div class="modal-bd" id="modal-ex">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modal-ex-title">Exerc&#xED;cio</div>
+    <div class="field"><label>Nome</label><input class="inp" id="mex-nome" type="text"></div>
+    <div class="field"><label>Link YouTube</label><input class="inp" id="mex-yt" type="url" placeholder="https://youtube.com/..."></div>
+    <div class="field"><label>Link da imagem</label><input class="inp" id="mex-img" type="url" placeholder="https://..."></div>
+    <div style="display:flex;gap:10px;"><button class="btn btn-secondary flex-1" onclick="fecharModal('modal-ex')">Cancelar</button><button class="btn btn-primary flex-1" onclick="salvarExBanco()">Salvar</button></div>
+  </div>
+</div>
+
+<div class="modal-bd" id="modal-al-det">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="mad-nome">Aluno</div>
+    <div class="text-sm text-muted mb-12" id="mad-email"></div>
+    <div class="section-label">&#xDA;ltimas sess&#xF5;es</div>
+    <div id="mad-sessoes"></div>
+    <div class="section-label">Treinos prescritos</div>
+    <div id="mad-treinos"></div>
+    <button class="btn btn-secondary mt-12" id="btn-novo-treino" style="margin-top:12px;">+ Novo treino</button>
+    <hr class="divider">
+    <div class="section-label">Volume por grupo muscular</div>
+    <div id="mad-volume"></div>
+    <hr class="divider">
+    <div style="display:flex;gap:10px;"><button class="btn btn-secondary flex-1" onclick="fecharModal('modal-al-det')">Fechar</button><button class="btn btn-danger flex-1" id="btn-rem-aluno">Remover</button></div>
+  </div>
+</div>
+
+<div class="modal-bd" id="modal-subst">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modal-subst-title">Exerc&#xED;cio substituto</div>
+    <div id="modal-subst-content"></div>
+    <button class="btn btn-secondary mt-16" onclick="fecharModal('modal-subst')" style="margin-top:16px;">Fechar</button>
+  </div>
+</div>
+
+<div class="modal-bd" id="modal-tipo-custom">
+  <div class="modal" style="padding-bottom:60px;">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Novo tipo de s&#xE9;rie</div>
+    <div class="field"><label>Nome</label><input class="inp" id="tipo-inp" type="text" placeholder="Ex: Drop set, Bi-set..."></div>
+    <div style="display:flex;gap:10px;"><button class="btn btn-secondary flex-1" onclick="fecharModal('modal-tipo-custom')">Cancelar</button><button class="btn btn-primary flex-1" onclick="confirmarTipoCustom()">Adicionar</button></div>
+  </div>
+</div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import{getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import{getFirestore,doc,getDoc,setDoc,addDoc,updateDoc,deleteDoc,collection,query,where,limit,getDocs,Timestamp,serverTimestamp,orderBy}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const FC={apiKey:"AIzaSyBurkoF_LrsdIq2usyeaqQZIltfMa7Yg9E",authDomain:"treinos-professor.firebaseapp.com",projectId:"treinos-professor",storageBucket:"treinos-professor.firebasestorage.app",messagingSenderId:"694360694641",appId:"1:694360694641:web:2e25b5ce1aa86fb3d120d0"};
+const app=initializeApp(FC);
+const auth=getAuth(app);
+const db=getFirestore(app);
+
+// ── ALTERE PARA O E-MAIL DO PROFESSOR ──
+const PROF_EMAIL="isacavenaghi245@gmail.com";
+const GRUPOS=["Quadr\xEDceps","Post. coxa","Gl\xFAteo","Panturrilha","Peito","Costas","Ombro","B\xEDceps","Tr\xEDceps","Core","Adutores","Abdutores","Lombar"];
+let tiposSerie=["Feeder set","Work set","Work set - cluster set","Aquecimento"];
+
+// STATE
+let me=null,meAluno=null,treinoAtual=null,exAtual=null,exFeitosHoje=new Set();
+let viewDetalhado=true,pseAtual=0;
+let bancoDB=[],alunosDB=[],alunoSel=null,editorAluno=null,editorTreinoIdx=null,editorExercicios=[];
+let tipoCustomIdx=null,ptAluno=null,ptIdx=null;
+let timerInterval=null,timerSeg=0,timerRunning=false;
+let evolucaoAluno=null,evolucaoTreinoIdx=0;
+
+// UTILS
+const $=id=>document.getElementById(id);
+const esc=s=>String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const toast=msg=>{$("toast").textContent=msg;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2600);};
+const goTo=tela=>{document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$("screen-"+tela).classList.add("active");window.scrollTo(0,0);};
+const abrirModal=id=>$(id).classList.add("open");
+const fecharModal=id=>$(id).classList.remove("open");
+const initials=n=>n?n.split(" ").slice(0,2).map(w=>w[0]).join("").toUpperCase():"?";
+const fmtDate=ts=>{if(!ts)return"";const d=ts.toDate?ts.toDate():new Date(ts);return d.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit"});};
+const fmtDateFull=ts=>{if(!ts)return"";const d=ts.toDate?ts.toDate():new Date(ts);return d.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"numeric"});};
+const ytEmbed=url=>{if(!url)return null;const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([A-Za-z0-9_-]{11})/);return m?"https://www.youtube.com/embed/"+m[1]+"?rel=0":null;};
+const avatarEl=(user,fn)=>user.photoURL?"<img class=\"avatar\" src=\""+esc(user.photoURL)+"\" onclick=\""+fn+"\" title=\"Sair\">":"<div class=\"avatar-ph\" onclick=\""+fn+"\">"+initials(user.displayName)+"</div>";
+
+// DETECTAR TÉCNICA
+function detectarTecnica(meta){
+  if(!meta)return{tipo:"normal",blocos:null};
+  const m=meta.toLowerCase();
+  if(/\+99/.test(m))return{tipo:"rest-pause"};
+  if(/cluster|\d+\+\d+/.test(m))return{tipo:"cluster",blocos:parseCluster(meta)};
+  if(/back.?off/.test(m))return{tipo:"back-off"};
+  if(/drop/.test(m))return{tipo:"drop-set"};
+  return{tipo:"normal"};
+}
+function parseCluster(meta){
+  const m=meta.match(/(\d+)\+(\d+)(?:\+(\d+))*/);
+  if(!m)return[4,4,4];
+  return m[0].split("+").map(Number);
+}
+function parseSeries(meta){
+  if(!meta)return 2;
+  const m=meta.match(/(\d+)\s*[x×]/i);
+  return m?Math.min(parseInt(m[1]),6):2;
+}
+
+// SUGESTÃO DE CARGA
+function calcSugestao(ultimoReg){
+  if(!ultimoReg||!ultimoReg.series||!ultimoReg.series.length)return null;
+  const pesos=ultimoReg.series.map(s=>parseFloat(s.peso)||0).filter(p=>p>0);
+  if(!pesos.length)return null;
+  const maxPeso=Math.max(...pesos);
+  const todasReps=ultimoReg.series.every(s=>parseInt(s.reps)>=10);
+  const sugestao=todasReps?Math.round(maxPeso+2.5):maxPeso;
+  return sugestao+" kg";
+}
+
+window.fecharModal=fecharModal;
+window.goTo=goTo;
+window.sair=async()=>{if(confirm("Sair da conta?")){await signOut(auth);goTo("login");}};
+window.switchTab=tab=>{
+  document.querySelectorAll(".prof-tab").forEach((t,i)=>t.classList.toggle("active",["alunos","exercicios","evolucao"][i]===tab));
+  document.querySelectorAll(".tab-content").forEach(c=>c.classList.remove("active"));
+  $("tab-"+tab).classList.add("active");
+};
+
+// AUTH
+onAuthStateChanged(auth,async user=>{
+  $("loading").classList.add("hidden");
+  if(!user){goTo("login");return;}
+  me=user;
+  if(user.email===PROF_EMAIL){await initProf();goTo("prof");}
+  else{await initAluno();goTo("home");}
+});
+window.loginGoogle=async()=>{try{await signInWithPopup(auth,new GoogleAuthProvider());}catch(e){toast("Erro ao fazer login: "+e.message);console.error(e);}};
+
+// ════════════ ALUNO ════════════
+async function initAluno(){
+  const nome=me.displayName?.split(" ")[0]||"";
+  $("g-nome").textContent="Olá, "+nome+"!";
+  $("av-home").innerHTML=avatarEl(me,"sair()");
+  const snap=await getDoc(doc(db,"alunos",me.email));
+  if(!snap.exists()){
+    $("treino-grid").innerHTML="<div class=\"empty\"><div class=\"empty-icon\">\u23F3</div><div class=\"empty-text text-sm\">Aguardando professor configurar seu treino.</div></div>";
+    return;
+  }
+  meAluno={id:me.email,...snap.data()};
+  await carregarUltimasSessoes();
+  renderTreinoGrid();
+}
+
+async function carregarUltimasSessoes(){
+  try{
+    const hQ=query(collection(db,"alunos",me.email,"historico"),orderBy("data","desc"),limit(20));
+    const hS=await getDocs(hQ);
+    const sessoes=[];
+    const seen=new Set();
+    hS.docs.forEach(d=>{
+      const dt=d.data();
+      const key=(dt.treinoNome||"")+"_"+fmtDate(dt.data);
+      if(!seen.has(key)){seen.add(key);sessoes.push({nome:dt.treinoNome,data:dt.data});}
+    });
+    const container=$("ultimas-sessoes");
+    if(!sessoes.length){container.innerHTML="<div style=\"color:var(--text3);font-size:13px;\">Nenhum registro ainda</div>";return;}
+    container.innerHTML=sessoes.slice(0,3).map(s=>"<div class=\"sessao-item\"><div class=\"sessao-data\">"+fmtDate(s.data)+"</div><div class=\"sessao-nome\">"+esc(s.nome||"—")+"</div></div>").join("");
+  }catch(e){console.error("sessoes:",e);}
+}
+
+function renderTreinoGrid(){
+  const grid=$("treino-grid");grid.innerHTML="";
+  (meAluno.treinos||[]).forEach(t=>{
+    const ul=t.nome?.charAt(t.nome.length-1)||"?";
+    const el=document.createElement("div");el.className="treino-card";
+    el.innerHTML="<div class=\"treino-letra\">"+esc(ul)+"</div><div class=\"treino-nome\">"+esc(t.nome)+"</div><div class=\"treino-count\">"+(t.exercicios||[]).length+" exerc.</div>";
+    el.addEventListener("click",()=>abrirTreino(t));
+    grid.appendChild(el);
+  });
+}
+
+// HOME TABS
+window.showHomeTab=tab=>{
+  document.querySelectorAll(".bottom-tab").forEach((t,i)=>t.classList.toggle("active",["treino","cardio"][i]===tab));
+  if(tab==="cardio"){carregarCardio();goTo("cardio");}
+  else goTo("home");
+};
+
+// ABRIR TREINO
+function abrirTreino(t){
+  treinoAtual=t;exFeitosHoje=new Set();viewDetalhado=true;
+  $("treino-title").textContent=t.nome;
+  $("btn-toggle-view").textContent="≡";
+  if(t.obsGeral){$("instrucoes-box").style.display="";$("instrucoes-text").textContent=t.obsGeral;}
+  else $("instrucoes-box").style.display="none";
+  renderListaEx();goTo("treino");
+}
+
+window.toggleView=()=>{
+  viewDetalhado=!viewDetalhado;
+  $("btn-toggle-view").textContent=viewDetalhado?"≡":"⊞";
+  renderListaEx();
+};
+
+function renderListaEx(){
+  const exercicios=treinoAtual.exercicios||[];
+  const feitos=exFeitosHoje.size;
+  // Progresso
+  if(exercicios.length){
+    $("progresso-wrap").style.display="";
+    $("progress-fill").style.width=(feitos/exercicios.length*100)+"%";
+    $("progress-text").textContent=feitos+"/"+exercicios.length;
+  }
+  const lista=$("ex-list");lista.innerHTML="";
+  if(!exercicios.length){lista.innerHTML="<div class=\"empty\"><div class=\"empty-icon\">\uD83D\uDCCB</div><div class=\"empty-text text-sm\">Nenhum exerc\xEDcio</div></div>";return;}
+
+  if(viewDetalhado){
+    exercicios.forEach((ex,i)=>{
+      const feito=exFeitosHoje.has(i);
+      const tec=detectarTecnica(ex.meta);
+      const temSubst=(ex.substitutos||[]).filter(s=>s.nome).length>0;
+      const el=document.createElement("div");el.className="ex-item"+(feito?" done":"");
+      let badges="";
+      if(temSubst)badges+="<div class=\"badge-subst\" onclick=\"verSubstituto(event,"+i+")\"">\u21C4 Substituto</div>";
+      if(ex.obs)badges+="<div class=\"badge-obs\">\u1F4AC Obs</div>";
+      el.innerHTML="<div class=\"ex-num\">"+(feito?"✓":(i+1))+"</div>"
+        +"<div class=\"ex-body\">"
+        +"<div class=\"ex-nome\">"+esc(ex.nome)+"</div>"
+        +"<div class=\"ex-prescricao\">"+esc(ex.meta||"")+"</div>"
+        +"<div class=\"ex-tipo\">"+esc([ex.tipo,tec.tipo!=="normal"?tec.tipo:""].filter(Boolean).join(" · "))+"</div>"
+        +(badges?"<div class=\"ex-badges\">"+badges+"</div>":"")
+        +"</div>"
+        +"<div class=\"ex-arrow\">&rsaquo;</div>";
+      el.addEventListener("click",e=>{
+        if(e.target.classList.contains("badge-subst"))return;
+        abrirExercicio(ex,i);
+      });
+      lista.appendChild(el);
+    });
+  } else {
+    // PLANILHA
+    const wrap=document.createElement("div");wrap.className="planilha-wrap";
+    wrap.innerHTML="<div class=\"planilha-head\"><span>#</span><span>Exerc\xEDcio</span><span>Tipo</span><span>S\xE9ries</span></div>";
+    exercicios.forEach((ex,i)=>{
+      const feito=exFeitosHoje.has(i);
+      const row=document.createElement("div");row.className="planilha-row"+(feito?" done":"");
+      row.innerHTML="<div class=\"pl-num\">"+(i+1)+"</div><div class=\"pl-nome\">"+esc(ex.nome)+"</div><div class=\"pl-tipo\">"+esc(ex.tipo||"")+"</div><div class=\"pl-meta\">"+esc(ex.meta||"")+"</div>";
+      row.addEventListener("click",()=>abrirExercicio(ex,i));
+      wrap.appendChild(row);
+    });
+    lista.appendChild(wrap);
+  }
+}
+
+window.verSubstituto=(e,idx)=>{
+  e.stopPropagation();
+  const ex=(treinoAtual.exercicios||[])[idx];
+  const substs=(ex.substitutos||[]).filter(s=>s.nome);
+  if(!substs.length)return;
+  $("modal-subst-title").textContent="Substituto — "+ex.nome;
+  const cont=$("modal-subst-content");cont.innerHTML="";
+  substs.forEach(s=>{
+    const emb=ytEmbed(s.youtube);
+    cont.innerHTML+="<div class=\"card mb-8\" style=\"margin-bottom:10px;\"><div class=\"fw-500 text-sm mb-8\">"+esc(s.nome)+"</div>"+(s.obs?"<div class=\"text-xs text-muted mb-8\" style=\"white-space:pre-line;margin-bottom:8px;\">"+esc(s.obs)+"</div>":"")+(emb?"<div class=\"video-wrap\" style=\"margin-bottom:8px;\"><iframe src=\""+emb+"\" allowfullscreen></iframe></div>":"")+(s.imagem?"<img src=\""+esc(s.imagem)+"\" style=\"width:100%;border-radius:var(--rsm);\" onerror=\"this.remove()\">":"")+"</div>";
+  });
+  abrirModal("modal-subst");
+};
+
+// ABRIR EXERCÍCIO — NAVEGA PRIMEIRO, CARREGA DADOS DEPOIS
+async function abrirExercicio(ex,idx){
+  exAtual={...ex,idx};pseAtual=0;
+  // Reset PSE
+  document.querySelectorAll(".pse-btn").forEach(b=>b.classList.remove("active"));
+  // Preencher UI imediatamente
+  $("ex-title-bar").textContent=ex.nome;
+  $("presc-texto").textContent=ex.meta||"—";
+  const tec=detectarTecnica(ex.meta);
+  const tipoLabel=tec.tipo!=="normal"?("Técnica: "+tec.tipo):"";
+  $("presc-tipo").textContent=[ex.tipo,tipoLabel].filter(Boolean).join(" · ");
+  // Vídeo
+  const vw=$("ex-video-wrap");const emb=ytEmbed(ex.youtube);
+  vw.innerHTML=emb?"<iframe src=\""+emb+"\" allowfullscreen></iframe>":"<div class=\"video-ph\">&#x25B6; Sem v\xEDdeo</div>";
+  // Imagem
+  $("ex-img-wrap").innerHTML=ex.imagem?"<img src=\""+esc(ex.imagem)+"\" style=\"width:100%;border-radius:var(--rsm);margin-bottom:14px;\" onerror=\"this.remove()\">":"";
+  // Campos de série
+  renderSeriesInputs(ex,tec);
+  // Academia — recuperar última usada
+  const acadSalva=localStorage.getItem("ultima_academia")||"";
+  $("inp-academia").value=acadSalva;
+  // Academias recentes
+  const academias=JSON.parse(localStorage.getItem("academias")||"[]");
+  $("academias-recentes").innerHTML=academias.map(a=>"<option value=\""+esc(a)+"\">").join("");
+  $("obs-inp").value="";
+  $("sugestao-box").style.display="none";
+  $("ultimo-box").innerHTML="<div class=\"ultimo-label\">&#xDA;LTIMO REGISTRO</div><div id=\"ultimo-series\"><div style=\"color:var(--text3);font-size:13px;\">&#x23F3; carregando...</div></div>";
+  // NAVEGAR ANTES de buscar Firebase
+  goTo("exercicio");
+  // Carregar histórico em background
+  try{
+    const academia=acadSalva;
+    let hQ;
+    if(academia){
+      hQ=query(collection(db,"alunos",me.email,"historico"),where("exercicioNome","==",ex.nome),where("academia","==",academia),limit(30));
+    } else {
+      hQ=query(collection(db,"alunos",me.email,"historico"),where("exercicioNome","==",ex.nome),limit(30));
+    }
+    const hS=await getDocs(hQ);
+    const docs=hS.docs.map(d=>d.data()).filter(d=>d.data).sort((a,b)=>(b.data.seconds||0)-(a.data.seconds||0));
+    const ultimoBox=$("ultimo-box");
+    if(docs.length){
+      const ult=docs[0];
+      const sug=calcSugestao(ult);
+      if(sug){$("sugestao-val").textContent=sug;$("sugestao-box").style.display="";}
+      // Mostrar séries do último registro
+      ultimoBox.innerHTML="<div class=\"ultimo-label\">&#xDA;LTIMO — "+fmtDateFull(ult.data)+(ult.academia?" · "+esc(ult.academia):"")+"</div><div class=\"ultimo-series\">"+
+        (ult.series||[]).map((s,i)=>"<div class=\"ultimo-serie-row\">S"+(i+1)+" &mdash; <span>"+s.peso+"kg &times; "+s.reps+"</span></div>").join("")+
+        (ult.obs?"<div style=\"font-size:12px;color:var(--text2);margin-top:4px;\">\uD83D\uDCAC "+esc(ult.obs)+"</div>":"")+"</div>";
+      // Pré-preencher peso da sugestão no primeiro campo
+      if(sug){
+        const pesoNum=parseFloat(sug);
+        const p0=$("peso-s0-b0");if(p0)p0.value=pesoNum;
+      }
+    } else {
+      ultimoBox.innerHTML="<div class=\"ultimo-label\">&#xDA;LTIMO REGISTRO</div><div style=\"color:var(--text3);font-size:13px;\">Primeiro registro neste exerc\xEDcio"+(academia?" nesta academia":"")+"</div>";
+    }
+  }catch(e){console.error("historico:",e);$("ultimo-box").innerHTML="<div class=\"ultimo-label\">&#xDA;LTIMO REGISTRO</div><div style=\"color:var(--text3);font-size:13px;\">N\xE3o foi poss\xEDvel carregar</div>";}
+}
+
+function renderSeriesInputs(ex,tec){
+  const cont=$("series-container");cont.innerHTML="";
+  const nSeries=parseSeries(ex.meta);
+  if(tec.tipo==="cluster"){
+    const blocos=tec.blocos||[4,4,4];
+    const card=document.createElement("div");card.className="serie-card active";card.id="serie-card-0";
+    card.innerHTML="<div class=\"serie-header\"><span class=\"serie-num-badge\">S1 — Cluster</span><div class=\"serie-check-btn\" onclick=\"checkSerie(0)\"></div></div>"
+      +"<div class=\"field-label\">PESO (kg)</div>"
+      +"<input class=\"inp\" type=\"number\" inputmode=\"decimal\" id=\"peso-s0-b0\" placeholder=\"0\" style=\"margin-bottom:10px;\">"
+      +"<div class=\"field-label\">REPS POR BLOCO</div>"
+      +"<div class=\"cluster-row\">"+blocos.map((b,bi)=>"<div class=\"cluster-bloco\"><div class=\"cluster-bloco-label\">BLOCO "+(bi+1)+"</div><input class=\"cluster-bloco-input\" id=\"bloco-0-"+bi+"\" type=\"number\" inputmode=\"numeric\" placeholder=\""+b+"\"></div>").join("")+"</div>";
+    cont.appendChild(card);
+  } else {
+    for(let s=0;s<nSeries;s++){
+      const card=document.createElement("div");card.className="serie-card"+(s===0?" active":"");card.id="serie-card-"+s;
+      const isRestPause=tec.tipo==="rest-pause";
+      const isBackOff=tec.tipo==="back-off"&&s===nSeries-1;
+      let labelExtra=isBackOff?" <span style=\"font-size:10px;color:var(--warn);\">[back-off]</span>":"";
+      card.innerHTML="<div class=\"serie-header\"><span class=\"serie-num-badge\">Série "+(s+1)+labelExtra+"</span><div class=\"serie-check-btn\" onclick=\"checkSerie("+s+")\" id=\"check-"+s+"\">\u2713</div></div>"
+        +"<div class=\"serie-inputs\">"
+        +"<div class=\"serie-field\"><div class=\"serie-field-label\">PESO (kg)</div><input class=\"serie-input-big\" type=\"number\" inputmode=\"decimal\" id=\"peso-s"+s+"-b0\" placeholder=\"0\" oninput=\"replicarPeso("+s+", this.value)\"><div class=\"serie-prev\" id=\"prev-peso-"+s+"\"></div></div>"
+        +"<div class=\"serie-field\"><div class=\"serie-field-label\">REPS</div><input class=\"serie-input-big\" type=\"number\" inputmode=\"numeric\" id=\"reps-s"+s+"-b0\" placeholder=\"0\"><div class=\"serie-prev\" id=\"prev-reps-"+s+"\"></div></div>"
+        +"</div>"
+        +(isRestPause&&s===nSeries-1?"<div class=\"serie-field\" style=\"margin-top:8px;\"><div class=\"serie-field-label\">REPS EXTRAS (+99)</div><input class=\"serie-input-big\" type=\"number\" inputmode=\"numeric\" id=\"reps-extra\" placeholder=\"0\" style=\"font-size:18px;color:var(--warn);\"></div>":"");
+      cont.appendChild(card);
+    }
+    // Timer entre séries
+    for(let s=0;s<nSeries-1;s++){
+      const timerDiv=document.createElement("div");timerDiv.className="timer-bar";timerDiv.id="timer-"+s;timerDiv.style.display="none";
+      timerDiv.innerHTML="<div class=\"timer-dot\"></div><div class=\"timer-text\">Descansando antes da série "+(s+2)+"</div><div class=\"timer-num\" id=\"timer-num-"+s+"\">2:00</div><div class=\"timer-skip\" onclick=\"pularTimer("+s+")\">[pular]</div>";
+      // Inserir depois do card s
+      const card=$("serie-card-"+s);if(card)card.parentNode.insertBefore(timerDiv,card.nextSibling);
+    }
+  }
+}
+
+window.replicarPeso=(serieIdx,val)=>{
+  const nSeries=parseSeries(exAtual.meta);
+  for(let s=serieIdx+1;s<nSeries;s++){
+    const campo=$("peso-s"+s+"-b0");
+    if(campo&&!campo.value){campo.value=val;}
+  }
+};
+
+window.checkSerie=(idx)=>{
+  const card=$("serie-card-"+idx);if(!card)return;
+  card.classList.add("done");
+  card.classList.remove("active");
+  // Mostrar timer
+  const timerEl=$("timer-"+idx);if(timerEl)timerEl.style.display="";
+  // Ativar próxima
+  const next=$("serie-card-"+(idx+1));
+  if(next){next.classList.add("active");next.scrollIntoView({behavior:"smooth",block:"nearest"});}
+  // Iniciar timer
+  iniciarTimer(idx);
+};
+
+function iniciarTimer(idx){
+  if(timerInterval)clearInterval(timerInterval);
+  timerSeg=120;
+  const numEl=$("timer-num-"+idx);
+  const update=()=>{
+    if(!numEl)return;
+    const m=Math.floor(timerSeg/60);const s=timerSeg%60;
+    numEl.textContent=m+":"+(s<10?"0":"")+s;
+    if(timerSeg<=0){clearInterval(timerInterval);timerInterval=null;const tel=$("timer-"+idx);if(tel)tel.style.background="rgba(200,240,96,.08)";}
+    timerSeg--;
+  };
+  update();
+  timerInterval=setInterval(update,1000);
+}
+window.pularTimer=(idx)=>{
+  if(timerInterval)clearInterval(timerInterval);
+  const tel=$("timer-"+idx);if(tel)tel.style.display="none";
+};
+
+window.setPSE=val=>{
+  pseAtual=val;
+  document.querySelectorAll(".pse-btn").forEach(b=>b.classList.toggle("active",parseInt(b.dataset.pse)===val));
+};
+
+window.salvarRegistro=async()=>{
+  if(timerInterval)clearInterval(timerInterval);
+  const tec=detectarTecnica(exAtual.meta);
+  const nSeries=parseSeries(exAtual.meta);
+  const series=[];
+  if(tec.tipo==="cluster"){
+    const peso=$("peso-s0-b0")?.value||"";
+    const blocos=tec.blocos||[4,4,4];
+    const repsArr=blocos.map((_,bi)=>$("bloco-0-"+bi)?.value||"");
+    series.push({serie:1,peso,reps:repsArr.join("+"),tipo:"cluster"});
+  } else {
+    for(let s=0;s<nSeries;s++){
+      const peso=$("peso-s"+s+"-b0")?.value||"";
+      const reps=$("reps-s"+s+"-b0")?.value||"";
+      if(peso||reps){
+        const entry={serie:s+1,peso,reps};
+        if(tec.tipo==="rest-pause"&&s===nSeries-1){const extra=$("reps-extra")?.value;if(extra)entry.repsExtra=extra;}
+        series.push(entry);
+      }
+    }
+  }
+  if(!series.length){toast("Preencha pelo menos uma série");return;}
+  const academia=$("inp-academia").value.trim();
+  // Salvar academia recente
+  if(academia){
+    localStorage.setItem("ultima_academia",academia);
+    const arr=JSON.parse(localStorage.getItem("academias")||"[]");
+    if(!arr.includes(academia)){arr.unshift(academia);localStorage.setItem("academias",JSON.stringify(arr.slice(0,10)));}
+  }
+  const resumo=series.map(s=>s.peso+"kg×"+s.reps).join(" / ");
+  await addDoc(collection(db,"alunos",me.email,"historico"),{treinoNome:treinoAtual.nome,exercicioNome:exAtual.nome,series,resumo,obs:$("obs-inp").value,pse:pseAtual,academia,tecnica:detectarTecnica(exAtual.meta).tipo,data:serverTimestamp()});
+  exFeitosHoje.add(exAtual.idx);toast("\u2713 Salvo!");goTo("treino");renderListaEx();
+};
+
+window.finalizarTreino=async()=>{toast("\u2713 "+treinoAtual.nome+" conclu\xEDdo!");await initAluno();goTo("home");};
+
+// CARDIO
+async function carregarCardio(){
+  try{
+    const hQ=query(collection(db,"alunos",me.email,"cardio"),limit(30));
+    const hS=await getDocs(hQ);
+    const docs=hS.docs.map(d=>d.data()).filter(d=>d.data).sort((a,b)=>(b.data.seconds||0)-(a.data.seconds||0));
+    const el=$("cardio-historico");
+    if(!docs.length){el.innerHTML="<div class=\"empty\"><div class=\"empty-icon\">\uD83C\uDFC3</div><div class=\"empty-text text-sm\">Nenhum registro ainda</div></div>";return;}
+    el.innerHTML=docs.slice(0,15).map(d=>"<div class=\"card mb-8\" style=\"margin-bottom:8px;\"><div class=\"card-row\"><div><div class=\"fw-500 text-sm\">"+esc(d.tipo||"—")+"</div><div class=\"text-xs text-muted\">"+esc(d.desc||"")+"</div></div><div style=\"text-align:right;\"><div class=\"text-xs text-muted\">"+fmtDate(d.data)+"</div><div class=\"font-mono text-sm\" style=\"color:var(--accent);\">"+(d.duracao?"\u23F1 "+d.duracao+"min ":"")+"PSE "+d.pse+"</div></div></div></div>").join("");
+  }catch(e){console.error("cardio:",e);}
+}
+window.salvarCardio=async()=>{
+  const tipo=$("cardio-tipo").value.trim();
+  const desc=$("cardio-desc").value.trim();
+  const duracao=$("cardio-dur").value;
+  const pse=$("cardio-pse").value;
+  if(!tipo){toast("Informe o tipo de cardio");return;}
+  await addDoc(collection(db,"alunos",me.email,"cardio"),{tipo,desc,duracao:duracao?parseInt(duracao):null,pse:parseInt(pse),data:serverTimestamp()});
+  toast("\u2713 Cardio registrado!");
+  $("cardio-tipo").value="";$("cardio-desc").value="";$("cardio-dur").value="";$("cardio-pse").value=5;$("cardio-pse-val").textContent="5";
+  await carregarCardio();
+};
+
+// ════════════ PROFESSOR ════════════
+async function initProf(){
+  $("av-prof").innerHTML=avatarEl(me,"sair()");
+  await Promise.all([carregarAlunos(),carregarBanco()]);
+}
+
+async function carregarBanco(){
+  const snap=await getDocs(collection(db,"exercicios"));
+  bancoDB=snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderBanco();
+}
+function renderBanco(){
+  const l=$("lista-ex-banco");l.innerHTML="";
+  if(!bancoDB.length){l.innerHTML="<div class=\"empty\"><div class=\"empty-icon\">\uD83C\uDFCB\uFE0F</div><div class=\"empty-text text-sm\">Nenhum exerc\xEDcio</div></div>";return;}
+  bancoDB.forEach(ex=>{
+    const d=document.createElement("div");d.className="card card-click";
+    d.innerHTML="<div class=\"card-row\"><div><div class=\"fw-500\">"+esc(ex.nome)+"</div><div class=\"text-xs text-muted\">"+(ex.youtube?"\u25B6 v\xEDdeo ":""+(ex.imagem?"\uD83D\uDDBC imagem":""))+"</div></div><button class=\"btn btn-secondary btn-sm\" onclick=\"editarExBanco(\'"+esc(ex.id)+"\')\">Editar</button></div>";
+    l.appendChild(d);
+  });
+}
+window.abrirModalEx=()=>{$("mex-nome").value="";$("mex-yt").value="";$("mex-img").value="";$("modal-ex").dataset.editId="";$("modal-ex-title").textContent="Novo exerc\xEDcio";abrirModal("modal-ex");};
+window.editarExBanco=id=>{const ex=bancoDB.find(e=>e.id===id);if(!ex)return;$("mex-nome").value=ex.nome||"";$("mex-yt").value=ex.youtube||"";$("mex-img").value=ex.imagem||"";$("modal-ex").dataset.editId=id;$("modal-ex-title").textContent="Editar";abrirModal("modal-ex");};
+window.salvarExBanco=async()=>{const nome=$("mex-nome").value.trim();if(!nome){toast("Informe o nome");return;}const dados={nome,youtube:$("mex-yt").value.trim(),imagem:$("mex-img").value.trim()};const id=$("modal-ex").dataset.editId;if(id)await updateDoc(doc(db,"exercicios",id),dados);else await addDoc(collection(db,"exercicios"),dados);fecharModal("modal-ex");toast("Salvo!");await carregarBanco();};
+
+async function carregarAlunos(){
+  const snap=await getDocs(collection(db,"alunos"));
+  alunosDB=snap.docs.map(d=>({id:d.id,...d.data()}));
+  $("stat-total").textContent=alunosDB.length;
+  const hoje=new Date();hoje.setHours(0,0,0,0);let th=0;
+  for(const al of alunosDB){try{const hQ=query(collection(db,"alunos",al.id,"historico"),where("data",">=",Timestamp.fromDate(hoje)),limit(1));const h=await getDocs(hQ);if(!h.empty)th++;}catch(e){}}
+  $("stat-hoje").textContent=th;
+  renderAlunos();
+  // Popular select de evolução
+  $("sel-al-ev").innerHTML="<option value=\"\">— selecione —</option>"+alunosDB.map(al=>"<option value=\""+esc(al.id)+"\">"+esc(al.nome)+"</option>").join("");
+}
+function renderAlunos(){
+  const l=$("lista-alunos");l.innerHTML="";
+  if(!alunosDB.length){l.innerHTML="<div class=\"empty\"><div class=\"empty-icon\">\uD83D\uDC64</div><div class=\"empty-text text-sm\">Nenhum aluno</div></div>";return;}
+  alunosDB.forEach(al=>{
+    const d=document.createElement("div");d.className="aluno-row";
+    d.innerHTML="<div class=\"aluno-av\">"+initials(al.nome)+"</div><div class=\"aluno-info\"><div class=\"aluno-nome\">"+esc(al.nome)+"</div><div class=\"aluno-meta\">"+esc(al.email)+" · "+(al.treinos||[]).length+" treino(s)</div></div><span style=\"color:var(--text3);font-size:18px;\">&rsaquo;</span>";
+    d.addEventListener("click",()=>abrirDetalheAluno(al));
+    l.appendChild(d);
+  });
+}
+window.abrirModalAluno=()=>{$("al-nome").value="";$("al-email").value="";abrirModal("modal-aluno");};
+window.salvarAluno=async()=>{const nome=$("al-nome").value.trim();const email=$("al-email").value.trim().toLowerCase();if(!nome||!email){toast("Preencha nome e e-mail");return;}await setDoc(doc(db,"alunos",email),{nome,email,treinos:[],criadoEm:serverTimestamp()});fecharModal("modal-aluno");toast("Aluno adicionado!");await carregarAlunos();};
+
+async function abrirDetalheAluno(al){
+  alunoSel=al;$("mad-nome").textContent=al.nome;$("mad-email").textContent=al.email;
+  // Últimas sessões
+  try{
+    const hQ=query(collection(db,"alunos",al.id,"historico"),orderBy("data","desc"),limit(20));
+    const hS=await getDocs(hQ);
+    const sessoes=[];const seen=new Set();
+    hS.docs.forEach(d=>{const dt=d.data();const key=(dt.treinoNome||"")+"_"+fmtDate(dt.data);if(!seen.has(key)){seen.add(key);sessoes.push({nome:dt.treinoNome,data:dt.data,obs:dt.obs});}});
+    const el=$("mad-sessoes");
+    el.innerHTML=sessoes.slice(0,5).map(s=>"<div class=\"sessao-item\"><div class=\"sessao-data\">"+fmtDate(s.data)+"</div><div class=\"sessao-nome\">"+esc(s.nome||"—")+"</div>"+(s.obs?"<div style=\"width:8px;height:8px;border-radius:50%;background:var(--warn);flex-shrink:0;\" title=\"Tem observa\xE7\xE3o\"></div>":"")+"</div>").join("")||"<div style=\"color:var(--text3);font-size:13px;\">Nenhum registro</div>";
+  }catch(e){$("mad-sessoes").innerHTML="<div style=\"color:var(--text3);font-size:13px;\">Erro ao carregar</div>";}
+  // Treinos
+  const tl=$("mad-treinos");tl.innerHTML="";
+  if(!(al.treinos||[]).length){tl.innerHTML="<div class=\"text-sm text-muted\">Nenhum treino</div>";}
+  else{al.treinos.forEach((t,ti)=>{
+    const d=document.createElement("div");d.className="card card-click";
+    d.innerHTML="<div class=\"card-row\"><div style=\"cursor:pointer;flex:1;\" data-ti=\""+ti+"\"><div class=\"fw-500\">"+esc(t.nome)+"</div><div class=\"text-xs text-muted\">"+(t.exercicios||[]).length+" exerc. — toque para visualizar</div></div><button class=\"btn btn-secondary btn-sm\" data-edit=\""+ti+"\">Editar</button></div>";
+    d.addEventListener("click",e=>{
+      const editBtn=e.target.closest("[data-edit]");
+      if(editBtn){abrirEditor(parseInt(editBtn.dataset.edit));return;}
+      const ti2=parseInt(d.querySelector("[data-ti]")?.dataset.ti??ti);
+      fecharModal("modal-al-det");abrirProfTreino(al,ti2);
+    });
+    tl.appendChild(d);
+  });}
+  // Volume
+  renderVolumeGrupos(al,$("mad-volume"));
+  // Setup botões
+  $("btn-novo-treino").onclick=()=>novoTreinoParaAluno();
+  $("btn-rem-aluno").onclick=()=>removerAluno();
+  abrirModal("modal-al-det");
+}
+
+function renderVolumeGrupos(al,container){
+  const vol={};
+  (al.treinos||[]).forEach(t=>{(t.exercicios||[]).forEach(ex=>{const g=ex.grupos||{};const ns=parseSeries(ex.meta);if(g.principal)vol[g.principal]=(vol[g.principal]||0)+ns;if(g.secundario)vol[g.secundario]=(vol[g.secundario]||0)+ns*0.5;if(g.terciario)vol[g.terciario]=(vol[g.terciario]||0)+ns*0.25;});});
+  if(!Object.keys(vol).length){container.innerHTML="<div class=\"text-xs text-muted\">Defina grupos musculares nos exerc\xEDcios</div>";return;}
+  const max=Math.max(...Object.values(vol));
+  container.innerHTML=Object.entries(vol).sort((a,b)=>b[1]-a[1]).map(([g,v])=>"<div class=\"grupo-bar-row\"><div class=\"grupo-bar-label\">"+esc(g)+"</div><div class=\"grupo-bar-track\"><div class=\"grupo-bar-fill\" style=\"width:"+(v/max*100)+"%\"></div></div><div class=\"grupo-bar-val\">"+Math.round(v)+"</div></div>").join("");
+}
+
+async function removerAluno(){if(!confirm("Remover "+alunoSel.nome+"?"))return;await deleteDoc(doc(db,"alunos",alunoSel.id));fecharModal("modal-al-det");toast("Removido");await carregarAlunos();}
+
+// VISÃO TREINO PROF — EXERCÍCIOS EXPANSÍVEIS
+function abrirProfTreino(al,idx){
+  ptAluno=al;ptIdx=idx;
+  const t=al.treinos[idx];
+  $("pt-title").textContent=t.nome;
+  // Instruções
+  const instrDiv=$("pt-instrucoes");
+  instrDiv.innerHTML=t.obsGeral?"<div class=\"instrucoes-box\" style=\"margin:0 0 16px;\"><div class=\"instrucoes-label\">INSTRU\xC7\xD5ES</div><div class=\"instrucoes-text\">"+esc(t.obsGeral)+"</div></div>":"";
+  // Exercícios expansíveis
+  const exDiv=$("pt-exercicios");exDiv.innerHTML="";
+  (t.exercicios||[]).forEach((ex,i)=>{
+    const tec=detectarTecnica(ex.meta);
+    const card=document.createElement("div");card.className="ex-prof-card";
+    const tipoTec=tec.tipo!=="normal"?" ["+tec.tipo+"]":"";
+    const body=document.createElement("div");body.className="ex-prof-body";body.id="ex-prof-body-"+i;
+    const emb=ytEmbed(ex.youtube);
+    const substHtml=(ex.substitutos||[]).filter(s=>s.nome).map(s=>"<div class=\"text-xs\" style=\"color:var(--info);\">\u21C4 "+esc(s.nome)+"</div>").join("");
+    body.innerHTML=(ex.obs?"<div style=\"background:rgba(240,168,48,.06);border:1px solid rgba(240,168,48,.15);border-radius:var(--rsm);padding:10px;margin-bottom:10px;\"><div style=\"font-size:10px;color:var(--warn);font-weight:600;letter-spacing:.06em;margin-bottom:4px;\">OBSERVA\xC7\xC3O</div><div class=\"text-sm\" style=\"white-space:pre-line;\">"+esc(ex.obs)+"</div></div>":"")
+      +(ex.grupos&&(ex.grupos.principal)?"<div class=\"text-xs text-muted\" style=\"margin-bottom:8px;\">Grupos: <span style=\"color:var(--accent);\">"+esc(ex.grupos.principal)+"</span>"+(ex.grupos.secundario?" · <span style=\"color:var(--info);\">"+esc(ex.grupos.secundario)+"</span>":"")+(ex.grupos.terciario?" · <span style=\"color:var(--warn);\">"+esc(ex.grupos.terciario)+"</span>":"")+"</div>":"")
+      +substHtml
+      +(emb?"<div class=\"video-wrap\" style=\"margin-top:10px;\"><iframe src=\""+emb+"\" allowfullscreen></iframe></div>":"")
+      +(ex.imagem?"<img src=\""+esc(ex.imagem)+"\" style=\"width:100%;border-radius:var(--rsm);margin-top:8px;\" onerror=\"this.remove()\">":"");
+    card.innerHTML="<div class=\"ex-prof-header\" onclick=\"toggleExProf("+i+")\"><div class=\"ex-prof-num\">"+(i+1)+"</div><div class=\"ex-prof-info\"><div class=\"ex-prof-nome\">"+esc(ex.nome)+"</div><div class=\"ex-prof-tipo\">"+esc(ex.tipo||"")+esc(tipoTec)+"</div><div class=\"ex-prof-meta\">"+esc(ex.meta||"")+"</div></div><div class=\"ex-prof-chevron\" id=\"chev-"+i+"\">&#x25BE;</div></div>";
+    card.appendChild(body);exDiv.appendChild(card);
+  });
+  // Volume
+  renderVolumeGrupos(al,$("pt-volume"));
+  // Botões
+  $("btn-back-pt").onclick=async()=>{document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$("screen-prof").classList.add("active");switchTab("alunos");await abrirDetalheAluno(ptAluno);};
+  $("btn-editar-pt").onclick=()=>abrirEditor(ptIdx);
+  goTo("prof-treino");
+}
+window.toggleExProf=i=>{
+  const body=$("ex-prof-body-"+i);const chev=$("chev-"+i);
+  if(body.classList.contains("open")){body.classList.remove("open");chev.classList.remove("open");}
+  else{body.classList.add("open");chev.classList.add("open");}
+};
+
+// EVOLUÇÃO TIPO EXCEL
+window.carregarEvolucao=async()=>{
+  const alId=$("sel-al-ev").value;
+  $("evolucao-treinos-tabs").innerHTML="";$("evolucao-tabela-wrap").innerHTML="";
+  if(!alId)return;
+  evolucaoAluno=alunosDB.find(a=>a.id===alId);
+  if(!evolucaoAluno)return;
+  const treinos=evolucaoAluno.treinos||[];
+  if(!treinos.length){$("evolucao-tabela-wrap").innerHTML="<div class=\"empty\"><div class=\"empty-icon\">\uD83D\uDCCA</div><div class=\"empty-text text-sm\">Nenhum treino prescrito</div></div>";return;}
+  // Tabs por treino
+  const tabsEl=$("evolucao-treinos-tabs");
+  treinos.forEach((t,i)=>{
+    const tab=document.createElement("div");tab.className="excel-tab"+(i===0?" active":"");
+    tab.textContent=t.nome;tab.addEventListener("click",()=>{
+      evolucaoTreinoIdx=i;
+      document.querySelectorAll(".excel-tab").forEach((tb,j)=>tb.classList.toggle("active",j===i));
+      renderEvolucaoTabela(alId,treinos[i]);
+    });
+    tabsEl.appendChild(tab);
+  });
+  evolucaoTreinoIdx=0;
+  await renderEvolucaoTabela(alId,treinos[0]);
+};
+
+async function renderEvolucaoTabela(alId,treino){
+  const wrap=$("evolucao-tabela-wrap");
+  wrap.innerHTML="<div class=\"text-xs text-muted\">Carregando...</div>";
+  try{
+    // Buscar todos os registros deste aluno
+    const hQ=query(collection(db,"alunos",alId,"historico"),where("treinoNome","==",treino.nome),limit(200));
+    const hS=await getDocs(hQ);
+    const docs=hS.docs.map(d=>d.data()).filter(d=>d.data).sort((a,b)=>(a.data.seconds||0)-(b.data.seconds||0));
+    if(!docs.length){wrap.innerHTML="<div class=\"empty\"><div class=\"empty-icon\">\uD83D\uDCCA</div><div class=\"empty-text text-sm\">Nenhum registro ainda para "+esc(treino.nome)+"</div></div>";return;}
+    // Agrupar por data (dia)
+    const porData={};
+    docs.forEach(d=>{
+      const dataKey=fmtDate(d.data);
+      if(!porData[dataKey])porData[dataKey]={data:dataKey,registros:{}};
+      porData[dataKey].registros[d.exercicioNome]=d;
+    });
+    const datas=Object.keys(porData);
+    const exercicios=(treino.exercicios||[]).map(e=>e.nome);
+    // Montar tabela
+    let html="<div class=\"excel-table-wrap\"><table class=\"excel-table\"><thead><tr><th class=\"col-ex\">Exerc\xEDcio</th>"+datas.map(d=>"<th>"+d+"</th>").join("")+"</tr></thead><tbody>";
+    exercicios.forEach(exNome=>{
+      html+="<tr><td class=\"col-ex\">"+esc(exNome)+"</td>";
+      datas.forEach(data=>{
+        const reg=porData[data]?.registros[exNome];
+        if(!reg){html+="<td><span class=\"excel-cell vazia\">—</span></td>";}
+        else{
+          const resumo=(reg.series||[]).map(s=>s.peso+"×"+s.reps).join(" / ");
+          const temObs=!!(reg.obs&&reg.obs.trim());
+          const temSubst=!!(reg.tecnica&&reg.tecnica!=="normal");
+          html+="<td><span class=\"excel-cell\">"+esc(resumo)+"</span>"+(temObs?"<span class=\"excel-cell-obs\" title=\"Tem observa\xE7\xE3o\"></span>":"")+(temSubst?"<span class=\"excel-cell-subst\" title=\"T\xE9cnica: "+esc(reg.tecnica)+"\"></span>":"")+"</td>";
+        }
+      });
+      html+="</tr>";
+    });
+    html+="</tbody></table></div>";
+    // Legenda
+    html+="<div style=\"margin-top:10px;display:flex;gap:16px;\"><div class=\"text-xs text-muted\"><span class=\"excel-cell-obs\" style=\"display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--warn);margin-right:4px;\"></span>Tem observa\xE7\xE3o</div><div class=\"text-xs text-muted\"><span class=\"excel-cell-subst\" style=\"display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--info);margin-right:4px;\"></span>T\xE9cnica avan\xE7ada</div></div>";
+    wrap.innerHTML=html;
+  }catch(e){console.error("evolucao:",e);wrap.innerHTML="<div class=\"text-xs text-muted\">Erro ao carregar. Verifique os \xEDndices do Firestore.</div>";}
+}
+
+// EDITOR
+window.novoTreinoParaAluno=()=>{fecharModal("modal-al-det");editorAluno=alunoSel;editorTreinoIdx=-1;$("ed-nome").value="";$("ed-obs").value="";editorExercicios=[];$("ed-exercicios").innerHTML="";$("editor-title").textContent="Novo treino";goTo("editor");};
+window.abrirEditor=idx=>{
+  const al=ptAluno||alunoSel;if(!al)return;
+  fecharModal("modal-al-det");editorAluno=al;editorTreinoIdx=idx;
+  const t=al.treinos[idx];
+  $("ed-nome").value=t.nome||"";$("ed-obs").value=t.obsGeral||"";
+  editorExercicios=JSON.parse(JSON.stringify(t.exercicios||[]));
+  renderTodosExercicios();$("editor-title").textContent="Editar: "+t.nome;goTo("editor");
+};
+window.fecharEditor=async()=>{
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  $("screen-prof").classList.add("active");switchTab("alunos");
+  await abrirDetalheAluno(editorAluno);
+};
+
+function renderTodosExercicios(){$("ed-exercicios").innerHTML="";editorExercicios.forEach((_,i)=>criarCardExercicio(i));}
+
+function criarCardExercicio(i){
+  const ex=editorExercicios[i];
+  const container=$("ed-exercicios");
+  const card=document.createElement("div");card.className="ex-editor-card";card.id="ec"+i;
+  const pillsHtml=tiposSerie.map(t=>"<button type=\"button\" class=\"tipo-pill"+(ex.tipo===t?" active":"")+"\" data-tipo=\""+esc(t)+"\">"+esc(t)+"</button>").join("")+"<button type=\"button\" class=\"tipo-pill\" data-custom=\"1\" style=\"border-style:dashed;\">+ outro</button>";
+  const grupoOpts=GRUPOS.map(g=>"<option value=\""+esc(g)+"\">"+esc(g)+"</option>").join("");
+  const g=ex.grupos||{};
+  card.innerHTML="<div class=\"ex-editor-header\"><div class=\"ex-editor-num\">"+(i+1)+"</div><div class=\"ex-editor-lbl\" id=\"lbl"+i+"\">"+esc(ex.nome||"Novo exerc\xEDcio")+"</div><div style=\"display:flex;gap:2px;margin-left:auto;\"><button class=\"btn-ghost\" data-action=\"up\">\u2191</button><button class=\"btn-ghost\" data-action=\"down\">\u2193</button><button class=\"btn-ghost\" data-action=\"del\" style=\"color:var(--danger);\">\u2715</button></div></div>"
+    +"<div class=\"field\"><label>Do banco</label><select class=\"inp\" data-field=\"banco\"><option value=\"\">— escolha —</option>"+bancoDB.map(b=>"<option value=\""+esc(b.nome)+"\" "+(b.nome===ex.nome?"selected":"")+">"+esc(b.nome)+"</option>").join("")+"</select></div>"
+    +"<div class=\"field\"><label>Nome</label><input class=\"inp\" type=\"text\" data-field=\"nome\" value=\""+esc(ex.nome||"")+"\" placeholder=\"Nome do exerc\xEDcio\"></div>"
+    +"<div class=\"field\"><label>Tipo de s\xE9rie</label><div class=\"tipo-pills\" id=\"pills"+i+"\">"+pillsHtml+"</div></div>"
+    +"<div class=\"field\"><label>Prescri\xE7\xE3o (formato livre)</label><input class=\"inp\" type=\"text\" data-field=\"meta\" value=\""+esc(ex.meta||"")+"\" placeholder=\"Ex: 2x10, 1x4+4+4, 3x8 (2RIR)\"></div>"
+    +"<div class=\"field\"><label>YouTube</label><input class=\"inp\" type=\"url\" data-field=\"youtube\" value=\""+esc(ex.youtube||"")+"\" placeholder=\"https://youtube.com/...\"></div>"
+    +"<div class=\"field\"><label>Imagem</label><input class=\"inp\" type=\"url\" data-field=\"imagem\" value=\""+esc(ex.imagem||"")+"\" placeholder=\"https://...\"></div>"
+    +"<div class=\"field\"><label>Observa\xE7\xE3o (para o aluno)</label><textarea class=\"inp\" data-field=\"obs\" placeholder=\"Dica t\xE9cnica...\">"+esc(ex.obs||"")+"</textarea></div>"
+    +"<div class=\"field\"><label>Grupos musculares</label><div style=\"display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;\"><div><div style=\"font-size:10px;color:var(--accent);margin-bottom:3px;\">PRINCIPAL</div><select class=\"inp inp-sm\" data-field=\"gp\"><option value=\"\">—</option>"+grupoOpts+"</select></div><div><div style=\"font-size:10px;color:var(--info);margin-bottom:3px;\">SECUND.</div><select class=\"inp inp-sm\" data-field=\"gs\"><option value=\"\">—</option>"+grupoOpts+"</select></div><div><div style=\"font-size:10px;color:var(--warn);margin-bottom:3px;\">TERCI.</div><select class=\"inp inp-sm\" data-field=\"gt\"><option value=\"\">—</option>"+grupoOpts+"</select></div></div></div>"
+    +"<div class=\"sub-section\"><div class=\"sub-section-label\">Substitutos</div><div id=\"sl"+i+"\"></div><button type=\"button\" class=\"btn-ghost btn-sm mt-8\" data-action=\"add-subst\">+ Adicionar substituto</button></div>";
+  // Preencher grupos
+  const gp=card.querySelector("[data-field=\"gp\"]");const gs=card.querySelector("[data-field=\"gs\"]");const gt=card.querySelector("[data-field=\"gt\"]");
+  if(g.principal&&gp)gp.value=g.principal;if(g.secundario&&gs)gs.value=g.secundario;if(g.terciario&&gt)gt.value=g.terciario;
+  // Substitutos existentes
+  (ex.substitutos||[]).forEach((_,si)=>criarCardSubst(card,i,si));
+  // Events
+  card.addEventListener("input",e=>{
+    const f=e.target.dataset.field;if(!f)return;
+    if(f==="nome"){editorExercicios[i].nome=e.target.value;const lbl=$("lbl"+i);if(lbl)lbl.textContent=e.target.value||"Novo exerc\xEDcio";}
+    else if(f==="meta")editorExercicios[i].meta=e.target.value;
+    else if(f==="youtube")editorExercicios[i].youtube=e.target.value;
+    else if(f==="imagem")editorExercicios[i].imagem=e.target.value;
+    else if(f==="obs")editorExercicios[i].obs=e.target.value;
+  });
+  card.addEventListener("change",e=>{
+    const f=e.target.dataset.field;if(!f)return;
+    if(f==="banco"){const b=bancoDB.find(x=>x.nome===e.target.value);if(!b)return;editorExercicios[i].nome=b.nome;if(b.youtube&&!editorExercicios[i].youtube)editorExercicios[i].youtube=b.youtube;if(b.imagem&&!editorExercicios[i].imagem)editorExercicios[i].imagem=b.imagem;card.querySelector("[data-field=\"nome\"]").value=b.nome;const lbl=$("lbl"+i);if(lbl)lbl.textContent=b.nome;if(b.youtube)card.querySelector("[data-field=\"youtube\"]").value=b.youtube;if(b.imagem)card.querySelector("[data-field=\"imagem\"]").value=b.imagem;}
+    if(f==="gp"){editorExercicios[i].grupos=editorExercicios[i].grupos||{};editorExercicios[i].grupos.principal=e.target.value;}
+    if(f==="gs"){editorExercicios[i].grupos=editorExercicios[i].grupos||{};editorExercicios[i].grupos.secundario=e.target.value;}
+    if(f==="gt"){editorExercicios[i].grupos=editorExercicios[i].grupos||{};editorExercicios[i].grupos.terciario=e.target.value;}
+  });
+  card.addEventListener("click",e=>{
+    const btn=e.target.closest("[data-action]");
+    if(btn){
+      const a=btn.dataset.action;
+      if(a==="up"){if(i>0){[editorExercicios[i-1],editorExercicios[i]]=[editorExercicios[i],editorExercicios[i-1]];renderTodosExercicios();}}
+      else if(a==="down"){if(i<editorExercicios.length-1){[editorExercicios[i],editorExercicios[i+1]]=[editorExercicios[i+1],editorExercicios[i]];renderTodosExercicios();}}
+      else if(a==="del"){if(!confirm("Remover?"))return;editorExercicios.splice(i,1);renderTodosExercicios();}
+      else if(a==="add-subst"){editorExercicios[i].substitutos=editorExercicios[i].substitutos||[];editorExercicios[i].substitutos.push({nome:"",youtube:"",imagem:"",obs:""});criarCardSubst(card,i,editorExercicios[i].substitutos.length-1);}
+      else if(a==="del-subst"){const si=parseInt(btn.dataset.si);editorExercicios[i].substitutos.splice(si,1);const sl=card.querySelector("#sl"+i);sl.innerHTML="";(editorExercicios[i].substitutos||[]).forEach((_,sj)=>criarCardSubst(card,i,sj));}
+      return;
+    }
+    const pill=e.target.closest(".tipo-pill");
+    if(pill){if(pill.dataset.custom){tipoCustomIdx=i;$("tipo-inp").value="";abrirModal("modal-tipo-custom");return;}const tipo=pill.dataset.tipo;if(tipo){editorExercicios[i].tipo=tipo;card.querySelectorAll(".tipo-pill").forEach(p=>p.classList.toggle("active",p.dataset.tipo===tipo));}}
+  });
+  container.appendChild(card);
+}
+
+function criarCardSubst(parentCard,i,si){
+  const s=editorExercicios[i].substitutos[si];
+  const listEl=parentCard.querySelector("#sl"+i);
+  const sc=document.createElement("div");sc.className="subst-card";
+  sc.innerHTML="<div style=\"display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;\"><div class=\"text-sm fw-500\" style=\"color:var(--text2);\">Substituto "+(si+1)+"</div><button type=\"button\" class=\"btn-ghost\" data-action=\"del-subst\" data-si=\""+si+"\" style=\"color:var(--danger);\">\u2715</button></div>"
+    +"<div class=\"field\"><label>Exerc\xEDcio</label><select class=\"inp inp-sm\" data-s-field=\"nome\"><option value=\"\">— do banco —</option>"+bancoDB.map(b=>"<option value=\""+esc(b.nome)+"\" "+(b.nome===s.nome?"selected":"")+">"+esc(b.nome)+"</option>").join("")+"</select></div>"
+    +"<div class=\"field\"><label>YouTube (substituto)</label><input class=\"inp inp-sm\" type=\"url\" data-s-field=\"youtube\" value=\""+esc(s.youtube||"")+"\" placeholder=\"https://youtube.com/...\"></div>"
+    +"<div class=\"field\"><label>Imagem (substituto)</label><input class=\"inp inp-sm\" type=\"url\" data-s-field=\"imagem\" value=\""+esc(s.imagem||"")+"\" placeholder=\"https://...\"></div>"
+    +"<div class=\"field\" style=\"margin-bottom:0;\"><label>Quando usar</label><textarea class=\"inp inp-sm\" data-s-field=\"obs\" placeholder=\"Ex: usar na academia X...\">"+esc(s.obs||"")+"</textarea></div>";
+  sc.addEventListener("change",e=>{const f=e.target.dataset.sField;if(f==="nome"){editorExercicios[i].substitutos[si].nome=e.target.value;const b=bancoDB.find(x=>x.nome===e.target.value);if(b){if(b.youtube&&!editorExercicios[i].substitutos[si].youtube){editorExercicios[i].substitutos[si].youtube=b.youtube;sc.querySelector("[data-s-field=\"youtube\"]").value=b.youtube;}if(b.imagem&&!editorExercicios[i].substitutos[si].imagem){editorExercicios[i].substitutos[si].imagem=b.imagem;sc.querySelector("[data-s-field=\"imagem\"]").value=b.imagem;}}}});
+  sc.addEventListener("input",e=>{const f=e.target.dataset.sField;if(f&&f!=="nome")editorExercicios[i].substitutos[si][f]=e.target.value;});
+  listEl.appendChild(sc);
+}
+
+window.addExEditor=()=>{editorExercicios.push({nome:"",tipo:"Work set",meta:"",youtube:"",imagem:"",obs:"",grupos:{principal:"",secundario:"",terciario:""},substitutos:[]});criarCardExercicio(editorExercicios.length-1);setTimeout(()=>{const cards=$("ed-exercicios").querySelectorAll(".ex-editor-card");cards[cards.length-1]?.scrollIntoView({behavior:"smooth",block:"nearest"});},120);};
+window.confirmarTipoCustom=()=>{const v=$("tipo-inp").value.trim();if(!v){toast("Digite um nome");return;}if(!tiposSerie.includes(v))tiposSerie.push(v);if(tipoCustomIdx!==null){editorExercicios[tipoCustomIdx].tipo=v;const card=$("ec"+tipoCustomIdx);if(card){const pills=card.querySelector(".tipo-pills");const np=document.createElement("button");np.type="button";np.className="tipo-pill active";np.dataset.tipo=v;np.textContent=v;card.querySelectorAll(".tipo-pill").forEach(p=>p.classList.remove("active"));pills.insertBefore(np,pills.lastElementChild);}tipoCustomIdx=null;}fecharModal("modal-tipo-custom");};
+
+window.salvarTreino=async()=>{
+  const nome=$("ed-nome").value.trim();if(!nome){toast("Informe o nome");return;}
+  const treino={nome,obsGeral:$("ed-obs").value.trim(),exercicios:JSON.parse(JSON.stringify(editorExercicios))};
+  const treinos=JSON.parse(JSON.stringify(editorAluno.treinos||[]));
+  if(editorTreinoIdx===-1)treinos.push(treino);else treinos[editorTreinoIdx]=treino;
+  await updateDoc(doc(db,"alunos",editorAluno.id),{treinos});
+  editorAluno.treinos=treinos;toast("\u2713 Salvo!");await carregarAlunos();
+  alunoSel=alunosDB.find(a=>a.id===editorAluno.id)||editorAluno;
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  $("screen-prof").classList.add("active");switchTab("alunos");await abrirDetalheAluno(alunoSel);
+};
+
+document.querySelectorAll(".modal-bd").forEach(b=>b.addEventListener("click",e=>{if(e.target===b)b.classList.remove("open");}));
+</script>
+</body>
+</html>
