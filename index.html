@@ -288,6 +288,14 @@ select.inp option{background:var(--bg3);}
 @media (prefers-reduced-motion: reduce){
   .aluno-guided-top__heading,.aluno-guided-action-bar,.btn-salvar-fixo,.aluno-guided-btn-primary{transition:none!important;}
 }
+
+/* Fase 4 — RestTimer fullscreen (spec); acima de botões fixos (z-index 150) e barra guiada (140) */
+.rest-timer-ov{position:fixed;inset:0;background:rgba(13,13,13,.97);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:9200;overscroll-behavior:contain;}
+.rest-timer-label{font-size:13px;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:24px;}
+.rest-timer-num{font-size:72px;font-weight:500;letter-spacing:-2px;line-height:1;margin-top:-16px;color:var(--text);}
+.rest-timer-sub{font-size:13px;color:rgba(255,255,255,.3);margin-top:8px;text-align:center;max-width:90%;padding:0 20px;}
+.rest-timer-skip{margin-top:36px;font-size:13px;color:rgba(255,255,255,.35);padding:8px 24px;border:0.5px solid rgba(255,255,255,.1);border-radius:20px;background:transparent;cursor:pointer;font-family:inherit;}
+.rest-timer-skip:active{transform:scale(.98);}
 @media(min-width:600px){.treino-grid{grid-template-columns:repeat(3,1fr);}.content,.greeting,.last-session,.treino-grid{max-width:640px;margin-left:auto;margin-right:auto;}.last-session,.greeting{margin-left:auto;margin-right:auto;}}
 </style>
 </head>
@@ -380,10 +388,23 @@ select.inp option{background:var(--bg3);}
     <div class="field"><label>Observa&#xE7;&#xF5;es</label><textarea class="inp" id="obs-inp" placeholder="Dor, dificuldade..."></textarea></div>
   </div>
   <button class="btn-voltar-fixo" onclick="goTo('treino');renderListaEx();">&#x2190; Voltar</button>
-  <button class="btn-salvar-fixo" onclick="salvarRegistro()">Salvar &#x2713;</button>
+  <button class="btn-salvar-fixo" onclick="if(window.cancelRestTimerUI)cancelRestTimerUI(false);salvarRegistro()">Salvar &#x2713;</button>
   <div id="aluno-guided-action-bar" class="aluno-guided-action-bar" hidden>
     <button type="button" id="aluno-guided-btn-primary" class="aluno-guided-btn-primary"></button>
     <p id="aluno-guided-action-sub" class="aluno-guided-action-sub"></p>
+  </div>
+  <div id="rest-timer-overlay" class="rest-timer-ov" style="display:none" aria-hidden="true">
+    <div class="rest-timer-label">Descanso</div>
+    <svg width="140" height="140" viewBox="0 0 140 140" aria-hidden="true">
+      <circle cx="70" cy="70" r="52" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="4"/>
+      <circle id="rest-timer-circle" cx="70" cy="70" r="52" fill="none"
+        stroke="var(--accent)" stroke-width="4" stroke-dasharray="326.7"
+        stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 70 70)"
+        style="transition:stroke-dashoffset .9s linear"/>
+    </svg>
+    <div class="rest-timer-num" id="rest-timer-num">90</div>
+    <div class="rest-timer-sub">segundos de descanso</div>
+    <button type="button" class="rest-timer-skip" onclick="pularRestTimer()">Pular descanso</button>
   </div>
 </div>
 
@@ -591,7 +612,7 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const escJs=s=>String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r|\n/g,' ');
 const toast=msg=>{$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2600);};
-const goTo=tela=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('screen-'+tela).classList.add('active');window.scrollTo(0,0);syncAlunoGuidedChrome();};
+const goTo=tela=>{try{if(typeof cancelRestTimerUI==='function')cancelRestTimerUI(false);}catch(_){}document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('screen-'+tela).classList.add('active');window.scrollTo(0,0);syncAlunoGuidedChrome();};
 const abrirModal=id=>$(id).classList.add('open');
 const fecharModal=id=>$(id).classList.remove('open');
 const initials=n=>n?n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase():'?';
@@ -987,6 +1008,10 @@ async function carregarHistoricoEx(){
 // Estado do timer ativo
 let timerAtivo=null;
 let activeTimerPrefix='';
+let restTimerRAF=null;
+let restTimerStart=0;
+let restTimerTotalSeg=0;
+let restTimerOnComplete=null;
 
 // Unilateral / entre lados (futuro): hoje `TECNICAS` tem um único `timer` por técnica (ex.: "Entre lados" = 45s).
 // Para evoluir, o lugar natural é separar `timerEntreSeries` vs `timerEntreLados` no bloco/exercício e usar
@@ -1779,17 +1804,113 @@ window.iniciarRestPause=(serieIdx,timerSeg,pref)=>{
   },pref);
 };
 
+// Fase 4 — RestTimer fullscreen (RAF); iniciarTimer delega quando #screen-exercicio ativo
+function cancelRestTimerAnim(){
+  if(restTimerRAF){cancelAnimationFrame(restTimerRAF);restTimerRAF=null;}
+}
+function cancelRestTimerUI(invokeCb){
+  cancelRestTimerAnim();
+  const ov=$('rest-timer-overlay');
+  if(ov){ov.style.display='none';ov.setAttribute('aria-hidden','true');}
+  const cir=$('rest-timer-circle');
+  if(cir)cir.style.strokeDashoffset='0';
+  const cb=invokeCb?restTimerOnComplete:null;
+  restTimerOnComplete=null;
+  if(cb)try{cb();}catch(e){console.warn(e);}
+}
+window.cancelRestTimerUI=cancelRestTimerUI;
+
+function tickRestOverlay(){
+  const ov=$('rest-timer-overlay');
+  const num=$('rest-timer-num');
+  const cir=$('rest-timer-circle');
+  if(!ov||ov.style.display!=='flex'){cancelRestTimerAnim();return;}
+  const elapsed=Math.floor((Date.now()-restTimerStart)/1000);
+  const rem=Math.max(0,restTimerTotalSeg-elapsed);
+  if(num)num.textContent=String(rem);
+  if(cir){
+    const denom=Math.max(1,restTimerTotalSeg);
+    cir.style.strokeDashoffset=(326.7*Math.min(1,elapsed/denom)).toFixed(1);
+  }
+  if(rem<=0){
+    cancelRestTimerAnim();
+    ov.style.display='none';
+    ov.setAttribute('aria-hidden','true');
+    if(cir)cir.style.strokeDashoffset='0';
+    if(navigator.vibrate)try{navigator.vibrate(200);}catch(_){}
+    const cb=restTimerOnComplete;
+    restTimerOnComplete=null;
+    setTimeout(()=>{if(cb)try{cb();}catch(e){console.warn(e);}},300);
+    return;
+  }
+  restTimerRAF=requestAnimationFrame(tickRestOverlay);
+}
+
+function armRestTimerOverlay(seg,proximoLabel,onFim){
+  restTimerTotalSeg=Math.max(1,Math.floor(Number(seg))||0);
+  restTimerOnComplete=typeof onFim==='function'?onFim:null;
+  restTimerStart=Date.now();
+  const ov=$('rest-timer-overlay');
+  const num=$('rest-timer-num');
+  const subEl=ov?ov.querySelector('.rest-timer-sub'):null;
+  if(num)num.textContent=String(restTimerTotalSeg);
+  if(subEl)subEl.textContent=proximoLabel?('Pr\xF3ximo: '+proximoLabel):'segundos de descanso';
+  const cir=$('rest-timer-circle');
+  if(cir)cir.style.strokeDashoffset='0';
+  if(ov){ov.style.display='flex';ov.setAttribute('aria-hidden','false');}
+  restTimerRAF=requestAnimationFrame(tickRestOverlay);
+}
+
+window.pularRestTimer=function(){
+  cancelRestTimerAnim();
+  const ov=$('rest-timer-overlay');
+  if(ov){ov.style.display='none';ov.setAttribute('aria-hidden','true');}
+  const cir=$('rest-timer-circle');
+  if(cir)cir.style.strokeDashoffset='0';
+  const cb=restTimerOnComplete;
+  restTimerOnComplete=null;
+  if(cb)try{cb();}catch(e){console.warn(e);}
+};
+
+window.startRestTimer=function(secs,onComplete){
+  cancelRestTimerUI(false);
+  if(timerAtivo){clearInterval(timerAtivo);timerAtivo=null;}
+  const scr=$('screen-exercicio');
+  const ov=$('rest-timer-overlay');
+  if(!ov||!scr||!scr.classList.contains('active'))return;
+  armRestTimerOverlay(Math.max(1,Math.floor(Number(secs))||0),'',typeof onComplete==='function'?onComplete:null);
+};
+
 // Timer genérico (pref '' = ids legados timer-descanso / timer-val)
 function iniciarTimer(seg, proximoLabel, onFim, pref){
   pref=pref||'';
   activeTimerPrefix=pref;
   const el=$(pref+'timer-descanso');if(!el)return;
+
+  cancelRestTimerUI(false);
+  if(timerAtivo){clearInterval(timerAtivo);timerAtivo=null;}
+
+  const scr=$('screen-exercicio');
+  const ov=$('rest-timer-overlay');
+  const segN=Math.max(0,Number(seg)||0);
+  const useOverlay=!!(ov&&scr&&scr.classList.contains('active')&&segN>0);
+
+  if(useOverlay){
+    el.style.display='none';
+    const valEl=$(pref+'timer-val');
+    if(valEl)valEl.style.color='var(--accent)';
+    const proxEl=$(pref+'timer-prox');
+    if(proxEl)proxEl.textContent=proximoLabel?'Próximo: '+proximoLabel:'';
+    armRestTimerOverlay(segN,proximoLabel,onFim);
+    return;
+  }
+
   el.style.display='block';
   const valEl=$(pref+'timer-val');
   const proxEl=$(pref+'timer-prox');
   if(proxEl) proxEl.textContent=proximoLabel?'Próximo: '+proximoLabel:'';
   const warnTone=(proximoLabel||'').includes('REST')||(proximoLabel||'').includes('BACK')||(proximoLabel||'').includes('Reps extras');
-  let restante=seg;
+  let restante=segN;
   const update=()=>{
     if(!valEl)return;
     if(restante>=60){
@@ -1815,6 +1936,7 @@ function iniciarTimer(seg, proximoLabel, onFim, pref){
 }
 
 window.pularTimer=()=>{
+  cancelRestTimerUI(false);
   if(timerAtivo){clearInterval(timerAtivo);timerAtivo=null;}
   const el=$(activeTimerPrefix+'timer-descanso');if(el)el.style.display='none';
 };
