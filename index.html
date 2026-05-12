@@ -92,16 +92,43 @@ select.inp option{background:var(--bg3);}
 .ed-acc-meta-multi{color:var(--text2);font-family:inherit;font-weight:400;margin-top:2px;}
 .ed-acc-meta-multi .ed-presc-multi-wrap{margin-top:0;}
 /* Multi-bloco aluno: trilho + cards (ref. protótipo, só visual) */
-.aluno-blocos-progress{display:flex;gap:5px;margin-bottom:20px;align-items:stretch;}
-.aluno-blocos-progress__seg{flex:1;height:4px;border-radius:2px;background:var(--bg4);opacity:.35;transition:opacity .2s,background .2s,box-shadow .2s;}
-.aluno-blocos-progress__seg--active{background:rgba(200,240,96,.55);opacity:1;box-shadow:0 0 0 1px rgba(200,240,96,.22);}
-.aluno-blocos-progress__seg--pending{background:var(--bg4);opacity:.28;}
+.aluno-blocos-progress{display:flex;gap:6px;margin-bottom:22px;align-items:center;padding:8px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:999px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);transition:border-color .25s ease,box-shadow .28s ease;}
+.aluno-blocos-progress[data-guided-all-done]{border-color:rgba(200,240,96,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 0 0 1px rgba(200,240,96,.12);}
+.aluno-blocos-progress__seg{flex:1;height:6px;min-height:6px;border-radius:999px;background:var(--bg4);opacity:.4;transition:opacity .26s ease,background .26s ease,box-shadow .28s ease,transform .28s ease;}
+.aluno-blocos-progress__seg--active{background:linear-gradient(90deg,rgba(200,240,96,.75),rgba(200,240,96,.95));opacity:1;box-shadow:0 0 0 1px rgba(200,240,96,.35),0 0 14px rgba(200,240,96,.22);transform:scaleY(1.25);}
+.aluno-blocos-progress__seg--pending{opacity:.22;}
+.aluno-blocos-progress__seg--complete{background:rgba(200,240,96,.55);opacity:1;box-shadow:0 0 0 1px rgba(200,240,96,.2);}
 .bloco-aluno-wrap{margin-bottom:22px;}
 .bloco-aluno-wrap:last-child{margin-bottom:0;}
-.bloco-aluno-head{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm);padding:14px 16px;border-left:3px solid rgba(200,240,96,.35);}
+.bloco-aluno-head{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm);padding:14px 16px;border-left:3px solid rgba(200,240,96,.35);transition:border-color .25s ease,box-shadow .3s ease,opacity .24s ease;}
 .bloco-aluno-wrap--ativo .bloco-aluno-head{border-left-color:rgba(200,240,96,.85);box-shadow:0 4px 22px rgba(0,0,0,.32);}
 .bloco-aluno-wrap--secundario .bloco-aluno-head{border-left-color:rgba(100,100,100,.55);border-color:rgba(80,80,80,.55);}
-.bloco-aluno-preview-linha{font-size:11px;color:var(--text3);line-height:1.4;margin-bottom:10px;padding:0 2px;letter-spacing:.02em;}
+.bloco-aluno-resumo{font-size:13px;font-weight:600;color:var(--accent);margin-top:10px;padding:11px 14px;background:rgba(200,240,96,.1);border:1px solid rgba(200,240,96,.28);border-radius:var(--rsm);display:none;line-height:1.4;box-shadow:0 2px 12px rgba(0,0,0,.12);}
+.bloco-aluno-wrap--guided-feito .bloco-aluno-resumo{display:block;}
+.bloco-aluno-btn-etapa{margin-top:14px;width:100%;min-height:48px;font-size:15px;font-weight:700;border-radius:12px;letter-spacing:.02em;transition:transform .2s ease,box-shadow .22s ease;}
+.bloco-aluno-wrap--guided-ativo .bloco-aluno-btn-etapa{box-shadow:0 4px 20px rgba(200,240,96,.18);}
+.bloco-aluno-wrap--guided-ocultar-inputs .bloco-aluno-inputs{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;pointer-events:none;}
+.bloco-aluno-wrap[data-bloco-index]{position:relative;}
+.bloco-aluno-preview-linha{font-size:11px;color:var(--text3);line-height:1.45;margin-bottom:10px;padding:0 2px;letter-spacing:.02em;}
+.bloco-aluno-wrap--guided-ocultar-preview .bloco-aluno-preview-linha{display:none;}
+.bloco-aluno-wrap--guided-multi{transition:margin-bottom .24s ease,opacity .24s ease,transform .3s ease;}
+.bloco-aluno-wrap--guided-multi.bloco-aluno-wrap--guided-feito{margin-bottom:14px;opacity:.94;}
+.bloco-aluno-wrap--guided-multi.bloco-aluno-wrap--guided-ativo{padding:2px;border-radius:calc(var(--rsm) + 2px);background:linear-gradient(145deg,rgba(200,240,96,.22),rgba(96,168,240,.08) 55%,transparent 85%);box-shadow:0 0 0 1px rgba(200,240,96,.2),0 12px 40px rgba(0,0,0,.28),0 0 28px rgba(200,240,96,.08);transform:translateY(-2px);}
+.bloco-aluno-wrap--guided-multi.bloco-aluno-wrap--guided-feito .bloco-aluno-head{border-left-color:rgba(200,240,96,.5);opacity:.88;}
+.bloco-aluno-wrap--guided-multi.bloco-aluno-wrap--guided-proximo{opacity:.9;}
+.bloco-aluno-wrap--guided-multi.bloco-aluno-wrap--guided-proximo .bloco-aluno-head{border-style:dashed;border-color:rgba(120,120,120,.45);opacity:.82;}
+.bloco-aluno-wrap--guided-multi .bloco-aluno-head{overflow:hidden;transition:max-height .3s ease,opacity .26s ease,padding .26s ease,margin-bottom .26s ease,box-shadow .28s ease,border-color .25s ease,border-style .2s ease;}
+.bloco-aluno-wrap--guided-multi.bloco-aluno-wrap--guided-ativo .bloco-aluno-head{max-height:2000px;opacity:1;padding:15px 17px;margin-bottom:14px;box-shadow:0 6px 28px rgba(0,0,0,.22);}
+.bloco-aluno-wrap--guided-multi.bloco-aluno-wrap--guided-feito .bloco-aluno-head{max-height:88px;opacity:.76;padding:8px 12px;margin-bottom:8px;box-shadow:none;}
+.bloco-aluno-wrap--guided-multi.bloco-aluno-wrap--guided-proximo .bloco-aluno-head{max-height:132px;opacity:.8;padding:10px 13px;margin-bottom:10px;}
+.bloco-aluno-wrap--guided-multi:not(.bloco-aluno-wrap--guided-ocultar-preview) .bloco-aluno-preview-linha{padding:9px 12px;background:rgba(96,168,240,.07);border-radius:10px;border:1px solid rgba(96,168,240,.22);margin-bottom:12px;color:var(--text2);letter-spacing:.03em;font-weight:500;transition:opacity .24s ease,border-color .24s ease,background .24s ease;}
+.bloco-aluno-resumo-ctx{display:none;font-size:11px;color:var(--text3);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:2px;margin-bottom:5px;line-height:1.35;}
+.bloco-aluno-wrap--guided-feito .bloco-aluno-resumo-ctx{display:block;}
+@media (prefers-reduced-motion: reduce){
+  .aluno-blocos-progress,.aluno-blocos-progress__seg,.bloco-aluno-head,.bloco-aluno-wrap--guided-multi,.bloco-aluno-btn-etapa,.bloco-aluno-wrap--guided-multi:not(.bloco-aluno-wrap--guided-ocultar-preview) .bloco-aluno-preview-linha{transition:none!important;}
+  .aluno-blocos-progress__seg--active{transform:none;}
+  .bloco-aluno-wrap--guided-multi.bloco-aluno-wrap--guided-ativo{transform:none;}
+}
 .ex-subst-link{font-size:12px;color:var(--info);margin-top:4px;cursor:pointer;display:inline-block;}
 .ex-subst-link:hover{text-decoration:underline;}
 .ultimo-reg{background:var(--bg3);border-radius:var(--rsm);padding:14px;margin-bottom:20px;}
@@ -200,6 +227,7 @@ select.inp option{background:var(--bg3);}
 .font-mono{font-family:'DM Mono',monospace;}.fw-500{font-weight:500;}
 .content-pb{padding-bottom:90px;}
 #screen-exercicio .content.content-pb{padding-bottom:148px;}
+#screen-exercicio.screen-exercicio--guided-multi .content.content-pb{padding-bottom:calc(148px + env(safe-area-inset-bottom,0px) + 88px);}
 .chart-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px;}
 .chart-bars{display:flex;align-items:flex-end;gap:6px;height:120px;}
 .chart-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
@@ -230,8 +258,36 @@ select.inp option{background:var(--bg3);}
 .btn-voltar-fixo{position:fixed;bottom:24px;left:20px;z-index:150;display:flex;align-items:center;gap:8px;padding:14px 22px;background:var(--accent);color:#0f0f0f;border:none;border-radius:var(--radius);font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(200,240,96,.3);transition:all .18s;}
 .btn-voltar-fixo:active{transform:scale(.96);}
 /* Botão salvar fixo rodapé direito */
-.btn-salvar-fixo{position:fixed;bottom:24px;right:20px;z-index:150;display:flex;align-items:center;gap:8px;padding:14px 22px;background:var(--bg2);color:var(--accent);border:2px solid var(--accent);border-radius:var(--radius);font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:all .18s;}
+.btn-salvar-fixo{position:fixed;bottom:24px;right:max(20px,env(safe-area-inset-right,0px));z-index:150;display:flex;align-items:center;gap:8px;padding:14px 22px;background:var(--bg2);color:var(--accent);border:2px solid var(--accent);border-radius:var(--radius);font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:bottom .25s ease,transform .18s;}
+#screen-exercicio.screen-exercicio--guided-multi .btn-salvar-fixo{bottom:calc(96px + env(safe-area-inset-bottom,0px));}
 .btn-salvar-fixo:active{transform:scale(.96);}
+.aluno-guided-shell{margin-bottom:8px;}
+.aluno-guided-top{background:linear-gradient(180deg,rgba(200,240,96,.08),transparent 70%);border:1px solid rgba(200,240,96,.18);border-radius:14px;padding:14px 16px 12px;margin-bottom:14px;box-shadow:0 4px 24px rgba(0,0,0,.12);}
+.aluno-guided-top__kicker{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.aluno-guided-top__row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:6px;}
+.aluno-guided-top__label{font-size:20px;font-weight:700;font-family:'DM Mono',monospace;color:var(--text);letter-spacing:-.02em;}
+.aluno-guided-top__pct{font-size:13px;font-weight:600;font-family:'DM Mono',monospace;color:var(--accent);opacity:.9;}
+.aluno-guided-top__heading{font-size:14px;font-weight:600;color:var(--text2);line-height:1.4;min-height:1.4em;transition:color .22s ease,opacity .22s ease;}
+.aluno-guided-top__heading--done{color:var(--accent);}
+.aluno-guided-action-bar{position:fixed;left:0;right:0;bottom:0;z-index:140;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));background:linear-gradient(180deg,transparent,rgba(15,15,15,.92) 18%,var(--bg) 35%);border-top:1px solid rgba(200,240,96,.12);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:opacity .28s ease;}
+.aluno-guided-action-bar[hidden]{display:none!important;}
+.aluno-guided-btn-primary{width:100%;min-height:52px;border:none;border-radius:14px;font-family:inherit;font-size:16px;font-weight:800;letter-spacing:.02em;color:#0f0f0f;background:linear-gradient(180deg,rgba(220,255,120,.95),var(--accent));box-shadow:0 4px 24px rgba(200,240,96,.25),0 0 0 1px rgba(200,240,96,.35);cursor:pointer;transition:transform .18s ease,box-shadow .22s ease,opacity .2s ease;}
+.aluno-guided-btn-primary:active{transform:scale(.98);}
+.aluno-guided-btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none;}
+.aluno-guided-btn-primary--secondary{background:var(--bg3);color:var(--text);border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.2);}
+.aluno-guided-action-sub{margin:10px 0 0;font-size:12px;line-height:1.45;color:var(--text3);text-align:center;}
+.bloco-aluno-wrap--guided-multi.bloco-aluno-wrap--guided-ativo{position:relative;}
+.bloco-aluno-wrap--guided-multi.bloco-aluno-wrap--guided-ativo::before{content:'Agora';position:absolute;top:8px;right:14px;z-index:2;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:999px;background:rgba(200,240,96,.95);color:#0f0f0f;box-shadow:0 2px 10px rgba(0,0,0,.25);}
+.bloco-aluno-wrap--guided-multi.bloco-aluno-wrap--guided-proximo{position:relative;}
+.bloco-aluno-wrap--guided-multi.bloco-aluno-wrap--guided-proximo::after{content:'Em breve';position:absolute;top:8px;right:14px;z-index:2;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:999px;background:rgba(96,168,240,.2);color:var(--info);border:1px solid rgba(96,168,240,.35);}
+#screen-exercicio.screen-exercicio--guided-multi .bloco-aluno-btn-etapa{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+@media (min-width:720px){
+  .aluno-guided-action-bar{left:50%;right:auto;max-width:560px;width:calc(100% - 32px);margin:0;border-radius:16px 16px 0 0;transform:translateX(-50%);}
+  #screen-exercicio.screen-exercicio--guided-multi .btn-salvar-fixo{bottom:calc(108px + env(safe-area-inset-bottom,0px));}
+}
+@media (prefers-reduced-motion: reduce){
+  .aluno-guided-top__heading,.aluno-guided-action-bar,.btn-salvar-fixo,.aluno-guided-btn-primary{transition:none!important;}
+}
 @media(min-width:600px){.treino-grid{grid-template-columns:repeat(3,1fr);}.content,.greeting,.last-session,.treino-grid{max-width:640px;margin-left:auto;margin-right:auto;}.last-session,.greeting{margin-left:auto;margin-right:auto;}}
 </style>
 </head>
@@ -325,6 +381,10 @@ select.inp option{background:var(--bg3);}
   </div>
   <button class="btn-voltar-fixo" onclick="goTo('treino');renderListaEx();">&#x2190; Voltar</button>
   <button class="btn-salvar-fixo" onclick="salvarRegistro()">Salvar &#x2713;</button>
+  <div id="aluno-guided-action-bar" class="aluno-guided-action-bar" hidden>
+    <button type="button" id="aluno-guided-btn-primary" class="aluno-guided-btn-primary"></button>
+    <p id="aluno-guided-action-sub" class="aluno-guided-action-sub"></p>
+  </div>
 </div>
 
 <div id="screen-prof" class="screen">
@@ -515,6 +575,7 @@ reconstruirTiposSerie();
 function nomeExRefKey(n){return((n||'')+'').trim().toLowerCase();}
 
 let me=null,meAluno=null,treinoAtual=null,exAtual=null,exFeitosHoje=new Set();
+let alunoActiveBlockIndex=0,alunoGuidedLastStepDone=false;
 let academiaSelecionada=''; // academia escolhida para a sessão atual
 let academiaFiltroUltimoReg=''; // filtro só para exibir último registro (independe do registro novo)
 let exSubstitutoIdx=null;   // índice do exercício sendo substituído na sessão
@@ -528,7 +589,7 @@ let editorExpandedIdx=null;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const toast=msg=>{$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2600);};
-const goTo=tela=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('screen-'+tela).classList.add('active');window.scrollTo(0,0);};
+const goTo=tela=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('screen-'+tela).classList.add('active');window.scrollTo(0,0);syncAlunoGuidedChrome();};
 const abrirModal=id=>$(id).classList.add('open');
 const fecharModal=id=>$(id).classList.remove('open');
 const initials=n=>n?n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase():'?';
@@ -1055,12 +1116,162 @@ window.runAlunoCopyBlocoTests=function(){
   toast('Testes alunoCopyBloco: ver console');
 };
 
+// Barra contextual + cabeçalho de etapa (multi-bloco); não altera inputs nem salvamento
+function syncAlunoGuidedChrome(){
+  const scr=$('screen-exercicio');
+  const bar=$('aluno-guided-action-bar');
+  const prim=$('aluno-guided-btn-primary');
+  const sub=$('aluno-guided-action-sub');
+  const c=$('series-inputs');
+  const labelEl=$('aluno-guided-step-label');
+  const pctEl=$('aluno-guided-step-pct');
+  const headEl=$('aluno-guided-step-heading');
+  if(!scr||!bar||!prim||!sub)return;
+  const nB=c?parseInt(c.dataset.guidedNB||'0',10)||0:0;
+  if(!scr.classList.contains('active')||nB<=1){
+    scr.classList.remove('screen-exercicio--guided-multi');
+    bar.hidden=true;
+    prim.onclick=null;
+    prim.classList.remove('aluno-guided-btn-primary--secondary');
+    prim.textContent='';
+    prim.disabled=false;
+    sub.textContent='';
+    return;
+  }
+  scr.classList.add('screen-exercicio--guided-multi');
+  bar.hidden=false;
+  const doneAll=alunoGuidedLastStepDone&&alunoActiveBlockIndex===nB-1;
+  const activeWrap=!doneAll?c.querySelector('.bloco-aluno-wrap[data-bloco-index="'+alunoActiveBlockIndex+'"]'):null;
+  const stepTitle=(activeWrap&&activeWrap.dataset.stepTitle)?activeWrap.dataset.stepTitle:'';
+  if(labelEl)labelEl.textContent=doneAll?'\u2713 Conclu\xEDdo':'Etapa '+(alunoActiveBlockIndex+1)+' de '+nB;
+  if(pctEl)pctEl.textContent=doneAll?'100%':Math.min(100,Math.round(((alunoActiveBlockIndex+1)/nB)*100))+'%';
+  if(headEl){
+    headEl.textContent=doneAll?('Todas as etapas conclu\xEDdas. Revise os valores e salve.'):(stepTitle||'Siga a prescri\xE7\xE3o desta etapa.');
+    headEl.classList.toggle('aluno-guided-top__heading--done',!!doneAll);
+  }
+  prim.classList.toggle('aluno-guided-btn-primary--secondary',!!doneAll);
+  prim.disabled=false;
+  if(doneAll){
+    prim.textContent='Ir para Salvar';
+    prim.onclick=()=>{
+      const sv=scr.querySelector('.btn-salvar-fixo');
+      if(sv){sv.focus({preventScroll:true});sv.scrollIntoView({behavior:'smooth',block:'nearest'});}
+    };
+    sub.textContent='O bot\xE3o Salvar grava todas as etapas no hist\xF3rico.';
+  }else{
+    const last=alunoActiveBlockIndex===nB-1;
+    prim.textContent=last?'Concluir \u00faltima etapa':'Concluir etapa';
+    prim.onclick=()=>concluirEtapaBlocoAluno(alunoActiveBlockIndex);
+    sub.textContent=last?'Depois, use Salvar para gravar tudo.':'Avance quando terminar de registrar esta etapa.';
+  }
+}
+
+// Fluxo guiado multi-bloco (aluno): um bloco ativo; inputs permanecem no DOM para salvarRegistro
+function applyAlunoGuidedBlockUI(){
+  const c=$('series-inputs');
+  if(!c){syncAlunoGuidedChrome();return;}
+  const nB=parseInt(c.dataset.guidedNB||'0',10)||0;
+  if(nB<=1){syncAlunoGuidedChrome();return;}
+  const wraps=c.querySelectorAll('.bloco-aluno-wrap[data-bloco-index]');
+  const prog=c.querySelector('.aluno-blocos-progress');
+  const segs=prog?prog.querySelectorAll('.aluno-blocos-progress__seg'):null;
+  wraps.forEach(wrap=>{
+    const bi=parseInt(wrap.dataset.blocoIndex,10);
+    if(Number.isNaN(bi))return;
+    wrap.classList.remove('bloco-aluno-wrap--ativo','bloco-aluno-wrap--secundario','bloco-aluno-wrap--guided-feito','bloco-aluno-wrap--guided-ativo','bloco-aluno-wrap--guided-proximo','bloco-aluno-wrap--guided-ocultar-inputs','bloco-aluno-wrap--guided-ocultar-preview');
+    let estado='future';
+    if(bi<alunoActiveBlockIndex)estado='past';
+    else if(bi>alunoActiveBlockIndex)estado='future';
+    else if(alunoGuidedLastStepDone&&bi===nB-1)estado='past';
+    else estado='active';
+    if(estado==='past'){
+      wrap.classList.add('bloco-aluno-wrap--guided-feito','bloco-aluno-wrap--secundario','bloco-aluno-wrap--guided-ocultar-inputs');
+      if(bi>0)wrap.classList.add('bloco-aluno-wrap--guided-ocultar-preview');
+    }else if(estado==='active'){
+      wrap.classList.add('bloco-aluno-wrap--ativo','bloco-aluno-wrap--guided-ativo');
+      if(bi>0)wrap.classList.add('bloco-aluno-wrap--guided-ocultar-preview');
+    }else{
+      wrap.classList.add('bloco-aluno-wrap--guided-proximo','bloco-aluno-wrap--secundario','bloco-aluno-wrap--guided-ocultar-inputs');
+    }
+  });
+  if(segs&&segs.length===nB){
+    for(let si=0;si<nB;si++){
+      const seg=segs[si];
+      seg.className='aluno-blocos-progress__seg';
+      const complete=(si<alunoActiveBlockIndex)||(alunoGuidedLastStepDone&&si===nB-1);
+      const active=(si===alunoActiveBlockIndex)&&!(alunoGuidedLastStepDone&&si===nB-1);
+      if(complete)seg.classList.add('aluno-blocos-progress__seg--complete');
+      else if(active)seg.classList.add('aluno-blocos-progress__seg--active');
+      else seg.classList.add('aluno-blocos-progress__seg--pending');
+    }
+  }
+  if(prog){
+    const doneAll=alunoGuidedLastStepDone&&alunoActiveBlockIndex===nB-1;
+    prog.setAttribute('data-guided-at',String(alunoActiveBlockIndex));
+    prog.setAttribute('data-guided-total',String(nB));
+    if(doneAll)prog.setAttribute('data-guided-all-done','');
+    else prog.removeAttribute('data-guided-all-done');
+    const stepLabel=doneAll?('Todas as '+nB+' etapas conclu\xEDdas'):('Etapa '+(alunoActiveBlockIndex+1)+' de '+nB);
+    prog.setAttribute('aria-valuetext',stepLabel);
+    prog.setAttribute('aria-valuenow',String(doneAll?nB:alunoActiveBlockIndex+1));
+  }
+  syncAlunoGuidedChrome();
+}
+
+window.concluirEtapaBlocoAluno=bi=>{
+  const c=$('series-inputs');
+  if(!c)return;
+  const nB=parseInt(c.dataset.guidedNB||'0',10)||0;
+  if(nB<=1)return;
+  if(bi!==alunoActiveBlockIndex)return;
+  const wrap=c.querySelector('.bloco-aluno-wrap[data-bloco-index="'+bi+'"]');
+  if(!wrap)return;
+  const resumo=wrap.querySelector('.bloco-aluno-resumo');
+  if(resumo){
+    const snap=[...wrap.querySelectorAll('.bloco-aluno-inputs input')].map(i=>String(i.value||'').trim()).filter(Boolean);
+    resumo.textContent=snap.length?('\u2713 '+snap.join(' \xB7 ')):'\u2713 Etapa registrada';
+  }
+  if(bi<nB-1)alunoActiveBlockIndex++;
+  else alunoGuidedLastStepDone=true;
+  applyAlunoGuidedBlockUI();
+  const nextWrap=c.querySelector('.bloco-aluno-wrap[data-bloco-index="'+alunoActiveBlockIndex+'"]');
+  if(nextWrap)setTimeout(()=>nextWrap.scrollIntoView({behavior:'smooth',block:'nearest'}),120);
+};
+
 // Renderiza campos de registro conforme a técnica do exercício (C1: N blocos prescritos)
 function renderSeriesInputs(ex){
   const c=$('series-inputs'); c.innerHTML='';
+  alunoActiveBlockIndex=0;
+  alunoGuidedLastStepDone=false;
+  delete c.dataset.guidedNB;
   const blocos=normalizarExercicio(ex);
   const nBl=blocos.length;
   if(nBl>1){
+    c.dataset.guidedNB=String(nBl);
+    const shell=document.createElement('div');
+    shell.className='aluno-guided-shell';
+    const top=document.createElement('div');
+    top.className='aluno-guided-top';
+    const kicker=document.createElement('div');
+    kicker.className='aluno-guided-top__kicker';
+    kicker.textContent='Execu\xE7\xE3o guiada';
+    const row=document.createElement('div');
+    row.className='aluno-guided-top__row';
+    const label=document.createElement('div');
+    label.id='aluno-guided-step-label';
+    label.className='aluno-guided-top__label';
+    const pct=document.createElement('div');
+    pct.id='aluno-guided-step-pct';
+    pct.className='aluno-guided-top__pct';
+    row.appendChild(label);
+    row.appendChild(pct);
+    const heading=document.createElement('div');
+    heading.id='aluno-guided-step-heading';
+    heading.className='aluno-guided-top__heading';
+    top.appendChild(kicker);
+    top.appendChild(row);
+    top.appendChild(heading);
+    shell.appendChild(top);
     const prog=document.createElement('div');
     prog.className='aluno-blocos-progress';
     prog.setAttribute('role','progressbar');
@@ -1073,13 +1284,16 @@ function renderSeriesInputs(ex){
       seg.className='aluno-blocos-progress__seg'+(si===0?' aluno-blocos-progress__seg--active':' aluno-blocos-progress__seg--pending');
       prog.appendChild(seg);
     }
-    c.appendChild(prog);
+    shell.appendChild(prog);
+    c.appendChild(shell);
   }
   blocos.forEach((b,bi)=>{
     const wrap=document.createElement('div');
-    wrap.className='bloco-aluno-wrap'+(nBl>1?(bi===0?' bloco-aluno-wrap--ativo':' bloco-aluno-wrap--secundario'):'');
+    wrap.className='bloco-aluno-wrap';
+    if(nBl>1)wrap.dataset.blocoIndex=String(bi);
     if(nBl<=1)wrap.style.marginBottom='0';
     const copyBloco=alunoCopyBloco(b,{blocoIndex:bi,totalBlocos:nBl});
+    if(nBl>1)wrap.dataset.stepTitle=String(copyBloco.tituloAluno||'').trim()||('Bloco '+(bi+1));
     if(nBl>1){
       if(bi>0){
         const pre=document.createElement('div');
@@ -1107,10 +1321,13 @@ function renderSeriesInputs(ex){
     inner.className='bloco-aluno-inputs';
     const idPrefix=nBl>1&&bi>0?'b'+bi+'_':'';
     const skipInteractive=nBl>1&&bi>0;
-    const tecnica=b.tecnica||interpretarPrescricao(b.meta||'').tipo;
     const presc=interpretarPrescricao(b.meta||'');
+    const tecnica=b.tecnica||presc.tipo;
     const nSeries=presc.series||parseSeries(b.meta||'');
-    const timer=ex.timerCustom||timerPadrao(tecnica);
+    const tipoAluno=((b.tipo||'')+'').toLowerCase();
+    let timerTec=tecnica==='drop-set'?'drop':tecnica;
+    if(tipoAluno.includes('feeder')&&tecnica!=='cluster')timerTec='feeder';
+    const timer=ex.timerCustom||timerPadrao(timerTec);
     const ro={idPrefix,skipInteractive};
     if(tecnica==='cluster'){
       const blC=presc.blocos||[4,4,4];
@@ -1123,8 +1340,27 @@ function renderSeriesInputs(ex){
       renderNormal(inner, nSeries, timer, tecnica, ro);
     }
     wrap.appendChild(inner);
+    if(nBl>1){
+      wrap.classList.add('bloco-aluno-wrap--guided-multi');
+      const resumoCtx=document.createElement('div');
+      resumoCtx.className='bloco-aluno-resumo-ctx';
+      resumoCtx.setAttribute('aria-hidden','true');
+      resumoCtx.textContent='Etapa '+(bi+1)+' de '+nBl+' \u2014 '+String(copyBloco.tituloAluno||'').trim()+(b.meta?(' \u2014 '+String(b.meta).trim()):'');
+      wrap.appendChild(resumoCtx);
+      const resumo=document.createElement('div');
+      resumo.className='bloco-aluno-resumo';
+      resumo.setAttribute('aria-live','polite');
+      wrap.appendChild(resumo);
+      const btnEt=document.createElement('button');
+      btnEt.type='button';
+      btnEt.className='btn btn-primary bloco-aluno-btn-etapa';
+      btnEt.textContent=bi<nBl-1?'\u2713 Concluir etapa':'\u2713 Concluir \u00faltima etapa';
+      btnEt.onclick=()=>concluirEtapaBlocoAluno(bi);
+      wrap.appendChild(btnEt);
+    }
     c.appendChild(wrap);
   });
+  applyAlunoGuidedBlockUI();
 }
 
 // Renderiza séries normais com progresso e timer entre elas (opts.idPrefix / opts.skipInteractive para C1 multi-bloco)
