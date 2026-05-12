@@ -2466,6 +2466,103 @@ window.abrirEditor = idx => {
 };
 
 document.querySelectorAll('.modal-bd').forEach(b=>b.addEventListener('click',e=>{if(e.target===b)b.classList.remove('open');}));
+
+/* Fase 2 — parser de notação (spec migracao); funções puras, sem uso na UI */
+function extractTokens(s){
+  const t={};
+  s=(s||'').replace(/\s+/g,' ').trim();
+  const sr=s.match(/(\d+)\s*x\s*([\d]+-[\d]+|[\d]+)/i);
+  if(sr){t.series=+sr[1];const rp=sr[2];
+    const rg=rp.match(/(\d+)-(\d+)/);
+    if(rg){t.repsMin=+rg[1];t.repsMax=+rg[2];t.repsStr=rg[1]+'–'+rg[2];}
+    else{t.repsMin=t.repsMax=+rp;t.repsStr=rp;}}
+  const cb=s.match(/(\d+)\+(\d+)\+(\d+)(?:\+(\d+))?/);
+  if(cb){t.cluster=[cb[1],cb[2],cb[3]];if(cb[4])t.cluster.push(cb[4]);}
+  const rir=s.match(/\((\d+)\s*rir\)/i);if(rir)t.rir=+rir[1];
+  const pct=s.match(/-\s*(\d+)\s*%/);if(pct)t.dropPct=+pct[1];
+  const rest=s.match(/(\d+)\s*seg/i);if(rest)t.restSec=+rest[1];
+  const cr=s.match(/(\d+)(?:\/(\d+))?\s*seg\s*entre/i);
+  if(cr)t.clusterRest=cr[1]+(cr[2]?'–'+cr[2]:'')+'s';
+  const cRange=s.match(/\+\s*(\d+)\s*\/\s*(\d+)/);
+  if(cRange){t.contMin=+cRange[1];t.contMax=+cRange[2];t.contStr=cRange[1]+'/'+cRange[2];}
+  else{const c99=s.match(/\+\s*99/);if(c99)t.cont99=true;
+    else{const cn=s.match(/\+\s*(\d+)/);if(cn){t.contMin=t.contMax=+cn[1];t.contStr=cn[1];}}}
+  return t;
+}
+
+function techniqueTranslator(block){
+  const type=block.tecnica||'work';
+  const t=extractTokens(block.meta||'');
+  const rirTxt=t.rir===0?'Vá até o limite'
+    :t.rir>0?'Pare '+t.rir+' rep'+(t.rir>1?'s':'')+' antes da falha':null;
+  const repsA=t.repsMin===t.repsMax?(t.repsStr!=null?t.repsStr:'?')+' reps':'de '+t.repsMin+' a '+t.repsMax+' reps';
+  const contA=t.cont99?'vá até a falha — registre o total'
+    :t.contStr?'mais '+t.contMin+(t.contMax!==t.contMin?'–'+t.contMax:'')+'reps':'continue';
+
+  if(type==='feeder')return{
+    title:'Série de preparação',
+    sub:(t.series||1)+'x'+(t.repsStr||'')+' · pare '+(t.rir||2)+' reps antes da falha',
+    hint:'Série leve. Pare '+(t.rir||2)+' repetições antes da falha.',
+    badge:'Preparação',badgeClass:'badge-prep',
+    kind:'series',series:t.series||1,repsMin:t.repsMin,repsMax:t.repsMax
+  };
+  if(type==='work')return{
+    title:'Série principal',
+    sub:(t.series||1)+'x'+(t.repsStr||'')+(rirTxt?' · '+rirTxt.toLowerCase():''),
+    hint:rirTxt||'Vá até o limite.',
+    badge:'Principal',badgeClass:'badge-main',
+    kind:'series',series:t.series||1,repsMin:t.repsMin,repsMax:t.repsMax
+  };
+  if(type==='cluster'){
+    const c=(t.cluster&&t.cluster.length)?t.cluster:['4','4','4'];
+    return{
+      title:'Mini-séries em sequência',
+      sub:c.length+'x'+c[0]+' reps · '+(t.clusterRest||'15s')+' entre elas',
+      hint:'Faça '+c[0]+' reps, descanse '+(t.clusterRest||'15s')+', repita. Mesmo peso.',
+      badge:'Cluster',badgeClass:'badge-cluster',
+      kind:'cluster',miniBlocks:c,restBetween:t.restSec||15
+    };
+  }
+  if(type==='rest-pause')return{
+    title:'Série contínua com pausa',
+    sub:repsA+' · '+(t.restSec||15)+'s · continua',
+    hint:'',
+    badge:'Rest-pause',badgeClass:'badge-rp',
+    kind:'sequence',
+    steps:[
+      {n:'①',label:repsA+(rirTxt?' · '+rirTxt.toLowerCase():''),needsReps:true,needsWeight:true},
+      {n:'②',label:'Descanse '+(t.restSec||15)+' segundos',timer:t.restSec||15},
+      {n:'③',label:'Continue — '+contA,needsReps:true}
+    ]
+  };
+  if(type==='back-off')return{
+    title:'Série de alívio',
+    sub:repsA+' · -'+(t.dropPct||20)+'% · '+(t.restSec||30)+'s',
+    hint:'',
+    badge:'Back-off',badgeClass:'badge-bo',
+    kind:'sequence',
+    steps:[
+      {n:'①',label:repsA+(rirTxt?' · '+rirTxt.toLowerCase():''),needsReps:true,needsWeight:true},
+      {n:'②',label:'Reduza '+(t.dropPct||20)+'% do peso'},
+      {n:'③',label:'Descanse '+(t.restSec||30)+' segundos',timer:t.restSec||30},
+      {n:'④',label:'Continue — '+contA,needsReps:true}
+    ]
+  };
+  if(type==='drop-set')return{
+    title:'Série com redução de peso',
+    sub:repsA+' · '+(t.restSec||10)+'s · -'+(t.dropPct||20)+'% · falha',
+    hint:'',
+    badge:'Drop set',badgeClass:'badge-drop',
+    kind:'sequence',
+    steps:[
+      {n:'①',label:repsA+(rirTxt?' · '+rirTxt.toLowerCase():''),needsReps:true,needsWeight:true},
+      {n:'②',label:'Descanse '+(t.restSec||10)+' segundos brevemente',timer:t.restSec||10},
+      {n:'③',label:'Reduza '+(t.dropPct||20)+'% do peso'},
+      {n:'④',label:'Vá até a falha — registre o total',needsReps:true}
+    ]
+  };
+  return{title:'Série',sub:block.meta||'',hint:'',badge:'Série',badgeClass:'badge-main',kind:'series',series:1};
+}
 </script>
 </body>
 </html>
