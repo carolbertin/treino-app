@@ -588,6 +588,7 @@ let editorExpandedIdx=null;
 
 const $=id=>document.getElementById(id);
 const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const escJs=s=>String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r|\n/g,' ');
 const toast=msg=>{$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2600);};
 const goTo=tela=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('screen-'+tela).classList.add('active');window.scrollTo(0,0);syncAlunoGuidedChrome();};
 const abrirModal=id=>$(id).classList.add('open');
@@ -1231,12 +1232,84 @@ window.concluirEtapaBlocoAluno=bi=>{
     const snap=[...wrap.querySelectorAll('.bloco-aluno-inputs input')].map(i=>String(i.value||'').trim()).filter(Boolean);
     resumo.textContent=snap.length?('\u2713 '+snap.join(' \xB7 ')):'\u2713 Etapa registrada';
   }
-  if(bi<nB-1)alunoActiveBlockIndex++;
-  else alunoGuidedLastStepDone=true;
+  pularTimer();
+  if(bi<nB-1){
+    alunoActiveBlockIndex++;
+    rebuildActiveBlocoInputs(exAtual,alunoActiveBlockIndex);
+  }else{
+    alunoGuidedLastStepDone=true;
+  }
   applyAlunoGuidedBlockUI();
   const nextWrap=c.querySelector('.bloco-aluno-wrap[data-bloco-index="'+alunoActiveBlockIndex+'"]');
   if(nextWrap)setTimeout(()=>nextWrap.scrollIntoView({behavior:'smooth',block:'nearest'}),120);
 };
+
+function snapshotBlocoInputValues(root){
+  const m={};
+  if(!root)return m;
+  root.querySelectorAll('input,textarea,select').forEach(el=>{
+    const id=el.id;
+    if(!id)return;
+    if(el.type==='checkbox'||el.type==='radio')m[id]=el.checked?'1':'';
+    else m[id]=el.value;
+  });
+  return m;
+}
+
+function restoreBlocoInputValues(m){
+  Object.keys(m).forEach(id=>{
+    const el=$(id);
+    if(!el)return;
+    if(el.type==='checkbox'||el.type==='radio')el.checked=m[id]==='1'||m[id]===true;
+    else el.value=m[id]!=null?String(m[id]):'';
+  });
+}
+
+// Conteúdo de .bloco-aluno-inputs (preserva contrato de ids/prefixos para salvarRegistro)
+function renderBlocoAlunoInputsInner(inner,ex,b,bi,nBl,skipInteractive){
+  inner.className='bloco-aluno-inputs';
+  inner.innerHTML='';
+  inner.dataset.blocoMeta=b.meta!=null?String(b.meta):'';
+  const copyBloco=alunoCopyBloco(b,{blocoIndex:bi,totalBlocos:nBl});
+  const idPrefix=nBl>1&&bi>0?'b'+bi+'_':'';
+  const presc=interpretarPrescricao(b.meta||'');
+  const tecnica=b.tecnica||presc.tipo;
+  const nSeries=presc.series||parseSeries(b.meta||'');
+  const tipoAluno=((b.tipo||'')+'').toLowerCase();
+  let timerTec=tecnica==='drop-set'?'drop':tecnica;
+  if(tipoAluno.includes('feeder')&&tecnica!=='cluster')timerTec='feeder';
+  const timer=ex.timerCustom||timerPadrao(timerTec);
+  const ro={idPrefix,skipInteractive:!!skipInteractive,blocoMeta:b.meta!=null?String(b.meta):''};
+  if(tecnica==='cluster'){
+    const blC=presc.blocos||[4,4,4];
+    renderCluster(inner, blC, timer, Object.assign({},ro,{alunoTitulo:copyBloco.tituloAluno,alunoSub:copyBloco.subtitulo}));
+  }else if(tecnica==='rest-pause'){
+    renderRestPause(inner, nSeries, timer, ro);
+  }else if(tecnica==='back-off'){
+    renderBackOff(inner, nSeries, timer, Object.assign({},ro,{backOffCardTitulo:copyBloco.tituloAluno}));
+  }else{
+    renderNormal(inner, nSeries, timer, tecnica, ro);
+  }
+}
+
+function rebuildActiveBlocoInputs(ex,activeBi){
+  const c=$('series-inputs');
+  if(!ex||!c)return;
+  const nB=parseInt(c.dataset.guidedNB||'0',10)||0;
+  if(nB<=1||activeBi<0||activeBi>=nB)return;
+  const blocos=normalizarExercicio(ex);
+  const b=blocos[activeBi];
+  if(!b)return;
+  const wrap=c.querySelector('.bloco-aluno-wrap[data-bloco-index="'+activeBi+'"]');
+  if(!wrap)return;
+  const oldInner=wrap.querySelector('.bloco-aluno-inputs');
+  if(!oldInner)return;
+  const snap=snapshotBlocoInputValues(oldInner);
+  const inner=document.createElement('div');
+  renderBlocoAlunoInputsInner(inner,ex,b,activeBi,nB,false);
+  oldInner.replaceWith(inner);
+  restoreBlocoInputValues(snap);
+}
 
 // Renderiza campos de registro conforme a técnica do exercício (C1: N blocos prescritos)
 function renderSeriesInputs(ex){
@@ -1318,27 +1391,7 @@ function renderSeriesInputs(ex){
       wrap.appendChild(head);
     }
     const inner=document.createElement('div');
-    inner.className='bloco-aluno-inputs';
-    const idPrefix=nBl>1&&bi>0?'b'+bi+'_':'';
-    const skipInteractive=nBl>1&&bi>0;
-    const presc=interpretarPrescricao(b.meta||'');
-    const tecnica=b.tecnica||presc.tipo;
-    const nSeries=presc.series||parseSeries(b.meta||'');
-    const tipoAluno=((b.tipo||'')+'').toLowerCase();
-    let timerTec=tecnica==='drop-set'?'drop':tecnica;
-    if(tipoAluno.includes('feeder')&&tecnica!=='cluster')timerTec='feeder';
-    const timer=ex.timerCustom||timerPadrao(timerTec);
-    const ro={idPrefix,skipInteractive};
-    if(tecnica==='cluster'){
-      const blC=presc.blocos||[4,4,4];
-      renderCluster(inner, blC, timer, Object.assign({},ro,{alunoTitulo:copyBloco.tituloAluno,alunoSub:copyBloco.subtitulo}));
-    }else if(tecnica==='rest-pause'){
-      renderRestPause(inner, nSeries, timer, ro);
-    }else if(tecnica==='back-off'){
-      renderBackOff(inner, nSeries, timer, Object.assign({},ro,{backOffCardTitulo:copyBloco.tituloAluno}));
-    }else{
-      renderNormal(inner, nSeries, timer, tecnica, ro);
-    }
+    renderBlocoAlunoInputsInner(inner,ex,b,bi,nBl,nBl>1&&bi>0);
     wrap.appendChild(inner);
     if(nBl>1){
       wrap.classList.add('bloco-aluno-wrap--guided-multi');
@@ -1368,6 +1421,7 @@ function renderNormal(container, nSeries, timerSeg, tecnica, opts){
   opts=opts||{};
   const P=opts.idPrefix||'';
   const sk=!!opts.skipInteractive;
+  const mjs=escJs(opts.blocoMeta||'');
   if(!sk){
     const prog=document.createElement('div');
     prog.style.cssText='display:flex;align-items:center;gap:10px;margin-bottom:16px;';
@@ -1392,7 +1446,7 @@ function renderNormal(container, nSeries, timerSeg, tecnica, opts){
       +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">'
         +'<div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;">'
           +'<div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.06em;margin-bottom:4px;">PESO (kg)</div>'
-          +'<input id="'+P+'p'+s+'" type="number" inputmode="decimal" placeholder="0"'+(P===''?' oninput="replicarPeso('+s+',this.value)"':'')+' style="background:none;border:none;color:var(--text);font-family:monospace;font-size:26px;font-weight:600;width:100%;outline:none;">'
+          +'<input id="'+P+'p'+s+'" type="number" inputmode="decimal" placeholder="0"'+(!sk?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\')"':'')+' style="background:none;border:none;color:var(--text);font-family:monospace;font-size:26px;font-weight:600;width:100%;outline:none;">'
         +'</div>'
         +'<div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;">'
           +'<div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.06em;margin-bottom:4px;">REPS</div>'
@@ -1462,6 +1516,7 @@ function renderRestPause(container, nSeries, timerSeg, opts){
   const P=opts.idPrefix||'';
   const sk=!!opts.skipInteractive;
   const pq=P.replace(/'/g,'\\\'');
+  const mjs=escJs(opts.blocoMeta||'');
   for(let s=0;s<nSeries;s++){
     const card=document.createElement('div');
     card.id=P+'serie-card-'+s;
@@ -1471,7 +1526,7 @@ function renderRestPause(container, nSeries, timerSeg, opts){
       :'<button onclick="iniciarRestPause('+s+','+timerSeg+',\''+pq+'\')" style="width:100%;padding:12px;background:rgba(200,240,96,.1);color:var(--accent);border:1px solid rgba(200,240,96,.25);border-radius:var(--rsm);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">+99 Iniciar rest-pause</button>';
     card.innerHTML='<div style="font-size:14px;font-weight:600;color:var(--accent);margin-bottom:12px;">S\xE9rie '+(s+1)+'</div>'
       +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">'
-        +'<div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;"><div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.06em;margin-bottom:4px;">PESO (kg)</div><input id="'+P+'p'+s+'" type="number" inputmode="decimal" placeholder="0"'+(P===''?' oninput="replicarPeso('+s+',this.value)"':'')+' style="background:none;border:none;color:var(--text);font-family:monospace;font-size:26px;font-weight:600;width:100%;outline:none;"></div>'
+        +'<div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;"><div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.06em;margin-bottom:4px;">PESO (kg)</div><input id="'+P+'p'+s+'" type="number" inputmode="decimal" placeholder="0"'+(!sk?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\')"':'')+' style="background:none;border:none;color:var(--text);font-family:monospace;font-size:26px;font-weight:600;width:100%;outline:none;"></div>'
         +'<div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;"><div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.06em;margin-bottom:4px;">REPS</div><input id="'+P+'r'+s+'" type="number" inputmode="numeric" placeholder="0" style="background:none;border:none;color:var(--text);font-family:monospace;font-size:26px;font-weight:600;width:100%;outline:none;"></div>'
       +'</div>'
       +btnRp
@@ -1498,6 +1553,7 @@ function renderBackOff(container, nSeries, timerSeg, opts){
   const P=opts.idPrefix||'';
   const sk=!!opts.skipInteractive;
   const pq=P.replace(/'/g,'\\\'');
+  const mjs=escJs(opts.blocoMeta||'');
   for(let s=0;s<nSeries;s++){
     const isBackOff=s===nSeries-1;
     const card=document.createElement('div');
@@ -1511,7 +1567,7 @@ function renderBackOff(container, nSeries, timerSeg, opts){
     card.innerHTML='<div style="font-size:14px;font-weight:600;color:'+(isBackOff?'var(--warn)':'var(--accent)')+';margin-bottom:'+(isBackOff?'4':'12')+'px;">'+(isBackOff?titBackOff:'S\xE9rie '+(s+1))+'</div>'
       +(isBackOff?'<div id="'+P+'backoff-sugestao" style="font-size:12px;color:var(--text2);margin-bottom:10px;">Sugest\xE3o: — kg (−20%)</div>':'')
       +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">'
-        +'<div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;"><div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.06em;margin-bottom:4px;">PESO (kg)</div><input id="'+P+'p'+s+'" type="number" inputmode="decimal" placeholder="0"'+(s===0&&!sk?' oninput="replicarPeso('+s+',this.value);calcBackOff()"':'')+' style="background:none;border:none;color:var(--text);font-family:monospace;font-size:26px;font-weight:600;width:100%;outline:none;"></div>'
+        +'<div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;"><div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.06em;margin-bottom:4px;">PESO (kg)</div><input id="'+P+'p'+s+'" type="number" inputmode="decimal" placeholder="0"'+(!sk?(s===0?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\');calcBackOff(\''+pq+'\',\''+mjs+'\')"':' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\')"'):'')+' style="background:none;border:none;color:var(--text);font-family:monospace;font-size:26px;font-weight:600;width:100%;outline:none;"></div>'
         +'<div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;"><div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.06em;margin-bottom:4px;">REPS</div><input id="'+P+'r'+s+'" type="number" inputmode="numeric" placeholder="0" style="background:none;border:none;color:var(--text);font-family:monospace;font-size:26px;font-weight:600;width:100%;outline:none;"></div>'
       +'</div>'
       +btnBo;
@@ -1528,15 +1584,24 @@ function renderBackOff(container, nSeries, timerSeg, opts){
   }
 }
 
-// Calcula sugestão de back-off (−20%) — apenas 1º bloco (ids sem prefixo)
-window.calcBackOff=()=>{
-  const p0=parseFloat($('p0')?.value||0);
+// Calcula sugestão de back-off (−20%): pref '' no bloco 0, b1_/b2_/… nos demais; meta do bloco via arg ou data-bloco-meta
+window.calcBackOff=(pref,meta)=>{
+  const P=pref!=null&&pref!==undefined?String(pref):'';
+  let metaStr=meta!=null&&meta!==undefined&&String(meta).trim().length?String(meta):'';
+  if(!metaStr){
+    const active=typeof document!=='undefined'&&document.activeElement;
+    const root=active&&active.closest&&active.closest('.bloco-aluno-inputs');
+    if(root&&root.dataset&&root.dataset.blocoMeta!=null)metaStr=String(root.dataset.blocoMeta||'');
+  }
+  if(!metaStr)metaStr=(exAtual&&exAtual.meta)||'';
+  const presc=interpretarPrescricao(metaStr);
+  const nSeries=Math.max(1,presc.series||parseSeries(metaStr)||1);
+  const p0=parseFloat($(P+'p0')?.value||0);
   const sugestao=p0>0?Math.round(p0*0.8*2)/2:null;
-  const el=$('backoff-sugestao');
+  const el=$(P+'backoff-sugestao');
   if(el&&sugestao) el.textContent='Sugest\xE3o: '+sugestao+' kg (\u221220%)';
-  const nSeries=parseSeries(exAtual?.meta);
-  const pLast=$('p'+(nSeries-1));
-  if(pLast&&!pLast.value&&sugestao) pLast.value=sugestao;
+  const pLast=$(P+'p'+(nSeries-1));
+  if(pLast&&!pLast.value&&sugestao) pLast.value=String(sugestao);
 };
 
 // Finaliza série normal → timer → ativa próxima (pref = prefixo id, '' no 1º bloco)
@@ -1618,19 +1683,26 @@ window.pularTimer=()=>{
 
 // Série 1 sempre lidera: replica para TODAS as demais (mesmo que já preenchidas)
 // Séries 2,3,4+ replicam apenas para as seguintes ainda em branco
-window.replicarPeso=(s,val)=>{
+// pref '' = bloco 0; b1_/b2_/… = demais blocos; meta do bloco via arg ou data-bloco-meta / exAtual.meta
+window.replicarPeso=(s,val,pref,meta)=>{
   if(!exAtual) return;
-  const n=parseSeries(exAtual.meta);
+  const P=pref!=null&&pref!==undefined?String(pref):'';
+  let metaStr=meta!=null&&meta!==undefined&&String(meta).trim().length?String(meta):'';
+  if(!metaStr){
+    const active=typeof document!=='undefined'&&document.activeElement;
+    const root=active&&active.closest&&active.closest('.bloco-aluno-inputs');
+    if(root&&root.dataset&&root.dataset.blocoMeta!=null)metaStr=String(root.dataset.blocoMeta||'');
+  }
+  if(!metaStr)metaStr=(exAtual&&exAtual.meta)||'';
+  const n=Math.max(1,interpretarPrescricao(metaStr).series||parseSeries(metaStr)||1);
   if(s===0){
-    // Série 1: força atualização em todas as outras
     for(let i=1;i<n;i++){
-      const campo=$('p'+i);
+      const campo=$(P+'p'+i);
       if(campo) campo.value=val;
     }
   } else {
-    // Séries seguintes: preenche apenas as que estão em branco
     for(let i=s+1;i<n;i++){
-      const campo=$('p'+i);
+      const campo=$(P+'p'+i);
       if(campo&&!campo.value) campo.value=val;
     }
   }
