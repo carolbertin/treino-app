@@ -1,0 +1,619 @@
+Pacote de Migração — App Personal Trainer
+index.html → Novo Design System
+Estratégia de migração incremental · Vanilla JS + Firebase · Para implementação no Cursor
+Arquivo alvo
+index.html (único)
+Stack
+HTML · CSS · JS · Firebase
+Abordagem
+Incremental — sem reescrever
+Prioridade
+Crítica — diferencial do produto
+
+1. Diagnóstico do app atual
+1.1 Arquitetura atual
+O app é um único arquivo index.html de 2.471 linhas e ~162KB. Contém CSS inline, HTML de múltiplas telas controladas por classes .active, e JavaScript puro sem bundler. Firebase/Firestore/Auth são importados via CDN ESM.
+
+Telas identificadas (controladas por goTo()):
+screen-login — autenticação Google
+screen-home — listagem de treinos do aluno
+screen-treino — lista de exercícios do treino ativo
+screen-exercicio — execução de exercício pelo aluno (tela crítica)
+screen-prof — painel do professor
+screen-editor — editor de treino (professor)
+screen-prof-treino — visualização do treino do aluno pelo professor
+
+1.2 Funções de lógica de negócio que DEVEM ser preservadas
+Estas funções contêm lógica testada e integrada ao Firebase. O Cursor não deve tocá-las:
+
+Função
+Linha aprox.
+Responsabilidade
+salvarRegistro()
+~1720
+Coleta todos os inputs, monta o objeto de registro e salva no Firestore. Lida com multi-bloco, cluster, rest-pause, back-off.
+carregarHistoricoEx()
+~912
+Busca histórico do exercício no Firestore com filtro por academia. Pré-preenche peso do último registro.
+normalizarExercicio(ex)
+~630
+Normaliza a estrutura de blocos do exercício (suporte legado + novo formato).
+interpretarPrescricao(meta)
+~600
+Parser de notação de prescrição → tipo de técnica, número de séries, blocos de cluster.
+iniciarTimer(seg, label, onFim, pref)
+~1645
+Timer genérico com countdown. Usado por finalizarSerie, finalizarBloco, iniciarRestPause.
+replicarPeso(s, val, pref, meta)
+~1730
+Replica peso entre campos de série. Série 1 lidera para todas; séries seguintes só para campos em branco.
+alunoCopyBloco(b, ctx)
+~1002
+Tradutor pedagógico: converte técnica/prescrição do professor → linguagem operacional do aluno.
+usarSubstituto(exIdx, substIdx)
+~1790
+Substitui exercício na sessão preservando meta/tipo do original.
+finalizarSerie / finalizarBloco / iniciarRestPause
+~1610
+Callbacks de progresso do aluno dentro de um bloco.
+
+1.3 O que pode ser reaproveitado
+Elemento
+Status
+Observação
+Firebase config + init
+✅ Manter
+Funciona. Não tocar.
+salvarRegistro()
+✅ Manter
+Lógica correta de coleta e persistência.
+carregarHistoricoEx()
+✅ Manter
+Busca + filtro por academia funcionando.
+iniciarTimer()
+✅ Manter + Adaptar
+Lógica boa. Adaptar para novo timer fullscreen.
+normalizarExercicio()
+✅ Manter
+Compatibilidade com dados legados do Firestore.
+interpretarPrescricao()
+✅ Manter
+Parser existente. Novo parser de intenção será adicionado, não substituirá.
+alunoCopyBloco()
+✅ Manter + Expandir
+Tradução pedagógica boa. Expandir com novos tipos.
+replicarPeso()
+✅ Manter
+Funciona bem.
+goTo() + screen system
+✅ Manter
+Simples e funciona.
+Firebase Auth + Google login
+✅ Manter
+Não tocar.
+Banco de exercícios (bancoDB)
+✅ Manter
+Estrutura correta.
+Lógica de substitutos
+✅ Manter
+Funcionando.
+CSS custom properties (:root)
+⚠️ Expandir
+Adicionar novos tokens sem remover os existentes.
+Tokens de cor atuais
+⚠️ Adaptar
+Manter variáveis existentes. Adicionar as do novo design.
+
+1.4 O que deve ser substituído
+Elemento
+Problema
+Substituto
+renderSeriesInputs(ex)
+Gera todos os blocos visíveis ao mesmo tempo. Contrário ao princípio de revelação progressiva.
+Nova função renderBlocoAtivo() com máquina de estados.
+renderNormal / renderCluster / renderRestPause / renderBackOff
+Funções separadas sem estado compartilhado. Não gerenciam progressão entre blocos.
+Unificar em renderBlocoAlunoV2() com estado por bloco.
+applyAlunoGuidedBlockUI()
+Tenta simular revelação progressiva com classes CSS complexas mas todos os blocos ainda existem no DOM.
+Substituir por renderização condicional — bloco ativo no DOM, demais como placeholders.
+Timer inline atual (timer-descanso)
+Banner pequeno dentro da tela. Não tem presença visual suficiente.
+Novo RestTimer como overlay fullscreen (ver protótipo).
+htmlOrientacaoProfessor() com texto de definição de RIR
+Explica o que é RIR em vez de instruir a ação.
+Substituir por hint box com instrução de ação (alunoCopyBloco já faz isso parcialmente).
+pillsHtmlBloco() + htmlBlocosEditor()
+UI de edição com tipo separado de técnica. Formulário muito extenso.
+Novo card de exercício com parser ao vivo (ver protótipo painel professor).
+CSS .bloco-aluno-wrap--guided-* (19 classes)
+Tentativa CSS de simular estados que deveriam ser JS.
+Remover após migração da renderização.
+
+1.5 O que deve morrer completamente
+Classes CSS .bloco-aluno-wrap--guided-*, .bloco-aluno-wrap--guided-multi, --ativo, --proximo, --feito, --secundario, --ocultar-* — são gambiarras de estado via CSS. Após a nova renderização por estado JS, essas classes não servem mais.
+syncAlunoGuidedChrome() — tenta sincronizar estado visual da barra de progresso e botão salvar por DOM traversal. Substituída pela nova lógica de estado.
+applyAlunoGuidedBlockUI() — 76 linhas de manipulação DOM para simular o que renderização condicional faz nativamente.
+snapshotBlocoInputValues() / restoreBlocoInputValues() — workaround para não perder inputs ao reordenar DOM. Desnecessário com nova arquitetura.
+rebuildActiveBlocoInputs() — força re-render do bloco ativo. Substituído pela nova função de renderização.
+Campo &apos;Técnica de série&apos; como dropdown separado do campo de prescrição — fusionado no novo parser ao vivo.
+Orientação do professor como caixa amarela inline com definição técnica — substituída por hint box com instrução de ação.
+
+2. Estratégia de migração incremental
+O princípio é: nunca deixar o app quebrado entre sessões de trabalho. Cada fase entrega valor isolado e pode ser testada antes da próxima. Não há &apos;big bang&apos;.
+
+REGRA ABSOLUTA: O Cursor nunca apaga uma função existente sem primeiro confirmar que a nova versão está funcionando. Renomear para _legacy antes de remover.
+
+Visão geral das fases
+Fase
+Nome
+Escopo
+Risco
+1
+Tokens e CSS base
+Adicionar novas CSS custom properties. Zero impacto funcional.
+Mínimo
+2
+Parser de notação
+Nova função parseNotacao() e techniqueTranslator(). Funções puras, sem UI.
+Mínimo
+3
+Tela do aluno — estrutura
+Nova máquina de estados para screen-exercicio. renderSeriesInputs() → renderBlocoAlunoV2().
+Médio
+4
+Tela do aluno — timer
+iniciarTimer() → novo RestTimer fullscreen overlay.
+Médio
+5
+Tela do aluno — polish
+Aplicar visual do protótipo. Remover CSS legado de guided blocks.
+Baixo
+6
+Painel professor — parser
+Novo card de exercício com parser ao vivo. Manter saveEditorToFirestore.
+Médio
+7
+Painel professor — bi-set
+Implementar ligação bi-set entre exercícios. Novo campo no Firestore.
+Médio
+8
+Limpeza
+Remover funções _legacy. Remover CSS morto. Separar em arquivos.
+Baixo
+
+3. Especificações por fase
+Fase 1 — Tokens CSS
+Adicionar ao bloco :root existente, sem remover nada.
+
+:root {
+  /* Tokens existentes — NÃO TOCAR */
+  --bg:#0f0f0f; --bg2:#1a1a1a; --accent:#c8f060; /* ... */
+
+  /* Novos tokens — adicionar abaixo */
+  --card-active: #181818;
+  --card-done-opacity: 0.35;
+  --card-upcoming-opacity: 0.5;
+  --accent-glow: rgba(200,240,96,0.15);
+  --border-subtle: rgba(255,255,255,0.08);
+  --border-focus: rgba(200,240,96,0.5);
+  --border-error: rgba(227,75,74,0.6);
+  --hint-warm-bg: rgba(239,159,39,0.07);
+  --hint-warm-border: rgba(239,159,39,0.4);
+  --hint-main-bg: rgba(200,255,0,0.05);
+  --hint-main-border: rgba(200,255,0,0.3);
+  --hint-cluster-bg: rgba(93,202,165,0.07);
+  --hint-cluster-border: rgba(93,202,165,0.4);
+  --cluster-color: #5DCAA5;
+  --rp-color: #AFA9EC;
+  --backoff-color: #F0997B;
+  --drop-color: #97C459;
+  --biset-color: #ED93B1;
+}
+
+Critério de conclusão: App funciona exatamente igual. Nenhum visual muda. Apenas variáveis disponíveis.
+
+
+Fase 2 — Parser de notação (funções puras)
+Adicionar ao final do bloco de scripts, antes do fechamento </script>. São funções puras — não afetam nenhuma UI existente.
+
+2.1 extractTokens(s)
+Extrai tokens de uma string de prescrição independente de ordem ou formato.
+function extractTokens(s) {
+  const t = {};
+  s = (s||&apos;&apos;).replace(/\s+/g, &apos; &apos;).trim();
+  // Séries x reps (fixo ou range)
+  const sr = s.match(/(\d+)\s*x\s*([\d]+-[\d]+|[\d]+)/i);
+  if (sr) { t.series = +sr[1]; const rp = sr[2];
+    const rg = rp.match(/(\d+)-(\d+)/);
+    if (rg) { t.repsMin=+rg[1]; t.repsMax=+rg[2]; t.repsStr=rg[1]+&apos;–&apos;+rg[2]; }
+    else { t.repsMin=t.repsMax=+rp; t.repsStr=rp; } }
+  // Cluster blocks: 4+4+4
+  const cb = s.match(/(\d+)\+(\d+)\+(\d+)(?:\+(\d+))?/);
+  if (cb) { t.cluster=[cb[1],cb[2],cb[3]]; if(cb[4])t.cluster.push(cb[4]); }
+  // RIR
+  const rir = s.match(/\((\d+)\s*rir\)/i); if(rir) t.rir=+rir[1];
+  // Drop % 
+  const pct = s.match(/-\s*(\d+)\s*%/); if(pct) t.dropPct=+pct[1];
+  // Rest seconds
+  const rest = s.match(/(\d+)\s*seg/i); if(rest) t.restSec=+rest[1];
+  // Cluster rest
+  const cr = s.match(/(\d+)(?:\/(\d+))?\s*seg\s*entre/i);
+  if (cr) t.clusterRest = cr[1]+(cr[2]?&apos;–&apos;+cr[2]:&apos;&apos;)+&apos;s&apos;;
+  // Continuation range +4/5 or +99
+  const cRange = s.match(/\+\s*(\d+)\s*\/\s*(\d+)/);
+  if (cRange) { t.contMin=+cRange[1]; t.contMax=+cRange[2]; t.contStr=cRange[1]+&apos;/&apos;+cRange[2]; }
+  else { const c99=s.match(/\+\s*99/); if(c99) t.cont99=true;
+    else { const cn=s.match(/\+\s*(\d+)/); if(cn){t.contMin=t.contMax=+cn[1];t.contStr=cn[1];} } }
+  return t;
+}
+
+2.2 techniqueTranslator(block)
+Recebe o objeto de bloco do professor e retorna a tradução para o aluno.
+function techniqueTranslator(block) {
+  const type = block.tecnica || &apos;work&apos;;
+  const t = extractTokens(block.meta || &apos;&apos;);
+  const rirTxt = t.rir===0 ? &apos;Vá até o limite&apos;
+    : t.rir>0 ? &apos;Pare &apos;+t.rir+&apos; rep&apos;+(t.rir>1?&apos;s&apos;:&apos;&apos;)+&apos; antes da falha&apos; : null;
+  const repsA = t.repsMin===t.repsMax ? t.repsStr+&apos; reps&apos; : &apos;de &apos;+t.repsMin+&apos; a &apos;+t.repsMax+&apos; reps&apos;;
+  const contA = t.cont99 ? &apos;vá até a falha — registre o total&apos;
+    : t.contStr ? &apos;mais &apos;+t.contMin+(t.contMax!==t.contMin?&apos;–&apos;+t.contMax:&apos;&apos;)+&apos;reps&apos; : &apos;continue&apos;;
+
+  if (type === &apos;feeder&apos;) return {
+    title: &apos;Série de preparação&apos;,
+    sub: (t.series||1)+&apos;x&apos;+t.repsStr+&apos; · pare &apos;+(t.rir||2)+&apos; reps antes da falha&apos;,
+    hint: &apos;Série leve. Pare &apos;+(t.rir||2)+&apos; repetições antes da falha.&apos;,
+    badge: &apos;Preparação&apos;, badgeClass: &apos;badge-prep&apos;,
+    kind: &apos;series&apos;, series: t.series||1, repsMin: t.repsMin, repsMax: t.repsMax },
+  };
+  if (type === &apos;work&apos;) return {
+    title: &apos;Série principal&apos;,
+    sub: (t.series||1)+&apos;x&apos;+t.repsStr+(rirTxt?&apos; · &apos;+rirTxt.toLowerCase():&apos;&apos;),
+    hint: rirTxt || &apos;Vá até o limite.&apos;,
+    badge: &apos;Principal&apos;, badgeClass: &apos;badge-main&apos;,
+    kind: &apos;series&apos;, series: t.series||1, repsMin: t.repsMin, repsMax: t.repsMax
+  };
+  if (type === &apos;cluster&apos;) return {
+    title: &apos;Mini-séries em sequência&apos;,
+    sub: (t.cluster||[&apos;4&apos;,&apos;4&apos;,&apos;4&apos;]).length+&apos;x&apos;+t.cluster[0]+&apos; reps · &apos;+(t.clusterRest||&apos;15s&apos;)+&apos; entre elas&apos;,
+    hint: &apos;Faça &apos;+(t.cluster||[4])[0]+&apos; reps, descanse &apos;+(t.clusterRest||&apos;15s&apos;)+&apos;, repita. Mesmo peso.&apos;,
+    badge: &apos;Cluster&apos;, badgeClass: &apos;badge-cluster&apos;,
+    kind: &apos;cluster&apos;, miniBlocks: t.cluster||[&apos;4&apos;,&apos;4&apos;,&apos;4&apos;], restBetween: t.restSec||15
+  };
+  if (type === &apos;rest-pause&apos;) return {
+    title: &apos;Série contínua com pausa&apos;,
+    sub: repsA+&apos; · &apos;+( t.restSec||15)+&apos;s · continua&apos;,
+    hint: &apos;&apos;,
+    badge: &apos;Rest-pause&apos;, badgeClass: &apos;badge-rp&apos;,
+    kind: &apos;sequence&apos;,
+    steps: [
+      { n:&apos;①&apos;, label: repsA+(rirTxt?&apos; · &apos;+rirTxt.toLowerCase():&apos;&apos;), needsReps:true, needsWeight:true },
+      { n:&apos;②&apos;, label: &apos;Descanse &apos;+(t.restSec||15)+&apos; segundos&apos;, timer: t.restSec||15 },
+      { n:&apos;③&apos;, label: &apos;Continue — &apos;+contA, needsReps:true }
+    ]
+  };
+  if (type === &apos;back-off&apos;) return {
+    title: &apos;Série de alívio&apos;,
+    sub: repsA+&apos; · -&apos;+(t.dropPct||20)+&apos;% · &apos;+(t.restSec||30)+&apos;s&apos;,
+    hint: &apos;&apos;,
+    badge: &apos;Back-off&apos;, badgeClass: &apos;badge-bo&apos;,
+    kind: &apos;sequence&apos;,
+    steps: [
+      { n:&apos;①&apos;, label: repsA+(rirTxt?&apos; · &apos;+rirTxt.toLowerCase():&apos;&apos;), needsReps:true, needsWeight:true },
+      { n:&apos;②&apos;, label: &apos;Reduza &apos;+(t.dropPct||20)+&apos;% do peso&apos; },
+      { n:&apos;③&apos;, label: &apos;Descanse &apos;+(t.restSec||30)+&apos; segundos&apos;, timer: t.restSec||30 },
+      { n:&apos;④&apos;, label: &apos;Continue — &apos;+contA, needsReps:true }
+    ]
+  };
+  if (type === &apos;drop-set&apos;) return {
+    title: &apos;Série com redução de peso&apos;,
+    sub: repsA+&apos; · &apos;+(t.restSec||10)+&apos;s · -&apos;+(t.dropPct||20)+&apos;% · falha&apos;,
+    hint: &apos;&apos;,
+    badge: &apos;Drop set&apos;, badgeClass: &apos;badge-drop&apos;,
+    kind: &apos;sequence&apos;,
+    steps: [
+      { n:&apos;①&apos;, label: repsA+(rirTxt?&apos; · &apos;+rirTxt.toLowerCase():&apos;&apos;), needsReps:true, needsWeight:true },
+      { n:&apos;②&apos;, label: &apos;Descanse &apos;+(t.restSec||10)+&apos; segundos brevemente&apos;, timer: t.restSec||10 },
+      { n:&apos;③&apos;, label: &apos;Reduza &apos;+(t.dropPct||20)+&apos;% do peso&apos; },
+      { n:&apos;④&apos;, label: &apos;Vá até a falha — registre o total&apos;, needsReps:true }
+    ]
+  };
+  return { title:&apos;Série&apos;, sub: block.meta||&apos;&apos;, hint:&apos;&apos;, badge:&apos;Série&apos;, badgeClass:&apos;badge-main&apos;, kind:&apos;series&apos;, series:1 };
+}
+
+Critério de conclusão: Testar no console: techniqueTranslator({tecnica:&apos;cluster&apos;, meta:&apos;1x4+4+4 (15 seg entre)&apos;}) retorna objeto com title, hint e miniBlocks corretos.
+
+Fase 3 — Tela do aluno: máquina de estados
+Esta é a fase mais crítica. Substituir a lógica de renderização de screen-exercicio preservando salvarRegistro() intacto.
+
+3.1 Estado global — adicionar junto às variáveis globais existentes
+// Estado da tela do aluno — novo
+let alunoState = {
+  blockIdx: 0,           // bloco ativo atual
+  blocksDone: [],        // array de booleanos por bloco
+  seriesDone: {},        // { &apos;bi_si&apos;: true }
+  seriesData: {},        // { &apos;bi_si&apos;: { weight, reps } }
+  seqStep: {},           // { bi: stepIndex } para sequence
+  seqData: {},           // { &apos;bi_si_w&apos;: val, &apos;bi_si_r&apos;: val }
+  timerActive: false,
+  timerInterval: null,
+};
+
+3.2 Função principal — substituir renderSeriesInputs()
+NÃO apagar renderSeriesInputs(). Renomear para renderSeriesInputs_legacy() e criar a nova ao lado.
+function renderSeriesInputs(ex) {
+  // Inicializar estado
+  const blocos = normalizarExercicio(ex);
+  alunoState = { blockIdx:0, blocksDone: blocos.map(()=>false),
+    seriesDone:{}, seriesData:{}, seqStep:{}, seqData:{},
+    timerActive:false, timerInterval:null };
+
+  renderAlunoTela(ex, blocos);
+}
+
+3.3 renderAlunoTela(ex, blocos)
+Renderiza a estrutura completa da tela: progress track + todos os blocos em seus estados corretos.
+function renderAlunoTela(ex, blocos) {
+  const container = $(&apos;series-container&apos;); // id existente ou criar
+  container.innerHTML = &apos;&apos;;
+  // Progress track
+  if (blocos.length > 1) {
+    container.innerHTML += buildProgressTrackHTML(blocos.length, alunoState.blockIdx, alunoState.blocksDone);
+  }
+  // Blocos
+  blocos.forEach((bloco, bi) => {
+    const translation = techniqueTranslator(bloco);
+    const status = alunoState.blocksDone[bi] ? &apos;done&apos;
+      : bi === alunoState.blockIdx ? &apos;active&apos; : &apos;upcoming&apos;;
+    container.innerHTML += buildBlocoHTML(ex, bloco, bi, blocos.length, translation, status);
+  });
+  updateMainBtn(ex, blocos);
+}
+
+Critério de conclusão: Ao abrir um exercício, a tela mostra apenas o bloco 0 expandido. Blocos 1+ aparecem como preview. O estado visual é idêntico ao protótipo.
+
+
+Fase 4 — RestTimer fullscreen
+Substituir o timer inline (banner pequeno) pelo overlay fullscreen do protótipo.
+
+4.1 HTML do timer — adicionar ao final do screen-exercicio
+<div id=&apos;rest-timer-overlay&apos; class=&apos;rest-timer-ov&apos; style=&apos;display:none&apos;>
+  <div class=&apos;rest-timer-label&apos;>Descanso</div>
+  <svg width=&apos;140&apos; height=&apos;140&apos; viewBox=&apos;0 0 140 140&apos;>
+    <circle cx=&apos;70&apos; cy=&apos;70&apos; r=&apos;52&apos; fill=&apos;none&apos; stroke=&apos;rgba(255,255,255,.08)&apos; stroke-width=&apos;4&apos;/>
+    <circle id=&apos;rest-timer-circle&apos; cx=&apos;70&apos; cy=&apos;70&apos; r=&apos;52&apos; fill=&apos;none&apos;
+      stroke=&apos;var(--accent)&apos; stroke-width=&apos;4&apos; stroke-dasharray=&apos;326.7&apos;
+      stroke-dashoffset=&apos;0&apos; stroke-linecap=&apos;round&apos; transform=&apos;rotate(-90 70 70)&apos;
+      style=&apos;transition:stroke-dashoffset .9s linear&apos;/>
+  </svg>
+  <div class=&apos;rest-timer-num&apos; id=&apos;rest-timer-num&apos;>90</div>
+  <div class=&apos;rest-timer-sub&apos;>segundos de descanso</div>
+  <button class=&apos;rest-timer-skip&apos; onclick=&apos;pularRestTimer()&apos;>Pular descanso</button>
+</div>
+
+4.2 Nova função startRestTimer(secs, onComplete)
+Adicionar ao JS. A função iniciarTimer() existente continua funcionando para usos legados.
+let restTimerRAF = null;
+let restTimerStart = null;
+let restTimerCallback = null;
+function startRestTimer(secs, onComplete) {
+  restTimerCallback = onComplete;
+  restTimerStart = Date.now();
+  $(&apos;rest-timer-num&apos;).textContent = secs;
+  $(&apos;rest-timer-overlay&apos;).style.display = &apos;flex&apos;;
+  function tick() {
+    const elapsed = Math.floor((Date.now()-restTimerStart)/1000);
+    const rem = Math.max(0, secs-elapsed);
+    $(&apos;rest-timer-num&apos;).textContent = rem;
+    $(&apos;rest-timer-circle&apos;).style.strokeDashoffset = (326.7*elapsed/secs).toFixed(1);
+    if (rem <= 0) {
+      $(&apos;rest-timer-overlay&apos;).style.display = &apos;none&apos;;
+      if (navigator.vibrate) navigator.vibrate(200);
+      setTimeout(() => { if(restTimerCallback) restTimerCallback(); }, 300);
+      return;
+    }
+    restTimerRAF = requestAnimationFrame(tick);
+  }
+  restTimerRAF = requestAnimationFrame(tick);
+}
+function pularRestTimer() {
+  if(restTimerRAF) cancelAnimationFrame(restTimerRAF);
+  $(&apos;rest-timer-overlay&apos;).style.display = &apos;none&apos;;
+  if(restTimerCallback) restTimerCallback();
+  restTimerCallback = null;
+}
+
+Critério de conclusão: Ao finalizar uma série, o overlay fullscreen aparece com countdown animado. &apos;Pular descanso&apos; avança imediatamente. App continua salvando normalmente.
+
+Fase 5 — Visual do protótipo na tela do aluno
+Aplicar os estilos do protótipo aos novos componentes. Os estilos existentes não são removidos ainda.
+
+CSS a adicionar (após os estilos existentes)
+Block cards:
+.bcard-v2 { background:#181818; border-radius:16px; border:0.5px solid var(--border-subtle); overflow:hidden; transition:opacity .3s; }
+.bcard-v2.done { opacity: var(--card-done-opacity); }
+.bcard-v2.upcoming { opacity: var(--card-upcoming-opacity); }
+.bcard-v2-head { padding:14px 16px 12px; display:flex; align-items:flex-start; justify-content:space-between; }
+.bcard-v2-step { font-size:11px; color:rgba(255,255,255,.25); letter-spacing:.08em; text-transform:uppercase; margin-bottom:4px; }
+.bcard-v2-title { font-size:18px; font-weight:500; line-height:1.25; }
+.bcard-v2-sub { font-size:13px; color:rgba(255,255,255,.4); margin-top:3px; }
+
+Hint boxes:
+.hint-v2 { margin:0 16px 12px; padding:10px 12px; border-radius:0 8px 8px 0; }
+.hint-v2 p { font-size:12px; color:rgba(255,255,255,.5); line-height:1.5; }
+.hint-v2.prep { background:var(--hint-warm-bg); border-left:2px solid var(--hint-warm-border); }
+.hint-v2.main { background:var(--hint-main-bg); border-left:2px solid var(--hint-main-border); }
+.hint-v2.cluster { background:var(--hint-cluster-bg); border-left:2px solid var(--hint-cluster-border); }
+
+Rest timer overlay:
+.rest-timer-ov { position:fixed; inset:0; background:rgba(13,13,13,.97); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:9000; }
+.rest-timer-label { font-size:13px; color:rgba(255,255,255,.4); letter-spacing:.08em; text-transform:uppercase; margin-bottom:24px; }
+.rest-timer-num { font-size:72px; font-weight:500; letter-spacing:-2px; line-height:1; margin-top:-16px; }
+.rest-timer-sub { font-size:13px; color:rgba(255,255,255,.3); margin-top:8px; }
+.rest-timer-skip { margin-top:36px; font-size:13px; color:rgba(255,255,255,.3); padding:8px 24px; border:0.5px solid rgba(255,255,255,.1); border-radius:20px; background:transparent; cursor:pointer; font-family:inherit; }
+
+Action bar dinâmica:
+.action-bar-v2 { position:sticky; bottom:0; padding:12px 20px 24px; border-top:0.5px solid var(--border-subtle); background:var(--bg); z-index:100; }
+.action-btn-v2 { width:100%; padding:15px; border-radius:12px; border:none; background:var(--accent); color:#0d0d0d; font-size:15px; font-weight:500; cursor:pointer; font-family:inherit; transition:transform .15s,opacity .2s; }
+.action-btn-v2:active { transform:scale(.98); }
+.action-btn-v2.disabled { opacity:.3; pointer-events:none; }
+
+Critério de conclusão: Visual da tela de exercício bate com o protótipo aprovado. salvarRegistro() continua funcionando sem alterações.
+
+Fase 6 — Painel professor: novo card com parser
+Substituir criarCardExercicio() pelo novo card com parser ao vivo. Manter toda a lógica de save/load do Firestore.
+
+6.1 O que manter intacto
+abrirProfTreino() — carregamento de dados
+saveEditorToFirestore() / salvarEditor() — persistência
+carregarBanco() — banco de exercícios
+editorExercicios array — estrutura de dados
+garantirBlocosEditor() — normalização
+
+6.2 O que substituir
+criarCardExercicio(i) → criarCardExercicioV2(i)
+htmlBlocosEditor(ex) → htmlBlocosEditorV2(ex) com parser ao vivo
+pillsHtmlBloco(b) → substituído por type-pills do novo protótipo
+
+6.3 Novo modelo de dados de bloco
+O bloco do editor precisa de um campo &apos;notation&apos; para o parser ao vivo, mantendo compatibilidade com &apos;meta&apos;:
+// Bloco novo — adicionar &apos;notation&apos; como alias de &apos;meta&apos;
+// Ao salvar: notation → meta (compatibilidade com salvarRegistro)
+// Ao carregar: meta → notation
+function blocoParaEditor(b) {
+  return { ...b, notation: b.meta || &apos;&apos;, bisetWith: b.bisetWith || null };
+}
+function editorParaBloco(b) {
+  return { ...b, meta: b.notation || b.meta || &apos;&apos; };
+}
+
+6.4 Campo de observação por exercício
+Adicionar dentro da seção &apos;Vídeo, substitutos e mais&apos;, após o campo de vídeo:
+<div class=&apos;field&apos;>
+  <label>Observações para o aluno</label>
+  <textarea class=&apos;inp inp-sm&apos; data-field=&apos;obs&apos;
+    placeholder=&apos;Orientações, dicas de execução...&apos;
+    rows=&apos;3&apos;>function esc_placeholder() { return &apos;&apos;; }</textarea>
+</div>
+
+Critério de conclusão: Professor consegue criar/editar treino com o novo card. Parser mostra feedback ao vivo. Dados salvam e carregam corretamente no Firestore. Campo de observação persiste.
+
+Fase 7 — Bi-set
+Implementar vinculação de bi-set entre exercícios. Requer campo novo no Firestore.
+
+7.1 Modelo de dados
+// Campo novo no exercício
+exercicio.bisetWith = &apos;nome-do-exercicio-par&apos; | null
+Os dois exercícios vinculados apontam um para o outro. Se um é removido, o outro perde a referência.
+
+7.2 UI do professor
+Botão de corrente em cada card. Clicar ativa modo de vinculação. Clicar em outro card vincula os dois. Badge &apos;Bi-set · clique para desvincular&apos; aparece entre os cards vinculados. Ver protótipo painel professor para referência visual completa.
+
+7.3 Impacto na tela do aluno
+Quando um exercício tem bisetWith preenchido, após concluir cada série o aluno vê:
+Timer de descanso substituído por aviso: &apos;Agora: faça [nome do exercício par]&apos;
+Ao voltar do exercício par, o timer de descanso restante inicia
+O fluxo alterna entre os dois exercícios vinculados
+
+Critério de conclusão: Professor consegue vincular dois exercícios. Badge aparece entre os cards. Na tela do aluno, o aviso de bi-set aparece no lugar do timer de descanso padrão.
+
+Fase 8 — Limpeza
+Somente após todas as fases anteriores estarem funcionando e testadas.
+
+Funções a remover (após confirmar _legacy não é mais chamada)
+renderSeriesInputs_legacy()
+applyAlunoGuidedBlockUI()
+syncAlunoGuidedChrome()
+snapshotBlocoInputValues() / restoreBlocoInputValues()
+rebuildActiveBlocoInputs()
+
+Classes CSS a remover
+.bloco-aluno-wrap--guided-* (todas as variações)
+.aluno-blocos-progress__seg--* (substituídas por .prog-seg-v2)
+.bloco-aluno-wrap--guided-multi e variações
+
+Separação em arquivos (após limpeza)
+styles.css — todo o CSS extraído
+firebase.js — config + init
+aluno.js — tela do aluno
+professor.js — painel do professor
+parser.js — extractTokens + techniqueTranslator
+utils.js — helpers gerais
+
+Critério de conclusão: index.html abaixo de 800 linhas. App funciona identicamente. Nenhuma regressão.
+
+4. Regras para o Cursor
+O que o Cursor NUNCA deve fazer
+Apagar salvarRegistro() ou qualquer função listada na seção 1.2
+Reescrever a lógica de Firebase — apenas adicionar chamadas novas
+Migrar para React, Vue ou qualquer framework
+Mexer em screen-login, screen-home, screen-prof (fora do escopo desta migração)
+Fazer mais de uma fase por vez
+Remover CSS existente sem primeiro confirmar que o novo CSS funciona
+Alterar o schema do Firestore — apenas adicionar campos opcionais
+
+Como o Cursor deve trabalhar
+Ler o código existente antes de escrever qualquer linha
+Sempre adicionar ao lado do existente, nunca substituir diretamente
+Renomear função antiga para _legacy antes de criar a nova
+Testar cada fase antes de começar a próxima
+Confirmar com o usuário antes de remover qualquer função
+Usar os tokens CSS novos (--card-active, --hint-warm-bg, etc.) em vez de hardcoding
+
+Contexto dos protótipos
+O Cursor tem acesso a dois artefatos de referência gerados nesta conversa:
+Código do protótipo do aluno (zip) — referência de comportamento: máquina de estados, timers, cluster input, action bar dinâmica
+Protótipo do painel do professor (widget interativo) — referência visual e de parser ao vivo
+
+Instrução para passar ao Cursor:
+"Tenho um arquivo de referência de comportamento em /referencia/.
+Leia o README.md primeiro. Implemente as fases descritas na spec
+de migração. Preserve todas as funções listadas como &apos;manter intacto&apos;.
+Faça uma fase por vez e aguarde confirmação antes de avançar."
+
+5. Mapa de dependências críticas
+Antes de tocar em qualquer função, verificar quem a chama:
+
+Função
+Chamada por
+Chama
+Pode alterar?
+salvarRegistro()
+onclick btn-salvar-fixo
+normalizarExercicio, interpretarPrescricao, addDoc (Firebase)
+NÃO
+carregarHistoricoEx()
+abrirExercicio, onchange academia-selector
+getDocs (Firebase), replicarPeso
+NÃO
+normalizarExercicio(ex)
+salvarRegistro, abrirExercicio, renderListaEx, renderTodosExercicios
+—
+NÃO
+interpretarPrescricao(meta)
+normalizarExercicio, salvarRegistro, renderNormal, renderCluster
+—
+NÃO — apenas adicionar parseNotacao() ao lado
+iniciarTimer()
+finalizarSerie, finalizarBloco, iniciarRestPause
+setInterval
+Manter. Adicionar startRestTimer() separado
+replicarPeso()
+oninput em campos de peso, carregarHistoricoEx
+getElementById
+NÃO
+alunoCopyBloco()
+abrirExercicio, renderBlocoAlunoInputsInner
+—
+Expandir. Não remover.
+renderSeriesInputs(ex)
+abrirExercicio
+renderNormal, renderCluster, renderRestPause, renderBackOff
+Renomear para _legacy. Criar nova versão.
+goTo(tela)
+Em todo o app
+classList.add/remove active, syncAlunoGuidedChrome
+Remover syncAlunoGuidedChrome após fase 3
+
+
+Pacote de migração gerado com base na análise do index.html e protótipos aprovados
