@@ -2734,8 +2734,6 @@ function criarCardExercicio(i){
   const card=document.createElement('div');card.className='ex-editor-card prof-ex-card'+(isOpen?'':' prof-ex-card--collapsed');card.id='ec'+i;
   const bodyId='ec-body-'+i;
   const chevId='ec-chev-'+i;
-  const grupoOpts=GRUPOS.map(g=>'<option value="'+esc(g)+'">'+esc(g)+'</option>').join('');
-  const g=ex.grupos||{};
   const bancoOptsHtml=bancoDB.map(b=>'<option value="'+esc(b.nome)+'" '+(b.nome===ex.nome?'selected':'')+'>'+esc(b.nome)+'</option>').join('');
   const bancoAddOpt='<option value="'+esc(BANCO_ADD_SENTINEL)+'">+ Adicionar novo exerc\xEDcio</option>';
   card.innerHTML='<div class="ex-acc-header"><div class="ex-acc-num">'+(i+1)+'</div><div class="ex-acc-info"><div class="ex-acc-nome-row"><span class="ex-acc-nome" id="lbl'+i+'">'+esc(ex.nome||'Novo exerc\xEDcio')+'</span><span class="prof-acc-nome-suf" id="lblsuf'+i+'"></span></div><div class="ex-acc-tipo" id="lbltipo'+i+'">'+esc(resumoTipoTecnica(ex))+'</div><div class="ex-acc-meta" id="lblmeta'+i+'"></div></div><div class="ex-editor-card-toolbar"><button type="button" class="btn-ghost" data-action="up" title="Mover para cima">\u2191</button><button type="button" class="btn-ghost" data-action="down" title="Mover para baixo">\u2193</button><button type="button" class="btn-ghost" data-action="del" style="color:var(--danger);" title="Remover exerc\xEDcio">\u2715</button></div><div class="ex-acc-chev" id="'+chevId+'" style="transform:'+(isOpen?'rotate(180deg)':'none')+';" title="Expandir ou recolher">▾</div></div>'
@@ -2749,7 +2747,6 @@ function criarCardExercicio(i){
     +'<div class="field"><label>Imagem (URL, opcional)</label><input class="inp" type="url" data-field="imagem" value="'+esc(ex.imagem||'')+'" placeholder="https://..."></div>'
     +'<div class="sub-section"><div class="sub-section-label">Substitutos</div><div class="subst-list" id="sl'+i+'"></div><button type="button" class="btn-ghost btn-sm mt-8" data-action="add-subst">+ Incluir substituto</button></div>'
     +'</div>'
-    +'<div class="field"><label>Grupos musculares (volume)</label><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;"><div><div style="font-size:11px;color:var(--accent);margin-bottom:4px;font-weight:600;">Principal</div><select class="inp inp-sm" data-field="gp"><option value="">\u2014</option>'+grupoOpts+'</select></div><div><div style="font-size:11px;color:var(--info);margin-bottom:4px;font-weight:600;">Secund\xE1rio</div><select class="inp inp-sm" data-field="gs"><option value="">\u2014</option>'+grupoOpts+'</select></div><div><div style="font-size:11px;color:var(--warn);margin-bottom:4px;font-weight:600;">Terci\xE1rio</div><select class="inp inp-sm" data-field="gt"><option value="">\u2014</option>'+grupoOpts+'</select></div></div></div>'
     +'</div></div>';
 
   const header=card.querySelector('.ex-acc-header');
@@ -2759,11 +2756,6 @@ function criarCardExercicio(i){
     editorExpandedIdx=editorExpandedIdx===i?null:i;
     renderTodosExercicios();
   });
-
-  // Preencher grupos
-  if(g.principal){card.querySelector('[data-field="gp"]').value=g.principal;}
-  if(g.secundario){card.querySelector('[data-field="gs"]').value=g.secundario;}
-  if(g.terciario){card.querySelector('[data-field="gt"]').value=g.terciario;}
 
   // Substitutos existentes
   (ex.substitutos||[]).forEach((_,si)=>criarCardSubst(card,i,si));
@@ -2814,14 +2806,7 @@ function criarCardExercicio(i){
       const lbl=$('lbl'+i);if(lbl)lbl.textContent=b.nome;
       if(b.youtube)card.querySelector('[data-field="youtube"]').value=b.youtube;
       if(b.imagem)card.querySelector('[data-field="imagem"]').value=b.imagem;
-      const gpEl=card.querySelector('[data-field="gp"]');
-      const gsEl=card.querySelector('[data-field="gs"]');
-      if(gpEl)gpEl.value=editorExercicios[i].grupos.principal||'';
-      if(gsEl)gsEl.value=editorExercicios[i].grupos.secundario||'';
     }
-    else if(f==='gp'){editorExercicios[i].grupos=editorExercicios[i].grupos||{};editorExercicios[i].grupos.principal=e.target.value;}
-    else if(f==='gs'){editorExercicios[i].grupos=editorExercicios[i].grupos||{};editorExercicios[i].grupos.secundario=e.target.value;}
-    else if(f==='gt'){editorExercicios[i].grupos=editorExercicios[i].grupos||{};editorExercicios[i].grupos.terciario=e.target.value;}
   });
   card.addEventListener('click',e=>{
     const btn=e.target.closest('[data-action]');
@@ -2901,7 +2886,7 @@ function criarCardSubst(parentCard,i,si){
 }
 
 window.addExercicioEditor=()=>{
-  editorExercicios.push({nome:'',tipo:'Work set',tecnica:'work',timerCustom:null,meta:'',youtube:'',imagem:'',obs:'',grupos:{principal:'',secundario:'',terciario:''},substitutos:[],blocos:[{tipo:'Work set',tecnica:'work',meta:'',obs:''}]});
+  editorExercicios.push({nome:'',tipo:'Work set',tecnica:'work',timerCustom:null,meta:'',youtube:'',imagem:'',obs:'',substitutos:[],blocos:[{tipo:'Work set',tecnica:'work',meta:'',obs:''}]});
   editorExpandedIdx=editorExercicios.length-1;
   renderTodosExercicios();
   setTimeout(()=>{const cards=$('ed-exercicios').querySelectorAll('.ex-editor-card');cards[cards.length-1]?.scrollIntoView({behavior:'smooth',block:'nearest'});},120);
