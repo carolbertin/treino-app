@@ -245,6 +245,77 @@ select.inp option{background:var(--bg3);}
 #screen-editor .prof-ex-details-toggle[aria-expanded="true"] .prof-ex-details-chev{transform:rotate(180deg);}
 #screen-editor .prof-ex-details{margin-top:4px;margin-bottom:4px;}
 #screen-editor .prof-ex-details.prof-ex-details--closed{display:none;}
+#screen-editor .prof-planilha-rotulo-atual{font-size:10px;color:var(--text2);margin-bottom:6px;line-height:1.35;word-break:break-word;}
+#screen-editor .prof-blocos-sec{margin-top:4px;}
+#screen-editor .prof-blocos-sec-title{
+  font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);
+  margin:0 0 6px 2px;padding:0;
+}
+#screen-editor .prof-blocos-panel{
+  border:1px solid var(--border-subtle);border-radius:var(--rsm);background:rgba(255,255,255,.02);padding:8px 8px 10px;
+}
+#screen-editor .prof-blocos-list{display:flex;flex-direction:column;gap:8px;margin-top:0;}
+#screen-editor .prof-bloco-editor{
+  border:1px solid var(--border-subtle);border-radius:12px;overflow:hidden;background:var(--bg2);
+  box-shadow:0 2px 10px rgba(0,0,0,.14);border-left:3px solid rgba(140,140,140,.4);
+}
+#screen-editor .prof-bloco-editor[data-bloco-tecnica="normal"]{border-left-color:rgba(200,200,200,.45);}
+#screen-editor .prof-bloco-editor[data-bloco-tecnica="feeder"]{border-left-color:rgba(239,159,39,.75);}
+#screen-editor .prof-bloco-editor[data-bloco-tecnica="work"]{border-left-color:rgba(96,168,240,.75);}
+#screen-editor .prof-bloco-editor[data-bloco-tecnica="cluster"]{border-left-color:rgba(93,202,165,.8);}
+#screen-editor .prof-bloco-editor[data-bloco-tecnica="rest-pause"]{border-left-color:rgba(175,169,236,.85);}
+#screen-editor .prof-bloco-editor[data-bloco-tecnica="back-off"]{border-left-color:rgba(240,153,123,.85);}
+#screen-editor .prof-bloco-editor[data-bloco-tecnica="drop"]{border-left-color:rgba(151,196,89,.85);}
+#screen-editor .prof-bloco-editor[data-bloco-tecnica="bilateral"]{border-left-color:rgba(120,160,220,.8);}
+#screen-editor .prof-bloco-head{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 8px;
+  background:var(--bg3);border-bottom:1px solid var(--border-subtle);
+}
+#screen-editor .prof-bloco-head-meta{
+  flex:1;min-width:0;display:flex;align-items:baseline;gap:5px;flex-wrap:nowrap;font-size:11px;line-height:1.25;
+}
+#screen-editor .prof-bloco-head-num{font-weight:600;color:var(--text);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.02em;flex-shrink:0;}
+#screen-editor .prof-bloco-head-sep{color:var(--text3);font-weight:500;flex-shrink:0;opacity:.65;}
+#screen-editor .prof-bloco-head-ex{font-size:10px;font-weight:500;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+#screen-editor .prof-bloco-toolbar{display:flex;gap:2px;flex-shrink:0;}
+#screen-editor .prof-bloco-toolbar .btn-ghost{min-width:30px;min-height:30px;padding:0 6px;font-size:13px;border-radius:8px;border:1px solid var(--border-subtle);background:rgba(0,0,0,.12);}
+#screen-editor .prof-bloco-toolbar .btn-ghost:hover:not(:disabled){border-color:rgba(200,240,96,.25);color:var(--accent);}
+#screen-editor .prof-bloco-toolbar .btn-ghost:disabled{opacity:.32;cursor:not-allowed;}
+#screen-editor .prof-bloco-body{padding-bottom:0;}
+#screen-editor .prof-bloco-stack{padding:6px 8px 2px;}
+#screen-editor .prof-bloco-notation{padding:2px 8px 4px;}
+#screen-editor .prof-bloco-notation .inp.prof-meta-inp{font-family:'DM Mono',monospace;font-size:13px;padding:7px 9px;border-radius:7px;}
+#screen-editor .prof-bloco-preview-wrap{padding:2px 8px 4px;}
+#screen-editor .prof-bloco-preview-wrap .prof-meta-preview{margin-top:0;border-radius:6px;font-size:11px;line-height:1.35;}
+#screen-editor .prof-bloco-preview-wrap .prof-meta-preview-sec{padding:6px 8px;}
+#screen-editor .prof-bloco-preview-wrap .prof-meta-preview-sec--aluno{padding-top:6px;}
+#screen-editor .prof-bloco-preview-wrap .prof-meta-preview-tag{
+  font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:3px;
+}
+#screen-editor .prof-bloco-preview-wrap .prof-meta-preview-tag--aluno{font-size:9px;letter-spacing:.1em;margin-bottom:3px;}
+#screen-editor .prof-bloco-preview-wrap .prof-meta-preview-interpreted{font-size:11px;font-weight:600;line-height:1.35;}
+#screen-editor .prof-bloco-preview-wrap .prof-meta-preview-aluno-head{font-size:13px;font-weight:700;margin-bottom:4px;line-height:1.2;}
+#screen-editor .prof-bloco-preview-wrap .prof-meta-preview-steps li{font-size:11px;padding:2px 0;line-height:1.35;}
+#screen-editor .prof-bloco-preview-wrap .prof-meta-preview-step-n{font-size:10px;}
+#screen-editor .prof-bloco-preview-wrap .prof-meta-preview-sub{font-size:11px;}
+#screen-editor .prof-bloco-preview-wrap .prof-meta-preview-hint{font-size:10px;margin-top:4px;line-height:1.35;}
+#screen-editor .prof-bloco-preview-wrap .prof-meta-preview-format{font-size:9px;padding:5px 8px 6px;}
+#screen-editor .prof-bloco-mais{border-top:1px solid var(--border-subtle);margin-top:0;}
+#screen-editor .prof-bloco-mais > summary.prof-bloco-mais-sum{
+  list-style:none;cursor:pointer;font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text3);padding:5px 8px;user-select:none;display:flex;align-items:center;gap:4px;width:100%;
+}
+#screen-editor .prof-bloco-mais > summary.prof-bloco-mais-sum::-webkit-details-marker{display:none;}
+#screen-editor .prof-bloco-mais--aviso > summary.prof-bloco-mais-sum::after{
+  content:'';width:5px;height:5px;border-radius:50%;background:var(--warn);flex-shrink:0;opacity:.85;
+}
+#screen-editor .prof-bloco-mais[open] > summary.prof-bloco-mais-sum{color:var(--text2);}
+#screen-editor .prof-bloco-mais-in{padding:0 8px 8px;}
+#screen-editor .prof-bloco-mais-hint{margin:0 0 6px;line-height:1.35;color:var(--text3);font-size:10px;}
+#screen-editor .prof-bloco-mais-btn{margin-top:2px;font-size:10px;padding:4px 8px;}
+#screen-editor .prof-bloco-obs{padding:6px 8px 0;border-top:1px solid var(--border-subtle);margin-top:2px;}
+#screen-editor .prof-bloco-obs textarea.inp{min-height:48px;font-size:12px;line-height:1.45;border-radius:7px;padding:7px 9px;}
+#screen-editor .prof-bloco-editor .tecnica-pills{padding:2px 0 0;}
 @media (prefers-reduced-motion: reduce){
   #screen-editor .ex-editor-card.prof-ex-card{transition:none;}
 }
@@ -803,17 +874,40 @@ function garantirBlocosEditor(ex){
     ex.blocos=[{tipo:ex.tipo||'Work set',tecnica:ex.tecnica||'work',meta:ex.meta||'',obs:ex.obs||''}];
   }
 }
-function pillsHtmlBloco(b){
-  const atual=((b.tipo||'')+'').trim();
-  const lista=tiposSerie.slice();
-  if(atual&&!lista.includes(atual))lista.push(atual);
-  return lista.map(t=>'<button type="button" class="tipo-pill'+(b.tipo===t?' active':'')+'" data-tipo="'+esc(t)+'">'+esc(t)+'</button>').join('')+'<button type="button" class="tipo-pill" data-custom="1" style="border-style:dashed;">+ outro</button>';
+/** `bloco.tipo` canónico da planilha; derivado de `tecnica` ao mudar a pill (mesmos campos no payload). */
+function tipoCanonicoParaTecnica(tecnicaRaw){
+  let t=((tecnicaRaw||'')+'').trim();
+  if(t==='drop-set')t='drop';
+  const map={normal:'Work set',feeder:'Feeder set',work:'Work set',cluster:'Work set - cluster set','rest-pause':'Rest-pause','back-off':'Back-off set',drop:'Drop set',bilateral:'Entre lados'};
+  return map[t]||'Work set';
+}
+function blocoTipoDesviaDoCanonico(b){
+  const cur=((b&&b.tipo)||'').trim();
+  if(!cur)return false;
+  return cur!==tipoCanonicoParaTecnica(b&&b.tecnica);
+}
+function profBlocoTecnicaDataset(b){
+  let raw=((b&&b.tecnica)||'').trim();
+  if(raw==='drop-set')raw='drop';
+  return TECNICAS.some(t=>t.val===raw)?raw:'work';
+}
+function htmlProfRotuloPlanilhaAux(b,bi){
+  const devia=blocoTipoDesviaDoCanonico(b);
+  const extra=devia?'<div class="prof-planilha-rotulo-atual">Nome extra: '+esc(b.tipo)+'</div>':'';
+  return'<details class="prof-bloco-mais'+(devia?' prof-bloco-mais--aviso':'')+'">'
+    +'<summary class="prof-bloco-mais-sum"><span>Avan\xE7ado</span></summary>'
+    +'<div class="prof-bloco-mais-in">'
+      +'<p class="prof-bloco-mais-hint">Opcional: texto extra na exporta\xE7\xE3o/planilha. N\xE3o altera timer nem o que o aluno v\xEA.</p>'
+      +extra
+      +'<button type="button" class="btn-ghost btn-sm prof-bloco-mais-btn" data-action="tipo-custom-bloco" data-bi="'+bi+'">Editar r\xF3tulo extra</button>'
+    +'</div>'
+  +'</details>';
 }
 function htmlTecnicaPills(b,bi){
   let raw=((b&&b.tecnica)||'').trim();
   if(raw==='drop-set')raw='drop';
   const cur=TECNICAS.some(t=>t.val===raw)?raw:'work';
-  return'<div class="tecnica-pills" data-bi-tecnica="'+bi+'">'
+  return'<div class="tecnica-pills" data-bi-tecnica="'+bi+'" role="group" aria-label="Tipo de s\xE9rie do bloco">'
     +TECNICAS.map(t=>{
       const active=cur===t.val;
       return'<button type="button" class="tecnica-pill'+(active?' tecnica-pill--active':' inactive')+'" data-tecnica="'+esc(t.val)+'" data-action="set-tecnica" data-bi="'+bi+'">'+(active?'\u2713 ':'')+esc(t.label)+'</button>';
@@ -822,37 +916,57 @@ function htmlTecnicaPills(b,bi){
 }
 function htmlBlocosEditor(ex){
   const bl=ex.blocos;
-  return'<div class="sub-section"><div class="sub-section-label">Blocos prescritos</div>'
-    +bl.map((b,bi)=>'<div class="bloco-editor" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm);padding:12px;margin-bottom:10px;" data-bi="'+bi+'">'
-      +'<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;">'
-        +'<div class="text-sm fw-500" style="color:var(--text2);">Bloco '+(bi+1)+'</div>'
-        +'<div style="display:flex;gap:2px;flex-shrink:0;">'
-          +'<button type="button" class="btn-ghost" data-action="bloco-up" data-bi="'+bi+'"'+(bi===0?' disabled style="opacity:.35;"':'')+'>\u2191</button>'
-          +'<button type="button" class="btn-ghost" data-action="bloco-down" data-bi="'+bi+'"'+(bi===bl.length-1?' disabled style="opacity:.35;"':'')+'>\u2193</button>'
-          +'<button type="button" class="btn-ghost" data-action="bloco-del" data-bi="'+bi+'" style="color:var(--danger);">\u2715</button>'
+  const exNome=(((ex&&ex.nome)||'')+'').trim()||'Exercício';
+  return'<div class="prof-blocos-sec">'
+    +'<div class="prof-blocos-sec-title">Blocos prescritos</div>'
+    +'<div class="prof-blocos-panel">'
+    +'<div class="prof-blocos-list">'
+    +bl.map((b,bi)=>{
+      const tecDs=profBlocoTecnicaDataset(b);
+      return'<div class="bloco-editor prof-bloco-editor" data-bi="'+bi+'" data-bloco-tecnica="'+esc(tecDs)+'">'
+        +'<div class="prof-bloco-head">'
+          +'<div class="prof-bloco-head-meta" title="'+esc(exNome)+'">'
+            +'<span class="prof-bloco-head-num">Bloco '+(bi+1)+'</span>'
+            +'<span class="prof-bloco-head-sep">\u00b7</span>'
+            +'<span class="prof-bloco-head-ex">'+esc(exNome)+'</span>'
+          +'</div>'
+          +'<div class="prof-bloco-toolbar">'
+            +'<button type="button" class="btn-ghost" data-action="bloco-up" data-bi="'+bi+'"'+(bi===0?' disabled':'')+' title="Mover para cima">\u2191</button>'
+            +'<button type="button" class="btn-ghost" data-action="bloco-down" data-bi="'+bi+'"'+(bi===bl.length-1?' disabled':'')+' title="Mover para baixo">\u2193</button>'
+            +'<button type="button" class="btn-ghost" data-action="bloco-del" data-bi="'+bi+'" style="color:var(--danger);" title="Remover bloco">\u2715</button>'
+          +'</div>'
         +'</div>'
-      +'</div>'
-      +'<div class="field"><label>Tipo de s\xE9rie</label><div class="tipo-pills" data-bi-pills="'+bi+'">'+pillsHtmlBloco(b)+'</div></div>'
-      +'<div class="field"><label>T\xE9cnica de s\xE9rie</label>'+htmlTecnicaPills(b,bi)+'</div>'
-      +'<div class="field"><label>Prescri\xE7\xE3o (s\xE9ries x reps)</label><input class="inp prof-meta-inp" type="text" data-bfield="meta" data-bi="'+bi+'" value="'+esc(b.meta||'')+'" placeholder="'+esc(profMetaPlaceholderForTecnica(b.tecnica))+'"></div>'
-      +'<div class="prof-meta-preview prof-meta-preview--warn" data-prof-meta-preview data-bi="'+bi+'">'
-        +'<div class="prof-meta-preview-sec prof-meta-preview-sec--interp">'
-          +'<div class="prof-meta-preview-tag">Interpretado como</div>'
-          +'<div class="prof-meta-preview-interpreted" data-prof-meta-interpreted></div>'
+        +'<div class="prof-bloco-body">'
+          +'<div class="prof-bloco-stack">'+htmlTecnicaPills(b,bi)+'</div>'
+          +'<div class="prof-bloco-notation">'
+            +'<input class="inp prof-meta-inp" type="text" data-bfield="meta" data-bi="'+bi+'" value="'+esc(b.meta||'')+'" placeholder="'+esc(profMetaPlaceholderForTecnica(b.tecnica))+'" autocomplete="off" aria-label="Nota\xE7\xE3o da prescri\xE7\xE3o (s\xE9ries, reps, t\xE9cnica)">'
+          +'</div>'
+          +'<div class="prof-bloco-preview-wrap">'
+            +'<div class="prof-meta-preview prof-meta-preview--warn" data-prof-meta-preview data-bi="'+bi+'">'
+              +'<div class="prof-meta-preview-sec prof-meta-preview-sec--interp">'
+                +'<div class="prof-meta-preview-tag">Interpretado como</div>'
+                +'<div class="prof-meta-preview-interpreted" data-prof-meta-interpreted></div>'
+              +'</div>'
+              +'<div class="prof-meta-preview-sep" aria-hidden="true"></div>'
+              +'<div class="prof-meta-preview-sec prof-meta-preview-sec--aluno">'
+                +'<div class="prof-meta-preview-tag prof-meta-preview-tag--aluno">O aluno verá</div>'
+                +'<div class="prof-meta-preview-aluno-head" data-prof-meta-tt-title></div>'
+                +'<ul class="prof-meta-preview-steps" data-prof-meta-steps style="display:none;"></ul>'
+                +'<div class="prof-meta-preview-sub" data-prof-meta-tt-sub></div>'
+                +'<div class="prof-meta-preview-hint" data-prof-meta-tt-hint></div>'
+              +'</div>'
+              +'<div class="prof-meta-preview-format" data-prof-meta-format></div>'
+            +'</div>'
+          +'</div>'
+          +'<div class="prof-bloco-obs">'
+            +'<textarea class="inp" data-bfield="obs" data-bi="'+bi+'" placeholder="Nota ao aluno (opcional)\u2026" aria-label="Nota ao aluno (opcional)">'+esc(b.obs||'')+'</textarea>'
+          +'</div>'
+          +htmlProfRotuloPlanilhaAux(b,bi)
         +'</div>'
-        +'<div class="prof-meta-preview-sep" aria-hidden="true"></div>'
-        +'<div class="prof-meta-preview-sec prof-meta-preview-sec--aluno">'
-          +'<div class="prof-meta-preview-tag prof-meta-preview-tag--aluno">O aluno verá</div>'
-          +'<div class="prof-meta-preview-aluno-head" data-prof-meta-tt-title></div>'
-          +'<ul class="prof-meta-preview-steps" data-prof-meta-steps style="display:none;"></ul>'
-          +'<div class="prof-meta-preview-sub" data-prof-meta-tt-sub></div>'
-          +'<div class="prof-meta-preview-hint" data-prof-meta-tt-hint></div>'
-        +'</div>'
-        +'<div class="prof-meta-preview-format" data-prof-meta-format></div>'
-      +'</div>'
-      +'<div class="field" style="margin-bottom:0;"><label>Observa\xE7\xE3o do bloco (opcional)</label><textarea class="inp" data-bfield="obs" data-bi="'+bi+'" placeholder="Dica para esta etapa...">'+esc(b.obs||'')+'</textarea></div>'
-    +'</div>').join('')
-    +'<button type="button" class="btn-ghost btn-sm mt-8" data-action="add-bloco">+ Adicionar bloco</button></div>';
+      +'</div>';
+    }).join('')
+    +'</div>'
+    +'<button type="button" class="btn-ghost btn-sm mt-8" data-action="add-bloco">+ Adicionar bloco</button></div></div>';
 }
 const avatarEl=(user,fn)=>user.photoURL?'<img class="avatar" src="'+esc(user.photoURL)+'" onclick="'+fn+'" title="Sair">':'<div class="avatar-ph" onclick="'+fn+'">'+initials(user.displayName)+'</div>';
 
@@ -2462,6 +2576,7 @@ function aplicarTecnicaBloco(i,bi,val){
   const oldTecnica=exi.blocos[bi].tecnica||'work';
   const oldTimer=timerPadrao(oldTecnica);
   exi.blocos[bi].tecnica=val;
+  exi.blocos[bi].tipo=tipoCanonicoParaTecnica(val);
   syncParentDoPrimeiroBloco(exi);
   const lt=$('lbltipo'+i);if(lt)lt.textContent=resumoTipoTecnica(exi);
   renderLblMetaAccordion(i,exi);
@@ -2478,6 +2593,7 @@ function aplicarTecnicaBloco(i,bi,val){
         p.textContent=(on?'\u2713 ':'')+lab;
       });
       profAtualizarPreviewBloco(blocoEl);
+      if(blocoEl.dataset)blocoEl.dataset.blocoTecnica=val;
     }
     if(bi===0){
       const newTimer=timerPadrao(val);
@@ -2630,15 +2746,12 @@ function criarCardExercicio(i){
         const tx=tbtn.querySelector('.prof-ex-details-txt');
         if(tx)tx.textContent=isOpen?'Ocultar detalhes':'V\xEDdeo, observa\xE7\xF5es e substitutos';
       }
+      else if(a==='tipo-custom-bloco'){
+        const biC=parseInt(btn.dataset.bi,10);
+        if(isNaN(biC)||!editorExercicios[i].blocos||!editorExercicios[i].blocos[biC])return;
+        tipoCustomIdx=i;tipoCustomBlocoIdx=biC;$('tipo-custom-inp').value='';abrirModal('modal-tipo-custom');
+      }
       return;
-    }
-    const pill=e.target.closest('.tipo-pill');
-    const blocoEl=pill?e.target.closest('.bloco-editor'):null;
-    if(pill&&blocoEl){
-      const bi=parseInt(blocoEl.dataset.bi,10);
-      if(pill.dataset.custom){tipoCustomIdx=i;tipoCustomBlocoIdx=bi;$('tipo-custom-inp').value='';abrirModal('modal-tipo-custom');return;}
-      const tipo=pill.dataset.tipo;
-      if(tipo){editorExercicios[i].blocos[bi].tipo=tipo;blocoEl.querySelectorAll('.tipo-pill').forEach(p=>p.classList.toggle('active',p.dataset.tipo===tipo));syncParentDoPrimeiroBloco(editorExercicios[i]);const lt=$('lbltipo'+i);if(lt)lt.textContent=resumoTipoTecnica(editorExercicios[i]);renderLblMetaAccordion(i,editorExercicios[i]);}
     }
   });
   renderLblMetaAccordion(i,editorExercicios[i]);
