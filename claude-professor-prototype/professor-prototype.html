@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--
+  professor-prototype.html
+  =========================
+  HTML do painel do professor — referência visual e comportamental.
+  Abra este arquivo no browser para ver o protótipo interativo.
+
+  Este arquivo contém apenas o HTML estrutural (topo da página e containers).
+  Todo o CSS está em professor-prototype.css.
+  Todo o comportamento está em professor-prototype.js.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Painel Professor — Referência</title>
+
+  <!-- Fonte: DM Sans é a mesma do app real -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Ícones Tabler — mesmos do app real -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <link rel="stylesheet" href="professor-prototype.css">
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ── Topbar ─────────────────────────────────────────────────────
+    Sticky. Botão salvar usa cor accent.
+    No app real: adaptar para o padrão .topbar existente.
+  ── -->
+  <div class="topbar">
+    <div class="topbar-title">Lower 1 — Isa</div>
+    <button class="save-btn">Salvar</button>
+  </div>
+
+
+  <!-- ── Intervalos padrão ──────────────────────────────────────────
+    Ficam NO TOPO do treino, não dentro de cada exercício.
+    Mesmo padrão da planilha (cabeçalho da aba).
+    Três valores: feeder / work / entre lados.
+    No app real: esses valores já existem como campos do treino.
+  ── -->
+  <div class="section-label">Intervalos padrão do treino</div>
+
+  <div class="interval-row">
+    <span class="interval-label">
+      <i class="ti ti-clock" style="font-size:14px;vertical-align:-2px" aria-hidden="true"></i>
+      Feeder set
+    </span>
+    <input class="interval-input" type="number" value="90" min="0">
+    <span class="interval-unit">seg</span>
+  </div>
+
+  <div class="interval-row">
+    <span class="interval-label">
+      <i class="ti ti-clock" style="font-size:14px;vertical-align:-2px" aria-hidden="true"></i>
+      Work set
+    </span>
+    <input class="interval-input" type="number" value="120" min="0">
+    <span class="interval-unit">seg</span>
+  </div>
+
+  <div class="interval-row">
+    <span class="interval-label">
+      <i class="ti ti-clock" style="font-size:14px;vertical-align:-2px" aria-hidden="true"></i>
+      Entre lados
+    </span>
+    <input class="interval-input" type="number" value="45" min="0">
+    <span class="interval-unit">seg</span>
+  </div>
+
+
+  <!-- ── Lista de exercícios ────────────────────────────────────────
+    Renderizada dinamicamente por professor-prototype.js via render().
+    Cada .ex-group contém:
+      - .ex-card (exercício)
+      - .biset-bridge (se vinculado) + .ex-card do par
+    O .ex-group é fechado pelo JS após inserir a ponte bi-set.
+  ── -->
+  <div class="section-label">Exercícios</div>
+  <div class="ex-list" id="exList">
+    <!-- Preenchido por render() em professor-prototype.js -->
+  </div>
+
+  <!-- Botão adicionar exercício -->
+  <div style="padding:0 20px">
+    <button class="add-ex-btn" onclick="addEx()">
+      <i class="ti ti-plus" style="font-size:15px" aria-hidden="true"></i>
+      Adicionar exercício
+    </button>
+  </div>
+
+</div><!-- fim .page -->
+
+<script src="professor-prototype.js"></script>
+
+</body>
+</html>

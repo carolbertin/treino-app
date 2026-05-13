@@ -1,0 +1,741 @@
+/*
+  professor-prototype.css
+  ========================
+  Estilos do painel do professor — referência visual.
+
+  COMO LER ESTE ARQUIVO:
+  Cada seção tem um comentário explicando o PRINCÍPIO VISUAL por trás.
+  O Cursor deve replicar esses princípios no app real, não copiar as classes diretamente.
+  O app real usa variáveis CSS próprias (--bg, --bg2, --accent, etc.) — adaptar.
+
+  ÍNDICE:
+  1. Tokens e reset
+  2. Layout e topbar
+  3. Seção de intervalos
+  4. Card de exercício (colapsado)
+  5. Card de exercício (expandido)
+  6. Pills de tipo — CRÍTICO: nunca dropdown
+  7. Campo de notação e feedback ao vivo — CRÍTICO
+  8. Preview do parser (interpretado como / o aluno vê)
+  9. Seção de detalhes colapsados
+  10. Bi-set bridge
+  11. Banner de modo de vinculação
+*/
+
+/* ─── 1. TOKENS E RESET ──────────────────────────────────────────────── */
+/*
+  Tokens de cor do protótipo.
+  No app real, mapear para as variáveis existentes:
+    --bg-proto    → --bg  (#0f0f0f)
+    --bg2-proto   → --bg2 (#1a1a1a)
+    --bg3-proto   → --bg3 (#242424)
+    --accent-proto → --accent (#c8f060)
+*/
+:root {
+  /* Fundos */
+  --bg-proto:        #0f0f0f;
+  --bg2-proto:       #1a1a1a;
+  --bg3-proto:       #242424;
+
+  /* Bordas */
+  --border-proto:          rgba(255,255,255,0.10);
+  --border-subtle-proto:   rgba(255,255,255,0.06);
+  --border-focus-proto:    rgba(200,240,96,0.50);
+
+  /* Texto */
+  --text-proto:   #f0f0f0;
+  --text2-proto:  rgba(255,255,255,0.50);
+  --text3-proto:  rgba(255,255,255,0.25);
+
+  /* Accent */
+  --accent-proto:      #c8f060;
+  --accent-text-proto: #1a2e00;
+
+  /* ── Cores por técnica ── */
+  /* Cada técnica tem: background claro, borda colorida, texto escuro */
+  --feeder-bg:     #FAEEDA; --feeder-border: #EF9F27; --feeder-text: #633806;
+  --work-bg:       #E6F1FB; --work-border:   #85B7EB; --work-text:   #0C447C;
+  --cluster-bg:    #E1F5EE; --cluster-border:#5DCAA5; --cluster-text:#085041;
+  --rp-bg:         #EEEDFE; --rp-border:     #AFA9EC; --rp-text:     #3C3489;
+  --bo-bg:         #FAECE7; --bo-border:     #F0997B; --bo-text:     #712B13;
+  --drop-bg:       #EAF3DE; --drop-border:   #97C459; --drop-text:   #3B6D11;
+
+  /* ── Parser feedback ── */
+  --ok-bg:     #E1F5EE; --ok-border:  #9FE1CB; --ok-label:  #0F6E56;
+  --err-bg:    #FCEBEB; --err-border: #F7C1C1; --err-label: #A32D2D;
+
+  /* ── Bi-set ── */
+  --biset-color: #ED93B1;
+  --biset-text:  #993556;
+  --biset-bg:    #FBEAF0;
+  --biset-border:#ED93B1;
+
+  /* Raios */
+  --r-lg: 14px;
+  --r-md: 10px;
+  --r-sm: 8px;
+}
+
+*  { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg-proto);
+  color: var(--text-proto);
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+/* ─── 2. LAYOUT E TOPBAR ─────────────────────────────────────────────── */
+.page {
+  max-width: 440px;
+  margin: 0 auto;
+  padding-bottom: 80px;
+}
+
+/*
+  TOPBAR: sticky no topo.
+  Botão salvar usa a cor accent do app.
+*/
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px 12px;
+  border-bottom: 0.5px solid var(--border-subtle-proto);
+  background: var(--bg-proto);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topbar-title { font-size: 15px; font-weight: 500; }
+.save-btn {
+  background: var(--accent-proto);
+  color: var(--accent-text-proto);
+  border: none;
+  padding: 6px 16px;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity .15s;
+}
+.save-btn:hover { opacity: .85; }
+
+
+/* ─── 3. SEÇÃO DE INTERVALOS ─────────────────────────────────────────── */
+/*
+  Intervalos ficam NO TOPO do treino, não por exercício.
+  É o mesmo padrão da planilha do professor (cabeçalho da aba).
+  Três valores: feeder / work set / entre lados.
+*/
+.section-label {
+  font-size: 11px;
+  color: var(--text3-proto);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 16px 20px 6px;
+}
+
+.interval-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--bg2-proto);
+  border: 0.5px solid var(--border-subtle-proto);
+  border-radius: var(--r-md);
+  margin: 0 20px 6px;
+}
+.interval-label {
+  font-size: 12px;
+  color: var(--text2-proto);
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.interval-input {
+  width: 52px;
+  text-align: center;
+  font-size: 13px;
+  font-family: 'DM Mono', monospace;
+  background: var(--bg3-proto);
+  border: 0.5px solid var(--border-proto);
+  border-radius: var(--r-sm);
+  padding: 5px;
+  color: var(--text-proto);
+  outline: none;
+  transition: border-color .2s;
+}
+.interval-input:focus { border-color: var(--border-focus-proto); }
+.interval-unit { font-size: 11px; color: var(--text3-proto); }
+
+
+/* ─── 4. CARD DE EXERCÍCIO — LINHA COLAPSADA ─────────────────────────── */
+/*
+  PRINCÍPIO: cards colapsados por padrão.
+  O professor vê a lista compacta e expande só o que precisa editar.
+
+  HIERARQUIA VISUAL DO CARD:
+  [borda esquerda colorida] = identidade do exercício
+    [número circular]        = posição na lista
+    [nome + subtítulo]       = nome + resumo dos blocos
+    [ícone corrente]         = ativar bi-set
+    [chevron]                = expandir/colapsar
+
+  A borda esquerda e o número circular compartilham a MESMA cor da paleta.
+  Os blocos filhos herdam essa mesma cor na borda esquerda deles.
+  Isso cria o vínculo visual entre exercício e seus blocos.
+*/
+.ex-list {
+  padding: 12px 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ex-group: envolve o card E a ponte de bi-set (se houver) */
+.ex-group { display: flex; flex-direction: column; gap: 0; }
+
+.ex-card {
+  background: var(--bg2-proto);
+  border: 0.5px solid var(--border-subtle-proto);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  /* border-left-width e border-left-color definidos via JS (paleta) */
+  border-left-width: 3px;
+  border-left-style: solid;
+}
+
+.ex-collapsed {
+  padding: 11px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background .15s;
+  user-select: none;
+}
+.ex-collapsed:hover { background: var(--bg3-proto); }
+
+/* Número circular — cor definida via JS (paleta) */
+.ex-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ex-info { flex: 1; min-width: 0; }
+.ex-info-name {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*
+  SUBTÍTULO: resumo compacto dos blocos na linha colapsada.
+  Formato: "Feeder set · 2x10 (2RIR)   Work set · 2x6-9 (0RIR)   Back-off · 1x8..."
+  Atualiza ao vivo enquanto o professor digita a notação.
+*/
+.ex-info-sub {
+  font-size: 11px;
+  color: var(--text3-proto);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ex-actions {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* Botão de corrente: ativa modo de vinculação bi-set */
+.icon-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--r-sm);
+  border: 0.5px solid var(--border-subtle-proto);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text3-proto);
+  font-size: 16px;
+  transition: all .15s;
+}
+.icon-btn:hover { border-color: var(--border-proto); color: var(--text2-proto); }
+/* Estado ativo: quando este exercício aguarda vinculação */
+.icon-btn.link-active {
+  border-color: var(--biset-border);
+  color: var(--biset-text);
+  background: var(--biset-bg);
+}
+
+.ex-chevron {
+  color: var(--text3-proto);
+  font-size: 18px;
+  transition: transform .2s;
+  flex-shrink: 0;
+  margin-left: 2px;
+}
+.ex-chevron.open { transform: rotate(180deg); }
+
+
+/* ─── 5. CARD DE EXERCÍCIO — CORPO EXPANDIDO ─────────────────────────── */
+.ex-body {
+  border-top: 0.5px solid var(--border-subtle-proto);
+  padding: 14px 14px 10px;
+}
+
+.field-label {
+  font-size: 11px;
+  color: var(--text3-proto);
+  margin-bottom: 5px;
+  letter-spacing: .03em;
+}
+
+.field-input {
+  width: 100%;
+  font-size: 13px;
+  color: var(--text-proto);
+  background: var(--bg3-proto);
+  border: 0.5px solid var(--border-proto);
+  border-radius: var(--r-sm);
+  padding: 7px 10px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color .2s;
+}
+.field-input:focus { border-color: var(--border-focus-proto); }
+.field-input.mono { font-family: 'DM Mono', monospace; }
+
+textarea.field-input {
+  resize: vertical;
+  min-height: 64px;
+  line-height: 1.5;
+}
+
+.blocks-label {
+  font-size: 11px;
+  color: var(--text3-proto);
+  margin: 12px 0 6px;
+  letter-spacing: .03em;
+}
+.blocks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+/*
+  BLOCK CARD: card de bloco dentro de um exercício.
+
+  HERANÇA DE COR: border-left-color = mesma cor do exercício pai (via JS).
+  Isso confirma visualmente que "este bloco pertence a este exercício".
+
+  CABEÇALHO DO BLOCO: mostra "Bloco N · nome do exercício".
+  O nome repetido é intencional — se o professor scrollar e perder o
+  cabeçalho do exercício, o bloco ainda se identifica.
+*/
+.block-card {
+  border: 0.5px solid var(--border-subtle-proto);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border-left-width: 2px;
+  border-left-style: solid;
+  /* border-left-color = paleta do exercício pai, via JS */
+}
+
+.block-head {
+  padding: 7px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg3-proto);
+}
+.block-head-meta {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.block-head-num { font-size: 11px; font-weight: 500; }
+/* Nome do exercício repetido no cabeçalho do bloco — discreto */
+.block-head-exname { font-size: 10px; color: var(--text3-proto); }
+.block-del {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text3-proto);
+  font-size: 13px;
+  transition: color .15s;
+}
+.block-del:hover { color: #ff5555; }
+
+
+/* ─── 6. TYPE PILLS ──────────────────────────────────────────────────── */
+/*
+  !! CRÍTICO !!
+  Tipo de bloco = PILLS CLICÁVEIS HORIZONTAIS, não <select> dropdown.
+
+  COMPORTAMENTO:
+  - Pill ativo: cor da técnica (fundo colorido + borda + texto escuro)
+  - Pills inativos: opacity .25 (esmaecidos, mas visíveis)
+  - Clicar num pill inativo o ativa e desativa o anterior
+  - O pill ativo mostra ✓ antes do label
+
+  NUNCA usar <select> para tipo de bloco.
+  O select seria:
+    - Mais lento (click → abrir dropdown → selecionar → fechar)
+    - Sem indicação visual da cor da técnica
+    - Inconsistente com o padrão de interação do app
+*/
+.type-row {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  padding: 7px 10px 4px;
+}
+
+.type-pill {
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-weight: 500;
+  border: 0.5px solid;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity .15s;
+  background: transparent;
+}
+/* Pills inativos: esmaecidos */
+.type-pill.inactive { opacity: .25; }
+
+/* Cores por técnica */
+.type-pill.feeder    { color:var(--feeder-text);  border-color:var(--feeder-border);  background:var(--feeder-bg);  }
+.type-pill.work      { color:var(--work-text);    border-color:var(--work-border);    background:var(--work-bg);    }
+.type-pill.cluster   { color:var(--cluster-text); border-color:var(--cluster-border); background:var(--cluster-bg); }
+.type-pill.restpause { color:var(--rp-text);      border-color:var(--rp-border);      background:var(--rp-bg);      }
+.type-pill.backoff   { color:var(--bo-text);      border-color:var(--bo-border);      background:var(--bo-bg);      }
+.type-pill.dropset   { color:var(--drop-text);    border-color:var(--drop-border);    background:var(--drop-bg);    }
+
+
+/* ─── 7. CAMPO DE NOTAÇÃO ────────────────────────────────────────────── */
+/*
+  Campo de texto livre onde o professor digita no formato da planilha.
+  Ex: "2x10 (2RIR)", "1x4+4+4 (15 seg entre)", "1x8 (-30%, 40 seg) +99"
+
+  ESTADOS DO CAMPO:
+  - Vazio:   borda cinza padrão
+  - Válido:  borda verde + fundo verde muito sutil
+  - Inválido: borda vermelha + fundo vermelho muito sutil
+
+  A transição de cor acontece a cada keystroke (oninput).
+*/
+.notation-wrap {
+  padding: 5px 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.notation-inp {
+  width: 100%;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  padding: 7px 10px;
+  border-radius: var(--r-sm);
+  border: 0.5px solid var(--border-proto);
+  background: var(--bg3-proto);
+  color: var(--text-proto);
+  outline: none;
+  transition: border-color .2s, background .2s;
+}
+.notation-inp:focus { border-color: rgba(255,255,255,.25); }
+.notation-inp.ok    { border-color: #1D9E75; background: rgba(29,158,117,.08); }
+.notation-inp.err   { border-color: #E24B4A; background: rgba(226,75,74,.06);  }
+
+/* Hint em mono: mostra o formato esperado quando campo está vazio */
+.hint-txt {
+  font-size: 11px;
+  color: var(--text3-proto);
+  font-family: 'DM Mono', monospace;
+}
+
+
+/* ─── 8. PREVIEW DO PARSER ───────────────────────────────────────────── */
+/*
+  !! CRÍTICO !!
+  Este é o feedback central do painel do professor.
+
+  ESTRUTURA DO PREVIEW (quando reconhecido):
+  ┌─────────────────────────────────────────┐  ← .preview.ok
+  │ INTERPRETADO COMO          ← .preview-tag.ok (10px, uppercase, verde)
+  │ 2x10 (2 RIR)               ← .preview-interp (12px, bold, texto escuro)
+  │ ─────────────────────────────────────── │  ← borda do .preview-aluno-lbl
+  │ 👤 O aluno verá:           ← .preview-aluno-lbl (10px, verde)
+  │ Série de preparação · 10r  ← .preview-step (11px, cinza escuro)
+  │ Pare 2 reps antes da falha ← .preview-step
+  └─────────────────────────────────────────┘
+
+  ESTRUTURA DO PREVIEW (quando não reconhecido):
+  ┌─────────────────────────────────────────┐  ← .preview.err
+  │ NÃO RECONHECIDO            ← .preview-tag.err (vermelho)
+  │ Use: 2x10 (2RIR)           ← .preview-step (cor vermelha)
+  └─────────────────────────────────────────┘
+
+  ATUALIZAÇÃO: a cada keystroke, sem debounce.
+  Não fazer re-render do card inteiro — atualizar apenas o elemento #prev_*.
+*/
+.preview {
+  border-radius: var(--r-sm);
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.preview.ok  { background: var(--ok-bg);  border: 0.5px solid var(--ok-border);  }
+.preview.err { background: var(--err-bg); border: 0.5px solid var(--err-border); }
+
+/* "INTERPRETADO COMO" ou "NÃO RECONHECIDO" */
+.preview-tag {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 3px;
+}
+.preview-tag.ok  { color: var(--ok-label);  }
+.preview-tag.err { color: var(--err-label); }
+
+/* Resumo técnico: o que o parser interpretou */
+.preview-interp {
+  font-size: 12px;
+  font-weight: 500;
+  color: #111;
+  margin-bottom: 5px;
+}
+
+/* "O aluno verá:" — separador visual antes dos passos */
+.preview-aluno-lbl {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--ok-label);
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  border-top: 0.5px solid var(--ok-border);
+  padding-top: 5px;
+  margin-top: 2px;
+}
+
+/* Cada passo que o aluno verá na execução */
+.preview-step {
+  font-size: 11px;
+  color: rgba(0,0,0,.65);
+  margin-top: 2px;
+  padding-left: 2px;
+}
+
+
+/* ─── 9. SEÇÃO DE DETALHES (colapsada) ──────────────────────────────── */
+/*
+  Vídeo, observações e substitutos ficam colapsados por padrão.
+  O professor raramente precisa desses campos — não devem poluir
+  a tela principal de prescrição.
+
+  Toggle: texto muda entre "Vídeo, observações e substitutos" e "Ocultar detalhes".
+*/
+.details-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 0 3px;
+  cursor: pointer;
+  color: var(--text3-proto);
+  font-size: 12px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  width: 100%;
+  transition: color .15s;
+}
+.details-toggle:hover { color: var(--text2-proto); }
+
+.details-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 0.5px solid var(--border-subtle-proto);
+  margin-top: 4px;
+}
+
+.sub-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  background: var(--bg3-proto);
+  border: 0.5px solid var(--border-subtle-proto);
+  border-radius: var(--r-sm);
+  margin-bottom: 6px;
+}
+.sub-name { flex: 1; font-size: 13px; }
+.sub-del {
+  border: none;
+  background: transparent;
+  color: var(--text3-proto);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  transition: color .15s;
+}
+.sub-del:hover { color: #ff5555; }
+.add-sub-btn {
+  font-size: 12px;
+  color: var(--text3-proto);
+  border: 0.5px dashed var(--border-subtle-proto);
+  background: transparent;
+  border-radius: var(--r-sm);
+  padding: 6px 10px;
+  cursor: pointer;
+  font-family: inherit;
+  width: 100%;
+  text-align: left;
+  transition: color .15s;
+}
+.add-sub-btn:hover { color: var(--text2-proto); }
+
+
+/* ─── BOTÕES AUXILIARES ──────────────────────────────────────────────── */
+.add-block-btn {
+  width: 100%;
+  padding: 6px;
+  border: 0.5px dashed var(--border-proto);
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--text3-proto);
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: color .15s, border-color .15s;
+}
+.add-block-btn:hover { color: var(--text2-proto); border-color: var(--border-proto); }
+
+.add-ex-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px;
+  border: 0.5px dashed rgba(255,255,255,.2);
+  border-radius: var(--r-lg);
+  background: transparent;
+  color: var(--text2-proto);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+  margin: 12px 0 0;
+  transition: all .15s;
+}
+.add-ex-btn:hover { border-color: rgba(255,255,255,.35); color: var(--text-proto); }
+
+
+/* ─── 10. BI-SET BRIDGE ──────────────────────────────────────────────── */
+/*
+  Ponte visual entre dois exercícios vinculados em bi-set.
+  Aparece entre os dois cards. Linha + badge + linha.
+
+  COMPORTAMENTO:
+  - Clicar no badge desfaz a ligação
+  - Os dois cards continuam independentes visualmente
+    (o bi-set é a relação, não altera o visual interno dos cards)
+
+  IMPORTANTE: bi-set NÃO é um tipo de bloco.
+  É uma relação entre dois exercícios completos.
+  O professor vincula os dois usando o ícone de corrente em cada card.
+*/
+.biset-bridge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 0;
+}
+.biset-bridge-line {
+  flex: 1;
+  height: 1px;
+  background: var(--biset-color);
+  opacity: .35;
+}
+.biset-badge {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--biset-text);
+  background: var(--biset-bg);
+  border: 0.5px solid var(--biset-border);
+  border-radius: 20px;
+  padding: 3px 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s;
+}
+.biset-badge:hover { background: #F4C0D1; }
+
+
+/* ─── 11. BANNER DE MODO DE VINCULAÇÃO ──────────────────────────────── */
+/*
+  Aparece no topo da lista quando o professor clicou no ícone de corrente
+  e está aguardando selecionar o exercício par.
+*/
+.link-mode-banner {
+  background: rgba(237,147,177,.10);
+  border: 0.5px solid var(--biset-border);
+  border-radius: var(--r-md);
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--biset-color);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.link-cancel-btn {
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--biset-color);
+  font-size: 12px;
+  font-family: inherit;
+  text-decoration: underline;
+}

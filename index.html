@@ -153,6 +153,74 @@ select.inp option{background:var(--bg3);}
 .aluno-info{flex:1;}.aluno-nome{font-size:15px;font-weight:500;}.aluno-meta{font-size:12px;color:var(--text2);margin-top:2px;}
 #screen-editor{background:var(--bg);}
 .ex-editor-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px;}
+/* Professor — editor de treino: só #screen-editor + .prof-ex-card (não afeta .ex-acc em screen-prof-treino) */
+#screen-editor.prof-editor-shell > .topbar{border-bottom-color:var(--border-subtle);box-shadow:0 1px 0 rgba(0,0,0,.35);}
+#screen-editor.prof-editor-shell > .content.content-pb{max-width:560px;margin:0 auto;padding-top:18px;}
+#screen-editor.prof-editor-shell .prof-editor-hint{margin-top:-4px;margin-bottom:14px;line-height:1.45;}
+#screen-editor.prof-editor-shell #ed-exercicios.prof-editor-ex-list{display:flex;flex-direction:column;gap:12px;margin-top:2px;}
+#screen-editor .ex-editor-card.prof-ex-card{margin-bottom:0;padding:0;overflow:hidden;border-radius:calc(var(--radius) + 2px);border:1px solid var(--border-subtle);background:var(--card-active);box-shadow:0 2px 18px rgba(0,0,0,.22);transition:border-color .2s,box-shadow .2s;}
+#screen-editor .ex-editor-card.prof-ex-card:focus-within{border-color:rgba(200,240,96,.18);}
+#screen-editor .ex-editor-card.prof-ex-card:has(.ex-acc-body.open){border-color:rgba(200,240,96,.24);box-shadow:0 4px 28px rgba(0,0,0,.28),0 0 0 1px rgba(200,240,96,.08);}
+#screen-editor .ex-editor-card .ex-acc-header{align-items:center;gap:14px;padding:15px 14px 14px 16px;background:linear-gradient(180deg,rgba(255,255,255,.03),transparent);border-bottom:1px solid transparent;}
+#screen-editor .ex-editor-card .ex-acc-header:hover{background:rgba(255,255,255,.04);}
+#screen-editor .ex-editor-card .ex-acc-num{width:32px;height:32px;min-width:32px;margin-top:0;border-radius:10px;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--text);background:var(--bg3);border:1px solid var(--border-subtle);}
+#screen-editor .ex-editor-card .ex-acc-info{min-width:0;}
+#screen-editor .ex-editor-card .ex-acc-nome{font-size:16px;font-weight:700;letter-spacing:-.015em;line-height:1.25;}
+#screen-editor .ex-editor-card .ex-acc-tipo{margin-top:4px;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);}
+#screen-editor .ex-editor-card .ex-acc-meta{margin-top:6px;line-height:1.35;}
+#screen-editor .ex-editor-card .ex-editor-card-toolbar{display:flex;gap:4px;flex-shrink:0;align-self:flex-start;padding-top:1px;}
+#screen-editor .ex-editor-card .ex-editor-card-toolbar .btn-ghost{min-width:38px;min-height:36px;border-radius:10px;border:1px solid var(--border-subtle);background:var(--bg3);font-size:15px;}
+#screen-editor .ex-editor-card .ex-editor-card-toolbar .btn-ghost:hover{border-color:rgba(200,240,96,.28);color:var(--accent);}
+#screen-editor .ex-editor-card .ex-acc-chev{display:flex;align-items:center;justify-content:center;width:42px;height:42px;margin:0 0 0 4px;border-radius:12px;background:rgba(200,240,96,.09);border:1px solid rgba(200,240,96,.22);font-size:17px;line-height:1;padding-top:0;text-shadow:none;}
+#screen-editor .ex-editor-card .ex-acc-chev:hover{background:rgba(200,240,96,.14);border-color:rgba(200,240,96,.35);}
+#screen-editor .ex-editor-card .ex-acc-body{border-top:1px solid var(--border-subtle);background:var(--bg);}
+#screen-editor .ex-editor-card .ex-acc-body-inner{padding:18px 16px 16px;}
+#screen-editor .ex-editor-card .field{margin-bottom:16px;}
+#screen-editor .ex-editor-card .field:last-child{margin-bottom:0;}
+#screen-editor .ex-editor-card .sub-section{margin-top:8px;border:1px solid var(--border-subtle);background:rgba(255,255,255,.02);padding:14px;}
+#screen-editor .ex-editor-card .subst-card{background:var(--bg3);border:1px solid var(--border-subtle);border-radius:12px;padding:14px;}
+#screen-editor .ex-editor-card .subst-card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border-subtle);}
+#screen-editor .ex-editor-card .prof-editor-timer-hint{font-size:11px;color:var(--text3);margin-top:6px;line-height:1.4;}
+#screen-editor .prof-meta-preview{margin-top:8px;padding:10px 12px;border-radius:10px;border:1px solid var(--border-subtle);background:rgba(255,255,255,.02);font-size:12px;line-height:1.45;transition:border-color .15s,background .15s;}
+#screen-editor .prof-meta-preview--ok{border-color:rgba(200,240,96,.35);background:rgba(200,240,96,.06);}
+#screen-editor .prof-meta-preview--warn{border-color:rgba(240,168,48,.35);background:rgba(240,168,48,.06);}
+#screen-editor .prof-meta-preview--bad{border-color:rgba(255,85,85,.32);background:rgba(255,85,85,.06);}
+#screen-editor .prof-meta-preview-k{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:3px;}
+#screen-editor .prof-meta-preview-k-mt{margin-top:10px;}
+#screen-editor .prof-meta-preview-interpreted{color:var(--text);font-weight:500;}
+#screen-editor .prof-meta-preview-title{font-size:14px;font-weight:700;color:var(--accent);}
+#screen-editor .prof-meta-preview-sub{font-size:12px;color:var(--text2);margin-top:2px;}
+#screen-editor .prof-meta-preview-hint{font-size:11px;color:var(--text3);margin-top:4px;font-style:italic;}
+#screen-editor .prof-meta-preview-format{font-size:11px;color:var(--text3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border-subtle);}
+#screen-editor .tecnica-pills{display:flex;flex-wrap:wrap;gap:4px;padding:6px 0 4px;}
+#screen-editor .tecnica-pill{
+  font-size:11px;padding:4px 9px;border-radius:20px;font-weight:500;border:1px solid var(--border-subtle);
+  cursor:pointer;font-family:inherit;background:rgba(255,255,255,.03);color:var(--text2);
+  transition:opacity .15s,border-color .15s,background .15s,color .15s;
+}
+#screen-editor .tecnica-pill.inactive{opacity:.25;}
+#screen-editor .tecnica-pill--active{opacity:1;font-weight:600;}
+#screen-editor .tecnica-pill--active[data-tecnica="normal"]{background:rgba(180,180,180,.12);border-color:rgba(200,200,200,.35);color:var(--text);}
+#screen-editor .tecnica-pill--active[data-tecnica="feeder"]{background:rgba(250,238,218,.14);border-color:rgba(239,159,39,.5);color:#f0d9a8;}
+#screen-editor .tecnica-pill--active[data-tecnica="work"]{background:rgba(230,241,251,.12);border-color:rgba(133,183,235,.45);color:#c8ddf5;}
+#screen-editor .tecnica-pill--active[data-tecnica="cluster"]{background:rgba(225,245,238,.12);border-color:rgba(93,202,165,.45);color:#b8ebd9;}
+#screen-editor .tecnica-pill--active[data-tecnica="rest-pause"]{background:rgba(238,237,254,.12);border-color:rgba(175,169,236,.45);color:#d4d0f5;}
+#screen-editor .tecnica-pill--active[data-tecnica="back-off"]{background:rgba(250,236,231,.12);border-color:rgba(240,153,123,.45);color:#f0c4b3;}
+#screen-editor .tecnica-pill--active[data-tecnica="drop"]{background:rgba(234,243,222,.12);border-color:rgba(151,196,89,.45);color:#d4e8b8;}
+#screen-editor .tecnica-pill--active[data-tecnica="bilateral"]{background:rgba(220,230,245,.12);border-color:rgba(120,160,220,.45);color:#c5d4ee;}
+#screen-editor .prof-ex-details-toggle{
+  width:100%;margin-top:6px;margin-bottom:2px;display:flex;align-items:center;gap:8px;justify-content:flex-start;text-align:left;
+  padding:10px 12px;border-radius:10px;border:1px solid var(--border-subtle);background:rgba(255,255,255,.04);
+  font-size:13px;font-weight:500;color:var(--text2);font-family:inherit;cursor:pointer;transition:background .15s,border-color .15s;
+}
+#screen-editor .prof-ex-details-toggle:hover{background:rgba(255,255,255,.07);border-color:rgba(200,240,96,.2);color:var(--text);}
+#screen-editor .prof-ex-details-chev{display:inline-flex;flex-shrink:0;font-size:11px;color:var(--accent);transition:transform .2s;line-height:1;}
+#screen-editor .prof-ex-details-toggle[aria-expanded="true"] .prof-ex-details-chev{transform:rotate(180deg);}
+#screen-editor .prof-ex-details{margin-top:4px;margin-bottom:4px;}
+#screen-editor .prof-ex-details.prof-ex-details--closed{display:none;}
+@media (prefers-reduced-motion: reduce){
+  #screen-editor .ex-editor-card.prof-ex-card{transition:none;}
+}
 .ex-editor-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border);}
 .ex-editor-num{min-width:28px;height:28px;border-radius:6px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--text2);font-family:'DM Mono',monospace;}
 .ex-editor-nome-label{font-size:14px;font-weight:500;flex:1;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -289,13 +357,36 @@ select.inp option{background:var(--bg3);}
   .aluno-guided-top__heading,.aluno-guided-action-bar,.btn-salvar-fixo,.aluno-guided-btn-primary{transition:none!important;}
 }
 
-/* Fase 4 — RestTimer fullscreen (spec); acima de botões fixos (z-index 150) e barra guiada (140) */
-.rest-timer-ov{position:fixed;inset:0;background:rgba(13,13,13,.97);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:9200;overscroll-behavior:contain;}
+/* Fase 4 — RestTimer fullscreen; z-index acima de botões fixos (150) e toasts (999) */
+.rest-timer-ov{position:fixed;inset:0;background:rgba(13,13,13,.97);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10000;overscroll-behavior:contain;}
 .rest-timer-label{font-size:13px;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-bottom:24px;}
 .rest-timer-num{font-size:72px;font-weight:500;letter-spacing:-2px;line-height:1;margin-top:-16px;color:var(--text);}
-.rest-timer-sub{font-size:13px;color:rgba(255,255,255,.3);margin-top:8px;text-align:center;max-width:90%;padding:0 20px;}
-.rest-timer-skip{margin-top:36px;font-size:13px;color:rgba(255,255,255,.35);padding:8px 24px;border:0.5px solid rgba(255,255,255,.1);border-radius:20px;background:transparent;cursor:pointer;font-family:inherit;}
+.rest-timer-sub{font-size:13px;color:rgba(255,255,255,.3);margin-top:8px;text-align:center;max-width:90%;padding:0 20px;line-height:1.35;}
+.rest-timer-skip{margin-top:36px;font-size:13px;color:rgba(255,255,255,.3);padding:8px 24px;border:0.5px solid rgba(255,255,255,.1);border-radius:20px;background:transparent;cursor:pointer;font-family:inherit;}
 .rest-timer-skip:active{transform:scale(.98);}
+
+/* Fase 5 — visual protótipo (somente acréscimos; não remove legado) */
+.bcard-v2{background:var(--card-active,#181818);border-radius:16px;border:0.5px solid var(--border-subtle,rgba(255,255,255,.08));overflow:hidden;transition:opacity .3s;}
+.bloco-aluno-wrap.bcard-v2{margin-bottom:12px;}
+.bloco-aluno-wrap.bcard-v2.bloco-aluno-wrap--guided-feito,.bloco-aluno-wrap.bcard-v2.done{opacity:var(--card-done-opacity,.35);}
+.bloco-aluno-wrap.bcard-v2.bloco-aluno-wrap--guided-proximo,.bloco-aluno-wrap.bcard-v2.upcoming{opacity:var(--card-upcoming-opacity,.5);}
+.bloco-aluno-wrap.bcard-v2 .bloco-aluno-head{padding:4px 14px 6px;}
+.bcard-v2-head{padding:14px 16px 12px;display:flex;align-items:flex-start;justify-content:space-between;}
+.bcard-v2-step{font-size:11px;color:rgba(255,255,255,.25);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+.bcard-v2-title{font-size:18px;font-weight:500;line-height:1.25;color:var(--text);}
+.bcard-v2-sub{font-size:13px;color:rgba(255,255,255,.4);margin-top:3px;}
+.hint-v2{margin:0 16px 12px;padding:10px 12px;border-radius:0 8px 8px 0;}
+.hint-v2 p{font-size:12px;color:rgba(255,255,255,.5);line-height:1.5;margin:0;}
+.hint-v2.prep{background:var(--hint-warm-bg);border-left:2px solid var(--hint-warm-border);}
+.hint-v2.main{background:var(--hint-main-bg);border-left:2px solid var(--hint-main-border);}
+.hint-v2.cluster{background:var(--hint-cluster-bg);border-left:2px solid var(--hint-cluster-border);}
+.fase3-tr-preview{font-size:11px!important;color:rgba(255,255,255,.38)!important;line-height:1.45!important;padding:0 2px 4px;}
+.action-bar-v2{border-top:0.5px solid var(--border-subtle,rgba(255,255,255,.08));}
+#aluno-guided-action-bar.action-bar-v2{padding-top:14px;}
+.action-btn-v2{border-radius:12px!important;}
+.action-bar-v2 .aluno-guided-btn-primary{font-weight:600;letter-spacing:.02em;}
+.action-btn-v2:active{transform:scale(.98);}
+.action-btn-v2.disabled{opacity:.3;pointer-events:none;}
 @media(min-width:600px){.treino-grid{grid-template-columns:repeat(3,1fr);}.content,.greeting,.last-session,.treino-grid{max-width:640px;margin-left:auto;margin-right:auto;}.last-session,.greeting{margin-left:auto;margin-right:auto;}}
 </style>
 </head>
@@ -389,8 +480,8 @@ select.inp option{background:var(--bg3);}
   </div>
   <button class="btn-voltar-fixo" onclick="goTo('treino');renderListaEx();">&#x2190; Voltar</button>
   <button class="btn-salvar-fixo" onclick="if(window.cancelRestTimerUI)cancelRestTimerUI(false);salvarRegistro()">Salvar &#x2713;</button>
-  <div id="aluno-guided-action-bar" class="aluno-guided-action-bar" hidden>
-    <button type="button" id="aluno-guided-btn-primary" class="aluno-guided-btn-primary"></button>
+  <div id="aluno-guided-action-bar" class="aluno-guided-action-bar action-bar-v2" hidden>
+    <button type="button" id="aluno-guided-btn-primary" class="aluno-guided-btn-primary action-btn-v2"></button>
     <p id="aluno-guided-action-sub" class="aluno-guided-action-sub"></p>
   </div>
   <div id="rest-timer-overlay" class="rest-timer-ov" style="display:none" aria-hidden="true">
@@ -437,18 +528,19 @@ select.inp option{background:var(--bg3);}
   </div>
 </div>
 
-<div id="screen-editor" class="screen">
+<div id="screen-editor" class="screen prof-editor-shell">
   <div class="topbar">
     <div style="width:44px;"></div>
     <div class="topbar-title" id="editor-title">Editar treino</div>
     <button class="topbar-action" onclick="salvarTreino()">Salvar</button>
   </div>
   <div class="content content-pb">
-    <div class="field"><label>Nome do treino</label><input class="inp" id="ed-nome-treino" type="text" placeholder="Ex: Inferior 1, Superior A..."></div>
-    <div class="field"><label>Instru&#xE7;&#xF5;es gerais (intervalo, observa&#xE7;&#xF5;es)</label><textarea class="inp" id="ed-obs-geral" placeholder="Ex: Feeder set - 90s / Work set - acima de 2min..."></textarea></div>
+    <div class="field"><label>Nome do treino</label><input class="inp" id="ed-nome-treino" type="text" placeholder="Ex.: Pernas A, Superior empurrar…"></div>
+    <div class="field"><label>Instru&#xE7;&#xF5;es gerais</label><textarea class="inp" id="ed-obs-geral" placeholder="Intervalos, aquecimento, observa&#xE7;&#xF5;es para o aluno (opcional)."></textarea></div>
     <hr class="divider">
     <div class="section-label">Exerc&#xED;cios</div>
-    <div id="ed-exercicios"></div>
+    <p class="text-sm text-muted prof-editor-hint">Toque na &#xE1;rea destacada com &#x25BE; para expandir ou recolher. &#x2191; &#x2193; reordenam; &#x2715; remove o exerc&#xED;cio.</p>
+    <div id="ed-exercicios" class="prof-editor-ex-list"></div>
     <button class="btn btn-secondary btn-full mt-8" onclick="addExercicioEditor()">+ Adicionar exerc&#xED;cio</button>
     <div style="height:80px;"></div>
   </div>
@@ -673,6 +765,17 @@ function pillsHtmlBloco(b){
   if(atual&&!lista.includes(atual))lista.push(atual);
   return lista.map(t=>'<button type="button" class="tipo-pill'+(b.tipo===t?' active':'')+'" data-tipo="'+esc(t)+'">'+esc(t)+'</button>').join('')+'<button type="button" class="tipo-pill" data-custom="1" style="border-style:dashed;">+ outro</button>';
 }
+function htmlTecnicaPills(b,bi){
+  let raw=((b&&b.tecnica)||'').trim();
+  if(raw==='drop-set')raw='drop';
+  const cur=TECNICAS.some(t=>t.val===raw)?raw:'work';
+  return'<div class="tecnica-pills" data-bi-tecnica="'+bi+'">'
+    +TECNICAS.map(t=>{
+      const active=cur===t.val;
+      return'<button type="button" class="tecnica-pill'+(active?' tecnica-pill--active':' inactive')+'" data-tecnica="'+esc(t.val)+'" data-action="set-tecnica" data-bi="'+bi+'">'+(active?'\u2713 ':'')+esc(t.label)+'</button>';
+    }).join('')
+  +'</div>';
+}
 function htmlBlocosEditor(ex){
   const bl=ex.blocos;
   return'<div class="sub-section"><div class="sub-section-label">Blocos prescritos</div>'
@@ -686,8 +789,17 @@ function htmlBlocosEditor(ex){
         +'</div>'
       +'</div>'
       +'<div class="field"><label>Tipo de s\xE9rie</label><div class="tipo-pills" data-bi-pills="'+bi+'">'+pillsHtmlBloco(b)+'</div></div>'
-      +'<div class="field"><label>T\xE9cnica de s\xE9rie</label><select class="inp" data-bfield="tecnica" data-bi="'+bi+'">'+TECNICAS.map(t=>'<option value="'+t.val+'"'+(b.tecnica===t.val?' selected':'')+'>'+t.label+'</option>').join('')+'</select></div>'
+      +'<div class="field"><label>T\xE9cnica de s\xE9rie</label>'+htmlTecnicaPills(b,bi)+'</div>'
       +'<div class="field"><label>Prescri\xE7\xE3o (s\xE9ries x reps)</label><input class="inp" type="text" data-bfield="meta" data-bi="'+bi+'" value="'+esc(b.meta||'')+'" placeholder="Ex: 2x8, 1x4+4+4"></div>'
+      +'<div class="prof-meta-preview prof-meta-preview--warn" data-prof-meta-preview data-bi="'+bi+'">'
+        +'<span class="prof-meta-preview-k">Interpretado como</span>'
+        +'<div class="prof-meta-preview-interpreted" data-prof-meta-interpreted></div>'
+        +'<span class="prof-meta-preview-k prof-meta-preview-k-mt">O aluno verá</span>'
+        +'<div class="prof-meta-preview-title" data-prof-meta-tt-title></div>'
+        +'<div class="prof-meta-preview-sub" data-prof-meta-tt-sub></div>'
+        +'<div class="prof-meta-preview-hint" data-prof-meta-tt-hint></div>'
+        +'<div class="prof-meta-preview-format" data-prof-meta-format></div>'
+      +'</div>'
       +'<div class="field" style="margin-bottom:0;"><label>Observa\xE7\xE3o do bloco (opcional)</label><textarea class="inp" data-bfield="obs" data-bi="'+bi+'" placeholder="Dica para esta etapa...">'+esc(b.obs||'')+'</textarea></div>'
     +'</div>').join('')
     +'<button type="button" class="btn-ghost btn-sm mt-8" data-action="add-bloco">+ Adicionar bloco</button></div>';
@@ -1205,20 +1317,20 @@ function applyAlunoGuidedBlockUI(){
   wraps.forEach(wrap=>{
     const bi=parseInt(wrap.dataset.blocoIndex,10);
     if(Number.isNaN(bi))return;
-    wrap.classList.remove('bloco-aluno-wrap--ativo','bloco-aluno-wrap--secundario','bloco-aluno-wrap--guided-feito','bloco-aluno-wrap--guided-ativo','bloco-aluno-wrap--guided-proximo','bloco-aluno-wrap--guided-ocultar-inputs','bloco-aluno-wrap--guided-ocultar-preview');
+    wrap.classList.remove('bloco-aluno-wrap--ativo','bloco-aluno-wrap--secundario','bloco-aluno-wrap--guided-feito','bloco-aluno-wrap--guided-ativo','bloco-aluno-wrap--guided-proximo','bloco-aluno-wrap--guided-ocultar-inputs','bloco-aluno-wrap--guided-ocultar-preview','done','upcoming');
     let estado='future';
     if(bi<alunoActiveBlockIndex)estado='past';
     else if(bi>alunoActiveBlockIndex)estado='future';
     else if(alunoGuidedLastStepDone&&bi===nB-1)estado='past';
     else estado='active';
     if(estado==='past'){
-      wrap.classList.add('bloco-aluno-wrap--guided-feito','bloco-aluno-wrap--secundario','bloco-aluno-wrap--guided-ocultar-inputs');
+      wrap.classList.add('bloco-aluno-wrap--guided-feito','bloco-aluno-wrap--secundario','bloco-aluno-wrap--guided-ocultar-inputs','done');
       if(bi>0)wrap.classList.add('bloco-aluno-wrap--guided-ocultar-preview');
     }else if(estado==='active'){
       wrap.classList.add('bloco-aluno-wrap--ativo','bloco-aluno-wrap--guided-ativo');
       if(bi>0)wrap.classList.add('bloco-aluno-wrap--guided-ocultar-preview');
     }else{
-      wrap.classList.add('bloco-aluno-wrap--guided-proximo','bloco-aluno-wrap--secundario','bloco-aluno-wrap--guided-ocultar-inputs');
+      wrap.classList.add('bloco-aluno-wrap--guided-proximo','bloco-aluno-wrap--secundario','bloco-aluno-wrap--guided-ocultar-inputs','upcoming');
     }
   });
   if(segs&&segs.length===nB){
@@ -1343,6 +1455,19 @@ function rebuildActiveBlocoInputs(ex,activeBi){
   restoreBlocoInputValues(snap);
 }
 
+// Fase 5 — hint box protótipo (usa interpretarPrescricao só para variante visual; sem alterar parser)
+function alunoBuildHintV2Html(b,copyBloco){
+  const metaRir=/\bRIR\b/i.test(b.meta||'');
+  if(!copyBloco.hint||metaRir)return'';
+  const presc=interpretarPrescricao(b.meta||'');
+  const t=String(b.tecnica||presc.tipo||'').toLowerCase();
+  const tipoB=String(b.tipo||'').toLowerCase();
+  let kind='main';
+  if(t==='cluster'||presc.tipo==='cluster')kind='cluster';
+  else if(t==='feeder'||tipoB.includes('feeder'))kind='prep';
+  return'<div class="hint-v2 '+kind+'"><p>'+esc(copyBloco.hint)+'</p></div>';
+}
+
 // Fase 3 — renderização guiada (orquestração); inputs/ids iguais ao legado para salvarRegistro
 function renderAlunoTela(ex,blocos){
   const c=$('series-inputs'); c.innerHTML='';
@@ -1393,7 +1518,7 @@ function renderAlunoTela(ex,blocos){
   }
   blocos.forEach((b,bi)=>{
     const wrap=document.createElement('div');
-    wrap.className='bloco-aluno-wrap';
+    wrap.className='bloco-aluno-wrap bcard-v2';
     if(nBl>1)wrap.dataset.blocoIndex=String(bi);
     if(nBl<=1)wrap.style.marginBottom='0';
     const copyBloco=alunoCopyBloco(b,{blocoIndex:bi,totalBlocos:nBl});
@@ -1411,15 +1536,12 @@ function renderAlunoTela(ex,blocos){
           if(tr&&(tr.title||tr.sub)){
             const trpv=document.createElement('div');
             trpv.className='fase3-tr-preview';
-            trpv.style.cssText='font-size:11px;color:var(--text3);margin-top:6px;line-height:1.4;';
             trpv.textContent=[String(tr.title||'').trim(),String(tr.sub||'').trim()].filter(Boolean).join(' \u2014 ');
             wrap.appendChild(trpv);
           }
         }
       }
-      const metaRir=/\bRIR\b/i.test(b.meta||'');
-      const showHintExp=copyBloco.hint&&!metaRir;
-      const hintExp=showHintExp?'<div style="margin-top:8px;padding:8px 10px;font-size:12px;line-height:1.45;color:var(--text2);border-left:2px solid var(--accent);background:rgba(200,240,96,.06);border-radius:0 var(--rsm) var(--rsm) 0;">'+esc(copyBloco.hint)+'</div>':'';
+      const hintExp=alunoBuildHintV2Html(b,copyBloco);
       const subExp=copyBloco.subtitulo?'<div style="font-size:12px;color:var(--text3);margin-bottom:8px;line-height:1.35;">'+esc(copyBloco.subtitulo)+'</div>':'';
       const head=document.createElement('div');
       head.className='bloco-aluno-head';
@@ -1510,7 +1632,7 @@ function renderSeriesInputs_legacy(ex){
   }
   blocos.forEach((b,bi)=>{
     const wrap=document.createElement('div');
-    wrap.className='bloco-aluno-wrap';
+    wrap.className='bloco-aluno-wrap bcard-v2';
     if(nBl>1)wrap.dataset.blocoIndex=String(bi);
     if(nBl<=1)wrap.style.marginBottom='0';
     const copyBloco=alunoCopyBloco(b,{blocoIndex:bi,totalBlocos:nBl});
@@ -1523,9 +1645,7 @@ function renderSeriesInputs_legacy(ex){
         pre.textContent='A seguir: '+pv;
         wrap.appendChild(pre);
       }
-      const metaRir=/\bRIR\b/i.test(b.meta||'');
-      const showHintExp=copyBloco.hint&&!metaRir;
-      const hintExp=showHintExp?'<div style="margin-top:8px;padding:8px 10px;font-size:12px;line-height:1.45;color:var(--text2);border-left:2px solid var(--accent);background:rgba(200,240,96,.06);border-radius:0 var(--rsm) var(--rsm) 0;">'+esc(copyBloco.hint)+'</div>':'';
+      const hintExp=alunoBuildHintV2Html(b,copyBloco);
       const subExp=copyBloco.subtitulo?'<div style="font-size:12px;color:var(--text3);margin-bottom:8px;line-height:1.35;">'+esc(copyBloco.subtitulo)+'</div>':'';
       const head=document.createElement('div');
       head.className='bloco-aluno-head';
@@ -2285,6 +2405,42 @@ window.abrirEditor=idx=>{
 };
 window.fecharEditor=async()=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('screen-prof').classList.add('active');switchTab('alunos');await abrirDetalheAluno(editorAluno);};
 
+function aplicarTecnicaBloco(i,bi,val){
+  const exi=editorExercicios[i];
+  if(!exi||!exi.blocos||!exi.blocos[bi]||!val)return;
+  if((exi.blocos[bi].tecnica||'work')===val)return;
+  const oldTecnica=exi.blocos[bi].tecnica||'work';
+  const oldTimer=timerPadrao(oldTecnica);
+  exi.blocos[bi].tecnica=val;
+  syncParentDoPrimeiroBloco(exi);
+  const lt=$('lbltipo'+i);if(lt)lt.textContent=resumoTipoTecnica(exi);
+  renderLblMetaAccordion(i,exi);
+  const card=document.getElementById('ec'+i);
+  if(card){
+    const blocoEl=card.querySelector('.bloco-editor[data-bi="'+bi+'"]');
+    if(blocoEl){
+      blocoEl.querySelectorAll('.tecnica-pill').forEach(p=>{
+        const tval=p.dataset.tecnica;
+        const on=tval===val;
+        p.classList.toggle('tecnica-pill--active',on);
+        p.classList.toggle('inactive',!on);
+        const lab=(TECNICAS.find(x=>x.val===tval)||{}).label||tval;
+        p.textContent=(on?'\u2713 ':'')+lab;
+      });
+      profAtualizarPreviewBloco(blocoEl);
+    }
+    if(bi===0){
+      const newTimer=timerPadrao(val);
+      const hint=$('timer-hint-'+i);if(hint)hint.textContent=newTimer+'s';
+      const timerInp=card.querySelector('[data-field="timerCustom"]');
+      if(timerInp&&(parseInt(timerInp.value,10)===oldTimer||!exi.timerCustom)){
+        timerInp.value=newTimer;
+        exi.timerCustom=null;
+      }
+    }
+  }
+}
+
 function resumoTipoTecnica(ex){
   const b=normalizarExercicio(ex)[0];
   if(!b) return '\u2014';
@@ -2325,7 +2481,7 @@ function criarCardExercicio(i){
   garantirBlocosEditor(ex);
   syncParentDoPrimeiroBloco(ex);
   const container=$('ed-exercicios');
-  const card=document.createElement('div');card.className='ex-editor-card';card.id='ec'+i;
+  const card=document.createElement('div');card.className='ex-editor-card prof-ex-card';card.id='ec'+i;
   const bodyId='ec-body-'+i;
   const chevId='ec-chev-'+i;
   const isOpen=editorExpandedIdx===i;
@@ -2333,19 +2489,23 @@ function criarCardExercicio(i){
   const tc0=b0&&b0.tecnica?b0.tecnica:'work';
   const grupoOpts=GRUPOS.map(g=>'<option value="'+esc(g)+'">'+esc(g)+'</option>').join('');
   const g=ex.grupos||{};
-  card.innerHTML='<div class="ex-acc-header"><div class="ex-acc-num">'+(i+1)+'</div><div class="ex-acc-info"><div class="ex-acc-nome" id="lbl'+i+'">'+esc(ex.nome||'Novo exerc\xEDcio')+'</div><div class="ex-acc-tipo" id="lbltipo'+i+'">'+esc(resumoTipoTecnica(ex))+'</div><div class="ex-acc-meta" id="lblmeta'+i+'"></div></div><div style="display:flex;gap:2px;flex-shrink:0;"><button type="button" class="btn-ghost" data-action="up">\u2191</button><button type="button" class="btn-ghost" data-action="down">\u2193</button><button type="button" class="btn-ghost" data-action="del" style="color:var(--danger);">\u2715</button></div><div class="ex-acc-chev" id="'+chevId+'" style="transform:'+(isOpen?'rotate(180deg)':'none')+';">▾</div></div>'
+  card.innerHTML='<div class="ex-acc-header"><div class="ex-acc-num">'+(i+1)+'</div><div class="ex-acc-info"><div class="ex-acc-nome" id="lbl'+i+'">'+esc(ex.nome||'Novo exerc\xEDcio')+'</div><div class="ex-acc-tipo" id="lbltipo'+i+'">'+esc(resumoTipoTecnica(ex))+'</div><div class="ex-acc-meta" id="lblmeta'+i+'"></div></div><div class="ex-editor-card-toolbar"><button type="button" class="btn-ghost" data-action="up" title="Mover para cima">\u2191</button><button type="button" class="btn-ghost" data-action="down" title="Mover para baixo">\u2193</button><button type="button" class="btn-ghost" data-action="del" style="color:var(--danger);" title="Remover exerc\xEDcio">\u2715</button></div><div class="ex-acc-chev" id="'+chevId+'" style="transform:'+(isOpen?'rotate(180deg)':'none')+';" title="Expandir ou recolher">▾</div></div>'
     +'<div class="ex-acc-body'+(isOpen?' open':'')+'" id="'+bodyId+'"><div class="ex-acc-body-inner">'
-    +'<div class="field"><label>Exerc\xEDcio do banco</label><select class="inp" data-field="banco"><option value="">\u2014 escolha do banco \u2014</option>'+bancoDB.map(b=>'<option value="'+esc(b.nome)+'" '+(b.nome===ex.nome?'selected':'')+'>'+esc(b.nome)+'</option>').join('')+'</select></div>'
-    +'<div class="field"><label>Nome (livre)</label><input class="inp" type="text" data-field="nome" value="'+esc(ex.nome||'')+'" placeholder="Nome do exerc\xEDcio"></div>'
+    +'<div class="field"><label>Buscar no banco</label><select class="inp" data-field="banco"><option value="">\u2014 nenhum \u2014</option>'+bancoDB.map(b=>'<option value="'+esc(b.nome)+'" '+(b.nome===ex.nome?'selected':'')+'>'+esc(b.nome)+'</option>').join('')+'</select></div>'
+    +'<div class="field"><label>Nome exibido ao aluno</label><input class="inp" type="text" data-field="nome" value="'+esc(ex.nome||'')+'" placeholder="Ex.: Agachamento livre"></div>'
     +htmlBlocosEditor(ex)
-    +'<div class="field"><label>Descanso entre s\xE9ries (segundos)</label>'
-    +'<input class="inp" type="number" inputmode="numeric" data-field="timerCustom" min="5" max="600" value="'+(ex.timerCustom||timerPadrao(tc0))+'" placeholder="Ex: 120">'
-    +'<div style="font-size:11px;color:var(--text3);margin-top:4px;">Padr\xE3o da t\xE9cnica (1\xBA bloco): <span id="timer-hint-'+i+'">'+timerPadrao(tc0)+'s</span></div>'
+    +'<div class="field"><label>Descanso entre s\xE9ries (s)</label>'
+    +'<input class="inp" type="number" inputmode="numeric" data-field="timerCustom" min="5" max="600" value="'+(ex.timerCustom||timerPadrao(tc0))+'" placeholder="Ex.: 120">'
+    +'<div class="prof-editor-timer-hint">Sugest\xE3o pela t\xE9cnica do 1\xBA bloco: <span id="timer-hint-'+i+'">'+timerPadrao(tc0)+'s</span></div>'
     +'</div>'
-    +'<div class="field"><label>Link YouTube</label><input class="inp" type="url" data-field="youtube" value="'+esc(ex.youtube||'')+'" placeholder="https://youtube.com/..."></div>'
-    +'<div class="field"><label>Link da imagem</label><input class="inp" type="url" data-field="imagem" value="'+esc(ex.imagem||'')+'" placeholder="https://..."></div>'
-    +'<div class="field"><label>Grupos musculares</label><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;"><div><div style="font-size:11px;color:var(--accent);margin-bottom:4px;font-weight:600;">Principal</div><select class="inp inp-sm" data-field="gp"><option value="">\u2014</option>'+grupoOpts+'</select></div><div><div style="font-size:11px;color:var(--info);margin-bottom:4px;font-weight:600;">Secund\xE1rio</div><select class="inp inp-sm" data-field="gs"><option value="">\u2014</option>'+grupoOpts+'</select></div><div><div style="font-size:11px;color:var(--warn);margin-bottom:4px;font-weight:600;">Terci\xE1rio</div><select class="inp inp-sm" data-field="gt"><option value="">\u2014</option>'+grupoOpts+'</select></div></div></div>'
-    +'<div class="sub-section"><div class="sub-section-label">Substitutos</div><div class="subst-list" id="sl'+i+'"></div><button type="button" class="btn-ghost btn-sm mt-8" data-action="add-subst">+ Adicionar substituto</button></div>'
+    +'<button type="button" class="prof-ex-details-toggle" data-action="toggle-ex-details" aria-expanded="false">'
+    +'<span class="prof-ex-details-chev">\u25be</span><span class="prof-ex-details-txt">V\xEDdeo, observa\xE7\xF5es e substitutos</span></button>'
+    +'<div class="prof-ex-details prof-ex-details--closed" id="prof-ex-details-'+i+'">'
+    +'<div class="field"><label>YouTube (opcional)</label><input class="inp" type="url" data-field="youtube" value="'+esc(ex.youtube||'')+'" placeholder="https://www.youtube.com/..."></div>'
+    +'<div class="field"><label>Imagem (URL, opcional)</label><input class="inp" type="url" data-field="imagem" value="'+esc(ex.imagem||'')+'" placeholder="https://..."></div>'
+    +'<div class="sub-section"><div class="sub-section-label">Substitutos</div><div class="subst-list" id="sl'+i+'"></div><button type="button" class="btn-ghost btn-sm mt-8" data-action="add-subst">+ Incluir substituto</button></div>'
+    +'</div>'
+    +'<div class="field"><label>Grupos musculares (volume)</label><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;"><div><div style="font-size:11px;color:var(--accent);margin-bottom:4px;font-weight:600;">Principal</div><select class="inp inp-sm" data-field="gp"><option value="">\u2014</option>'+grupoOpts+'</select></div><div><div style="font-size:11px;color:var(--info);margin-bottom:4px;font-weight:600;">Secund\xE1rio</div><select class="inp inp-sm" data-field="gs"><option value="">\u2014</option>'+grupoOpts+'</select></div><div><div style="font-size:11px;color:var(--warn);margin-bottom:4px;font-weight:600;">Terci\xE1rio</div><select class="inp inp-sm" data-field="gt"><option value="">\u2014</option>'+grupoOpts+'</select></div></div></div>'
     +'</div></div>';
 
   const header=card.querySelector('.ex-acc-header');
@@ -2374,6 +2534,7 @@ function criarCardExercicio(i){
       syncParentDoPrimeiroBloco(exi);
       const lt=$('lbltipo'+i);if(lt)lt.textContent=resumoTipoTecnica(exi);
       renderLblMetaAccordion(i,exi);
+      if(bf==='meta'){const bel=e.target.closest('.bloco-editor');if(bel)profAtualizarPreviewBloco(bel);}
       return;
     }
     const f=e.target.dataset.field;if(!f)return;
@@ -2383,27 +2544,6 @@ function criarCardExercicio(i){
     else if(f==='imagem')editorExercicios[i].imagem=e.target.value;
   });
   card.addEventListener('change',e=>{
-    const bf=e.target.dataset.bfield;const biS=e.target.dataset.bi;
-    if(bf==='tecnica'&&biS!==undefined){
-      const bi=parseInt(biS,10);const exi=editorExercicios[i];
-      if(!exi.blocos||!exi.blocos[bi])return;
-      const oldTecnica=exi.blocos[bi].tecnica||'work';
-      const oldTimer=timerPadrao(oldTecnica);
-      exi.blocos[bi].tecnica=e.target.value;
-      syncParentDoPrimeiroBloco(exi);
-      const lt=$('lbltipo'+i);if(lt)lt.textContent=resumoTipoTecnica(exi);
-      renderLblMetaAccordion(i,exi);
-      if(bi===0){
-        const newTimer=timerPadrao(e.target.value);
-        const hint=$('timer-hint-'+i);if(hint)hint.textContent=newTimer+'s';
-        const timerInp=card.querySelector('[data-field="timerCustom"]');
-        if(timerInp&&(parseInt(timerInp.value)===oldTimer||!exi.timerCustom)){
-          timerInp.value=newTimer;
-          exi.timerCustom=null;
-        }
-      }
-      return;
-    }
     const f=e.target.dataset.field;if(!f)return;
     if(f==='banco'){const b=bancoDB.find(x=>x.nome===e.target.value);if(!b)return;editorExercicios[i].nome=b.nome;if(b.youtube&&!editorExercicios[i].youtube)editorExercicios[i].youtube=b.youtube;if(b.imagem&&!editorExercicios[i].imagem)editorExercicios[i].imagem=b.imagem;card.querySelector('[data-field="nome"]').value=b.nome;const lbl=$('lbl'+i);if(lbl)lbl.textContent=b.nome;if(b.youtube)card.querySelector('[data-field="youtube"]').value=b.youtube;if(b.imagem)card.querySelector('[data-field="imagem"]').value=b.imagem;}
     else if(f==='gp'){editorExercicios[i].grupos=editorExercicios[i].grupos||{};editorExercicios[i].grupos.principal=e.target.value;}
@@ -2424,6 +2564,22 @@ function criarCardExercicio(i){
       else if(a==='bloco-del'){const bi=parseInt(btn.dataset.bi,10);const bl=editorExercicios[i].blocos;if(!bl||bl.length<=1){toast('M\xEDnimo um bloco');return;}bl.splice(bi,1);syncParentDoPrimeiroBloco(editorExercicios[i]);renderTodosExercicios();}
       else if(a==='add-subst'){editorExercicios[i].substitutos=editorExercicios[i].substitutos||[];editorExercicios[i].substitutos.push({nome:'',youtube:'',imagem:'',obs:''});criarCardSubst(card,i,editorExercicios[i].substitutos.length-1);}
       else if(a==='del-subst'){const si=parseInt(btn.dataset.si);editorExercicios[i].substitutos.splice(si,1);const sl=card.querySelector('#sl'+i);sl.innerHTML='';(editorExercicios[i].substitutos||[]).forEach((_,sj)=>criarCardSubst(card,i,sj));}
+      else if(a==='set-tecnica'){
+        const biT=parseInt(btn.dataset.bi,10);
+        const v=(btn.dataset.tecnica||'').trim();
+        if(v)aplicarTecnicaBloco(i,biT,v);
+      }
+      else if(a==='toggle-ex-details'){
+        const wrap=card.querySelector('.prof-ex-details');
+        const tbtn=card.querySelector('[data-action="toggle-ex-details"]');
+        if(!wrap||!tbtn)return;
+        const willOpen=wrap.classList.contains('prof-ex-details--closed');
+        wrap.classList.toggle('prof-ex-details--closed',!willOpen);
+        const isOpen=!wrap.classList.contains('prof-ex-details--closed');
+        tbtn.setAttribute('aria-expanded',isOpen?'true':'false');
+        const tx=tbtn.querySelector('.prof-ex-details-txt');
+        if(tx)tx.textContent=isOpen?'Ocultar detalhes':'V\xEDdeo, observa\xE7\xF5es e substitutos';
+      }
       return;
     }
     const pill=e.target.closest('.tipo-pill');
@@ -2436,6 +2592,7 @@ function criarCardExercicio(i){
     }
   });
   renderLblMetaAccordion(i,editorExercicios[i]);
+  card.querySelectorAll('.bloco-editor').forEach(profAtualizarPreviewBloco);
   container.appendChild(card);
 }
 
@@ -2444,11 +2601,11 @@ function criarCardSubst(parentCard,i,si){
   const listEl=parentCard.querySelector('#sl'+i);
   const sc=document.createElement('div');sc.className='subst-card';
   const bancoOpts=bancoDB.map(b=>'<option value="'+esc(b.nome)+'" '+(b.nome===s.nome?'selected':'')+'>'+esc(b.nome)+'</option>').join('');
-  sc.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;"><div class="text-sm fw-500" style="color:var(--text2);">Substituto '+(si+1)+'</div><button type="button" class="btn-ghost" data-action="del-subst" data-si="'+si+'" style="color:var(--danger);">\u2715</button></div>'
-    +'<div class="field"><label>Exerc\xEDcio</label><select class="inp inp-sm" data-s-field="nome"><option value="">\u2014 do banco \u2014</option>'+bancoOpts+'</select></div>'
-    +'<div class="field"><label>Link YouTube (substituto)</label><input class="inp inp-sm" type="url" data-s-field="youtube" value="'+esc(s.youtube||'')+'" placeholder="https://youtube.com/..."></div>'
-    +'<div class="field"><label>Link da imagem (substituto)</label><input class="inp inp-sm" type="url" data-s-field="imagem" value="'+esc(s.imagem||'')+'" placeholder="https://..."></div>'
-    +'<div class="field" style="margin-bottom:0;"><label>Observa\xE7\xE3o (quando usar)</label><textarea class="inp inp-sm" data-s-field="obs" placeholder="Ex: usar na academia X...">'+esc(s.obs||'')+'</textarea></div>';
+  sc.innerHTML='<div class="subst-card-hd"><div class="text-sm fw-500" style="color:var(--text2);">Substituto '+(si+1)+'</div><button type="button" class="btn-ghost" data-action="del-subst" data-si="'+si+'" style="color:var(--danger);" title="Remover">\u2715</button></div>'
+    +'<div class="field"><label>Nome (banco)</label><select class="inp inp-sm" data-s-field="nome"><option value="">\u2014 escolher \u2014</option>'+bancoOpts+'</select></div>'
+    +'<div class="field"><label>YouTube</label><input class="inp inp-sm" type="url" data-s-field="youtube" value="'+esc(s.youtube||'')+'" placeholder="https://..."></div>'
+    +'<div class="field"><label>Imagem (URL)</label><input class="inp inp-sm" type="url" data-s-field="imagem" value="'+esc(s.imagem||'')+'" placeholder="https://..."></div>'
+    +'<div class="field" style="margin-bottom:0;"><label>Quando usar</label><textarea class="inp inp-sm" data-s-field="obs" placeholder="Ex.: m\xE1quina ocupada, les\xE3o leve...">'+esc(s.obs||'')+'</textarea></div>';
   sc.addEventListener('change',e=>{const f=e.target.dataset.sField;if(f==='nome'){editorExercicios[i].substitutos[si].nome=e.target.value;const b=bancoDB.find(x=>x.nome===e.target.value);if(b){if(b.youtube&&!editorExercicios[i].substitutos[si].youtube){editorExercicios[i].substitutos[si].youtube=b.youtube;sc.querySelector('[data-s-field="youtube"]').value=b.youtube;}if(b.imagem&&!editorExercicios[i].substitutos[si].imagem){editorExercicios[i].substitutos[si].imagem=b.imagem;sc.querySelector('[data-s-field="imagem"]').value=b.imagem;}}}});
   sc.addEventListener('input',e=>{const f=e.target.dataset.sField;if(f&&f!=='nome')editorExercicios[i].substitutos[si][f]=e.target.value;});
   listEl.appendChild(sc);
@@ -2750,8 +2907,113 @@ function extractTokens(s){
   return t;
 }
 
+/**
+ * Estado intermediário do editor inteligente de prescrição (não persistido; UI futura).
+ * Campos numéricos / string opcionais vêm de extractTokens(meta). rawMeta espelha bloco.meta.
+ *
+ * @typedef {Object} EditorPrescricao
+ * @property {string} rawMeta — cópia da string em bloco.meta (fonte de verdade salva)
+ * @property {boolean} dirty — se true, editorParaBloco usa serializedMeta quando definido
+ * @property {string|null} serializedMeta — reservado: meta gerada pelo editor visual
+ * @property {boolean|null} biSet — reservado (bi-set)
+ * @property {Record<string, unknown>|null} extras — reservado (texto não modelado / avançado)
+ * @property {string|undefined} [tecnica] — copiado do bloco em blocoParaEditor
+ * @property {string|undefined} [tipo] — copiado do bloco em blocoParaEditor
+ * @property {number} [series]
+ * @property {number} [repsMin]
+ * @property {number} [repsMax]
+ * @property {string} [repsStr]
+ * @property {string[]} [cluster]
+ * @property {number} [rir]
+ * @property {number} [dropPct]
+ * @property {number} [restSec]
+ * @property {string} [clusterRest]
+ * @property {number} [contMin]
+ * @property {number} [contMax]
+ * @property {string} [contStr]
+ * @property {boolean} [cont99]
+ */
+
+/**
+ * @param {string|null|undefined} meta
+ * @returns {EditorPrescricao}
+ */
+function parseMetaParaEditor(meta){
+  const rawMeta=meta==null?'':String(meta);
+  const t=extractTokens(rawMeta);
+  return Object.assign({},t,{
+    rawMeta,
+    dirty:false,
+    serializedMeta:null,
+    biSet:null,
+    extras:null
+  });
+}
+
+/**
+ * @param {{meta?:string,tecnica?:string,tipo?:string,obs?:string}} [bloco]
+ * @returns {EditorPrescricao}
+ */
+function blocoParaEditor(bloco){
+  const b=bloco||{};
+  const parsed=parseMetaParaEditor(b.meta);
+  return Object.assign(parsed,{tecnica:b.tecnica,tipo:b.tipo});
+}
+
+/**
+ * @param {{meta?:string,tecnica?:string,tipo?:string,obs?:string}} bloco
+ * @param {EditorPrescricao} state
+ * @returns {{meta?:string,tecnica?:string,tipo?:string,obs?:string}}
+ */
+function editorParaBloco(bloco,state){
+  const b=Object.assign({},bloco||{});
+  const s=state||{};
+  if(s.tecnica!==undefined)b.tecnica=s.tecnica;
+  if(s.tipo!==undefined)b.tipo=s.tipo;
+  if(!s.dirty)b.meta=s.rawMeta!=null?String(s.rawMeta):(b.meta!=null?String(b.meta):'');
+  else b.meta=s.serializedMeta!=null?String(s.serializedMeta):(s.rawMeta!=null?String(s.rawMeta):(b.meta!=null?String(b.meta):''));
+  return b;
+}
+
+/** Testes manuais no console; não ligado à UI. @returns {{passed:number,failed:number,checks:string[]}} */
+function selfTestPrescricaoLayer(){
+  const checks=[];
+  let passed=0,failed=0;
+  const bump=(name,ok,detail)=>{
+    checks.push((ok?'OK ':'FAIL')+name+(detail?': '+detail:''));
+    if(ok)passed++;else failed++;
+  };
+  const metas=['3x8',' 2 x 10-12 ','1x8 (2 rir)','2x8 15 seg','4+4+4','2x8 + 99','2x8 - 20 %','2x8 10/20 seg entre mini'];
+  for(const meta of metas){
+    const bl={meta,tecnica:'work',tipo:'Work set'};
+    const ed=blocoParaEditor(bl);
+    const out=editorParaBloco(bl,ed);
+    bump('round-trip '+JSON.stringify(meta),out.meta===bl.meta,'got '+JSON.stringify(out.meta));
+  }
+  const blDirty={meta:'3x8',tecnica:'work',tipo:'Work set'};
+  const edD=blocoParaEditor(blDirty);
+  edD.dirty=true;
+  edD.serializedMeta='4x6';
+  bump('dirty+serializedMeta',editorParaBloco(blDirty,edD).meta==='4x6',editorParaBloco(blDirty,edD).meta);
+  const blLeg={meta:'texto legado sem padrão',tecnica:'feeder',tipo:'Aquecimento',obs:'nota'};
+  const edL=blocoParaEditor(blLeg);
+  const outL=editorParaBloco(blLeg,edL);
+  bump('legado obs+meta',outL.meta===blLeg.meta&&outL.obs==='nota'&&outL.tecnica==='feeder','');
+  const tok=parseMetaParaEditor('3x8-12 (0 rir) + 5');
+  bump('parse 3x8-12 (0 rir) + 5',tok.series===3&&tok.repsStr!=null&&tok.rir===0&&tok.contMin===5,'series='+tok.series+' rir='+tok.rir+' cont='+tok.contStr);
+  const summary={passed,failed,checks};
+  console.log('[selfTestPrescricaoLayer]',summary);
+  return summary;
+}
+
+window.parseMetaParaEditor=parseMetaParaEditor;
+window.blocoParaEditor=blocoParaEditor;
+window.editorParaBloco=editorParaBloco;
+window.selfTestPrescricaoLayer=selfTestPrescricaoLayer;
+
 function techniqueTranslator(block){
-  const type=block.tecnica||'work';
+  let type=block.tecnica||'work';
+  if(type==='drop')type='drop-set';
   const t=extractTokens(block.meta||'');
   const rirTxt=t.rir===0?'Vá até o limite'
     :t.rir>0?'Pare '+t.rir+' rep'+(t.rir>1?'s':'')+' antes da falha':null;
@@ -2822,6 +3084,73 @@ function techniqueTranslator(block){
     ]
   };
   return{title:'Série',sub:block.meta||'',hint:'',badge:'Série',badgeClass:'badge-main',kind:'series',series:1};
+}
+
+/** Resumo legível a partir de parseMetaParaEditor (professor). */
+function profResumoInterpretado(parsed){
+  const t=parsed||{};
+  const m=(t.rawMeta||'').trim();
+  if(!m)return'Campo vazio — use algo como 3x8, 2x6–9 (2 RIR) ou 4+4+4.';
+  const parts=[];
+  if(typeof t.series==='number'&&t.series>0){
+    let rep='';
+    if(t.repsStr!=null&&String(t.repsStr).length)rep=String(t.repsStr).replace(/-/g,'\u2013')+' reps';
+    else if(t.repsMin!=null&&t.repsMax!=null)rep=t.repsMin===t.repsMax?String(t.repsMin)+' reps':'de '+t.repsMin+' a '+t.repsMax+' reps';
+    parts.push(t.series+' s\xE9rie'+(t.series>1?'s':'')+(rep?' de '+rep:' (reps em falta)'));
+  }
+  if(Array.isArray(t.cluster)&&t.cluster.length)parts.push('Cluster '+t.cluster.join('+')+' reps nas mini-s\xE9ries');
+  if(typeof t.rir==='number')parts.push(t.rir===0?'RIR 0 (\xE0 falha)':'RIR '+t.rir);
+  if(t.cont99)parts.push('Continua\xE7\xE3o at\xE9 a falha (+99)');
+  else if(t.contStr)parts.push('Continua\xE7\xE3o +'+(t.contStr||'')+' rep'+(t.contMin!==1?'s':''));
+  if(typeof t.restSec==='number')parts.push('Pausa '+t.restSec+'s');
+  if(typeof t.dropPct==='number')parts.push('Drop ~'+t.dropPct+'%');
+  if(!parts.length)return'Padr\xE3o num\xE9rico ainda incompleto — complete N x reps (ex.: 3x8).';
+  return parts.join(' \xB7 ');
+}
+
+/** Atualiza o preview visual sob o campo meta (s\xF3 #screen-editor). */
+function profAtualizarPreviewBloco(blocoEditorEl){
+  const root=blocoEditorEl&&blocoEditorEl.querySelector&&blocoEditorEl.querySelector('[data-prof-meta-preview]');
+  if(!root||!document.getElementById('screen-editor')?.contains(root))return;
+  const inp=blocoEditorEl.querySelector('input[data-bfield="meta"]');
+  if(!inp)return;
+  const activeP=blocoEditorEl.querySelector('.tecnica-pill--active');
+  const tecnica=(activeP&&activeP.dataset.tecnica)||'work';
+  const meta=inp.value;
+  const parsed=parseMetaParaEditor(meta);
+  const trim=(meta||'').trim();
+  const okSeries=typeof parsed.series==='number'&&parsed.series>0&&(parsed.repsStr!=null||(parsed.repsMin!=null&&parsed.repsMax!=null));
+  const okCluster=Array.isArray(parsed.cluster)&&parsed.cluster.length>=2;
+  let tier='warn';
+  if(!trim)tier='warn';
+  else if(okSeries||okCluster)tier='ok';
+  else if(trim.length&&!/\d/.test(trim))tier='bad';
+  else if(/^\d+\s*x\s*$/i.test(trim))tier='warn';
+  else if(/\([^)]*$/.test(trim))tier='warn';
+  else if(/\d/.test(trim))tier='warn';
+  else tier='bad';
+  root.classList.remove('prof-meta-preview--ok','prof-meta-preview--warn','prof-meta-preview--bad');
+  root.classList.add(tier==='ok'?'prof-meta-preview--ok':tier==='bad'?'prof-meta-preview--bad':'prof-meta-preview--warn');
+  const elI=root.querySelector('[data-prof-meta-interpreted]');
+  const elT=root.querySelector('[data-prof-meta-tt-title]');
+  const elS=root.querySelector('[data-prof-meta-tt-sub]');
+  const elH=root.querySelector('[data-prof-meta-tt-hint]');
+  const elF=root.querySelector('[data-prof-meta-format]');
+  if(elI)elI.textContent=profResumoInterpretado(parsed);
+  let tt;
+  try{tt=techniqueTranslator({tecnica,meta});}catch(_){tt={title:'',sub:'',hint:''};}
+  if(elT)elT.textContent=tt.title||'\u2014';
+  if(elS)elS.textContent=tt.sub||'';
+  if(elH){
+    const h=(tt.hint||'').trim();
+    elH.textContent=h;
+    elH.style.display=h?'':'none';
+  }
+  if(elF){
+    if(tier==='ok')elF.textContent='Nota\xE7\xE3o reconhecida para o preview.';
+    else if(tier==='bad')elF.textContent='Inclua n\xFAmeros: padr\xE3o N x reps ou cluster (ex.: 4+4+4).';
+    else elF.textContent='Dica: Nxreps (3x8), faixa 2x6\u201310, (2 RIR), cluster 4+4+4, pausa 15 seg.';
+  }
 }
 </script>
 </body>
