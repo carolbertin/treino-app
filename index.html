@@ -181,33 +181,60 @@ select.inp option{background:var(--bg3);}
 #screen-editor .ex-editor-card .subst-card{background:var(--bg3);border:1px solid var(--border-subtle);border-radius:12px;padding:14px;}
 #screen-editor .ex-editor-card .subst-card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border-subtle);}
 #screen-editor .ex-editor-card .prof-editor-timer-hint{font-size:11px;color:var(--text3);margin-top:6px;line-height:1.4;}
-#screen-editor .prof-meta-preview{margin-top:8px;padding:10px 12px;border-radius:10px;border:1px solid var(--border-subtle);background:rgba(255,255,255,.02);font-size:12px;line-height:1.45;transition:border-color .15s,background .15s;}
-#screen-editor .prof-meta-preview--ok{border-color:rgba(200,240,96,.35);background:rgba(200,240,96,.06);}
-#screen-editor .prof-meta-preview--warn{border-color:rgba(240,168,48,.35);background:rgba(240,168,48,.06);}
-#screen-editor .prof-meta-preview--bad{border-color:rgba(255,85,85,.32);background:rgba(255,85,85,.06);}
-#screen-editor .prof-meta-preview-k{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:3px;}
-#screen-editor .prof-meta-preview-k-mt{margin-top:10px;}
-#screen-editor .prof-meta-preview-interpreted{color:var(--text);font-weight:500;}
-#screen-editor .prof-meta-preview-title{font-size:14px;font-weight:700;color:var(--accent);}
+#screen-editor .prof-meta-preview{margin-top:8px;padding:0;border-radius:10px;border:1px solid var(--border-subtle);background:rgba(255,255,255,.02);font-size:12px;line-height:1.45;transition:border-color .15s,background .15s;overflow:hidden;}
+#screen-editor .prof-meta-preview--ok{border-color:rgba(29,158,117,.4);background:rgba(29,158,117,.07);}
+#screen-editor .prof-meta-preview--warn{border-color:rgba(240,168,48,.38);background:rgba(240,168,48,.07);}
+#screen-editor .prof-meta-preview--bad{border-color:rgba(226,75,74,.4);background:rgba(226,75,74,.07);}
+#screen-editor .prof-meta-preview-sec{padding:10px 12px;}
+#screen-editor .prof-meta-preview-sec--interp{background:rgba(0,0,0,.12);}
+#screen-editor .prof-meta-preview-sec--aluno{padding-top:12px;}
+#screen-editor .prof-meta-preview-tag{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:5px;}
+#screen-editor .prof-meta-preview-tag--aluno{color:rgba(200,240,96,.75);letter-spacing:.1em;}
+#screen-editor .prof-meta-preview-sep{height:1px;background:var(--border-subtle);margin:0;}
+#screen-editor .prof-meta-preview-interpreted{color:var(--text2);font-size:12px;font-weight:500;line-height:1.4;}
+#screen-editor .prof-meta-preview-aluno-head{font-size:15px;font-weight:700;color:var(--accent);line-height:1.25;margin-bottom:6px;}
+#screen-editor .prof-meta-preview-steps{list-style:none;margin:0;padding:0 0 2px 0;}
+#screen-editor .prof-meta-preview-steps li{font-size:12px;color:var(--text2);padding:4px 0 4px 0;border-bottom:1px solid var(--border-subtle);line-height:1.4;}
+#screen-editor .prof-meta-preview-steps li:last-child{border-bottom:none;}
+#screen-editor .prof-meta-preview-step-n{color:var(--text3);font-weight:600;margin-right:6px;font-size:11px;}
 #screen-editor .prof-meta-preview-sub{font-size:12px;color:var(--text2);margin-top:2px;}
-#screen-editor .prof-meta-preview-hint{font-size:11px;color:var(--text3);margin-top:4px;font-style:italic;}
-#screen-editor .prof-meta-preview-format{font-size:11px;color:var(--text3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border-subtle);}
-#screen-editor .tecnica-pills{display:flex;flex-wrap:wrap;gap:4px;padding:6px 0 4px;}
+#screen-editor .prof-meta-preview-hint{font-size:11px;color:var(--text3);margin-top:6px;font-style:italic;line-height:1.4;}
+#screen-editor .prof-meta-preview-format{font-size:11px;color:var(--text3);padding:8px 12px 10px;border-top:1px solid var(--border-subtle);background:rgba(0,0,0,.08);}
+#screen-editor .prof-meta-inp{transition:border-color .15s,background .15s,box-shadow .15s;}
+#screen-editor .prof-meta-inp.prof-meta-inp--ok{border-color:rgba(29,158,117,.42)!important;background:rgba(29,158,117,.06)!important;}
+#screen-editor .prof-meta-inp.prof-meta-inp--warn{border-color:rgba(240,168,48,.38)!important;background:rgba(240,168,48,.05)!important;}
+#screen-editor .prof-meta-inp.prof-meta-inp--bad{border-color:rgba(226,75,74,.42)!important;background:rgba(226,75,74,.06)!important;}
+#screen-editor .tecnica-pills{display:flex;flex-wrap:wrap;gap:5px;padding:6px 0 4px;}
 #screen-editor .tecnica-pill{
-  font-size:11px;padding:4px 9px;border-radius:20px;font-weight:500;border:1px solid var(--border-subtle);
-  cursor:pointer;font-family:inherit;background:rgba(255,255,255,.03);color:var(--text2);
-  transition:opacity .15s,border-color .15s,background .15s,color .15s;
+  font-size:11px;padding:5px 10px;border-radius:20px;font-weight:500;border:1px solid transparent;
+  cursor:pointer;font-family:inherit;transition:opacity .16s,background .16s,border-color .16s,color .16s,box-shadow .18s,transform .12s;
 }
-#screen-editor .tecnica-pill.inactive{opacity:.25;}
-#screen-editor .tecnica-pill--active{opacity:1;font-weight:600;}
-#screen-editor .tecnica-pill--active[data-tecnica="normal"]{background:rgba(180,180,180,.12);border-color:rgba(200,200,200,.35);color:var(--text);}
-#screen-editor .tecnica-pill--active[data-tecnica="feeder"]{background:rgba(250,238,218,.14);border-color:rgba(239,159,39,.5);color:#f0d9a8;}
-#screen-editor .tecnica-pill--active[data-tecnica="work"]{background:rgba(230,241,251,.12);border-color:rgba(133,183,235,.45);color:#c8ddf5;}
-#screen-editor .tecnica-pill--active[data-tecnica="cluster"]{background:rgba(225,245,238,.12);border-color:rgba(93,202,165,.45);color:#b8ebd9;}
-#screen-editor .tecnica-pill--active[data-tecnica="rest-pause"]{background:rgba(238,237,254,.12);border-color:rgba(175,169,236,.45);color:#d4d0f5;}
-#screen-editor .tecnica-pill--active[data-tecnica="back-off"]{background:rgba(250,236,231,.12);border-color:rgba(240,153,123,.45);color:#f0c4b3;}
-#screen-editor .tecnica-pill--active[data-tecnica="drop"]{background:rgba(234,243,222,.12);border-color:rgba(151,196,89,.45);color:#d4e8b8;}
-#screen-editor .tecnica-pill--active[data-tecnica="bilateral"]{background:rgba(220,230,245,.12);border-color:rgba(120,160,220,.45);color:#c5d4ee;}
+#screen-editor .tecnica-pill:focus-visible{outline:2px solid var(--border-focus);outline-offset:2px;}
+#screen-editor .tecnica-pill.inactive{opacity:.28;}
+#screen-editor .tecnica-pill--active{
+  opacity:1!important;font-weight:700;
+  box-shadow:0 0 0 1px rgba(255,255,255,.06),0 2px 10px rgba(0,0,0,.25);
+}
+/* Identidade por técnica (tema escuro): inativas legíveis; ativa mais saturada */
+#screen-editor .tecnica-pill[data-tecnica="normal"]{color:#d8d8d8;border-color:rgba(200,200,200,.32);background:rgba(120,120,120,.1);}
+#screen-editor .tecnica-pill[data-tecnica="normal"].tecnica-pill--active{color:#f5f5f5;border-color:rgba(220,220,220,.55);background:rgba(160,160,160,.22);}
+#screen-editor .tecnica-pill[data-tecnica="feeder"]{color:#f0d2a8;border-color:rgba(239,159,39,.42);background:rgba(239,159,39,.1);}
+#screen-editor .tecnica-pill[data-tecnica="feeder"].tecnica-pill--active{color:#fff6e8;border-color:rgba(239,159,39,.75);background:rgba(239,159,39,.26);}
+#screen-editor .tecnica-pill[data-tecnica="work"]{color:#c8e2ff;border-color:rgba(96,168,240,.45);background:rgba(96,168,240,.1);}
+#screen-editor .tecnica-pill[data-tecnica="work"].tecnica-pill--active{color:#eef6ff;border-color:rgba(120,190,255,.72);background:rgba(96,168,240,.28);}
+#screen-editor .tecnica-pill[data-tecnica="cluster"]{color:#b8f0de;border-color:rgba(93,202,165,.45);background:rgba(93,202,165,.1);}
+#screen-editor .tecnica-pill[data-tecnica="cluster"].tecnica-pill--active{color:#e8fff7;border-color:rgba(93,202,165,.75);background:rgba(93,202,165,.24);}
+#screen-editor .tecnica-pill[data-tecnica="rest-pause"]{color:#ddd8ff;border-color:rgba(175,169,236,.48);background:rgba(175,169,236,.1);}
+#screen-editor .tecnica-pill[data-tecnica="rest-pause"].tecnica-pill--active{color:#f4f2ff;border-color:rgba(175,169,236,.78);background:rgba(175,169,236,.26);}
+#screen-editor .tecnica-pill[data-tecnica="back-off"]{color:#ffd4c4;border-color:rgba(240,153,123,.48);background:rgba(240,153,123,.1);}
+#screen-editor .tecnica-pill[data-tecnica="back-off"].tecnica-pill--active{color:#fff0ea;border-color:rgba(240,153,123,.78);background:rgba(240,153,123,.26);}
+#screen-editor .tecnica-pill[data-tecnica="drop"]{color:#d8f0b0;border-color:rgba(151,196,89,.48);background:rgba(151,196,89,.1);}
+#screen-editor .tecnica-pill[data-tecnica="drop"].tecnica-pill--active{color:#f4ffe8;border-color:rgba(151,196,89,.78);background:rgba(151,196,89,.26);}
+#screen-editor .tecnica-pill[data-tecnica="bilateral"]{color:#c9dcf5;border-color:rgba(120,160,220,.45);background:rgba(120,160,220,.1);}
+#screen-editor .tecnica-pill[data-tecnica="bilateral"].tecnica-pill--active{color:#eef5ff;border-color:rgba(140,180,240,.72);background:rgba(120,160,220,.24);}
+@media (prefers-reduced-motion: reduce){
+  #screen-editor .tecnica-pill{transition:none;}
+}
 #screen-editor .prof-ex-details-toggle{
   width:100%;margin-top:6px;margin-bottom:2px;display:flex;align-items:center;gap:8px;justify-content:flex-start;text-align:left;
   padding:10px 12px;border-radius:10px;border:1px solid var(--border-subtle);background:rgba(255,255,255,.04);
@@ -662,6 +689,23 @@ const TECNICAS=[
   {val:'drop',      label:'Drop set',        timer:15},
   {val:'bilateral', label:'Entre lados',     timer:45},
 ];
+/** Placeholders do campo meta no editor do professor (por técnica); só UI. */
+const TYPE_HINTS={
+  feeder:'2x10 (2 RIR)',
+  work:'1x6-9 (0 RIR)',
+  cluster:'1x4+4+4 (15 seg entre)',
+  'rest-pause':'1x6 +3/+3 (20 seg)',
+  'back-off':'1x8 + 2x10 (-20%)',
+  drop:'1x10 + drop até falha',
+  normal:'3x8',
+  bilateral:'1x8 / 1x8 (entre lados)'
+};
+function profMetaPlaceholderForTecnica(tecnica){
+  let t=((tecnica||'')+'').trim();
+  if(!t)t='work';
+  if(t==='drop-set')t='drop';
+  return TYPE_HINTS[t]||TYPE_HINTS.work;
+}
 const TIPOS_SERIE_PADRAO=['Feeder set','Work set','Work set - cluster set','Aquecimento'];
 const LS_TIPOS_SERIE_CUSTOM='tipos_serie_custom_v1';
 function lerTiposSerieCustomArr(){
@@ -790,14 +834,20 @@ function htmlBlocosEditor(ex){
       +'</div>'
       +'<div class="field"><label>Tipo de s\xE9rie</label><div class="tipo-pills" data-bi-pills="'+bi+'">'+pillsHtmlBloco(b)+'</div></div>'
       +'<div class="field"><label>T\xE9cnica de s\xE9rie</label>'+htmlTecnicaPills(b,bi)+'</div>'
-      +'<div class="field"><label>Prescri\xE7\xE3o (s\xE9ries x reps)</label><input class="inp" type="text" data-bfield="meta" data-bi="'+bi+'" value="'+esc(b.meta||'')+'" placeholder="Ex: 2x8, 1x4+4+4"></div>'
+      +'<div class="field"><label>Prescri\xE7\xE3o (s\xE9ries x reps)</label><input class="inp prof-meta-inp" type="text" data-bfield="meta" data-bi="'+bi+'" value="'+esc(b.meta||'')+'" placeholder="'+esc(profMetaPlaceholderForTecnica(b.tecnica))+'"></div>'
       +'<div class="prof-meta-preview prof-meta-preview--warn" data-prof-meta-preview data-bi="'+bi+'">'
-        +'<span class="prof-meta-preview-k">Interpretado como</span>'
-        +'<div class="prof-meta-preview-interpreted" data-prof-meta-interpreted></div>'
-        +'<span class="prof-meta-preview-k prof-meta-preview-k-mt">O aluno verá</span>'
-        +'<div class="prof-meta-preview-title" data-prof-meta-tt-title></div>'
-        +'<div class="prof-meta-preview-sub" data-prof-meta-tt-sub></div>'
-        +'<div class="prof-meta-preview-hint" data-prof-meta-tt-hint></div>'
+        +'<div class="prof-meta-preview-sec prof-meta-preview-sec--interp">'
+          +'<div class="prof-meta-preview-tag">Interpretado como</div>'
+          +'<div class="prof-meta-preview-interpreted" data-prof-meta-interpreted></div>'
+        +'</div>'
+        +'<div class="prof-meta-preview-sep" aria-hidden="true"></div>'
+        +'<div class="prof-meta-preview-sec prof-meta-preview-sec--aluno">'
+          +'<div class="prof-meta-preview-tag prof-meta-preview-tag--aluno">O aluno verá</div>'
+          +'<div class="prof-meta-preview-aluno-head" data-prof-meta-tt-title></div>'
+          +'<ul class="prof-meta-preview-steps" data-prof-meta-steps style="display:none;"></ul>'
+          +'<div class="prof-meta-preview-sub" data-prof-meta-tt-sub></div>'
+          +'<div class="prof-meta-preview-hint" data-prof-meta-tt-hint></div>'
+        +'</div>'
         +'<div class="prof-meta-preview-format" data-prof-meta-format></div>'
       +'</div>'
       +'<div class="field" style="margin-bottom:0;"><label>Observa\xE7\xE3o do bloco (opcional)</label><textarea class="inp" data-bfield="obs" data-bi="'+bi+'" placeholder="Dica para esta etapa...">'+esc(b.obs||'')+'</textarea></div>'
@@ -3117,6 +3167,7 @@ function profAtualizarPreviewBloco(blocoEditorEl){
   const activeP=blocoEditorEl.querySelector('.tecnica-pill--active');
   const tecnica=(activeP&&activeP.dataset.tecnica)||'work';
   const meta=inp.value;
+  inp.setAttribute('placeholder',profMetaPlaceholderForTecnica(tecnica));
   const parsed=parseMetaParaEditor(meta);
   const trim=(meta||'').trim();
   const okSeries=typeof parsed.series==='number'&&parsed.series>0&&(parsed.repsStr!=null||(parsed.repsMin!=null&&parsed.repsMax!=null));
@@ -3131,25 +3182,48 @@ function profAtualizarPreviewBloco(blocoEditorEl){
   else tier='bad';
   root.classList.remove('prof-meta-preview--ok','prof-meta-preview--warn','prof-meta-preview--bad');
   root.classList.add(tier==='ok'?'prof-meta-preview--ok':tier==='bad'?'prof-meta-preview--bad':'prof-meta-preview--warn');
+  inp.classList.remove('prof-meta-inp--ok','prof-meta-inp--warn','prof-meta-inp--bad');
+  inp.classList.add('prof-meta-inp','prof-meta-inp--'+(tier==='ok'?'ok':tier==='bad'?'bad':'warn'));
   const elI=root.querySelector('[data-prof-meta-interpreted]');
   const elT=root.querySelector('[data-prof-meta-tt-title]');
+  const elSteps=root.querySelector('[data-prof-meta-steps]');
   const elS=root.querySelector('[data-prof-meta-tt-sub]');
   const elH=root.querySelector('[data-prof-meta-tt-hint]');
   const elF=root.querySelector('[data-prof-meta-format]');
   if(elI)elI.textContent=profResumoInterpretado(parsed);
   let tt;
-  try{tt=techniqueTranslator({tecnica,meta});}catch(_){tt={title:'',sub:'',hint:''};}
+  try{tt=techniqueTranslator({tecnica,meta});}catch(_){tt={title:'',sub:'',hint:'',steps:null};}
   if(elT)elT.textContent=tt.title||'\u2014';
-  if(elS)elS.textContent=tt.sub||'';
+  const steps=Array.isArray(tt.steps)&&tt.steps.length?tt.steps:null;
+  if(elSteps){
+    if(steps){
+      elSteps.innerHTML=steps.map(st=>'<li><span class="prof-meta-preview-step-n">'+(st.n?esc(st.n)+' ':'')+'</span>'+esc(st.label||'')+'</li>').join('');
+      elSteps.style.display='block';
+    }else{
+      elSteps.innerHTML='';
+      elSteps.style.display='none';
+    }
+  }
+  if(elS){
+    if(steps){
+      elS.textContent='';
+      elS.style.display='none';
+    }else{
+      const sub=(tt.sub||'').trim();
+      elS.textContent=sub;
+      elS.style.display=sub?'':'none';
+    }
+  }
   if(elH){
     const h=(tt.hint||'').trim();
     elH.textContent=h;
     elH.style.display=h?'':'none';
   }
   if(elF){
+    const exPh=profMetaPlaceholderForTecnica(tecnica);
     if(tier==='ok')elF.textContent='Nota\xE7\xE3o reconhecida para o preview.';
-    else if(tier==='bad')elF.textContent='Inclua n\xFAmeros: padr\xE3o N x reps ou cluster (ex.: 4+4+4).';
-    else elF.textContent='Dica: Nxreps (3x8), faixa 2x6\u201310, (2 RIR), cluster 4+4+4, pausa 15 seg.';
+    else if(tier==='bad')elF.textContent='Inclua n\xFAmeros. Ex.: '+exPh;
+    else elF.textContent='Exemplo para esta t\xE9cnica: '+exPh;
   }
 }
 </script>
