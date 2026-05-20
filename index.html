@@ -374,6 +374,250 @@ select.inp option{background:var(--bg3);}
 .grupo-bar-track{flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;}
 .grupo-bar-fill{height:100%;border-radius:4px;background:var(--accent);}
 .grupo-bar-val{font-size:12px;font-family:'DM Mono',monospace;color:var(--accent);min-width:28px;text-align:right;}
+/* #screen-prof-treino — superfície de análise (largura + geometria horizontal) */
+#screen-prof-treino .content.content-pb{
+  width:100%;max-width:none;margin-left:0;margin-right:0;
+  padding-left:max(12px,env(safe-area-inset-left,0px));
+  padding-right:max(12px,env(safe-area-inset-right,0px));
+}
+@media(min-width:600px){
+  #screen-prof-treino .content.content-pb{
+    max-width:min(920px,calc(100vw - 32px));margin-left:auto;margin-right:auto;
+    padding-left:20px;padding-right:20px;
+  }
+}
+@media(min-width:900px){
+  #screen-prof-treino .content.content-pb{max-width:min(1040px,calc(100vw - 48px));}
+}
+#screen-prof-treino #pt-analysis,
+#screen-prof-treino #pt-hero,
+#screen-prof-treino #pt-context-week{width:100%;max-width:100%;}
+#screen-prof-treino #pt-pane-ex,
+#screen-prof-treino #pt-analysis{overflow-x:clip;min-width:0;max-width:100%;}
+#screen-prof-treino #pt-analysis{display:flex;flex-direction:column;gap:0;}
+#screen-prof-treino .pt-vol-tabs{
+  display:flex;border-bottom:0.5px solid rgba(255,255,255,.1);margin:0 0 12px;
+}
+#screen-prof-treino .pt-vol-tab{
+  flex:1;min-height:44px;padding:10px 8px;font-size:12px;font-weight:500;text-align:center;cursor:pointer;
+  color:var(--text3);border:0;border-bottom:2px solid transparent;background:transparent;
+  font-family:inherit;transition:color .15s,border-color .15s;
+  display:flex;align-items:center;justify-content:center;
+}
+#screen-prof-treino .pt-vol-tab.active{color:var(--text);border-bottom-color:var(--accent);}
+#screen-prof-treino .pt-vol-pane{display:none;flex-direction:column;gap:8px;min-width:0;}
+#screen-prof-treino .pt-vol-pane.active{
+  display:flex;animation:ptVolPaneIn .2s ease forwards;
+}
+@keyframes ptVolPaneIn{
+  from{opacity:0;transform:translateY(4px);}
+  to{opacity:1;transform:none;}
+}
+@keyframes ptVolFadeIn{
+  from{opacity:.35;}
+  to{opacity:1;}
+}
+#screen-prof-treino .pt-vol-fade-in{animation:ptVolFadeIn .16s ease forwards;}
+#screen-prof-treino #pt-pane-vol-treino{padding-top:0;}
+#screen-prof-treino #pt-pane-vol-semana{padding-top:0;}
+#screen-prof-treino .pt-nav-treinos{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px;max-width:100%;}
+#screen-prof-treino .pt-nav-pill{
+  min-height:36px;padding:6px 12px;border-radius:16px;font-size:11px;font-weight:500;cursor:pointer;
+  border:0.5px solid rgba(255,255,255,.1);background:transparent;color:var(--text3);
+  transition:color .12s,border-color .12s,background .12s;
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:inherit;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+#screen-prof-treino .pt-nav-pill.active{background:rgba(255,255,255,.06);color:var(--text);border-color:rgba(255,255,255,.14);}
+@media(hover:hover) and (pointer:fine){
+  #screen-prof-treino .pt-nav-pill:hover:not(.active){color:var(--text2);border-color:rgba(255,255,255,.12);}
+  #screen-prof-treino .pt-vol-tab:hover:not(.active){color:var(--text2);}
+  #screen-prof-treino #pt-detail-toggle:hover{color:var(--text2);}
+}
+#screen-prof-treino .pt-analysis-head{display:none;}
+/* KPI + barras — mesma superfície (treino e semana) */
+#screen-prof-treino #pt-hero-kpi,
+#screen-prof-treino #pt-week-kpi{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:0 7px;
+  margin:0;padding:0 0 6px;border-bottom:1px solid rgba(255,255,255,.04);
+}
+#screen-prof-treino #pt-hero,
+#screen-prof-treino #pt-context-week{margin-top:-2px;}
+#screen-prof-treino .pt-hero-kpi-val{
+  font-size:22px;font-weight:500;color:var(--text);line-height:1;
+  font-family:'DM Mono',monospace;letter-spacing:-.03em;font-variant-numeric:tabular-nums;
+}
+#screen-prof-treino .pt-hero-kpi-lbl{
+  font-size:11px;font-weight:400;color:var(--text3);margin:0;line-height:1.35;
+  letter-spacing:.01em;
+}
+#screen-prof-treino .pt-hero-kpi-val--dim{color:rgba(255,255,255,.45);}
+#screen-prof-treino .pt-vol-kpi-hint{
+  flex:0 0 100%;width:100%;margin:4px 0 0;font-size:11px;font-weight:400;line-height:1.35;
+  color:rgba(255,255,255,.38);letter-spacing:.01em;
+}
+#screen-prof-treino #pt-hero-kpi.pt-hero-kpi--empty,
+#screen-prof-treino #pt-week-kpi.pt-hero-kpi--empty{padding-bottom:8px;}
+#screen-prof-treino #pt-detail-toggle{
+  display:block;width:100%;min-height:44px;margin-top:8px;padding:10px 0;border:0;background:transparent;
+  font-size:11px;font-weight:500;color:var(--text3);text-align:left;cursor:pointer;
+  letter-spacing:.01em;
+}
+#screen-prof-treino #pt-detail{
+  overflow:hidden;max-height:3200px;opacity:1;
+  margin-top:2px;padding-top:6px;border-top:1px solid rgba(255,255,255,.04);
+  transition:max-height .28s ease,opacity .2s ease,padding .28s ease,margin .28s ease,border-color .2s ease;
+}
+#screen-prof-treino #pt-detail.pt-detail--closed{
+  max-height:0;opacity:0;margin-top:0;padding-top:0;
+  border-top-color:transparent;pointer-events:none;
+}
+#screen-prof-treino #pt-instrucoes .card{margin-bottom:6px!important;padding:8px 10px!important;}
+#screen-prof-treino #pt-exercicios{display:flex;flex-direction:column;gap:0;}
+#screen-prof-treino .pt-ex-origin-row{
+  display:flex;align-items:flex-start;gap:10px;padding:12px 0;
+  border-bottom:0.5px solid rgba(255,255,255,.07);
+}
+#screen-prof-treino .pt-ex-origin-row:last-child{border-bottom:none;padding-bottom:0;}
+#screen-prof-treino .pt-ex-origin-num{
+  width:18px;min-width:18px;font-size:11px;font-weight:500;color:rgba(255,255,255,.38);
+  font-family:'DM Mono',monospace;line-height:1.35;padding-top:3px;text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+#screen-prof-treino .pt-ex-origin-main{flex:1;min-width:0;}
+#screen-prof-treino .pt-ex-origin-nome{
+  font-size:14px;font-weight:500;color:rgba(255,255,255,.9);line-height:1.3;letter-spacing:.01em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;
+}
+#screen-prof-treino .pt-ex-origin-blocos{margin-top:6px;display:flex;flex-direction:column;gap:4px;}
+#screen-prof-treino .pt-ex-bloco-row{
+  display:grid;grid-template-columns:minmax(7.25rem,42%) minmax(0,1fr);
+  align-items:baseline;column-gap:10px;width:100%;
+}
+#screen-prof-treino .pt-ex-bloco-tipo{
+  font-size:12px;font-weight:400;color:rgba(255,255,255,.38);line-height:1.35;
+  min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+#screen-prof-treino .pt-ex-bloco-meta{
+  font-size:13px;font-weight:400;color:rgba(255,255,255,.6);line-height:1.35;
+  font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;
+  text-align:right;min-width:0;overflow-wrap:anywhere;
+}
+#screen-prof-treino .pt-ex-grps{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;align-items:center;max-width:100%;}
+#screen-prof-treino .pt-ex-grp{
+  font-size:11px;padding:2px 8px;border-radius:20px;line-height:1.35;font-weight:500;
+  letter-spacing:.01em;background:rgba(255,255,255,.08);color:rgba(255,255,255,.5);
+  border:0.5px solid rgba(255,255,255,.08);
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+#screen-prof-treino .pt-vol-state-msg,
+#screen-prof-treino .pt-ex-origin-empty{
+  font-size:12px;font-weight:400;color:rgba(255,255,255,.38);line-height:1.45;
+  padding:12px 0;margin:0;
+}
+/* volume prescrito — barras (Por treino e Por semana, mesma escala) */
+#pt-analysis,#pt-hero,#pt-context-week{--pt-vol-bar:#8B84E8;--pt-vol-track:rgba(255,255,255,.06);}
+#pt-hero .pt-vol-panel--hero,#pt-hero .pt-vol-panel--focus,
+#pt-context-week .pt-vol-panel--hero,#pt-context-week .pt-vol-panel--focus{
+  background:transparent;border:none;border-radius:0;box-shadow:none;
+  padding:0;margin:0;width:100%;
+}
+#pt-hero .pt-vol-panel--hero .pt-vol-card-title,
+#pt-context-week .pt-vol-panel--hero .pt-vol-card-title{display:none;}
+#pt-hero .pt-vol-panel--hero .pt-vol-legend,
+#pt-hero .pt-vol-panel--hero .pt-vol-type,
+#pt-hero .pt-vol-panel--hero .pt-vol-sep,
+#pt-context-week .pt-vol-panel--hero .pt-vol-legend,
+#pt-context-week .pt-vol-panel--hero .pt-vol-type,
+#pt-context-week .pt-vol-panel--hero .pt-vol-sep{display:none!important;}
+#pt-hero .pt-vol-rows,
+#pt-context-week .pt-vol-rows{display:flex;flex-direction:column;gap:9px;width:100%;}
+#pt-hero .pt-vol-group,
+#pt-context-week .pt-vol-group{
+  display:grid;grid-template-columns:minmax(4.75rem,18%) minmax(0,1fr) auto;
+  align-items:center;column-gap:12px;width:100%;margin:0;
+}
+#pt-hero .pt-vol-grupo-label,
+#pt-context-week .pt-vol-grupo-label{
+  grid-column:1;font-size:12px;font-weight:500;color:var(--text2);margin:0;
+  min-width:0;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  letter-spacing:.01em;
+}
+#pt-hero .pt-vol-row,
+#pt-context-week .pt-vol-row{
+  grid-column:2/4;display:grid;grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;column-gap:10px;min-width:0;
+}
+#pt-hero .pt-vol-track,
+#pt-context-week .pt-vol-track{
+  height:12px;background:rgba(255,255,255,.08);border-radius:6px;min-width:0;width:100%;
+}
+#pt-hero .pt-vol-fill,
+#pt-context-week .pt-vol-fill{border-radius:6px;min-width:8px;box-shadow:0 0 0 0.5px rgba(0,0,0,.12);}
+#pt-hero .pt-vol-val,
+#pt-context-week .pt-vol-val{
+  grid-column:2;justify-self:end;font-size:11px;font-weight:500;
+  font-family:'DM Mono',monospace;color:var(--text3);min-width:2.25ch;text-align:right;
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1;
+}
+#pt-hero .pt-vol-panel--empty .pt-vol-card-title,
+#pt-context-week .pt-vol-panel--empty .pt-vol-card-title{display:none;}
+#pt-hero .pt-vol-empty,
+#pt-context-week .pt-vol-empty{
+  font-size:12px;font-weight:400;color:rgba(255,255,255,.38);line-height:1.45;
+  padding:12px 0;width:100%;margin:0;
+}
+#pt-hero .pt-vol-val,#pt-context-week .pt-vol-val{flex-shrink:0;}
+@media(max-width:400px){
+  #pt-hero .pt-vol-group,#pt-context-week .pt-vol-group{
+    grid-template-columns:minmax(4.5rem,30%) minmax(0,1fr) minmax(2.25ch,auto);
+    column-gap:8px;row-gap:4px;
+  }
+  #pt-hero .pt-vol-grupo-label,#pt-context-week .pt-vol-grupo-label{grid-column:1;grid-row:1;}
+  #pt-hero .pt-vol-row,#pt-context-week .pt-vol-row{
+    display:contents;
+  }
+  #pt-hero .pt-vol-track,#pt-context-week .pt-vol-track{
+    grid-column:2;grid-row:1;height:11px;align-self:center;
+  }
+  #pt-hero .pt-vol-val,#pt-context-week .pt-vol-val{
+    grid-column:3;grid-row:1;align-self:center;justify-self:end;
+    font-size:10px;min-width:2ch;
+  }
+  #screen-prof-treino .pt-hero-kpi-val{font-size:20px;}
+  #screen-prof-treino .pt-ex-bloco-row{
+    grid-template-columns:minmax(5.5rem,38%) minmax(0,1fr);column-gap:8px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  #screen-prof-treino .pt-vol-pane.active,
+  #screen-prof-treino .pt-vol-fade-in{animation:none!important;}
+  #screen-prof-treino #pt-detail{transition:none!important;}
+}
+/* base compartilhada (macro aberto / estados vazios) */
+#pt-analysis .pt-vol-card-title{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;color:var(--text2);margin-bottom:1rem;}
+#pt-analysis .pt-vol-legend{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:1rem;}
+#pt-analysis .pt-vol-legend-item{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:400;color:var(--text3);}
+#pt-analysis .pt-vol-legend-dot{width:8px;height:5px;border-radius:2px;flex-shrink:0;background:var(--pt-vol-bar);}
+#pt-analysis .pt-vol-sep{display:none;}
+#pt-analysis .pt-vol-grupo-label{font-size:13px;font-weight:400;color:var(--text);margin-bottom:6px;line-height:1.45;}
+#pt-analysis .pt-vol-row{display:flex;align-items:center;gap:9px;}
+#pt-analysis .pt-vol-type{font-size:10px;font-weight:400;color:var(--text3);width:56px;flex-shrink:0;text-align:right;}
+#pt-analysis .pt-vol-track{flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+#pt-analysis .pt-vol-fill{height:100%;border-radius:3px;background:var(--pt-vol-bar);min-width:3px;}
+#pt-analysis .pt-vol-val{font-size:11px;font-weight:500;color:var(--text);min-width:24px;text-align:right;flex-shrink:0;}
+#pt-analysis .pt-vol-empty{font-size:12px;font-weight:400;color:var(--text3);padding:0;line-height:1.4;}
+/* grid horizontal prevalece sobre regras base #pt-analysis */
+#pt-hero .pt-vol-grupo-label,#pt-context-week .pt-vol-grupo-label{margin-bottom:0;}
+#pt-hero .pt-vol-row,#pt-context-week .pt-vol-row{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;
+  grid-column:2/4;align-items:center;column-gap:10px;min-width:0;
+}
+#pt-hero .pt-vol-track,#pt-context-week .pt-vol-track{
+  height:12px;flex:none;background:rgba(255,255,255,.08);border-radius:6px;
+  min-width:0;width:100%;
+}
+#pt-hero .pt-vol-val,#pt-context-week .pt-vol-val{flex:none;min-width:2.25ch;}
 .chart-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px;}
 .chart-bars{display:flex;align-items:flex-end;gap:6px;height:120px;}
 .chart-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
@@ -661,15 +905,31 @@ select.inp option{background:var(--bg3);}
     <button class="topbar-action" onclick="abrirEditor(profTreinoIdx)">Editar</button>
   </div>
   <div style="display:flex;border-bottom:1px solid var(--border);background:var(--bg);">
-    <div class="prof-tab active" id="pt-tab-ex" onclick="switchPtTab('ex')" style="flex:1;">Exerc&#xED;cios</div>
+    <div class="prof-tab active" id="pt-tab-ex" onclick="switchPtTab('ex')" style="flex:1;">Volumes</div>
     <div class="prof-tab" id="pt-tab-ev" onclick="switchPtTab('ev')" style="flex:1;">Evolu&#xE7;&#xE3;o</div>
   </div>
   <div id="pt-pane-ex" class="content content-pb">
-    <div id="pt-instrucoes"></div>
-    <div class="section-label" style="margin-top:0;">Exerc&#xED;cios</div>
-    <div id="pt-exercicios"></div>
-    <div class="section-label">Volume por grupo muscular</div>
-    <div id="pt-volume"></div>
+    <div id="pt-analysis">
+      <div id="pt-vol-tabs" class="pt-vol-tabs" role="tablist" aria-label="Visualiza&#xE7;&#xE3;o de volume">
+        <button type="button" class="pt-vol-tab active" id="pt-vol-tab-treino" role="tab" aria-selected="true" onclick="switchPtVolModo('treino')">Por treino</button>
+        <button type="button" class="pt-vol-tab" id="pt-vol-tab-semana" role="tab" aria-selected="false" onclick="switchPtVolModo('semana')">Por semana</button>
+      </div>
+      <div id="pt-pane-vol-treino" class="pt-vol-pane active" role="tabpanel" aria-labelledby="pt-vol-tab-treino">
+        <div id="pt-nav-treinos" class="pt-nav-treinos" role="tablist" aria-label="Treinos prescritos"></div>
+        <div id="pt-analysis-head" class="pt-analysis-head" hidden aria-hidden="true"></div>
+        <div id="pt-hero-kpi" class="pt-hero-kpi" aria-live="polite"></div>
+        <div id="pt-hero" aria-label="Este treino"></div>
+        <button type="button" id="pt-detail-toggle" class="pt-detail-toggle" aria-expanded="false" onclick="togglePtDetailExercicios()">&#x25BC; Exerc&#xED;cios do treino</button>
+        <div id="pt-detail" class="pt-detail--closed">
+          <div id="pt-instrucoes"></div>
+          <div id="pt-exercicios"></div>
+        </div>
+      </div>
+      <div id="pt-pane-vol-semana" class="pt-vol-pane" role="tabpanel" aria-labelledby="pt-vol-tab-semana" hidden>
+        <div id="pt-week-kpi" class="pt-hero-kpi" aria-live="polite"></div>
+        <div id="pt-context-week" aria-label="Semana planejada"></div>
+      </div>
+    </div>
   </div>
   <div id="pt-pane-ev" class="content content-pb" style="display:none;">
     <div id="pt-ev-tabs" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;"></div>
@@ -821,7 +1081,7 @@ let academiaFiltroUltimoReg=''; // filtro só para exibir último registro (inde
 let exSubstitutoIdx=null;   // índice do exercício sendo substituído na sessão
 let viewDetalhado=true;
 let bancoDB=[],alunosDB=[],alunoSel=null,editorAluno=null,editorTreinoIdx=null;
-let profTreinoAluno=null,profTreinoIdx=null;
+let profTreinoAluno=null,profTreinoIdx=null,ptVolModo='treino';
 let tipoCustomIdx=null,tipoCustomBlocoIdx=null;
 let editorExercicios=[];
 let editorExpandedIdx=null;
@@ -867,6 +1127,86 @@ function interpretarPrescricao(meta){
 }
 // Compatibilidade: retorna apenas o número de séries
 const parseSeries=meta=>{return interpretarPrescricao(meta).series;};
+/** Volume prescrito por grupamento (séries ponderadas). Snapshot: ex.grupos + séries por bloco (ex.blocos[]) ou ex.meta. */
+function calcularVolumePrescritoPorGrupo(exercicios, opts){
+  const pesoSec=(opts&&opts.pesoSecundario!=null)?opts.pesoSecundario:0.5;
+  const vol={};
+  (exercicios||[]).forEach(ex=>{
+    const g=ex.grupos||{};
+    let ns=0;
+    if(Array.isArray(ex.blocos)&&ex.blocos.length){
+      ex.blocos.forEach(b=>{ns+=parseSeries(b&&b.meta!=null?b.meta:'');});
+    }else{
+      ns=parseSeries(ex.meta);
+    }
+    if(g.principal)vol[g.principal]=(vol[g.principal]||0)+ns;
+    if(g.secundario)vol[g.secundario]=(vol[g.secundario]||0)+ns*pesoSec;
+  });
+  return vol;
+}
+/** Cores fixas por grupamento (hero). Fallback = roxo discreto do app. */
+const PT_CORES_GRUPAMENTO={
+  'Quadr\u00edceps':'#378ADD','Gl\u00fateo':'#1D9E75','Posterior':'#EF9F27','Costas':'#7F77DD',
+  'Peitoral':'#D85A30','Ombro':'#D4537E','B\u00edceps':'#5DCAA5','Tr\u00edceps':'#AFA9EC',
+  'Lombar':'#B4B2A9','Adutores':'#97C459','Panturrilha':'#888780',
+};
+const PT_COR_GRUPO_FALLBACK='#8B84E8';
+function corGrupamentoVolume(nome){
+  const k=((nome||'')+'').trim();
+  return PT_CORES_GRUPAMENTO[k]||PT_COR_GRUPO_FALLBACK;
+}
+function totalSeriesVolume(vol){
+  if(!vol||typeof vol!=='object')return 0;
+  return Object.values(vol).reduce((s,v)=>s+(Number(v)||0),0);
+}
+function htmlPtVolKpi(total,label,hasVolume){
+  const lbl='<div class="pt-hero-kpi-lbl">'+label+'</div>';
+  if(hasVolume){
+    return'<span class="pt-hero-kpi-val">'+Math.round(total)+'</span>'+lbl;
+  }
+  return'<span class="pt-hero-kpi-val pt-hero-kpi-val--dim">0</span>'+lbl
+    +'<p class="pt-vol-kpi-hint">Sem volume por grupamento</p>';
+}
+function ptVolFadePulse(ids){
+  (ids||[]).forEach(id=>{
+    const el=$(id);
+    if(!el||el.offsetParent===null)return;
+    el.classList.remove('pt-vol-fade-in');
+    void el.offsetWidth;
+    el.classList.add('pt-vol-fade-in');
+  });
+}
+function ptVolPaneReswap(pane){
+  if(!pane||pane.hidden)return;
+  pane.classList.remove('active');
+  void pane.offsetWidth;
+  pane.classList.add('active');
+}
+/** Painel de barras prescritas (#pt-hero / #pt-context-week). variant: 'macro' | 'focus' | 'hero' */
+function htmlPtVolumePanel(title, vol, variant){
+  const isFocus=variant==='focus'||variant==='hero';
+  const panelCls='pt-vol-panel'+(variant==='macro'?' pt-vol-panel--macro':isFocus?' pt-vol-panel--'+(variant==='hero'?'hero':'focus'):'');
+  const emptyMsg=title==='Este treino'
+    ?'Defina grupos musculares nos exerc\u00edcios deste treino'
+    :'Nenhum grupamento nos treinos prescritos';
+  if(!vol||!Object.keys(vol).length){
+    return'<div class="'+panelCls+' pt-vol-panel--empty"><div class="pt-vol-empty">'+emptyMsg+'</div></div>';
+  }
+  const mx=Math.max(...Object.values(vol));
+  const entries=Object.entries(vol).sort((a,b)=>b[1]-a[1]);
+  const corHero=variant==='hero';
+  const rows=entries.map(([grupo,v],i)=>{
+    const pct=mx?Math.max(Math.round(v/mx*100),v>0?2:0):0;
+    const sep=i<entries.length-1?'<div class="pt-vol-sep" aria-hidden="true"></div>':'';
+    const typeLbl=isFocus?'<span class="pt-vol-type">prescrito</span>':'';
+    const fillBg=corHero?';background:'+corGrupamentoVolume(grupo):'';
+    return'<div class="pt-vol-group"><div class="pt-vol-grupo-label">'+esc(grupo)+'</div><div class="pt-vol-row">'+typeLbl+'<div class="pt-vol-track"><div class="pt-vol-fill" style="width:'+pct+'%'+fillBg+'"></div></div><span class="pt-vol-val">'+Math.round(v)+'</span></div></div>'+sep;
+  }).join('');
+  const legend=isFocus
+    ?'<div class="pt-vol-legend"><div class="pt-vol-legend-item"><span class="pt-vol-legend-dot" aria-hidden="true"></span>Prescrito</div></div>'
+    :'';
+  return'<div class="'+panelCls+'"><div class="pt-vol-card-title">'+esc(title)+'</div>'+legend+'<div class="pt-vol-rows">'+rows+'</div></div>';
+}
 // Exercício-pai + blocos: legado sem blocos[] vira um bloco implícito (Etapa A — só normalização)
 function normalizarExercicio(ex){
   if(!ex)return[];
@@ -1007,7 +1347,7 @@ window.toggleViewMode=()=>{viewDetalhado=!viewDetalhado;$('btn-view-toggle').tex
 
 function renderInstrucoes(){
   const instrDiv=$('instrucoes-treino');instrDiv.innerHTML='';
-  if(treinoAtual.obsGeral){instrDiv.innerHTML='<div class="card" style="border-color:rgba(200,240,96,.2);background:rgba(200,240,96,.04);margin-bottom:16px;cursor:default;"><div style="font-size:11px;color:var(--accent);font-weight:600;letter-spacing:.06em;margin-bottom:6px;">INSTRU\u00C7\u00D5ES</div><div class="text-sm" style="line-height:1.6;white-space:pre-line;">'+esc(treinoAtual.obsGeral)+'</div></div>';}
+  if(treinoAtual.obsGeral){instrDiv.innerHTML='<div class="card" style="border-color:rgba(200,240,96,.2);background:rgba(200,240,96,.04);margin-bottom:8px;cursor:default;"><div style="font-size:11px;color:var(--accent);font-weight:600;letter-spacing:.06em;margin-bottom:6px;">INSTRU\u00C7\u00D5ES</div><div class="text-sm" style="line-height:1.6;white-space:pre-line;">'+esc(treinoAtual.obsGeral)+'</div></div>';}
 }
 
 function renderAcademiaSelector(){
@@ -2535,9 +2875,12 @@ async function abrirDetalheAluno(al){
       const left=document.createElement('div');
       left.style.cssText='flex:1;cursor:pointer;min-width:0;';
       left.innerHTML='<div style="font-size:15px;font-weight:600;">'+esc(t.nome)+'</div>'
-        +'<div style="font-size:12px;color:var(--info);margin-top:2px;">▶ Ver evolução</div>'
+        +'<div style="font-size:12px;color:var(--info);margin-top:2px;cursor:pointer;" data-action="ver-volumes">▶ Ver volumes</div>'
         +'<div style="font-size:12px;color:var(--text2);">'+(t.exercicios||[]).length+' exercícios</div>';
-      left.addEventListener('click',()=>{ alunoSel=al; abrirEditor(ti); });
+      left.addEventListener('click',e=>{
+        if(e.target.closest('[data-action="ver-volumes"]')){alunoSel=al;abrirProfTreino(al,ti);}
+        else{alunoSel=al;abrirEditor(ti);}
+      });
       const btn=document.createElement('button');
       btn.className='btn btn-secondary btn-sm';
       btn.style.flexShrink='0';
@@ -2548,8 +2891,7 @@ async function abrirDetalheAluno(al){
   }
 
   // Volume por grupo muscular
-  const vol={};
-  (al.treinos||[]).forEach(t=>{(t.exercicios||[]).forEach(ex=>{const g=ex.grupos||{};const ns=parseSeries(ex.meta);if(g.principal)vol[g.principal]=(vol[g.principal]||0)+ns;if(g.secundario)vol[g.secundario]=(vol[g.secundario]||0)+ns*0.5;if(g.terciario)vol[g.terciario]=(vol[g.terciario]||0)+ns*0.25;});});
+  const vol=calcularVolumePrescritoPorGrupo((al.treinos||[]).flatMap(t=>t.exercicios||[]));
   const volDiv=$('mad-volume');
   if(!Object.keys(vol).length){volDiv.innerHTML='<div class="text-xs text-muted">Defina grupos musculares nos exerc\xEDcios para ver o volume</div>';}
   else{const max=Math.max(...Object.values(vol));const sorted=Object.entries(vol).sort((a,b)=>b[1]-a[1]);volDiv.innerHTML=sorted.map(([g,v])=>'<div class="grupo-bar-row"><div class="grupo-bar-label">'+esc(g)+'</div><div class="grupo-bar-track"><div class="grupo-bar-fill" style="width:'+(v/max*100)+'%"></div></div><div class="grupo-bar-val">'+Math.round(v)+'</div></div>').join('');}
@@ -2714,6 +3056,22 @@ function aplicarGruposDoBancoNoExercicioPrescrito(ex,b){
   const s=((b&&b.muscleGroupSecondary!=null?b.muscleGroupSecondary:'')+'').trim();
   ex.grupos.principal=p;
   ex.grupos.secundario=s&&s!==p?s:'';
+}
+/** Preenche `ex.grupos` no snapshot do treino a partir do banco (só se principal vazio). */
+function preencherGruposSnapshotDoBanco(ex){
+  if(!ex)return;
+  const pAtual=((ex.grupos&&ex.grupos.principal)!=null?(ex.grupos.principal+'').trim():'');
+  if(pAtual)return;
+  const nom=((ex.nome||'')+'').trim();
+  if(!nom)return;
+  const b=bancoDB.find(x=>nomeExRefKey(x.nome)===nomeExRefKey(nom));
+  if(!b)return;
+  const mgP=((b.muscleGroupPrimary!=null?b.muscleGroupPrimary:'')+'').trim();
+  if(!mgP)return;
+  const mgS=((b.muscleGroupSecondary!=null?b.muscleGroupSecondary:'')+'').trim();
+  ex.grupos=ex.grupos||{};
+  ex.grupos.principal=mgP;
+  ex.grupos.secundario=mgS&&mgS!==mgP?mgS:'';
 }
 
 function syncProfSubstBancoSelect(sc,i,si){
@@ -2912,16 +3270,18 @@ window.confirmarTipoCustom=()=>{
 
 window.salvarTreino=async()=>{
   const nome=$('ed-nome-treino').value.trim();if(!nome){toast('Informe o nome do treino');return;}
+  await carregarBanco();
   editorExercicios.forEach(ex=>{garantirBlocosEditor(ex);syncParentDoPrimeiroBloco(ex);});
+  editorExercicios.forEach(preencherGruposSnapshotDoBanco);
   const treino={nome,obsGeral:$('ed-obs-geral').value.trim(),exercicios:JSON.parse(JSON.stringify(editorExercicios))};
+  (treino.exercicios||[]).forEach(preencherGruposSnapshotDoBanco);
   const treinos=JSON.parse(JSON.stringify(editorAluno.treinos||[]));
   if(editorTreinoIdx===-1)treinos.push(treino);else treinos[editorTreinoIdx]=treino;
   await updateDoc(doc(db,'alunos',editorAluno.id),{treinos});
-  const nomeBancoKey=n=>((n||'')+'').trim().toLowerCase();
-  const nomesNoBanco=new Set(bancoDB.map(b=>nomeBancoKey(b.nome)));
+  const nomesNoBanco=new Set(bancoDB.map(b=>nomeExRefKey(b.nome)));
   for(const ex of treino.exercicios||[]){
     const nom=((ex.nome||'')+'').trim();if(!nom)continue;
-    const k=nomeBancoKey(nom);if(nomesNoBanco.has(k))continue;
+    const k=nomeExRefKey(nom);if(nomesNoBanco.has(k))continue;
     nomesNoBanco.add(k);
     await addDoc(collection(db,'exercicios'),{nome:nom,youtube:((ex.youtube||'')+'').trim(),imagem:((ex.imagem||'')+'').trim()});
   }
@@ -2965,68 +3325,188 @@ window.switchPtTab=tab=>{
   if(tab==='ev') renderPtEvolucao();
 };
 
-function abrirProfTreino(al, idx){
-  profTreinoAluno=al; profTreinoIdx=idx;
-  const t=al.treinos[idx];
-  $('pt-title').textContent=t.nome;
-  switchPtTab('ex');
-  // Instrucoes
-  const instrDiv=$('pt-instrucoes');
-  instrDiv.innerHTML=t.obsGeral
-    ?'<div class="card" style="border-color:rgba(200,240,96,.2);background:rgba(200,240,96,.04);margin-bottom:16px;cursor:default;"><div style="font-size:11px;color:var(--accent);font-weight:600;letter-spacing:.06em;margin-bottom:6px;">INSTRUÇÕES</div><div class="text-sm" style="line-height:1.6;white-space:pre-line;">'+esc(t.obsGeral)+'</div></div>'
-    :'';
-  // Exercicios accordion
-  const exDiv=$('pt-exercicios'); exDiv.innerHTML='';
-  (t.exercicios||[]).forEach((ex,i)=>{
-    const g=ex.grupos||{};
-    const substs=(ex.substitutos||[]).filter(s=>s.nome);
-    const emb=ytEmbed(ex.youtube);
-    const gbadges=[
-      g.principal?'<span style="font-size:10px;padding:2px 7px;border-radius:20px;background:rgba(200,240,96,.12);color:var(--accent);border:1px solid rgba(200,240,96,.2);margin-right:4px;">'+esc(g.principal)+'</span>':'',
-      g.secundario?'<span style="font-size:10px;padding:2px 7px;border-radius:20px;background:rgba(96,168,240,.12);color:var(--info);border:1px solid rgba(96,168,240,.2);">'+esc(g.secundario)+'</span>':'',
-    ].filter(Boolean).join('');
-    const chevId='chev-pt-'+i;
-    const bodyId='body-pt-'+i;
-    const histId='hist-pt-'+i;
-    const acc=document.createElement('div'); acc.className='ex-acc';
-    const header=document.createElement('div'); header.className='ex-acc-header';
-    const blPt=normalizarExercicio(ex);
-    const metaRow=blPt.length>1
-      ?'<div class="ex-acc-meta ed-acc-meta-multi">'+htmlEdResumoPrescricaoMultiBlocos(blPt)+'</div>'
-      :'<div class="ex-acc-meta">'+esc(ex.meta||'\u2014')+'</div>';
-    const tipoRow=blPt.length>1?'':('<div class="ex-acc-tipo">'+esc(ex.tipo||'')+'</div>');
-    header.innerHTML=
-      '<div class="ex-acc-num">'+(i+1)+'</div>'
-      +'<div class="ex-acc-info">'
-        +'<div class="ex-acc-nome">'+esc(ex.nome)+'</div>'
-        +metaRow
-        +tipoRow
-        +(gbadges?'<div style="margin-top:5px;">'+gbadges+'</div>':'')
-      +'</div>'
-      +'<div class="ex-acc-chev" id="'+chevId+'">▾</div>';
-    const body=document.createElement('div'); body.className='ex-acc-body'; body.id=bodyId;
-    let bHtml='<div class="ex-acc-body-inner">';
-    if(ex.obs) bHtml+='<div style="background:rgba(240,168,48,.06);border:1px solid rgba(240,168,48,.18);border-radius:var(--rsm);padding:10px 12px;margin-bottom:12px;"><div style="font-size:10px;color:var(--warn);font-weight:600;letter-spacing:.07em;margin-bottom:4px;">OBSERVAÇÃO</div><div class="text-sm" style="white-space:pre-line;line-height:1.5;">'+esc(ex.obs)+'</div></div>';
-    if(substs.length) bHtml+='<div style="margin-bottom:12px;"><div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;">SUBSTITUTOS</div>'+substs.map(s=>'<div style="font-size:13px;color:var(--info);padding:2px 0;">⇄ '+esc(s.nome)+(s.obs?' <span style="color:var(--text2);font-size:11px;">— '+esc(s.obs)+'</span>':'')+'</div>').join('')+'</div>';
-    if(emb) bHtml+='<div style="background:#000;border-radius:var(--rsm);overflow:hidden;aspect-ratio:16/9;margin-bottom:12px;"><iframe src="'+emb+'" style="width:100%;height:100%;border:none;" allowfullscreen></iframe></div>';
-    if(ex.imagem) bHtml+='<img src="'+esc(ex.imagem)+'" style="width:50%;max-width:200px;border-radius:var(--rsm);margin-bottom:12px;" onerror="this.remove()">';
-    bHtml+='<div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;">HISTÓRICO DO ALUNO</div><div id="'+histId+'"><div style="color:var(--text3);font-size:12px;">Toque para expandir e carregar</div></div>';
-    bHtml+='</div>';
-    body.innerHTML=bHtml;
-    header.addEventListener('click',()=>{
-      const open=body.classList.contains('open');
-      body.classList.toggle('open',!open);
-      const chev=$(chevId); if(chev) chev.style.transform=open?'':'rotate(180deg)';
-      if(!open) carregarHistExAcc(al.id,ex.nome,histId);
-    });
-    acc.appendChild(header); acc.appendChild(body); exDiv.appendChild(acc);
+window.togglePtDetailExercicios=function(){
+  const detail=$('pt-detail');
+  const btn=$('pt-detail-toggle');
+  if(!detail||!btn)return;
+  detail.classList.toggle('pt-detail--closed');
+  const open=!detail.classList.contains('pt-detail--closed');
+  const base=btn.dataset.ptExLabel||'Exerc\u00edcios do treino';
+  btn.textContent=(open?'\u25B2 ':'\u25BC ')+base;
+  btn.setAttribute('aria-expanded',open?'true':'false');
+};
+
+/** Lista compacta Por treino: blocos em linhas [tipo | meta], sem alterar dados. */
+function labelPtExBlocoTipo(b,ctx){
+  const copy=alunoCopyBloco(b,ctx||{});
+  const meta=((b&&b.meta)||'').trim();
+  const presc=interpretarPrescricao(meta);
+  let tc=(b&&b.tecnica)||presc.tipo||'work';
+  if(tc==='drop-set')tc='drop';
+  if(tc==='normal'||!tc)tc='work';
+  if(presc.tipo==='cluster'||tc==='cluster')return'Cluster';
+  if(tc==='feeder'||copy.tituloAluno==='Aquecimento')return'Aquecimento';
+  if(tc==='work'||copy.tituloAluno==='S\u00e9rie principal')return'S\u00e9rie principal';
+  return copy.tituloAluno||'\u2014';
+}
+function htmlPtExOriginBlocos(ex){
+  const blocos=normalizarExercicio(ex);
+  const n=blocos.length;
+  if(!n){
+    return'<div class="pt-ex-origin-blocos"><div class="pt-ex-bloco-row"><span class="pt-ex-bloco-tipo">\u2014</span><span class="pt-ex-bloco-meta">\u2014</span></div></div>';
+  }
+  const rows=blocos.map((b,bi)=>{
+    const tipoLbl=labelPtExBlocoTipo(b,{blocoIndex:bi,totalBlocos:n});
+    const meta=((b.meta||'')+'').trim()||'\u2014';
+    return'<div class="pt-ex-bloco-row"><span class="pt-ex-bloco-tipo">'+esc(tipoLbl)+'</span><span class="pt-ex-bloco-meta">'+esc(meta)+'</span></div>';
+  }).join('');
+  return'<div class="pt-ex-origin-blocos">'+rows+'</div>';
+}
+
+function renderPtNavTreinos(al,idx){
+  const nav=$('pt-nav-treinos');
+  if(!nav)return;
+  const treinos=al.treinos||[];
+  nav.innerHTML='';
+  if(treinos.length<=1){nav.hidden=true;return;}
+  nav.hidden=false;
+  treinos.forEach((tr,i)=>{
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='pt-nav-pill'+(i===idx?' active':'');
+    btn.textContent=tr.nome||('Treino '+(i+1));
+    btn.setAttribute('role','tab');
+    btn.setAttribute('aria-selected',i===idx?'true':'false');
+    btn.addEventListener('click',()=>selectPtTreinoIdx(i));
+    nav.appendChild(btn);
   });
-  // Volume
-  const vol={};
-  (t.exercicios||[]).forEach(ex=>{const g2=ex.grupos||{};const ns=parseSeries(ex.meta);if(g2.principal)vol[g2.principal]=(vol[g2.principal]||0)+ns;if(g2.secundario)vol[g2.secundario]=(vol[g2.secundario]||0)+ns*0.5;if(g2.terciario)vol[g2.terciario]=(vol[g2.terciario]||0)+ns*0.25;});
-  const volDiv=$('pt-volume');
-  if(!Object.keys(vol).length){volDiv.innerHTML='<div class="text-xs text-muted">Defina grupos musculares nos exercícios</div>';}
-  else{const mx=Math.max(...Object.values(vol));volDiv.innerHTML=Object.entries(vol).sort((a,b)=>b[1]-a[1]).map(([g3,v])=>'<div class="grupo-bar-row"><div class="grupo-bar-label">'+esc(g3)+'</div><div class="grupo-bar-track"><div class="grupo-bar-fill" style="width:'+(v/mx*100)+'%"></div></div><div class="grupo-bar-val">'+Math.round(v)+'</div></div>').join('');}
+}
+
+function renderPtVolTreino(){
+  const al=profTreinoAluno;
+  if(!al||profTreinoIdx==null)return;
+  const t=(al.treinos||[])[profTreinoIdx];
+  if(!t)return;
+  const instrDiv=$('pt-instrucoes');
+  if(instrDiv){
+    instrDiv.innerHTML=t.obsGeral
+      ?'<div class="card" style="border-color:rgba(200,240,96,.2);background:rgba(200,240,96,.04);margin-bottom:8px;cursor:default;"><div style="font-size:11px;color:var(--accent);font-weight:600;letter-spacing:.06em;margin-bottom:6px;">INSTRU\u00c7\u00d5ES</div><div class="text-sm" style="line-height:1.6;white-space:pre-line;">'+esc(t.obsGeral)+'</div></div>'
+      :'';
+  }
+  const volTreino=calcularVolumePrescritoPorGrupo(t.exercicios);
+  const totalTreino=totalSeriesVolume(volTreino);
+  const kpiEl=$('pt-hero-kpi');
+  if(kpiEl){
+    const hasVol=Object.keys(volTreino||{}).length>0;
+    kpiEl.innerHTML=htmlPtVolKpi(totalTreino,'s\u00e9ries prescritas neste treino',hasVol);
+    kpiEl.classList.toggle('pt-hero-kpi--empty',!hasVol);
+  }
+  const heroEl=$('pt-hero');
+  if(heroEl) heroEl.innerHTML=htmlPtVolumePanel('Este treino',volTreino,'hero');
+  const detailEl=$('pt-detail');
+  if(detailEl) detailEl.classList.add('pt-detail--closed');
+  const exN=(t.exercicios||[]).length;
+  const toggleEl=$('pt-detail-toggle');
+  if(toggleEl){
+    const lbl='Exerc\u00edcios do treino'+(exN?' ('+exN+')':'');
+    toggleEl.dataset.ptExLabel=lbl;
+    toggleEl.textContent='\u25BC '+lbl;
+    toggleEl.setAttribute('aria-expanded','false');
+  }
+  const exDiv=$('pt-exercicios');
+  const exList=t.exercicios||[];
+  if(exDiv){
+    if(!exList.length){
+      exDiv.innerHTML='<p class="pt-vol-state-msg">Nenhum exerc\u00edcio neste treino</p>';
+    }else{
+      exDiv.innerHTML=exList.map((ex,i)=>{
+        const g=ex.grupos||{};
+        const gbadges=[
+          g.principal?'<span class="pt-ex-grp">'+esc(g.principal)+'</span>':'',
+          g.secundario?'<span class="pt-ex-grp">'+esc(g.secundario)+'</span>':'',
+        ].filter(Boolean).join('');
+        const grpsRow=gbadges?'<div class="pt-ex-grps">'+gbadges+'</div>':'';
+        return'<div class="pt-ex-origin-row">'
+          +'<span class="pt-ex-origin-num">'+(i+1)+'</span>'
+          +'<div class="pt-ex-origin-main">'
+            +'<div class="pt-ex-origin-nome">'+esc(ex.nome)+'</div>'
+            +htmlPtExOriginBlocos(ex)
+            +grpsRow
+          +'</div>'
+        +'</div>';
+      }).join('');
+    }
+  }
+  ptVolFadePulse(['pt-hero-kpi','pt-hero']);
+}
+
+function renderPtVolSemana(){
+  const al=profTreinoAluno;
+  if(!al)return;
+  const volSemanal=calcularVolumePrescritoPorGrupo((al.treinos||[]).flatMap(tr=>tr.exercicios||[]));
+  const totalSemana=totalSeriesVolume(volSemanal);
+  const kpiEl=$('pt-week-kpi');
+  if(kpiEl){
+    const hasVol=Object.keys(volSemanal||{}).length>0;
+    kpiEl.innerHTML=htmlPtVolKpi(totalSemana,'s\u00e9ries prescritas na semana',hasVol);
+    kpiEl.classList.toggle('pt-hero-kpi--empty',!hasVol);
+  }
+  const ctxEl=$('pt-context-week');
+  if(ctxEl) ctxEl.innerHTML=htmlPtVolumePanel('Semana planejada',volSemanal,'hero');
+  ptVolFadePulse(['pt-week-kpi','pt-context-week']);
+}
+
+window.switchPtVolModo=function(modo){
+  ptVolModo=modo==='semana'?'semana':'treino';
+  ['treino','semana'].forEach(t=>{
+    const tb=$('pt-vol-tab-'+t);
+    if(tb){
+      const on=t===ptVolModo;
+      tb.classList.toggle('active',on);
+      tb.setAttribute('aria-selected',on?'true':'false');
+    }
+  });
+  const paneTreino=$('pt-pane-vol-treino');
+  const paneSemana=$('pt-pane-vol-semana');
+  if(paneTreino){
+    paneTreino.classList.toggle('active',ptVolModo==='treino');
+    paneTreino.hidden=ptVolModo!=='treino';
+  }
+  if(paneSemana){
+    paneSemana.classList.toggle('active',ptVolModo==='semana');
+    paneSemana.hidden=ptVolModo!=='semana';
+  }
+  const al=profTreinoAluno;
+  const showPane=ptVolModo==='treino'?paneTreino:paneSemana;
+  if(ptVolModo==='treino'){
+    const t=al&&profTreinoIdx!=null?(al.treinos||[])[profTreinoIdx]:null;
+    $('pt-title').textContent=t?t.nome:'Treino';
+    renderPtVolTreino();
+  }else{
+    $('pt-title').textContent='Semana';
+    renderPtVolSemana();
+  }
+  ptVolPaneReswap(showPane);
+};
+
+window.selectPtTreinoIdx=function(i){
+  if(!profTreinoAluno)return;
+  const treinos=profTreinoAluno.treinos||[];
+  if(i<0||i>=treinos.length)return;
+  profTreinoIdx=i;
+  const t=treinos[i];
+  if(ptVolModo==='treino') $('pt-title').textContent=t.nome;
+  renderPtNavTreinos(profTreinoAluno,i);
+  renderPtVolTreino();
+};
+
+function abrirProfTreino(al, idx){
+  profTreinoAluno=al;
+  profTreinoIdx=idx;
+  ptVolModo='treino';
+  switchPtTab('ex');
+  renderPtNavTreinos(al,idx);
+  switchPtVolModo('treino');
   fecharModal('modal-al-det');
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   $('screen-prof-treino').classList.add('active');
