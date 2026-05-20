@@ -737,6 +737,84 @@ select.inp option{background:var(--bg3);}
 .action-btn-v2{border-radius:12px!important;}
 .action-bar-v2 .aluno-guided-btn-primary{font-weight:600;letter-spacing:.02em;}
 .action-btn-v2:active{transform:scale(.98);}
+
+/* Execução aluno — superfície simplificada (ref. treino_aluno_simplificado.html) */
+#screen-exercicio.screen-exercicio--exec-simple{--exec-pad-x:20px;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-topbar{padding:14px var(--exec-pad-x) 12px;border-bottom:0.5px solid var(--border-subtle,rgba(255,255,255,.08));background:var(--bg);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-back{font-size:14px;color:rgba(255,255,255,.4);min-width:44px;min-height:44px;padding:4px 8px 4px 0;}
+#screen-exercicio.screen-exercicio--exec-simple .topbar-title{flex:1;text-align:center;font-size:15px;font-weight:500;color:rgba(255,255,255,.9);padding:0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-pos{font-size:13px;color:rgba(255,255,255,.3);min-width:4.5rem;text-align:right;white-space:nowrap;flex-shrink:0;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-prog-bar{height:3px;background:rgba(255,255,255,.08);flex-shrink:0;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-prog-fill{height:100%;background:var(--accent);width:0%;transition:width .4s ease;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-scroll{padding:24px var(--exec-pad-x) 16px;display:flex;flex-direction:column;gap:20px;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-legacy{display:none;}
+#screen-exercicio.screen-exercicio--exec-simple .ultimo-reg,
+#screen-exercicio.screen-exercicio--exec-simple .section-label{display:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-obs-wrap{margin-top:4px;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-obs-wrap label{font-size:11px;color:var(--text3);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-obs-wrap .inp{min-height:56px;font-size:14px;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-last-ref{background:rgba(255,255,255,.05);border-radius:var(--rsm);padding:10px 14px;font-size:14px;line-height:1.4;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-last-ref-lbl{color:rgba(255,255,255,.45);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-last-ref-val{color:rgba(255,255,255,.6);font-weight:500;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-stage{display:flex;flex-direction:column;gap:12px;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-step-name{font-size:28px;font-weight:500;line-height:1.2;color:var(--text);}
+#screen-exercicio.screen-exercicio--exec-simple .instruction{border-radius:0 var(--rsm) var(--rsm) 0;padding:12px 16px;}
+#screen-exercicio.screen-exercicio--exec-simple .instruction--primary{background:rgba(200,240,96,.07);border-left:3px solid var(--accent);}
+#screen-exercicio.screen-exercicio--exec-simple .instruction--primary .instr-txt{font-size:16px;color:var(--text);line-height:1.5;}
+#screen-exercicio.screen-exercicio--exec-simple .instruction--prof{background:rgba(239,159,39,.06);border-left:3px solid rgba(239,159,39,.45);padding:10px 14px;}
+#screen-exercicio.screen-exercicio--exec-simple .instruction--prof .instr-txt{font-size:14px;color:rgba(255,255,255,.55);line-height:1.45;}
+#screen-exercicio.screen-exercicio--exec-simple .presc-meta-discreta{font-size:12px;color:rgba(255,255,255,.28);line-height:1.4;font-family:'DM Mono',monospace;}
+#screen-exercicio.screen-exercicio--exec-simple .upcoming-preview{background:rgba(255,255,255,.04);border-radius:var(--rsm);padding:12px 16px;font-size:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+#screen-exercicio.screen-exercicio--exec-simple .upcoming-lbl{color:rgba(255,255,255,.2);font-size:13px;}
+#screen-exercicio.screen-exercicio--exec-simple .upcoming-val{color:rgba(255,255,255,.35);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs{display:flex;flex-direction:column;gap:0;}
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-wrap.bcard-v2{background:transparent;border:none;border-radius:0;margin:0;padding:0;overflow:visible;transition:opacity .28s ease,max-height .35s ease,margin .28s ease;}
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-wrap--guided-feito,
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-wrap--guided-proximo{max-height:0;opacity:0;margin:0;padding:0;overflow:hidden;pointer-events:none;border:none;}
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-wrap--guided-ativo{max-height:none;opacity:1;pointer-events:auto;}
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-wrap--guided-ativo::before,
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-wrap--guided-proximo::after{display:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-head,
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-preview-linha,
+#screen-exercicio.screen-exercicio--exec-simple .fase3-tr-preview,
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-resumo,
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-resumo-ctx,
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-btn-etapa{display:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-wrap--guided-ocultar-inputs .bloco-aluno-inputs{position:static;width:auto;height:auto;margin:0;overflow:visible;clip:auto;white-space:normal;border:0;pointer-events:auto;}
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-wrap--guided-multi.bloco-aluno-wrap--guided-ativo,
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-wrap.bcard-v2.bloco-aluno-wrap--guided-ativo{padding:0!important;background:none!important;box-shadow:none!important;transform:none!important;border-radius:0!important;}
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-inputs > div:has(#prog-fill),
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-inputs > div:has([id$="prog-fill"]){display:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-inputs [id^="serie-card-"],
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-inputs [id*="serie-card-"]{background:transparent!important;border:none!important;box-shadow:none!important;padding:0!important;margin:0 0 12px!important;opacity:1!important;}
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-inputs [id^="serie-card-"] > div:first-child,
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-inputs [id*="serie-card-"] > div:first-child{display:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-inputs [id^="serie-card-"] > div:last-child,
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-inputs [id*="serie-card-"] > div:last-child{display:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-inputs [id^="serie-card-"] button,
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-inputs [id*="serie-card-"] button{display:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-inputs [id^="timer-descanso"],
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-inputs [id*="timer-descanso"]{display:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-inputs > div[style*="border:1px solid var(--accent)"]{background:transparent!important;border:none!important;box-shadow:none!important;padding:0!important;margin:0 0 12px!important;}
+#screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-inputs input[type=number]{font-size:28px!important;font-weight:500!important;text-align:center!important;}
+#screen-exercicio.screen-exercicio--exec-simple .btn-salvar-fixo,
+#screen-exercicio.screen-exercicio--exec-simple .btn-voltar-fixo{display:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-guided-action-sub{display:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple .content.content-pb,
+#screen-exercicio.screen-exercicio--exec-simple.screen-exercicio--guided-multi .content.content-pb{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))!important;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer{position:fixed;left:0;right:0;bottom:0;z-index:140;box-sizing:border-box;width:100%;padding:12px max(var(--exec-pad-x),env(safe-area-inset-left,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(var(--exec-pad-x),env(safe-area-inset-right,0px));background:var(--bg);border-top:0.5px solid var(--border-subtle,rgba(255,255,255,.07));}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer .aluno-guided-action-bar,
+#screen-exercicio.screen-exercicio--exec-simple .aluno-guided-action-bar{position:static!important;left:auto!important;right:auto!important;bottom:auto!important;transform:none!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;background:none!important;border:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer .aluno-guided-action-bar[hidden]{display:block!important;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer .aluno-guided-btn-primary,
+#screen-exercicio.screen-exercicio--exec-simple .aluno-guided-btn-primary{width:100%!important;min-height:52px;border-radius:var(--radius);font-size:17px;font-weight:500;background:var(--accent);color:#1a2e00;box-shadow:none;}
+#screen-exercicio.screen-exercicio--exec-simple .rest-timer-sub{display:none;}
+#screen-exercicio.screen-exercicio--exec-simple .rest-timer-label{margin-bottom:8px;}
+#screen-exercicio.screen-exercicio--exec-simple .rest-timer-ov svg{display:none;}
+@media (min-width:720px){
+  #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer{left:50%;right:auto;max-width:560px;width:calc(100% - 32px);transform:translateX(-50%);}
+  #screen-exercicio.screen-exercicio--exec-simple .aluno-guided-action-bar{left:auto!important;right:auto!important;transform:none!important;width:100%!important;}
+}
 .action-btn-v2.disabled{opacity:.3;pointer-events:none;}
 @media(min-width:600px){.treino-grid{grid-template-columns:repeat(3,1fr);}.content,.greeting,.last-session,.treino-grid{max-width:640px;margin-left:auto;margin-right:auto;}.last-session,.greeting{margin-left:auto;margin-right:auto;}}
 </style>
@@ -797,25 +875,31 @@ select.inp option{background:var(--bg3);}
   <button class="btn-voltar-fixo" onclick="goTo('home')">&#x2190; Voltar</button>
 </div>
 
-<div id="screen-exercicio" class="screen">
-  <div class="topbar">
-    <div style="width:44px;"></div>
+<div id="screen-exercicio" class="screen screen-exercicio--exec-simple">
+  <div class="topbar aluno-exec-topbar">
+    <button type="button" class="topbar-back aluno-exec-back" onclick="if(window.cancelRestTimerUI)cancelRestTimerUI(false);goTo('treino');renderListaEx();" aria-label="Voltar">&#x2190;</button>
     <div class="topbar-title" id="ex-title-top">Exerc&#xED;cio</div>
-    <div style="width:44px;"></div>
+    <div class="aluno-exec-pos" id="aluno-ex-pos" aria-live="polite"></div>
   </div>
-  <div class="content content-pb">
-    <div class="video-wrap" id="video-wrap"><div class="video-ph">&#x25B6; Sem v&#xED;deo</div></div>
-    <div id="img-ref-wrap"></div>
-    <div class="ex-detail-nome" id="ex-d-nome"></div>
-    <div id="ex-subst-link-wrap"></div>
-    <div class="ex-tipo-label" id="ex-d-tipo"></div>
-    <!-- Prescrição em destaque (oculto no multi-bloco: cada bloco traz a prescrição) -->
-    <div id="prescricao-box" style="background:var(--bg2);border:1px solid rgba(200,240,96,.3);border-radius:var(--rsm);padding:14px 16px;margin-bottom:16px;">
-      <div style="font-size:10px;color:var(--accent);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;">PRESCRIÇÃO</div>
-      <div id="ex-d-meta" style="font-size:22px;font-weight:600;color:var(--accent);font-family:'DM Mono',monospace;line-height:1.3;"></div>
+  <div class="aluno-exec-prog-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-labelledby="aluno-ex-pos">
+    <div class="aluno-exec-prog-fill" id="aluno-prog-fill"></div>
+  </div>
+  <div class="content content-pb aluno-exec-scroll" id="aluno-exec-scroll">
+    <div class="aluno-exec-legacy">
+      <div class="video-wrap" id="video-wrap"><div class="video-ph">&#x25B6; Sem v&#xED;deo</div></div>
+      <div id="img-ref-wrap"></div>
+      <div class="ex-detail-nome" id="ex-d-nome"></div>
+      <div id="ex-subst-link-wrap"></div>
+      <div class="ex-tipo-label" id="ex-d-tipo"></div>
+      <div id="prescricao-box" style="background:var(--bg2);border:1px solid rgba(200,240,96,.3);border-radius:var(--rsm);padding:14px 16px;margin-bottom:16px;">
+        <div style="font-size:10px;color:var(--accent);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;">PRESCRI&#xC7;&#xC3;O</div>
+        <div id="ex-d-meta" style="font-size:22px;font-weight:600;color:var(--accent);font-family:'DM Mono',monospace;line-height:1.3;"></div>
+      </div>
+      <div id="ex-obs-box"></div>
     </div>
-    <div id="ex-obs-box"></div>
-    <!-- Último registro detalhado por série -->
+    <div class="aluno-last-ref" id="aluno-exec-last-ref" hidden>
+      <span class="aluno-last-ref-lbl">&#xDA;ltima vez: </span><span class="aluno-last-ref-val" id="aluno-exec-last-val"></span>
+    </div>
     <div class="ultimo-reg" id="ultimo-reg-box">
       <div class="ultimo-reg-label">&#xDA;LTIMO REGISTRO</div>
       <div id="ult-filtro-unidade-wrap" style="display:none;margin-bottom:10px;">
@@ -825,15 +909,30 @@ select.inp option{background:var(--bg3);}
       <div id="ult-series-detail" style="margin-top:6px;"></div>
       <div class="ultimo-reg-data" id="ult-data" style="margin-top:6px;"></div>
     </div>
-    <div class="section-label">Registrar hoje</div>
+    <div id="aluno-exec-stage" class="aluno-exec-stage">
+      <div class="aluno-exec-step-name" id="aluno-exec-step-name"></div>
+      <div class="instruction instruction--primary" id="aluno-exec-instr-primary">
+        <div class="instr-txt" id="aluno-exec-instr-txt"></div>
+      </div>
+      <div class="instruction instruction--prof" id="aluno-exec-instr-prof" hidden>
+        <div class="instr-txt instr-txt--prof" id="aluno-exec-instr-prof-txt"></div>
+      </div>
+      <div class="presc-meta-discreta" id="aluno-exec-meta-discreta"></div>
+    </div>
     <div id="series-inputs"></div>
-    <div class="field"><label>Observa&#xE7;&#xF5;es</label><textarea class="inp" id="obs-inp" placeholder="Dor, dificuldade..."></textarea></div>
+    <div class="upcoming-preview" id="aluno-exec-upcoming" hidden>
+      <span class="upcoming-lbl">A seguir</span>
+      <span class="upcoming-val" id="aluno-exec-upcoming-val"></span>
+    </div>
+    <div class="field aluno-exec-obs-wrap"><label>Observa&#xE7;&#xF5;es da sess&#xE3;o</label><textarea class="inp" id="obs-inp" placeholder="Dor, dificuldade..."></textarea></div>
   </div>
-  <button class="btn-voltar-fixo" onclick="goTo('treino');renderListaEx();">&#x2190; Voltar</button>
-  <button class="btn-salvar-fixo" onclick="if(window.cancelRestTimerUI)cancelRestTimerUI(false);salvarRegistro()">Salvar &#x2713;</button>
-  <div id="aluno-guided-action-bar" class="aluno-guided-action-bar action-bar-v2" hidden>
-    <button type="button" id="aluno-guided-btn-primary" class="aluno-guided-btn-primary action-btn-v2"></button>
-    <p id="aluno-guided-action-sub" class="aluno-guided-action-sub"></p>
+  <button class="btn-voltar-fixo" onclick="goTo('treino');renderListaEx();" aria-hidden="true" tabindex="-1">&#x2190; Voltar</button>
+  <button class="btn-salvar-fixo" onclick="if(window.cancelRestTimerUI)cancelRestTimerUI(false);salvarRegistro()" aria-hidden="true" tabindex="-1">Salvar &#x2713;</button>
+  <div id="aluno-exec-footer" class="aluno-exec-footer">
+    <div id="aluno-guided-action-bar" class="aluno-guided-action-bar action-bar-v2">
+      <button type="button" id="aluno-guided-btn-primary" class="aluno-guided-btn-primary action-btn-v2"></button>
+      <p id="aluno-guided-action-sub" class="aluno-guided-action-sub"></p>
+    </div>
   </div>
   <div id="rest-timer-overlay" class="rest-timer-ov" style="display:none" aria-hidden="true">
     <div class="rest-timer-label">Descanso</div>
@@ -1525,6 +1624,8 @@ async function abrirExercicio(ex,idx){
   $('obs-inp').value='';
   try{academiaFiltroUltimoReg=localStorage.getItem('ult_reg_unidade_'+(me&&me.email?me.email:''))||'';}catch(_){academiaFiltroUltimoReg='';}
   // Navegar ANTES de buscar histórico
+  const scrEx=$('screen-exercicio');
+  if(scrEx)scrEx.classList.add('screen-exercicio--exec-simple');
   goTo('exercicio');
   carregarHistoricoEx();
 }
@@ -1581,6 +1682,7 @@ async function carregarHistoricoEx(){
         }).join('');
         $('ult-series-detail').innerHTML=seriesHtml||'<div style="color:var(--text3);font-size:13px;">—</div>';
         $('ult-data').innerHTML=fmtDate(ult.data)+acLabel;
+        alunoExecUpdateLastRef(ult);
         // Pré-preencher peso se campos ainda vazios
         if(ult.series&&ult.series.length){
           const pesos=ult.series.map(s=>parseFloat(s.peso)||0).filter(p=>p>0);
@@ -1589,16 +1691,110 @@ async function carregarHistoricoEx(){
       } else {
         $('ult-series-detail').innerHTML='<div style="color:var(--text3);font-size:13px;">'+(academiaFiltroUltimoReg?'Nenhum registro nesta unidade':'Primeiro registro')+'</div>';
         $('ult-data').textContent='';
+        alunoExecUpdateLastRef(null);
       }
     } else {
       const wrap=$('ult-filtro-unidade-wrap');if(wrap)wrap.style.display='none';
       const sel=$('ult-filtro-unidade');if(sel)sel.innerHTML='';
       $('ult-series-detail').innerHTML='<div style="color:var(--text3);font-size:13px;">Primeiro registro</div>';
       $('ult-data').textContent='';
+      alunoExecUpdateLastRef(null);
     }
   }catch(e){
     console.error('historico:',e);
     $('ult-series-detail').innerHTML='<div style="color:var(--text3);font-size:13px;">—</div>';
+    alunoExecUpdateLastRef(null);
+  }
+}
+
+function alunoExecUpdateLastRef(ult){
+  const ref=$('aluno-exec-last-ref');
+  const val=$('aluno-exec-last-val');
+  if(!ref||!val)return;
+  if(!ult||!ult.series||!ult.series.length){ref.hidden=true;val.textContent='';return;}
+  const s0=ult.series[0];
+  const peso=s0.peso?String(s0.peso).replace(/\.0+$/,'')+'kg':'';
+  const reps=s0.reps?String(s0.reps)+' reps':'';
+  const parts=[peso,reps,fmtDate(ult.data)].filter(Boolean);
+  val.textContent=parts.join(' \xB7 ');
+  ref.hidden=!parts.length;
+}
+
+function alunoMetaDiscretaText(meta){
+  const m=((meta||'')+'').trim();
+  if(!m)return'';
+  return m.replace(/\s*\(\s*/g,' \xB7 ').replace(/\)\s*/g,'').replace(/\s+/g,' ').trim();
+}
+
+/** Normaliza técnica como alunoCopyBloco (evita fallback cru do techniqueTranslator). */
+function alunoTecnicaParaTranslator(bl){
+  const meta=((bl.meta||'')+'').trim();
+  const presc=interpretarPrescricao(meta);
+  let tec;
+  if(['cluster','rest-pause','back-off','drop-set'].includes(presc.tipo))tec=presc.tipo==='drop-set'?'drop':presc.tipo;
+  else tec=(bl.tecnica||'work')+'';
+  if(tec==='drop-set')tec='drop';
+  if(tec==='normal'||!tec)tec='work';
+  const ts=((bl.tipo||'')+'').trim().toLowerCase();
+  const tecPrescForte=['cluster','rest-pause','back-off','drop'].includes(tec);
+  if(!tecPrescForte){
+    if(ts.includes('feeder'))tec='feeder';
+    else if(ts.includes('cluster'))tec='cluster';
+    else if(/rest|pause|\+99/.test(ts)||meta.includes('+99'))tec='rest-pause';
+    else if(/back|off|al[ií]vio/.test(ts)||/back[-\s]?off/i.test(meta))tec='back-off';
+    else if(ts.includes('drop'))tec='drop';
+  }
+  if(!/^(feeder|work|cluster|rest-pause|back-off|drop)$/.test(tec))tec='work';
+  return tec;
+}
+
+function paintAlunoExecActiveBlock(){
+  const scr=$('screen-exercicio');
+  if(!scr||!scr.classList.contains('screen-exercicio--exec-simple')||!exAtual)return;
+  const c=$('series-inputs');
+  const nB=c?parseInt(c.dataset.guidedNB||'0',10)||0:0;
+  const blocos=normalizarExercicio(exAtual);
+  const nEff=Math.max(nB,blocos.length)||1;
+  let bi=0;
+  if(nB>1){
+    bi=alunoActiveBlockIndex;
+    if(alunoGuidedLastStepDone&&bi===nB-1)bi=nB-1;
+  }
+  const b=blocos[bi]||blocos[0];
+  if(!b)return;
+  const copy=alunoCopyBloco(b,{blocoIndex:bi,totalBlocos:nEff});
+  let ttSub='';
+  try{
+    const tt=techniqueTranslator({tecnica:alunoTecnicaParaTranslator(b),meta:b.meta||''});
+    ttSub=(tt.sub||'').trim();
+  }catch(_){}
+  const instr=ttSub||(copy.subtitulo||'').trim()||'\u2014';
+  const stepEl=$('aluno-exec-step-name');
+  const instrEl=$('aluno-exec-instr-txt');
+  const profWrap=$('aluno-exec-instr-prof');
+  const profTxt=$('aluno-exec-instr-prof-txt');
+  const metaEl=$('aluno-exec-meta-discreta');
+  const upWrap=$('aluno-exec-upcoming');
+  const upVal=$('aluno-exec-upcoming-val');
+  if(stepEl)stepEl.textContent=copy.tituloAluno||'';
+  if(instrEl)instrEl.textContent=instr;
+  const obs=((b.obs||'')+'').trim()||(nB<=1?((exAtual.obs||'')+'').trim():'');
+  if(profWrap&&profTxt){
+    if(obs){profTxt.textContent=obs;profWrap.hidden=false;}
+    else{profTxt.textContent='';profWrap.hidden=true;}
+  }
+  if(metaEl){
+    const md=alunoMetaDiscretaText(b.meta);
+    metaEl.textContent=md;
+    metaEl.style.display=md?'':'none';
+  }
+  if(upWrap&&upVal){
+    const showNext=nB>1&&!alunoGuidedLastStepDone&&bi<nB-1;
+    if(showNext){
+      const nextCopy=alunoCopyBloco(blocos[bi+1],{blocoIndex:bi+1,totalBlocos:nB});
+      upVal.textContent='\xB7 '+(nextCopy.tituloAluno||'');
+      upWrap.hidden=false;
+    }else{upVal.textContent='';upWrap.hidden=true;}
   }
 }
 
@@ -1744,18 +1940,52 @@ window.runAlunoCopyBlocoTests=function(){
   toast('Testes alunoCopyBloco: ver console');
 };
 
-// Barra contextual + cabeçalho de etapa (multi-bloco); não altera inputs nem salvamento
+// Barra contextual + CTA (exec-simple: topbar + footer único)
 function syncAlunoGuidedChrome(){
   const scr=$('screen-exercicio');
   const bar=$('aluno-guided-action-bar');
   const prim=$('aluno-guided-btn-primary');
   const sub=$('aluno-guided-action-sub');
   const c=$('series-inputs');
+  const posEl=$('aluno-ex-pos');
+  const progFill=$('aluno-prog-fill');
   const labelEl=$('aluno-guided-step-label');
   const pctEl=$('aluno-guided-step-pct');
   const headEl=$('aluno-guided-step-heading');
-  if(!scr||!bar||!prim||!sub)return;
+  if(!scr||!bar||!prim)return;
+  const execSimple=scr.classList.contains('screen-exercicio--exec-simple');
   const nB=c?parseInt(c.dataset.guidedNB||'0',10)||0:0;
+  if(execSimple){
+    if(!scr.classList.contains('active'))return;
+    scr.classList.remove('screen-exercicio--guided-multi');
+    bar.hidden=false;
+    prim.classList.remove('aluno-guided-btn-primary--secondary');
+    prim.disabled=false;
+    if(sub)sub.textContent='';
+    if(nB<=1){
+      if(posEl)posEl.textContent='1 de 1 etapas';
+      if(progFill)progFill.style.width='100%';
+      prim.textContent='Salvar exerc\u00edcio';
+      prim.onclick=()=>{if(window.cancelRestTimerUI)cancelRestTimerUI(false);salvarRegistro();};
+      paintAlunoExecActiveBlock();
+      return;
+    }
+    scr.classList.add('screen-exercicio--guided-multi');
+    const doneAll=alunoGuidedLastStepDone&&alunoActiveBlockIndex===nB-1;
+    const stepNum=doneAll?nB:alunoActiveBlockIndex+1;
+    if(posEl)posEl.textContent=stepNum+' de '+nB+' etapas';
+    if(progFill)progFill.style.width=(doneAll?100:Math.min(100,Math.round((stepNum/nB)*100)))+'%';
+    if(doneAll){
+      prim.textContent='Salvar exerc\u00edcio';
+      prim.onclick=()=>{if(window.cancelRestTimerUI)cancelRestTimerUI(false);salvarRegistro();};
+    }else{
+      const last=alunoActiveBlockIndex===nB-1;
+      prim.textContent=last?'Finalizar s\u00e9rie':'Pr\u00f3xima etapa';
+      prim.onclick=()=>concluirEtapaBlocoAluno(alunoActiveBlockIndex);
+    }
+    paintAlunoExecActiveBlock();
+    return;
+  }
   if(!scr.classList.contains('active')||nB<=1){
     scr.classList.remove('screen-exercicio--guided-multi');
     bar.hidden=true;
@@ -1763,7 +1993,7 @@ function syncAlunoGuidedChrome(){
     prim.classList.remove('aluno-guided-btn-primary--secondary');
     prim.textContent='';
     prim.disabled=false;
-    sub.textContent='';
+    if(sub)sub.textContent='';
     return;
   }
   scr.classList.add('screen-exercicio--guided-multi');
@@ -1785,12 +2015,12 @@ function syncAlunoGuidedChrome(){
       const sv=scr.querySelector('.btn-salvar-fixo');
       if(sv){sv.focus({preventScroll:true});sv.scrollIntoView({behavior:'smooth',block:'nearest'});}
     };
-    sub.textContent='O bot\xE3o Salvar grava todas as etapas no hist\xF3rico.';
+    if(sub)sub.textContent='O bot\xE3o Salvar grava todas as etapas no hist\xF3rico.';
   }else{
     const last=alunoActiveBlockIndex===nB-1;
     prim.textContent=last?'Concluir \u00faltima etapa':'Concluir etapa';
     prim.onclick=()=>concluirEtapaBlocoAluno(alunoActiveBlockIndex);
-    sub.textContent=last?'Depois, use Salvar para gravar tudo.':'Avance quando terminar de registrar esta etapa.';
+    if(sub)sub.textContent=last?'Depois, use Salvar para gravar tudo.':'Avance quando terminar de registrar esta etapa.';
   }
 }
 
@@ -1799,7 +2029,7 @@ function applyAlunoGuidedBlockUI(){
   const c=$('series-inputs');
   if(!c){syncAlunoGuidedChrome();return;}
   const nB=parseInt(c.dataset.guidedNB||'0',10)||0;
-  if(nB<=1){syncAlunoGuidedChrome();return;}
+  if(nB<=1){paintAlunoExecActiveBlock();syncAlunoGuidedChrome();return;}
   const wraps=c.querySelectorAll('.bloco-aluno-wrap[data-bloco-index]');
   const prog=c.querySelector('.aluno-blocos-progress');
   const segs=prog?prog.querySelectorAll('.aluno-blocos-progress__seg'):null;
@@ -1843,6 +2073,7 @@ function applyAlunoGuidedBlockUI(){
     prog.setAttribute('aria-valuetext',stepLabel);
     prog.setAttribute('aria-valuenow',String(doneAll?nB:alunoActiveBlockIndex+1));
   }
+  paintAlunoExecActiveBlock();
   syncAlunoGuidedChrome();
 }
 
@@ -1964,7 +2195,8 @@ function renderAlunoTela(ex,blocos){
   alunoGuidedLastStepDone=false;
   delete c.dataset.guidedNB;
   const nBl=blocos.length;
-  if(nBl>1){
+  const execSimple=$('screen-exercicio')&&$('screen-exercicio').classList.contains('screen-exercicio--exec-simple');
+  if(nBl>1&&!execSimple){
     c.dataset.guidedNB=String(nBl);
     const shell=document.createElement('div');
     shell.className='aluno-guided-shell';
@@ -2004,6 +2236,8 @@ function renderAlunoTela(ex,blocos){
     }
     shell.appendChild(prog);
     c.appendChild(shell);
+  }else if(nBl>1){
+    c.dataset.guidedNB=String(nBl);
   }
   blocos.forEach((b,bi)=>{
     const wrap=document.createElement('div');
@@ -2012,7 +2246,7 @@ function renderAlunoTela(ex,blocos){
     if(nBl<=1)wrap.style.marginBottom='0';
     const copyBloco=alunoCopyBloco(b,{blocoIndex:bi,totalBlocos:nBl});
     if(nBl>1)wrap.dataset.stepTitle=String(copyBloco.tituloAluno||'').trim()||('Bloco '+(bi+1));
-    if(nBl>1){
+    if(nBl>1&&!execSimple){
       if(bi>0){
         const pre=document.createElement('div');
         pre.className='bloco-aluno-preview-linha';
@@ -2057,12 +2291,14 @@ function renderAlunoTela(ex,blocos){
       resumo.className='bloco-aluno-resumo';
       resumo.setAttribute('aria-live','polite');
       wrap.appendChild(resumo);
-      const btnEt=document.createElement('button');
-      btnEt.type='button';
-      btnEt.className='btn btn-primary bloco-aluno-btn-etapa';
-      btnEt.textContent=bi<nBl-1?'\u2713 Concluir etapa':'\u2713 Concluir \u00faltima etapa';
-      btnEt.onclick=()=>concluirEtapaBlocoAluno(bi);
-      wrap.appendChild(btnEt);
+      if(!execSimple){
+        const btnEt=document.createElement('button');
+        btnEt.type='button';
+        btnEt.className='btn btn-primary bloco-aluno-btn-etapa';
+        btnEt.textContent=bi<nBl-1?'\u2713 Concluir etapa':'\u2713 Concluir \u00faltima etapa';
+        btnEt.onclick=()=>concluirEtapaBlocoAluno(bi);
+        wrap.appendChild(btnEt);
+      }
     }
     c.appendChild(wrap);
   });

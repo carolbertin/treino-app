@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<!--
+  volume-prototype.html
+  ======================
+  REFERÊNCIA VISUAL E COMPORTAMENTAL — não substituir o app diretamente.
+
+  CONTEXTO:
+  Esta tela já está dentro da aba de um aluno específico.
+  Sem seletor de aluno. Sem toggle de comparação. Sem histograma de dias.
+
+  ESTRUTURA:
+  - Tabs: "Por treino" | "Por semana"
+  - Por treino: pills de sessão + gráfico barras verticais (séries por grupamento)
+  - Por semana: gráfico barras verticais (séries por grupamento, semana toda)
+
+  CRÍTICO:
+  - Volume = número de séries (não peso × reps)
+  - Gráfico VERTICAL com Chart.js type:'bar'
+  - Cores fixas por grupamento, consistentes entre as duas abas
+  - pills de treino: ativa = cor do treino como fundo
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volume — Referência</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'DM Sans',sans-serif;background:#0f0f0f;color:#f0f0f0;min-height:100vh}
+.page{max-width:480px;margin:0 auto;padding:0 0 40px}
+
+/* Tabs sticky no topo */
+.tabs{display:flex;border-bottom:0.5px solid rgba(255,255,255,.1);position:sticky;top:0;background:#0f0f0f;z-index:10}
+.tab{flex:1;padding:12px;font-size:13px;font-weight:500;text-align:center;cursor:pointer;color:rgba(255,255,255,.35);border-bottom:2px solid transparent;transition:all .15s}
+.tab.on{color:#f0f0f0;border-bottom-color:#c8f060}
+
+.inner{padding:16px 20px 0}
+
+/* KPI — apenas 1, total de séries */
+.kpi{background:#1a1a1a;border-radius:10px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:baseline;gap:10px}
+.kpi-val{font-size:24px;font-weight:500;color:#f0f0f0}
+.kpi-label{font-size:13px;color:rgba(255,255,255,.35)}
+
+/*
+  Pills de treino — uma por sessão.
+  Ativa: fundo = cor do treino, texto branco.
+  Inativa: transparente, borda cinza.
+  Clicar atualiza o gráfico imediatamente.
+*/
+.treino-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.t-pill{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid rgba(255,255,255,.15);color:rgba(255,255,255,.45);background:transparent;transition:all .15s}
+.t-pill.on{color:#fff;border-color:transparent}
+
+.subtitle{font-size:12px;color:rgba(255,255,255,.35);margin-bottom:10px}
+
+/*
+  Wrapper do gráfico — CRÍTICO:
+  position:relative + height explícita no wrapper.
+  Nunca setar height no canvas diretamente.
+*/
+.chart-wrap{position:relative;height:220px;width:100%}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="tabs">
+    <div class="tab on" onclick="setTab('treino',this)">Por treino</div>
+    <div class="tab" onclick="setTab('semana',this)">Por semana</div>
+  </div>
+
+  <!-- ── POR TREINO ─────────────────────────────────────────────── -->
+  <div id="vTreino" class="inner">
+    <div class="kpi">
+      <span class="kpi-val" id="kpiTreinoVal">—</span>
+      <span class="kpi-label" id="kpiTreinoLabel">séries nesta sessão</span>
+    </div>
+    <!--
+      Uma pill por sessão de treino do aluno.
+      Cor de fundo definida via JS: pill.style.background = cor do treino.
+    -->
+    <div class="treino-pills" id="treinoPills"></div>
+    <div class="subtitle" id="treinoSubtitle"></div>
+    <div class="chart-wrap">
+      <canvas id="cTreino" role="img" aria-label="Séries por grupamento muscular na sessão selecionada">Séries por grupamento.</canvas>
+    </div>
+  </div>
+
+  <!-- ── POR SEMANA ─────────────────────────────────────────────── -->
+  <div id="vSemana" class="inner" style="display:none">
+    <div class="kpi">
+      <span class="kpi-val" id="kpiSemVal">—</span>
+      <span class="kpi-label">séries na semana</span>
+    </div>
+    <div class="subtitle" id="semSubtitle"></div>
+    <div class="chart-wrap">
+      <canvas id="cSemana" role="img" aria-label="Séries por grupamento muscular na semana">Séries por grupamento na semana.</canvas>
+    </div>
+  </div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+/*
+  CORES FIXAS POR GRUPAMENTO — CRÍTICO
+  Mesma cor em TODOS os gráficos (por treino e por semana).
+  O professor cria memória visual: Quadríceps = sempre azul, etc.
+*/
+var CORES = {
+  'Quadríceps': '#378ADD',
+  'Glúteo':     '#1D9E75',
+  'Posterior':  '#EF9F27',
+  'Costas':     '#7F77DD',
+  'Peitoral':   '#D85A30',
+  'Ombro':      '#D4537E',
+  'Bíceps':     '#5DCAA5',
+  'Tríceps':    '#AFA9EC',
+  'Lombar':     '#B4B2A9',
+  'Adutores':   '#97C459',
+  'Panturrilha':'#888780'
+};
+
+/* Ordem de exibição nos gráficos */
+var ORDER = ['Quadríceps','Glúteo','Posterior','Costas','Peitoral','Ombro','Bíceps','Tríceps','Lombar','Adutores','Panturrilha'];
+
+/*
+  DADOS — no app real vêm do Firestore.
+  musculos = { NomeGrupamento: nSeries } calculado a partir dos
+  registros do aluno cruzados com os grupamentos de cada exercício.
+*/
+var DATA = {
+  treinos: [
+    { nome:'Lower 1', data:'11/05', cor:'#378ADD',
+      musculos:{ Quadríceps:6, Glúteo:8, Posterior:7, Lombar:4, Adutores:3, Panturrilha:3 } },
+    { nome:'Upper 1', data:'09/05', cor:'#1D9E75',
+      musculos:{ Costas:9, Peitoral:6, Ombro:6, Bíceps:6, Tríceps:6 } },
+    { nome:'Lower 2', data:'07/05', cor:'#EF9F27',
+      musculos:{ Quadríceps:5, Glúteo:6, Posterior:5, Adutores:3, Panturrilha:4 } },
+    { nome:'Upper 2', data:'05/05', cor:'#7F77DD',
+      musculos:{ Costas:8, Peitoral:5, Ombro:5, Bíceps:5, Tríceps:5 } },
+  ],
+  semana: {
+    label: '05 – 11 mai',
+    musculos:{ Quadríceps:11, Glúteo:14, Posterior:12, Costas:17,
+               Peitoral:11, Ombro:11, Bíceps:11, Tríceps:11,
+               Adutores:2, Panturrilha:3, Lombar:4 }
+  }
+};
+
+var curTab    = 'treino';
+var curTreino = 0;
+var chartT    = null;
+var chartS    = null;
+
+/* Opções base para todos os gráficos */
+function makeOpts() {
+  var grid = 'rgba(255,255,255,.07)';
+  var text = 'rgba(255,255,255,.4)';
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: function(c) { return c.parsed.y + ' séries'; } } }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { color: text, font: { size: 11 }, maxRotation: 40, autoSkip: false }
+      },
+      y: {
+        grid: { color: grid },
+        beginAtZero: true,
+        ticks: {
+          color: text, font: { size: 11 }, stepSize: 1,
+          callback: function(v) { return Number.isInteger(v) ? v : ''; }
+        }
+      }
+    }
+  };
+}
+
+function sumObj(obj) {
+  return Object.values(obj || {}).reduce(function(a, v) { return a + v; }, 0);
+}
+
+/* ── Tab ── */
+function setTab(t, el) {
+  curTab = t;
+  document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('on'); });
+  el.classList.add('on');
+  document.getElementById('vTreino').style.display = t === 'treino' ? 'block' : 'none';
+  document.getElementById('vSemana').style.display = t === 'semana' ? 'block' : 'none';
+  t === 'treino' ? renderTreino() : renderSemana();
+}
+
+/* ── Por treino ── */
+function renderTreino() {
+  var ts = DATA.treinos;
+  var tr = ts[curTreino];
+  var total = sumObj(tr.musculos);
+
+  document.getElementById('kpiTreinoVal').textContent   = total;
+  document.getElementById('kpiTreinoLabel').textContent = 'séries — ' + tr.nome;
+
+  /* Pills */
+  document.getElementById('treinoPills').innerHTML = ts.map(function(t, i) {
+    var on = i === curTreino;
+    return '<div class="t-pill' + (on ? ' on' : '') + '"'
+      + (on ? ' style="background:' + t.cor + '"' : '')
+      + ' onclick="selectTreino(' + i + ')">' + t.nome + '</div>';
+  }).join('');
+
+  document.getElementById('treinoSubtitle').textContent = tr.data;
+
+  /* Gráfico */
+  var musc  = ORDER.filter(function(m) { return tr.musculos[m] > 0; });
+  var vals  = musc.map(function(m) { return tr.musculos[m]; });
+  var cores = musc.map(function(m) { return CORES[m]; });
+
+  if (chartT) { chartT.destroy(); chartT = null; }
+  chartT = new Chart(document.getElementById('cTreino'), {
+    type: 'bar',
+    data: { labels: musc, datasets: [{ data: vals, backgroundColor: cores, borderRadius: 4, borderSkipped: false }] },
+    options: makeOpts()
+  });
+}
+
+function selectTreino(i) { curTreino = i; renderTreino(); }
+
+/* ── Por semana ── */
+function renderSemana() {
+  var sem   = DATA.semana;
+  var total = sumObj(sem.musculos);
+
+  document.getElementById('kpiSemVal').textContent   = total;
+  document.getElementById('semSubtitle').textContent = sem.label;
+
+  var musc  = ORDER.filter(function(m) { return (sem.musculos[m] || 0) > 0; });
+  var vals  = musc.map(function(m) { return sem.musculos[m]; });
+  var cores = musc.map(function(m) { return CORES[m]; });
+
+  if (chartS) { chartS.destroy(); chartS = null; }
+  chartS = new Chart(document.getElementById('cSemana'), {
+    type: 'bar',
+    data: { labels: musc, datasets: [{ data: vals, backgroundColor: cores, borderRadius: 4, borderSkipped: false }] },
+    options: makeOpts()
+  });
+}
+
+/* Init */
+renderTreino();
+</script>
+</body>
+</html>

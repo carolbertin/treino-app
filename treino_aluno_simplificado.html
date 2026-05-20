@@ -1,0 +1,224 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.scr{font-family:var(--font-sans);max-width:390px;margin:0 auto;background:#111;min-height:700px;display:flex;flex-direction:column;border-radius:var(--border-radius-lg);overflow:hidden}
+.topbar{padding:14px 20px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid rgba(255,255,255,.08)}
+.tb-back{font-size:14px;color:rgba(255,255,255,.4);background:none;border:none;cursor:pointer;font-family:var(--font-sans)}
+.tb-ex{font-size:15px;font-weight:500;color:rgba(255,255,255,.9)}
+.tb-pos{font-size:13px;color:rgba(255,255,255,.3)}
+.prog-bar{height:3px;background:rgba(255,255,255,.08)}
+.prog-fill{height:100%;background:#c8f060;transition:width .4s ease}
+.body{flex:1;padding:24px 20px 16px;display:flex;flex-direction:column;gap:20px}
+.last-ref{background:rgba(255,255,255,.05);border-radius:var(--border-radius-md);padding:10px 14px;display:flex;align-items:center;gap:10px}
+.lr-icon{font-size:16px;color:rgba(255,255,255,.3)}
+.lr-txt{font-size:14px;color:rgba(255,255,255,.45)}
+.lr-val{font-size:14px;color:rgba(255,255,255,.6);font-weight:500}
+.step-area{display:flex;flex-direction:column;gap:6px}
+.step-label{font-size:12px;color:rgba(255,255,255,.3);letter-spacing:.06em;text-transform:uppercase}
+.step-name{font-size:28px;font-weight:500;color:#f0f0f0;line-height:1.2}
+.step-pos{font-size:14px;color:rgba(255,255,255,.35);margin-top:2px}
+.instruction{background:rgba(200,240,96,.07);border-left:3px solid #c8f060;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:12px 16px}
+.instr-txt{font-size:16px;color:#f0f0f0;line-height:1.5}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field-lbl{font-size:12px;color:rgba(255,255,255,.35);letter-spacing:.04em;text-transform:uppercase}
+.field-inp{background:rgba(255,255,255,.07);border:0.5px solid rgba(255,255,255,.12);border-radius:var(--border-radius-md);padding:14px;font-size:28px;font-weight:500;color:#f0f0f0;font-family:var(--font-sans);text-align:center;width:100%;-webkit-appearance:none}
+.field-inp:focus{outline:none;border-color:rgba(200,240,96,.5);background:rgba(200,240,96,.06)}
+.field-hint{font-size:12px;color:rgba(255,255,255,.25);text-align:center}
+.footer{padding:12px 20px 24px;background:#111;border-top:0.5px solid rgba(255,255,255,.07)}
+.main-btn{width:100%;padding:18px;border-radius:var(--border-radius-lg);border:none;background:#c8f060;color:#1a2e00;font-size:17px;font-weight:500;font-family:var(--font-sans);cursor:pointer;transition:transform .15s,opacity .2s}
+.main-btn:active{transform:scale(.98)}
+.main-btn.disabled{opacity:.3;pointer-events:none}
+.done-card{background:rgba(255,255,255,.04);border-radius:var(--border-radius-md);padding:12px 16px;display:flex;align-items:center;gap:10px;opacity:.5}
+.done-check{font-size:16px;color:#c8f060}
+.done-txt{font-size:14px;color:rgba(255,255,255,.5)}
+.timer-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;padding:16px 0}
+.timer-num{font-size:72px;font-weight:500;color:#f0f0f0;letter-spacing:-2px;line-height:1}
+.timer-lbl{font-size:14px;color:rgba(255,255,255,.35)}
+.timer-skip{background:none;border:0.5px solid rgba(255,255,255,.15);border-radius:20px;padding:8px 20px;color:rgba(255,255,255,.4);font-size:13px;cursor:pointer;font-family:var(--font-sans)}
+.upcoming-preview{background:rgba(255,255,255,.04);border-radius:var(--border-radius-md);padding:12px 16px;display:flex;align-items:center;gap:10px}
+.up-txt{font-size:14px;color:rgba(255,255,255,.35)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+</style>
+
+<div class="scr">
+<h2 class="sr-only">Tela simplificada de execução de treino guiado pelo aluno</h2>
+
+<div class="topbar">
+  <button class="tb-back" onclick="voltar()">← Voltar</button>
+  <span class="tb-ex" id="tbEx">Elevação pélvica</span>
+  <span class="tb-pos" id="tbPos">2 de 5</span>
+</div>
+
+<div class="prog-bar"><div class="prog-fill" id="progFill" style="width:33%"></div></div>
+
+<div class="body" id="body"></div>
+
+<div class="footer">
+  <button class="main-btn disabled" id="mainBtn" onclick="avancar()">Continuar</button>
+</div>
+</div>
+
+<script>
+var BLOCKS = [
+  { tipo:'prep', nome:'Aquecimento', pos:'Etapa 1 de 3',
+    instrucao:'Faça 10 repetições deixando 2 fáceis no final.',
+    series:1, pesoRef:50, repsRef:10 },
+  { tipo:'work', nome:'Série principal', pos:'Etapa 2 de 3',
+    instrucao:'Vá até o limite. Pare só quando não conseguir mais.',
+    series:1, pesoRef:80, repsRef:8 },
+  { tipo:'cluster', nome:'Mini-séries', pos:'Etapa 3 de 3',
+    instrucao:'Faça 4 repetições. Descanse 15 segundos. Repita 3 vezes com o mesmo peso.',
+    series:3, pesoRef:80, repsRef:4 },
+];
+
+var LAST = { peso:50, reps:8, data:'14/05' };
+var DESCANSO = [60, 90, 0];
+
+var step = 0;
+var doneBlocks = [];
+var pesoAtual = '';
+var repsAtual = '';
+var timerInt = null;
+var timerSecs = 0;
+var timerMode = false;
+
+function render() {
+  var b = BLOCKS[step];
+  var prog = Math.round(((step) / BLOCKS.length) * 100);
+  document.getElementById('progFill').style.width = prog + '%';
+  document.getElementById('tbEx').textContent = 'Elevação pélvica';
+  document.getElementById('tbPos').textContent = (step + 1) + ' de ' + BLOCKS.length + ' etapas';
+
+  var html = '';
+
+  if (step === 0) {
+    html += '<div class="last-ref">' +
+      '<i class="ti ti-history lr-icon" aria-hidden="true"></i>' +
+      '<span class="lr-txt">Última vez:</span>' +
+      '<span class="lr-val">' + LAST.peso + ' kg · ' + LAST.reps + ' reps · ' + LAST.data + '</span>' +
+      '</div>';
+  }
+
+  doneBlocks.forEach(function(d) {
+    html += '<div class="done-card">' +
+      '<span class="done-check"><i class="ti ti-check" aria-hidden="true"></i></span>' +
+      '<span class="done-txt">' + d.nome + ' — ' + d.peso + ' kg × ' + d.reps + ' reps</span>' +
+      '</div>';
+  });
+
+  if (timerMode) {
+    html += '<div class="step-area">' +
+      '<div class="step-label">Descanse</div>' +
+      '<div class="timer-wrap">' +
+      '<div class="timer-num" id="timerNum">' + timerSecs + '</div>' +
+      '<div class="timer-lbl">segundos</div>' +
+      '<button class="timer-skip" onclick="skipTimer()">Pular descanso</button>' +
+      '</div></div>';
+    document.getElementById('mainBtn').className = 'main-btn disabled';
+    document.getElementById('mainBtn').textContent = 'Descansando...';
+  } else {
+    html += '<div class="step-area">' +
+      '<div class="step-label">' + b.pos + '</div>' +
+      '<div class="step-name">' + b.nome + '</div>' +
+      '</div>';
+
+    html += '<div class="instruction"><div class="instr-txt">' + b.instrucao + '</div></div>';
+
+    html += '<div class="fields">' +
+      '<div class="field">' +
+        '<div class="field-lbl">Peso (kg)</div>' +
+        '<input class="field-inp" type="number" inputmode="decimal" placeholder="' + b.pesoRef + '" id="fPeso" value="' + pesoAtual + '" oninput="setPeso(this.value)">' +
+        '<div class="field-hint">referência: ' + b.pesoRef + ' kg</div>' +
+      '</div>' +
+      '<div class="field">' +
+        '<div class="field-lbl">Reps</div>' +
+        '<input class="field-inp" type="number" inputmode="numeric" placeholder="' + b.repsRef + '" id="fReps" value="' + repsAtual + '" oninput="setReps(this.value)">' +
+        '<div class="field-hint">meta: ' + b.repsRef + ' reps</div>' +
+      '</div>' +
+      '</div>';
+
+    if (step < BLOCKS.length - 1) {
+      var next = BLOCKS[step + 1];
+      html += '<div class="upcoming-preview">' +
+        '<span style="font-size:13px;color:rgba(255,255,255,.2)">A seguir</span>' +
+        '<span class="up-txt">· ' + next.nome + '</span>' +
+        '</div>';
+    }
+
+    updateBtn();
+  }
+
+  document.getElementById('body').innerHTML = html;
+}
+
+function setPeso(v) {
+  pesoAtual = v;
+  updateBtn();
+}
+function setReps(v) {
+  repsAtual = v;
+  updateBtn();
+}
+function updateBtn() {
+  var btn = document.getElementById('mainBtn');
+  if (!btn) return;
+  var b = BLOCKS[step];
+  var ok = pesoAtual && repsAtual && +repsAtual > 0;
+  var isLast = step === BLOCKS.length - 1;
+  btn.className = 'main-btn' + (ok ? '' : ' disabled');
+  btn.textContent = isLast ? 'Salvar exercício' : 'Finalizar ' + b.nome.toLowerCase();
+}
+
+function avancar() {
+  var b = BLOCKS[step];
+  if (!pesoAtual || !repsAtual || +repsAtual <= 0) return;
+  doneBlocks.push({ nome: b.nome, peso: pesoAtual, reps: repsAtual });
+  var isLast = step === BLOCKS.length - 1;
+  if (isLast) {
+    document.getElementById('progFill').style.width = '100%';
+    document.getElementById('body').innerHTML =
+      '<div style="display:flex;flex-direction:column;align-items:center;gap:16px;padding:32px 0">' +
+      '<i class="ti ti-circle-check" style="font-size:48px;color:#c8f060" aria-hidden="true"></i>' +
+      '<div style="font-size:20px;font-weight:500;color:#f0f0f0">Exercício concluído</div>' +
+      '<div style="font-size:14px;color:rgba(255,255,255,.35)">Dados salvos</div>' +
+      '</div>';
+    document.getElementById('mainBtn').textContent = 'Próximo exercício →';
+    document.getElementById('mainBtn').className = 'main-btn';
+    document.getElementById('mainBtn').onclick = function(){sendPrompt('Gostei do protótipo simplificado. O que mudou na hierarquia visual em relação à versão anterior?');};
+    return;
+  }
+  var rest = DESCANSO[step];
+  pesoAtual = ''; repsAtual = '';
+  step++;
+  if (rest > 0) {
+    timerMode = true;
+    timerSecs = rest;
+    render();
+    timerInt = setInterval(function() {
+      timerSecs--;
+      var el = document.getElementById('timerNum');
+      if (el) el.textContent = timerSecs;
+      if (timerSecs <= 0) {
+        clearInterval(timerInt);
+        timerMode = false;
+        render();
+      }
+    }, 1000);
+  } else {
+    render();
+  }
+}
+
+function skipTimer() {
+  clearInterval(timerInt);
+  timerMode = false;
+  render();
+}
+
+function voltar() {
+  sendPrompt('Gostei do protótipo simplificado. O que mudou na hierarquia visual em relação à versão anterior?');
+}
+
+render();
+</script>
