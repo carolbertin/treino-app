@@ -49,6 +49,7 @@ textarea.inp{resize:vertical;min-height:72px;line-height:1.5;}
 select.inp option{background:var(--bg3);}
 .section-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;margin-top:20px;}
 .section-label:first-child{margin-top:0;}
+.sessao-treino-hint{font-size:13px;color:rgba(255,255,255,.35);margin-bottom:12px;padding:10px 14px;background:rgba(255,255,255,.04);border-radius:var(--rsm);line-height:1.4;}
 .greeting{padding:24px 20px 8px;}
 .greeting-name{font-size:24px;font-weight:600;}
 .last-session{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin:0 20px 20px;}
@@ -741,7 +742,8 @@ select.inp option{background:var(--bg3);}
 /* Execução aluno — superfície simplificada (ref. treino_aluno_simplificado.html) */
 #screen-exercicio.screen-exercicio--exec-simple{--exec-pad-x:20px;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-topbar{padding:14px var(--exec-pad-x) 12px;border-bottom:0.5px solid var(--border-subtle,rgba(255,255,255,.08));background:var(--bg);}
-#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-back{font-size:14px;color:rgba(255,255,255,.4);min-width:44px;min-height:44px;padding:4px 8px 4px 0;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-back{font-size:14px;color:rgba(255,255,255,.4);min-width:44px;min-height:44px;padding:4px 8px 4px 0;white-space:nowrap;flex-shrink:0;font-family:inherit;font-weight:400;cursor:pointer;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-back:active{color:rgba(255,255,255,.55);}
 #screen-exercicio.screen-exercicio--exec-simple .topbar-title{flex:1;text-align:center;font-size:15px;font-weight:500;color:rgba(255,255,255,.9);padding:0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-pos{font-size:13px;color:rgba(255,255,255,.3);min-width:4.5rem;text-align:right;white-space:nowrap;flex-shrink:0;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-prog-bar{height:3px;background:rgba(255,255,255,.08);flex-shrink:0;}
@@ -811,6 +813,50 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple .rest-timer-sub{display:none;}
 #screen-exercicio.screen-exercicio--exec-simple .rest-timer-label{margin-bottom:8px;}
 #screen-exercicio.screen-exercicio--exec-simple .rest-timer-ov svg{display:none;}
+/* Etapa 1A — linhas de série (feeder/work/normal) */
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .bloco-aluno-wrap--guided-feito,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .bloco-aluno-wrap--guided-proximo{max-height:none;opacity:1;margin:0;padding:0;overflow:visible;pointer-events:auto;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .bloco-aluno-wrap--guided-ocultar-inputs .bloco-aluno-inputs{position:static;width:auto;height:auto;margin:0;overflow:visible;clip:auto;pointer-events:auto;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-exec-stage{display:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-rows-wrap{margin-bottom:4px;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-cols-head{display:grid;grid-template-columns:28px minmax(0,1fr) 52px 52px 32px 40px;gap:6px 8px;padding:0 4px 8px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.28);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-row{margin-bottom:6px;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-row-main{display:grid;grid-template-columns:28px minmax(0,1fr) 52px 52px 32px 40px;gap:6px 8px;align-items:center;padding:10px 8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--rsm);transition:background .2s,border-color .2s;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-row--done .aluno-serie-row-main{background:rgba(72,160,88,.14);border-color:rgba(96,200,120,.45);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-num{font-size:18px;font-weight:600;color:rgba(255,255,255,.35);font-family:'DM Mono',monospace;text-align:center;line-height:1;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-row--done .aluno-serie-num{color:rgba(120,220,140,.95);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-tipo{min-width:0;display:flex;flex-direction:column;gap:3px;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-pill{display:inline-block;max-width:100%;font-size:11px;font-weight:600;line-height:1.25;padding:3px 8px;border-radius:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-pill--prep{color:#7eb8ff;background:rgba(80,140,220,.18);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-pill--main{color:#b8e86a;background:rgba(200,240,96,.12);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-ant{font-size:12px;color:rgba(255,255,255,.32);font-family:'DM Mono',monospace;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-inp{width:100%;box-sizing:border-box;min-height:40px;padding:6px 4px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:17px!important;font-weight:600!important;text-align:center!important;outline:none;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-inp:focus{border-color:rgba(200,240,96,.45);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-help{width:32px;height:32px;padding:0;border:1px solid rgba(255,255,255,.12);border-radius:50%;background:rgba(255,255,255,.05);color:rgba(255,255,255,.45);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;line-height:1;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-help--open{border-color:rgba(120,170,255,.5);color:#8ab4f8;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-check{width:40px;height:40px;padding:0;border:1px solid rgba(255,255,255,.14);border-radius:10px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.35);font-size:18px;cursor:pointer;font-family:inherit;line-height:1;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-check--done{background:rgba(72,160,88,.35);border-color:rgba(96,200,120,.55);color:#a8f0b8;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-hint{margin:0 4px 8px;padding:10px 12px 10px 14px;background:rgba(255,255,255,.04);border-left:3px solid rgba(120,170,255,.55);border-radius:0 var(--rsm) var(--rsm) 0;font-size:13px;line-height:1.45;color:rgba(255,255,255,.55);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-hint--main{border-left-color:var(--accent);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-hint--prep{border-left-color:rgba(120,170,255,.7);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-pill--cluster{color:#e8b060;background:rgba(232,160,60,.14);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-hint--cluster{border-left-color:rgba(232,160,60,.65);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-row--cluster .aluno-serie-row-main{border-color:rgba(232,160,60,.22);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-row--cluster.aluno-serie-row--done .aluno-serie-row-main{background:rgba(72,160,88,.12);border-color:rgba(96,200,120,.4);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-serie-cell-ph{font-size:13px;color:rgba(255,255,255,.2);text-align:center;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-cluster-panel{margin:0 4px 8px;padding:10px 10px 12px;background:rgba(255,255,255,.03);border:1px solid rgba(232,160,60,.18);border-radius:var(--rsm);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-cluster-panel-title{font-size:11px;font-weight:600;color:rgba(232,176,96,.85);letter-spacing:.04em;margin-bottom:8px;line-height:1.35;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-cluster-peso-row{margin-bottom:10px;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-cluster-peso-lbl{font-size:10px;color:rgba(255,255,255,.35);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-cluster-peso-inp{width:100%;box-sizing:border-box;min-height:40px;padding:6px 8px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:18px!important;font-weight:600!important;text-align:center!important;outline:none;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-cluster-minis{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:8px;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-cluster-mini{display:flex;flex-direction:column;align-items:stretch;gap:4px;padding:8px 6px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08);border-radius:8px;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-cluster-mini--done{border-color:rgba(96,200,120,.35);background:rgba(72,160,88,.1);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-cluster-mini-lbl{font-size:10px;font-weight:700;color:rgba(255,255,255,.4);text-align:center;letter-spacing:.05em;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-cluster-mini-meta{font-size:10px;color:rgba(255,255,255,.25);text-align:center;margin-top:-2px;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-cluster-mini-inp{width:100%;min-height:36px;padding:4px;background:transparent;border:none;color:var(--text);font-family:'DM Mono',monospace;font-size:17px!important;font-weight:600!important;text-align:center!important;outline:none;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-cluster-mini-check{width:100%;min-height:32px;margin-top:2px;padding:0;border:1px solid rgba(255,255,255,.12);border-radius:8px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.35);font-size:15px;cursor:pointer;font-family:inherit;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-cluster-mini-check.aluno-serie-check--done{background:rgba(72,160,88,.3);border-color:rgba(96,200,120,.5);color:#a8f0b8;}
 @media (min-width:720px){
   #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer{left:50%;right:auto;max-width:560px;width:calc(100% - 32px);transform:translateX(-50%);}
   #screen-exercicio.screen-exercicio--exec-simple .aluno-guided-action-bar{left:auto!important;right:auto!important;transform:none!important;width:100%!important;}
@@ -853,6 +899,7 @@ select.inp option{background:var(--bg3);}
   </div>
   <div class="content content-pb">
     <div id="instrucoes-treino"></div>
+    <div id="sessao-treino-hint" class="sessao-treino-hint" hidden></div>
     <!-- Seletor de academia — aparece se houver academias salvas -->
     <div id="academia-selector-wrap" style="display:none;margin-bottom:16px;">
       <div style="font-size:11px;color:var(--text3);font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;">Registrando em</div>
@@ -877,7 +924,7 @@ select.inp option{background:var(--bg3);}
 
 <div id="screen-exercicio" class="screen screen-exercicio--exec-simple">
   <div class="topbar aluno-exec-topbar">
-    <button type="button" class="topbar-back aluno-exec-back" onclick="if(window.cancelRestTimerUI)cancelRestTimerUI(false);goTo('treino');renderListaEx();" aria-label="Voltar">&#x2190;</button>
+    <button type="button" class="topbar-back aluno-exec-back" onclick="voltarListaTreinoAluno()" aria-label="Voltar para a lista de exerc&#xED;cios">&#x2190; Voltar</button>
     <div class="topbar-title" id="ex-title-top">Exerc&#xED;cio</div>
     <div class="aluno-exec-pos" id="aluno-ex-pos" aria-live="polite"></div>
   </div>
@@ -927,7 +974,7 @@ select.inp option{background:var(--bg3);}
     <div class="field aluno-exec-obs-wrap"><label>Observa&#xE7;&#xF5;es da sess&#xE3;o</label><textarea class="inp" id="obs-inp" placeholder="Dor, dificuldade..."></textarea></div>
   </div>
   <button class="btn-voltar-fixo" onclick="goTo('treino');renderListaEx();" aria-hidden="true" tabindex="-1">&#x2190; Voltar</button>
-  <button class="btn-salvar-fixo" onclick="if(window.cancelRestTimerUI)cancelRestTimerUI(false);salvarRegistro()" aria-hidden="true" tabindex="-1">Salvar &#x2713;</button>
+  <button class="btn-salvar-fixo" onclick="salvarExercicioEVoltarLista()" aria-hidden="true" tabindex="-1">Salvar &#x2713;</button>
   <div id="aluno-exec-footer" class="aluno-exec-footer">
     <div id="aluno-guided-action-bar" class="aluno-guided-action-bar action-bar-v2">
       <button type="button" id="aluno-guided-btn-primary" class="aluno-guided-btn-primary action-btn-v2"></button>
@@ -1172,6 +1219,50 @@ let tiposSerie=[];
 reconstruirTiposSerie();
 function nomeExRefKey(n){return((n||'')+'').trim().toLowerCase();}
 
+/** Slug para chaves de sessão (ex.: "Lower 1" → "lower-1"). */
+function slugifyChave(s){
+  return ((s||'')+'').trim().toLowerCase()
+    .normalize('NFD').replace(/\p{M}/gu,'')
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'')||'item';
+}
+function treinoSessaoKey(nome){return slugifyChave(nome);}
+function exercicioSessaoKey(idx,nome){return String(idx)+'|'+treinoSessaoKey(nome);}
+function sessaoDataHojeLocal(){
+  const d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function sessaoEmailPart(){return slugifyChave((me&&me.email)||'anon');}
+function sessaoLsKey(treinoNome){
+  return 'sessao_treino_v1_'+sessaoEmailPart()+'_'+sessaoDataHojeLocal()+'_'+treinoSessaoKey(treinoNome);
+}
+/** Sessão válida só se for do dia atual (nunca retomar rascunho de outro dia). */
+function sessaoTreinoValidaHoje(s,treinoNome){
+  if(!s||s.v!==1)return false;
+  const hoje=sessaoDataHojeLocal();
+  if(s.data!==hoje)return false;
+  if(treinoNome!=null&&s.treinoKey!==treinoSessaoKey(treinoNome))return false;
+  return true;
+}
+function criarSessaoTreinoNova(t){
+  const now=Date.now();
+  const data=sessaoDataHojeLocal();
+  const treinoKey=treinoSessaoKey(t.nome);
+  return{
+    v:1,
+    email:(me&&me.email)||'',
+    data,
+    treinoNome:t.nome,
+    treinoKey,
+    iniciadaEm:now,
+    atualizadaEm:now,
+    academia:academiaSelecionada||'',
+    ultimoExIdx:null,
+    exercicios:{}
+  };
+}
+
+let sessaoTreinoAtual=null;
 let me=null,meAluno=null,treinoAtual=null,exAtual=null,exFeitosHoje=new Set();
 let alunoActiveBlockIndex=0,alunoGuidedLastStepDone=false;
 let alunoState={blockIdx:0,blocksDone:[],seriesDone:{},seriesData:{},seqStep:{},seqData:{},timerActive:false,timerInterval:null};
@@ -1431,12 +1522,127 @@ async function initAluno(){
   });
 }
 
+function snapshotInputsExercicioDom(){
+  const c=$('series-inputs');
+  const m={};
+  if(!c)return m;
+  c.querySelectorAll('input,textarea,select').forEach(el=>{
+    const id=el.id;
+    if(!id)return;
+    if(el.type==='checkbox'||el.type==='radio')m[id]=el.checked?'1':'';
+    else m[id]=el.value;
+  });
+  return m;
+}
+
+function salvarSessaoTreinoLS(){
+  if(!sessaoTreinoAtual||!treinoAtual)return;
+  if(!sessaoTreinoValidaHoje(sessaoTreinoAtual,treinoAtual.nome))return;
+  sessaoTreinoAtual.data=sessaoDataHojeLocal();
+  sessaoTreinoAtual.treinoKey=treinoSessaoKey(treinoAtual.nome);
+  sessaoTreinoAtual.atualizadaEm=Date.now();
+  try{localStorage.setItem(sessaoLsKey(treinoAtual.nome),JSON.stringify(sessaoTreinoAtual));}catch(e){console.warn('sessao treino save:',e);}
+}
+
+function alunoSnapshotSeriesDoneDom(){
+  const m={};
+  const c=$('series-inputs');
+  if(!c)return m;
+  c.querySelectorAll('.aluno-serie-row--done').forEach(row=>{
+    const bi=row.dataset.bi,s=row.dataset.s;
+    if(bi!=null&&s!=null)m[bi+'|'+s]='1';
+  });
+  c.querySelectorAll('.aluno-cluster-mini--done').forEach(mini=>{
+    const bi=mini.dataset.bi,ci=mini.dataset.cbi;
+    if(bi!=null&&ci!=null)m[bi+'|cb'+ci]='1';
+  });
+  return m;
+}
+
+function persistirExercicioAtualNaSessao(){
+  if(!sessaoTreinoValidaHoje(sessaoTreinoAtual,treinoAtual&&treinoAtual.nome)||!exAtual||exAtual.idx==null)return;
+  const key=exercicioSessaoKey(exAtual.idx,exAtual.nome);
+  const obsEl=$('obs-inp');
+  sessaoTreinoAtual.exercicios[key]={
+    idx:exAtual.idx,
+    nome:exAtual.nome,
+    inputs:snapshotInputsExercicioDom(),
+    obsSessao:obsEl?obsEl.value:'',
+    guided:{alunoActiveBlockIndex,alunoGuidedLastStepDone:!!alunoGuidedLastStepDone},
+    seriesDone:alunoSnapshotSeriesDoneDom()
+  };
+  sessaoTreinoAtual.ultimoExIdx=exAtual.idx;
+  sessaoTreinoAtual.atualizadaEm=Date.now();
+}
+
+function persistirSessaoTreinoCompleta(){
+  if(!sessaoTreinoValidaHoje(sessaoTreinoAtual,treinoAtual&&treinoAtual.nome))return;
+  if($('screen-exercicio')&&$('screen-exercicio').classList.contains('active'))
+    persistirExercicioAtualNaSessao();
+  if(sessaoTreinoAtual){
+    sessaoTreinoAtual.academia=academiaSelecionada||'';
+    sessaoTreinoAtual.atualizadaEm=Date.now();
+  }
+  salvarSessaoTreinoLS();
+}
+
+function renderHintSessaoTreino(){
+  const el=$('sessao-treino-hint');
+  if(!el)return;
+  if(!sessaoTreinoValidaHoje(sessaoTreinoAtual,treinoAtual&&treinoAtual.nome)||!sessaoTreinoAtual.iniciadaEm){el.hidden=true;return;}
+  const d=new Date(sessaoTreinoAtual.iniciadaEm);
+  const hh=String(d.getHours()).padStart(2,'0');
+  const mm=String(d.getMinutes()).padStart(2,'0');
+  el.textContent='Treino em andamento \u00b7 iniciado \u00e0s '+hh+':'+mm;
+  el.hidden=false;
+}
+
+function iniciarOuRetomarSessaoTreino(t){
+  const lsKey=sessaoLsKey(t.nome);
+  let parsed=null;
+  try{
+    const raw=localStorage.getItem(lsKey);
+    if(raw)parsed=JSON.parse(raw);
+  }catch(_){}
+  if(sessaoTreinoValidaHoje(parsed,t.nome)){
+    sessaoTreinoAtual=parsed;
+    if(parsed.academia!=null&&parsed.academia!=='')academiaSelecionada=parsed.academia;
+  }else{
+    sessaoTreinoAtual=criarSessaoTreinoNova(t);
+    salvarSessaoTreinoLS();
+  }
+  renderHintSessaoTreino();
+}
+
+function aplicarRascunhoExercicio(idx,nome){
+  if(!sessaoTreinoValidaHoje(sessaoTreinoAtual,treinoAtual&&treinoAtual.nome))return;
+  const draft=sessaoTreinoAtual.exercicios[exercicioSessaoKey(idx,nome)];
+  if(!draft)return;
+  if(draft.inputs)restoreBlocoInputValues(draft.inputs);
+  if(draft.guided){
+    if(typeof draft.guided.alunoActiveBlockIndex==='number')alunoActiveBlockIndex=draft.guided.alunoActiveBlockIndex;
+    alunoGuidedLastStepDone=!!draft.guided.alunoGuidedLastStepDone;
+  }
+  const c=$('series-inputs');
+  if(c&&draft.seriesDone)alunoRestoreSeriesDone(draft.seriesDone);
+  if(c&&draft.guided)applyAlunoGuidedBlockUI();
+  else if(c)paintAlunoExecActiveBlock();
+  if(c&&c.dataset.alunoRowsV1)alunoSyncRowsProgress();
+  const obsEl=$('obs-inp');
+  if(obsEl&&draft.obsSessao!=null)obsEl.value=String(draft.obsSessao);
+}
+
 function abrirTreino(t){
-  treinoAtual=t;exFeitosHoje=new Set();exSubstitutoIdx=null;viewDetalhado=true;
+  if(treinoAtual&&sessaoTreinoValidaHoje(sessaoTreinoAtual,treinoAtual.nome))persistirSessaoTreinoCompleta();
+  treinoAtual=t;
+  sessaoTreinoAtual=null;
+  exFeitosHoje=new Set();
+  exSubstitutoIdx=null;
+  viewDetalhado=true;
   $('treino-title').textContent=t.nome;
   $('btn-view-toggle').textContent='\u2261 Resumo';
-  // Inicializar academia da sessão com a última usada
   academiaSelecionada=localStorage.getItem('academia_atual')||'';
+  iniciarOuRetomarSessaoTreino(t);
   renderAcademiaSelector();
   renderInstrucoes();
   renderListaEx();
@@ -1586,6 +1792,10 @@ function textoMetaListaAlunoSimples(ex){
   return j||'\u2014';
 }
 async function abrirExercicio(ex,idx){
+  if(exAtual!=null&&exAtual.idx!=null&&(exAtual.idx!==idx||exAtual.nome!==ex.nome))
+    persistirExercicioAtualNaSessao();
+  if(sessaoTreinoValidaHoje(sessaoTreinoAtual,treinoAtual&&treinoAtual.nome))salvarSessaoTreinoLS();
+  if(treinoAtual&&!sessaoTreinoValidaHoje(sessaoTreinoAtual,treinoAtual.nome))iniciarOuRetomarSessaoTreino(treinoAtual);
   exAtual={...ex,idx};
   // Renderizar tela imediatamente — sem esperar Firebase
   $('ex-title-top').textContent=ex.nome;
@@ -1621,7 +1831,7 @@ async function abrirExercicio(ex,idx){
   // Campos de série com replicação automática de peso
   // Renderizar tela de registro baseada na técnica estruturada
   renderSeriesInputs(ex);
-  $('obs-inp').value='';
+  aplicarRascunhoExercicio(idx,ex.nome);
   try{academiaFiltroUltimoReg=localStorage.getItem('ult_reg_unidade_'+(me&&me.email?me.email:''))||'';}catch(_){academiaFiltroUltimoReg='';}
   // Navegar ANTES de buscar histórico
   const scrEx=$('screen-exercicio');
@@ -1671,6 +1881,7 @@ async function carregarHistoricoEx(){
       if(academiaFiltroUltimoReg)docs=allDocs.filter(d=>((d.academia||'')+'')===academiaFiltroUltimoReg);
       if(docs.length){
         const ult=docs[0];
+        window.alunoHistoricoUltimo={seriesFlat:ult.series||[],blocos:Array.isArray(ult.blocos)?ult.blocos:null};
         const acLabel=ult.academia?' <span style="font-size:11px;color:var(--accent);">· '+esc(ult.academia)+'</span>':'';
         const seriesHtml=(ult.series||[]).map((s,i)=>{
           const peso=s.peso?s.peso+'kg':'—';
@@ -1692,8 +1903,10 @@ async function carregarHistoricoEx(){
         $('ult-series-detail').innerHTML='<div style="color:var(--text3);font-size:13px;">'+(academiaFiltroUltimoReg?'Nenhum registro nesta unidade':'Primeiro registro')+'</div>';
         $('ult-data').textContent='';
         alunoExecUpdateLastRef(null);
+        window.alunoHistoricoUltimo=null;
       }
     } else {
+      window.alunoHistoricoUltimo=null;
       const wrap=$('ult-filtro-unidade-wrap');if(wrap)wrap.style.display='none';
       const sel=$('ult-filtro-unidade');if(sel)sel.innerHTML='';
       $('ult-series-detail').innerHTML='<div style="color:var(--text3);font-size:13px;">Primeiro registro</div>';
@@ -1704,8 +1917,223 @@ async function carregarHistoricoEx(){
     console.error('historico:',e);
     $('ult-series-detail').innerHTML='<div style="color:var(--text3);font-size:13px;">—</div>';
     alunoExecUpdateLastRef(null);
+    window.alunoHistoricoUltimo=null;
   }
+  const c=$('series-inputs');
+  if(c&&c.dataset.alunoRowsV1)alunoRefreshSerieRowAnteriores();
 }
+
+function alunoFormatAnteriorSerie(s){
+  if(!s)return'\u2014';
+  const p=s.peso?String(s.peso).replace(/\.0+$/,''):'';
+  const r=s.reps?String(s.reps).replace(/\+.*/,''):'';
+  if(p&&r)return p+' x '+r;
+  if(p)return p+' kg';
+  if(r)return r+' reps';
+  return'\u2014';
+}
+
+function alunoHistoricoSerieAnterior(bi,s){
+  const h=window.alunoHistoricoUltimo;
+  if(!h)return'\u2014';
+  let arr=null;
+  if(h.blocos&&h.blocos[bi]&&Array.isArray(h.blocos[bi].series))arr=h.blocos[bi].series;
+  else if(Number(bi)===0&&h.seriesFlat)arr=h.seriesFlat;
+  return alunoFormatAnteriorSerie(arr&&arr[s]);
+}
+
+function alunoUsaRenderSerieRows(tecnica,tipoAluno){
+  let t=((tecnica||'')+'').trim();
+  if(t==='drop-set')t='drop';
+  if(t==='normal'||!t)t='work';
+  if(((tipoAluno||'')+'').toLowerCase().includes('feeder')&&t!=='cluster')t='feeder';
+  return['normal','work','feeder'].includes(t);
+}
+
+function alunoUsaRenderClusterRows(tecnica,tipoAluno){
+  let t=((tecnica||'')+'').trim();
+  if(t==='drop-set')t='drop';
+  if(t==='cluster')return true;
+  return((tipoAluno||'')+'').toLowerCase().includes('cluster');
+}
+
+function alunoHistoricoClusterAnterior(bi){
+  const h=window.alunoHistoricoUltimo;
+  if(!h)return'\u2014';
+  let item=null;
+  if(h.blocos&&h.blocos[bi]&&Array.isArray(h.blocos[bi].series)&&h.blocos[bi].series[0])item=h.blocos[bi].series[0];
+  else if(Number(bi)===0&&h.seriesFlat&&h.seriesFlat[0])item=h.seriesFlat[0];
+  return alunoFormatAnteriorSerie(item);
+}
+
+function alunoClusterMinisDone(bi,pref,total){
+  pref=pref!=null?String(pref):'';
+  for(let ci=0;ci<total;ci++){
+    const mini=document.querySelector('.aluno-cluster-mini[data-bi="'+bi+'"][data-cbi="'+ci+'"]');
+    if(!mini||!mini.classList.contains('aluno-cluster-mini--done'))return false;
+  }
+  return total>0;
+}
+
+function alunoSeriePillHtml(b){
+  let tt=null;
+  try{tt=techniqueTranslator({tecnica:alunoTecnicaParaTranslator(b),meta:b.meta||''});}catch(_){tt=null;}
+  const copy=alunoCopyBloco(b,{});
+  const label=tt&&(tt.title||tt.sub)
+    ?[String(tt.title||'').trim(),String(tt.sub||'').trim()].filter(Boolean).join(' \u00b7 ')
+    :(copy.tituloAluno+(copy.subtitulo?' \u00b7 '+copy.subtitulo:''));
+  const tec=alunoTecnicaParaTranslator(b);
+  const pillCls=tec==='feeder'?'aluno-serie-pill--prep':tec==='cluster'?'aluno-serie-pill--cluster':'aluno-serie-pill--main';
+  return'<span class="aluno-serie-pill '+pillCls+'">'+esc(label||'\u2014')+'</span>';
+}
+
+function alunoSerieHintHtml(b){
+  let hint='';
+  try{
+    const tt=techniqueTranslator({tecnica:alunoTecnicaParaTranslator(b),meta:b.meta||''});
+    hint=(tt&&tt.hint)?String(tt.hint).trim():'';
+  }catch(_){}
+  if(!hint)hint=(alunoCopyBloco(b,{}).hint||'').trim();
+  if(!hint)return'';
+  const tec=alunoTecnicaParaTranslator(b);
+  const cls=tec==='feeder'?'aluno-serie-hint--prep':tec==='cluster'?'aluno-serie-hint--cluster':'aluno-serie-hint--main';
+  return'<div class="aluno-serie-hint '+cls+'" hidden><p>'+esc(hint)+'</p></div>';
+}
+
+function alunoRestoreSeriesDone(m){
+  if(!m||typeof m!=='object')return;
+  Object.keys(m).forEach(key=>{
+    if(!m[key])return;
+    const parts=key.split('|');
+    const bi=parts[0],s=parts[1];
+    if(!s)return;
+    if(String(s).indexOf('cb')===0){
+      const ci=String(s).slice(2);
+      const mini=document.querySelector('.aluno-cluster-mini[data-bi="'+bi+'"][data-cbi="'+ci+'"]');
+      if(!mini)return;
+      mini.classList.add('aluno-cluster-mini--done');
+      const mchk=mini.querySelector('.aluno-cluster-mini-check');
+      if(mchk)mchk.classList.add('aluno-serie-check--done');
+      return;
+    }
+    const row=document.querySelector('.aluno-serie-row[data-bi="'+bi+'"][data-s="'+s+'"]');
+    if(!row)return;
+    row.classList.add('aluno-serie-row--done');
+    const chk=row.querySelector('.aluno-serie-check');
+    if(chk)chk.classList.add('aluno-serie-check--done');
+  });
+}
+
+function alunoRefreshSerieRowAnteriores(){
+  document.querySelectorAll('.aluno-serie-row').forEach(row=>{
+    const bi=parseInt(row.dataset.bi,10);
+    const el=row.querySelector('.aluno-serie-ant');
+    if(!el||Number.isNaN(bi))return;
+    if(row.classList.contains('aluno-serie-row--cluster'))el.textContent=alunoHistoricoClusterAnterior(bi);
+    else{
+      const s=parseInt(row.dataset.s,10);
+      if(!Number.isNaN(s))el.textContent=alunoHistoricoSerieAnterior(bi,s);
+    }
+  });
+}
+
+function alunoSyncRowsProgress(){
+  const c=$('series-inputs');
+  const posEl=$('aluno-ex-pos');
+  const progFill=$('aluno-prog-fill');
+  if(!c||!c.dataset.alunoRowsV1)return;
+  const total=c.querySelectorAll('.aluno-serie-row').length;
+  const done=c.querySelectorAll('.aluno-serie-row--done').length;
+  if(posEl)posEl.textContent=done+'/'+total+' s\xE9ries';
+  if(progFill)progFill.style.width=(total?Math.round((done/total)*100):0)+'%';
+}
+
+window.alunoToggleSerieHint=function(btn){
+  const row=btn&&btn.closest('.aluno-serie-row');
+  if(!row)return;
+  const hint=row.querySelector('.aluno-serie-hint');
+  if(!hint)return;
+  const open=hint.hidden;
+  hint.hidden=!open;
+  btn.setAttribute('aria-expanded',open?'true':'false');
+  btn.classList.toggle('aluno-serie-help--open',open);
+};
+
+window.alunoCheckSerieRow=function(bi,s,nSeries,timerSeg,pref){
+  pref=pref!=null?String(pref):'';
+  const row=document.querySelector('.aluno-serie-row[data-bi="'+bi+'"][data-s="'+s+'"]');
+  if(!row)return;
+  const chk=row.querySelector('.aluno-serie-check');
+  if(row.classList.contains('aluno-serie-row--done')){
+    row.classList.remove('aluno-serie-row--done');
+    if(chk)chk.classList.remove('aluno-serie-check--done');
+    persistirExercicioAtualNaSessao();
+    salvarSessaoTreinoLS();
+    alunoSyncRowsProgress();
+    return;
+  }
+  row.classList.add('aluno-serie-row--done');
+  if(chk)chk.classList.add('aluno-serie-check--done');
+  if(s<nSeries-1)finalizarSerie(s,nSeries,timerSeg,pref);
+  persistirExercicioAtualNaSessao();
+  salvarSessaoTreinoLS();
+  alunoSyncRowsProgress();
+};
+
+window.alunoCheckClusterMini=function(bi,ci,total,timerSeg,pref){
+  pref=pref!=null?String(pref):'';
+  const mini=document.querySelector('.aluno-cluster-mini[data-bi="'+bi+'"][data-cbi="'+ci+'"]');
+  if(!mini)return;
+  const mchk=mini.querySelector('.aluno-cluster-mini-check');
+  if(mini.classList.contains('aluno-cluster-mini--done')){
+    mini.classList.remove('aluno-cluster-mini--done');
+    if(mchk)mchk.classList.remove('aluno-serie-check--done');
+    const row=document.querySelector('.aluno-serie-row--cluster[data-bi="'+bi+'"]');
+    if(row){
+      row.classList.remove('aluno-serie-row--done');
+      const chk=row.querySelector('.aluno-serie-check');
+      if(chk)chk.classList.remove('aluno-serie-check--done');
+    }
+    persistirExercicioAtualNaSessao();
+    salvarSessaoTreinoLS();
+    alunoSyncRowsProgress();
+    return;
+  }
+  const p0=$(pref+'p0');
+  const rb=$(pref+'rb'+ci);
+  if(!p0||!String(p0.value||'').trim()){toast('Informe o peso do cluster');return;}
+  if(!rb||!String(rb.value||'').trim()){toast('Informe as reps do bloco '+(ci+1));return;}
+  mini.classList.add('aluno-cluster-mini--done');
+  if(mchk)mchk.classList.add('aluno-serie-check--done');
+  if(ci<total-1)finalizarBloco(ci,total,timerSeg,pref);
+  persistirExercicioAtualNaSessao();
+  salvarSessaoTreinoLS();
+  alunoSyncRowsProgress();
+};
+
+window.alunoCheckClusterRow=function(bi,total,timerSeg,pref){
+  pref=pref!=null?String(pref):'';
+  const row=document.querySelector('.aluno-serie-row--cluster[data-bi="'+bi+'"]');
+  if(!row)return;
+  const chk=row.querySelector('.aluno-serie-check');
+  if(row.classList.contains('aluno-serie-row--done')){
+    row.classList.remove('aluno-serie-row--done');
+    if(chk)chk.classList.remove('aluno-serie-check--done');
+    persistirExercicioAtualNaSessao();
+    salvarSessaoTreinoLS();
+    alunoSyncRowsProgress();
+    return;
+  }
+  if(!alunoClusterMinisDone(bi,pref,total)){
+    toast('Marque todos os blocos do cluster (B1\u2013B'+total+')');
+    return;
+  }
+  row.classList.add('aluno-serie-row--done');
+  if(chk)chk.classList.add('aluno-serie-check--done');
+  persistirExercicioAtualNaSessao();
+  salvarSessaoTreinoLS();
+  alunoSyncRowsProgress();
+};
 
 function alunoExecUpdateLastRef(ult){
   const ref=$('aluno-exec-last-ref');
@@ -1752,6 +2180,7 @@ function paintAlunoExecActiveBlock(){
   const scr=$('screen-exercicio');
   if(!scr||!scr.classList.contains('screen-exercicio--exec-simple')||!exAtual)return;
   const c=$('series-inputs');
+  if(c&&c.dataset.alunoRowsV1)return;
   const nB=c?parseInt(c.dataset.guidedNB||'0',10)||0:0;
   const blocos=normalizarExercicio(exAtual);
   const nEff=Math.max(nB,blocos.length)||1;
@@ -1955,6 +2384,7 @@ function syncAlunoGuidedChrome(){
   if(!scr||!bar||!prim)return;
   const execSimple=scr.classList.contains('screen-exercicio--exec-simple');
   const nB=c?parseInt(c.dataset.guidedNB||'0',10)||0:0;
+  const rowsV1=!!(c&&c.dataset.alunoRowsV1);
   if(execSimple){
     if(!scr.classList.contains('active'))return;
     scr.classList.remove('screen-exercicio--guided-multi');
@@ -1962,11 +2392,17 @@ function syncAlunoGuidedChrome(){
     prim.classList.remove('aluno-guided-btn-primary--secondary');
     prim.disabled=false;
     if(sub)sub.textContent='';
+    if(rowsV1){
+      prim.textContent='Salvar exerc\u00edcio';
+      prim.onclick=()=>salvarExercicioEVoltarLista();
+      alunoSyncRowsProgress();
+      return;
+    }
     if(nB<=1){
       if(posEl)posEl.textContent='1 de 1 etapas';
       if(progFill)progFill.style.width='100%';
       prim.textContent='Salvar exerc\u00edcio';
-      prim.onclick=()=>{if(window.cancelRestTimerUI)cancelRestTimerUI(false);salvarRegistro();};
+      prim.onclick=()=>salvarExercicioEVoltarLista();
       paintAlunoExecActiveBlock();
       return;
     }
@@ -1977,7 +2413,7 @@ function syncAlunoGuidedChrome(){
     if(progFill)progFill.style.width=(doneAll?100:Math.min(100,Math.round((stepNum/nB)*100)))+'%';
     if(doneAll){
       prim.textContent='Salvar exerc\u00edcio';
-      prim.onclick=()=>{if(window.cancelRestTimerUI)cancelRestTimerUI(false);salvarRegistro();};
+      prim.onclick=()=>salvarExercicioEVoltarLista();
     }else{
       const last=alunoActiveBlockIndex===nB-1;
       prim.textContent=last?'Finalizar s\u00e9rie':'Pr\u00f3xima etapa';
@@ -2028,6 +2464,17 @@ function syncAlunoGuidedChrome(){
 function applyAlunoGuidedBlockUI(){
   const c=$('series-inputs');
   if(!c){syncAlunoGuidedChrome();return;}
+  const scr=$('screen-exercicio');
+  const rowsV1=!!(scr&&scr.classList.contains('screen-exercicio--exec-simple')&&c.dataset.alunoRowsV1);
+  if(rowsV1){
+    const wraps=c.querySelectorAll('.bloco-aluno-wrap[data-bloco-index]');
+    wraps.forEach(wrap=>{
+      wrap.classList.remove('bloco-aluno-wrap--guided-feito','bloco-aluno-wrap--guided-proximo','bloco-aluno-wrap--guided-ocultar-inputs','bloco-aluno-wrap--guided-ocultar-preview');
+      wrap.classList.add('bloco-aluno-wrap--guided-ativo');
+    });
+    syncAlunoGuidedChrome();
+    return;
+  }
   const nB=parseInt(c.dataset.guidedNB||'0',10)||0;
   if(nB<=1){paintAlunoExecActiveBlock();syncAlunoGuidedChrome();return;}
   const wraps=c.querySelectorAll('.bloco-aluno-wrap[data-bloco-index]');
@@ -2106,6 +2553,8 @@ window.concluirEtapaBlocoAluno=bi=>{
   }
   const nextWrap=c.querySelector('.bloco-aluno-wrap[data-bloco-index="'+alunoActiveBlockIndex+'"]');
   if(nextWrap)setTimeout(()=>nextWrap.scrollIntoView({behavior:'smooth',block:'nearest'}),120);
+  persistirExercicioAtualNaSessao();
+  salvarSessaoTreinoLS();
 };
 
 function snapshotBlocoInputValues(root){
@@ -2144,7 +2593,16 @@ function renderBlocoAlunoInputsInner(inner,ex,b,bi,nBl,skipInteractive){
   if(tipoAluno.includes('feeder')&&tecnica!=='cluster')timerTec='feeder';
   const timer=ex.timerCustom||timerPadrao(timerTec);
   const ro={idPrefix,skipInteractive:!!skipInteractive,blocoMeta:b.meta!=null?String(b.meta):''};
-  if(tecnica==='cluster'){
+  const scrEx=$('screen-exercicio');
+  const execSimple=scrEx&&scrEx.classList.contains('screen-exercicio--exec-simple');
+  const execRows=execSimple&&alunoUsaRenderSerieRows(tecnica,tipoAluno);
+  const execCluster=execSimple&&alunoUsaRenderClusterRows(tecnica,tipoAluno);
+  if(execRows){
+    renderAlunoSerieRows(inner,ex,b,bi,nSeries,timer,ro);
+  }else if(execCluster){
+    const blC=presc.blocos||[4,4,4];
+    renderAlunoClusterRows(inner,ex,b,bi,blC,timer,ro);
+  }else if(tecnica==='cluster'){
     const blC=presc.blocos||[4,4,4];
     renderCluster(inner, blC, timer, Object.assign({},ro,{alunoTitulo:copyBloco.tituloAluno,alunoSub:copyBloco.subtitulo}));
   }else if(tecnica==='rest-pause'){
@@ -2153,6 +2611,104 @@ function renderBlocoAlunoInputsInner(inner,ex,b,bi,nBl,skipInteractive){
     renderBackOff(inner, nSeries, timer, Object.assign({},ro,{backOffCardTitulo:copyBloco.tituloAluno}));
   }else{
     renderNormal(inner, nSeries, timer, tecnica, ro);
+  }
+}
+
+// Etapa 1A — linhas contínuas (feeder/work/normal); mesmos ids p*/r* que renderNormal
+function renderAlunoSerieRows(container,ex,b,bi,nSeries,timerSeg,opts){
+  opts=opts||{};
+  const P=opts.idPrefix||'';
+  const sk=!!opts.skipInteractive;
+  const mjs=escJs(opts.blocoMeta||'');
+  const pq=P.replace(/'/g,'\\\'');
+  const wrap=document.createElement('div');
+  wrap.className='aluno-serie-rows-wrap';
+  wrap.dataset.blocoIndex=String(bi);
+  const head=document.createElement('div');
+  head.className='aluno-serie-cols-head';
+  head.innerHTML='<span>#</span><span>Tipo \xB7 anterior</span><span>kg</span><span>reps</span><span></span><span></span>';
+  wrap.appendChild(head);
+  const hintBlock=alunoSerieHintHtml(b);
+  for(let s=0;s<nSeries;s++){
+    const row=document.createElement('div');
+    row.className='aluno-serie-row';
+    row.id=P+'serie-row-'+s;
+    row.dataset.bi=String(bi);
+    row.dataset.s=String(s);
+    const ant=alunoHistoricoSerieAnterior(bi,s);
+    const inpP=!sk?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\')"':'';
+    row.innerHTML='<div class="aluno-serie-row-main">'
+      +'<span class="aluno-serie-num">'+(s+1)+'</span>'
+      +'<div class="aluno-serie-tipo">'+alunoSeriePillHtml(b)+'<span class="aluno-serie-ant">'+esc(ant)+'</span></div>'
+      +'<input id="'+P+'p'+s+'" type="number" inputmode="decimal" placeholder="0" class="aluno-serie-inp aluno-serie-inp-kg"'+inpP+'>'
+      +'<input id="'+P+'r'+s+'" type="number" inputmode="numeric" placeholder="0" class="aluno-serie-inp aluno-serie-inp-rep">'
+      +(sk?'':'<button type="button" class="aluno-serie-help" aria-expanded="false" aria-label="Explica\xE7\xE3o" onclick="alunoToggleSerieHint(this)">?</button>')
+      +(sk?'':'<button type="button" class="aluno-serie-check" aria-label="Marcar s\xE9rie" onclick="alunoCheckSerieRow('+bi+','+s+','+nSeries+','+timerSeg+',\''+pq+'\')">\u2713</button>')
+      +'</div>'
+      +hintBlock;
+    wrap.appendChild(row);
+  }
+  container.appendChild(wrap);
+  if(!sk){
+    const timerEl=document.createElement('div');
+    timerEl.id=P+'timer-descanso';
+    timerEl.style.cssText='display:none;';
+    timerEl.innerHTML='<div id="'+P+'timer-val"></div><div id="'+P+'timer-prox"></div>';
+    container.insertBefore(timerEl,container.firstChild);
+  }
+}
+
+// Etapa 1B — cluster: linha-resumo + painel compacto (p0 + rb*); ids iguais a renderCluster
+function renderAlunoClusterRows(container,ex,b,bi,blocosRep,timerSeg,opts){
+  opts=opts||{};
+  const P=opts.idPrefix||'';
+  const sk=!!opts.skipInteractive;
+  const pq=P.replace(/'/g,'\\\'');
+  const nB=blocosRep.length;
+  const ant=alunoHistoricoClusterAnterior(bi);
+  const metaLbl=blocosRep.join('+')+' reps';
+  const wrap=document.createElement('div');
+  wrap.className='aluno-serie-rows-wrap';
+  wrap.dataset.blocoIndex=String(bi);
+  const head=document.createElement('div');
+  head.className='aluno-serie-cols-head';
+  head.innerHTML='<span>#</span><span>Tipo \xB7 anterior</span><span>kg</span><span>reps</span><span></span><span></span>';
+  wrap.appendChild(head);
+  const row=document.createElement('div');
+  row.className='aluno-serie-row aluno-serie-row--cluster';
+  row.dataset.bi=String(bi);
+  row.dataset.s='c';
+  const minisHtml=blocosRep.map((metaRep,ci)=>'<div class="aluno-cluster-mini" data-bi="'+bi+'" data-cbi="'+ci+'" id="'+P+'cb'+ci+'">'
+    +'<div class="aluno-cluster-mini-lbl">B'+(ci+1)+'</div>'
+    +'<div class="aluno-cluster-mini-meta">'+esc(String(metaRep))+'</div>'
+    +'<input id="'+P+'rb'+ci+'" type="number" inputmode="numeric" placeholder="'+esc(String(metaRep))+'" class="aluno-cluster-mini-inp">'
+    +(sk?'':'<button type="button" class="aluno-cluster-mini-check" aria-label="Bloco '+(ci+1)+'" onclick="alunoCheckClusterMini('+bi+','+ci+','+nB+','+timerSeg+',\''+pq+'\')">\u2713</button>')
+    +'</div>').join('');
+  row.innerHTML='<div class="aluno-serie-row-main">'
+    +'<span class="aluno-serie-num">C</span>'
+    +'<div class="aluno-serie-tipo">'+alunoSeriePillHtml(b)+'<span class="aluno-serie-ant">'+esc(ant)+'</span></div>'
+    +'<span class="aluno-serie-cell-ph">\u2014</span>'
+    +'<span class="aluno-serie-cell-ph" style="font-size:11px;">abaixo</span>'
+    +(sk?'':'<button type="button" class="aluno-serie-help" aria-expanded="false" aria-label="Explica\xE7\xE3o" onclick="alunoToggleSerieHint(this)">?</button>')
+    +(sk?'':'<button type="button" class="aluno-serie-check" aria-label="Concluir cluster" onclick="alunoCheckClusterRow('+bi+','+nB+','+timerSeg+',\''+pq+'\')">\u2713</button>')
+    +'</div>'
+    +'<div class="aluno-cluster-panel">'
+    +'<div class="aluno-cluster-panel-title">Cluster \u00b7 peso \u00fanico \u00b7 '+nB+' blocos de '+esc(metaLbl)+'</div>'
+    +'<div class="aluno-cluster-peso-row">'
+    +'<div class="aluno-cluster-peso-lbl">Peso (kg)</div>'
+    +'<input id="'+P+'p0" type="number" inputmode="decimal" placeholder="0" class="aluno-cluster-peso-inp">'
+    +'</div>'
+    +'<div class="aluno-cluster-minis">'+minisHtml+'</div>'
+    +'</div>'
+    +alunoSerieHintHtml(b);
+  wrap.appendChild(row);
+  container.appendChild(wrap);
+  if(!sk){
+    const timerEl=document.createElement('div');
+    timerEl.id=P+'timer-descanso';
+    timerEl.style.cssText='display:none;';
+    timerEl.innerHTML='<div id="'+P+'timer-val"></div>';
+    container.insertBefore(timerEl,container.firstChild);
   }
 }
 
@@ -2278,7 +2834,8 @@ function renderAlunoTela(ex,blocos){
       wrap.appendChild(head);
     }
     const inner=document.createElement('div');
-    renderBlocoAlunoInputsInner(inner,ex,b,bi,nBl,nBl>1&&bi!==alunoActiveBlockIndex);
+    const skipBloco=execSimple?false:(nBl>1&&bi!==alunoActiveBlockIndex);
+    renderBlocoAlunoInputsInner(inner,ex,b,bi,nBl,skipBloco);
     wrap.appendChild(inner);
     if(nBl>1){
       wrap.classList.add('bloco-aluno-wrap--guided-multi');
@@ -2304,6 +2861,13 @@ function renderAlunoTela(ex,blocos){
   });
   alunoState.blockIdx=alunoActiveBlockIndex;
   alunoState.blocksDone=blocos.map((_,i)=>i<alunoActiveBlockIndex||(alunoGuidedLastStepDone&&i===nBl-1));
+  if(execSimple&&blocos.some(b=>{
+    const presc=interpretarPrescricao(b.meta||'');
+    const t=b.tecnica||presc.tipo;
+    const tipo=((b.tipo||'')+'').toLowerCase();
+    return alunoUsaRenderSerieRows(t,tipo)||alunoUsaRenderClusterRows(t,tipo);
+  }))c.dataset.alunoRowsV1='1';
+  else delete c.dataset.alunoRowsV1;
   applyAlunoGuidedBlockUI();
 }
 
@@ -2811,6 +3375,22 @@ window.replicarPeso=(s,val,pref,meta)=>{
       if(campo&&!campo.value) campo.value=val;
     }
   }
+};
+
+window.voltarListaTreinoAluno=()=>{
+  if(window.cancelRestTimerUI)cancelRestTimerUI(false);
+  persistirSessaoTreinoCompleta();
+  goTo('treino');
+  renderListaEx();
+};
+
+/** Salva e volta à lista da sessão (não altera salvarRegistro). */
+window.salvarExercicioEVoltarLista=async()=>{
+  if(window.cancelRestTimerUI)cancelRestTimerUI(false);
+  await salvarRegistro();
+  persistirSessaoTreinoCompleta();
+  goTo('treino');
+  renderListaEx();
 };
 
 window.salvarRegistro=async()=>{
