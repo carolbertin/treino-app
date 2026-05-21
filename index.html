@@ -822,31 +822,32 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-rows-wrap{margin:0;padding:0;background:transparent;border:none;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-exec-stage{display:none!important;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head,
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main{display:grid;grid-template-columns:24px minmax(0,1fr) 48px 48px 28px 36px;gap:4px 6px;align-items:center;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main{display:grid;grid-template-columns:52px minmax(0,1fr) 48px 48px 36px;gap:4px 6px;align-items:center;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head{padding:6px 8px 4px;font-size:9px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.22);border-bottom:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head span:nth-child(5),
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head span:nth-child(6){text-align:center;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head span:last-child{text-align:center;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row{border-bottom:1px solid rgba(255,255,255,.06);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row:last-child{border-bottom:none;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main{padding:5px 8px;background:transparent;border:none;border-radius:0;transition:background .15s;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row--done .aluno-serie-row-main{background:rgba(72,160,88,.1);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-num{font-size:14px;font-weight:600;color:rgba(255,255,255,.28);font-family:'DM Mono',monospace;text-align:center;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row--done .aluno-serie-num{color:rgba(120,220,140,.9);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-tipo{min-width:0;display:flex;flex-direction:column;gap:1px;line-height:1.2;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-tipo--tap{cursor:pointer;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-pill{display:inline-block;max-width:100%;font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.92;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-pill--prep{color:#8ab8e8;background:rgba(80,140,220,.12);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-pill--main{color:#b0d86a;background:rgba(200,240,96,.1);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-pill--cluster{color:#e0a855;background:rgba(232,160,60,.12);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-ant{font-size:10px;color:rgba(255,255,255,.26);font-family:'DM Mono',monospace;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-col{display:flex;flex-direction:column;gap:1px;min-width:0;align-self:center;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-col--tap{cursor:pointer;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-col-top{display:flex;align-items:center;gap:3px;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-code{font-size:15px;font-weight:700;font-family:'DM Mono',monospace;line-height:1;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-code--num{color:rgba(255,255,255,.92);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-code--feeder{color:#7eb8ff;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-code--cluster{color:#e0a855;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row--done .aluno-serie-code--num{color:rgba(120,220,140,.95);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-sub{display:block;font-size:9px;line-height:1.1;color:rgba(255,255,255,.3);min-height:10px;padding-left:1px;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-col .aluno-serie-help{width:22px;height:22px;min-width:22px;font-size:12px;flex-shrink:0;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-ant{font-size:10px;color:rgba(255,255,255,.26);font-family:'DM Mono',monospace;align-self:center;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-inp,
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-cluster-peso-inp,
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-cluster-mini-inp{width:100%;box-sizing:border-box;min-height:34px;max-height:34px;padding:4px 2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:var(--text);font-family:'DM Mono',monospace;font-size:16px!important;font-weight:600!important;text-align:center!important;outline:none;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-inp:focus,
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-cluster-peso-inp:focus,
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-cluster-mini-inp:focus{border-color:rgba(200,240,96,.4);background:rgba(255,255,255,.08);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-help{width:28px;height:28px;min-width:28px;padding:0;border:none;border-radius:6px;background:transparent;color:rgba(255,255,255,.32);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;line-height:1;justify-self:center;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-help--open{color:#8ab4f8;background:rgba(80,140,220,.1);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-help{padding:0;border:none;border-radius:4px;background:transparent;color:rgba(255,255,255,.32);font-weight:700;cursor:pointer;font-family:inherit;line-height:1;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-help--open{color:#8ab4f8;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-check{width:36px;height:34px;min-width:36px;padding:0;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;line-height:1;justify-self:end;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-check--done{background:rgba(72,160,88,.32);border-color:rgba(96,200,120,.5);color:#a8f0b8;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-hint{margin:0;padding:6px 10px 8px 12px;background:transparent;border-left:2px solid rgba(120,170,255,.45);font-size:11px;line-height:1.4;color:rgba(255,255,255,.45);}
@@ -1972,7 +1973,7 @@ function alunoAppendSerieTableHead(wrap){
   if(!alunoSerieTableNeedsHead())return;
   const head=document.createElement('div');
   head.className='aluno-serie-cols-head';
-  head.innerHTML='<span>#</span><span>Tipo \xB7 anterior</span><span>kg</span><span>reps</span><span></span><span></span>';
+  head.innerHTML='<span>S\xE9rie</span><span>Anterior</span><span>kg</span><span>reps</span><span></span>';
   wrap.insertBefore(head,wrap.firstChild);
 }
 
@@ -2001,16 +2002,37 @@ function alunoClusterMinisDone(bi,pref,total){
   return total>0;
 }
 
-function alunoSeriePillHtml(b){
-  let tt=null;
-  try{tt=techniqueTranslator({tecnica:alunoTecnicaParaTranslator(b),meta:b.meta||''});}catch(_){tt=null;}
-  const copy=alunoCopyBloco(b,{});
-  const label=tt&&(tt.title||tt.sub)
-    ?[String(tt.title||'').trim(),String(tt.sub||'').trim()].filter(Boolean).join(' \u00b7 ')
-    :(copy.tituloAluno+(copy.subtitulo?' \u00b7 '+copy.subtitulo:''));
+function alunoSerieSubtext(b,blocosRep){
+  const meta=((b.meta||'')+'').trim();
+  const rirM=meta.match(/\b(\d+)\s*RIR\b/i);
+  if(rirM)return rirM[1]+'RIR';
+  if(blocosRep&&blocosRep.length){
+    const parts=blocosRep.map(x=>String(x));
+    const u=[...new Set(parts)];
+    if(u.length===1)return u[0]+' reps';
+    return parts.join('+');
+  }
+  return'';
+}
+
+function alunoSerieCodeHtml(b,s,isCluster){
   const tec=alunoTecnicaParaTranslator(b);
-  const pillCls=tec==='feeder'?'aluno-serie-pill--prep':tec==='cluster'?'aluno-serie-pill--cluster':'aluno-serie-pill--main';
-  return'<span class="aluno-serie-pill '+pillCls+'">'+esc(label||'\u2014')+'</span>';
+  let code,kind;
+  if(isCluster){code='C';kind='cluster';}
+  else if(tec==='feeder'){code='F';kind='feeder';}
+  else{code=String(s+1);kind='num';}
+  return'<span class="aluno-serie-code aluno-serie-code--'+kind+'">'+esc(code)+'</span>';
+}
+
+function alunoSerieColHtml(b,s,sk,isCluster,blocosRep){
+  const sub=alunoSerieSubtext(b,isCluster?blocosRep:null);
+  const subEl=sub?'<span class="aluno-serie-sub">'+esc(sub)+'</span>':'<span class="aluno-serie-sub" aria-hidden="true"></span>';
+  const helpBtn=sk?'':'<button type="button" class="aluno-serie-help" aria-expanded="false" aria-label="Explica\xE7\xE3o" onclick="event.stopPropagation();alunoToggleSerieHint(this)">?</button>';
+  const tapCls=isCluster?' aluno-serie-col--tap':'';
+  const tapOn=isCluster?' onclick="if(!event.target.closest(\'button\'))alunoToggleClusterExpand(this)"':'';
+  return'<div class="aluno-serie-col'+tapCls+'"'+tapOn+'>'
+    +'<div class="aluno-serie-col-top">'+alunoSerieCodeHtml(b,s,isCluster)+helpBtn+'</div>'
+    +subEl+'</div>';
 }
 
 function alunoSerieHintHtml(b){
@@ -2674,11 +2696,10 @@ function renderAlunoSerieRows(container,ex,b,bi,nSeries,timerSeg,opts){
     const ant=alunoHistoricoSerieAnterior(bi,s);
     const inpP=!sk?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\')"':'';
     row.innerHTML='<div class="aluno-serie-row-main">'
-      +'<span class="aluno-serie-num">'+(s+1)+'</span>'
-      +'<div class="aluno-serie-tipo">'+alunoSeriePillHtml(b)+'<span class="aluno-serie-ant">'+esc(ant)+'</span></div>'
+      +alunoSerieColHtml(b,s,sk,false,null)
+      +'<span class="aluno-serie-ant">'+esc(ant)+'</span>'
       +'<input id="'+P+'p'+s+'" type="number" inputmode="decimal" placeholder="0" class="aluno-serie-inp aluno-serie-inp-kg"'+inpP+'>'
       +'<input id="'+P+'r'+s+'" type="number" inputmode="numeric" placeholder="0" class="aluno-serie-inp aluno-serie-inp-rep">'
-      +(sk?'':'<button type="button" class="aluno-serie-help" aria-expanded="false" aria-label="Explica\xE7\xE3o" onclick="event.stopPropagation();alunoToggleSerieHint(this)">?</button>')
       +(sk?'':'<button type="button" class="aluno-serie-check" aria-label="Marcar s\xE9rie" onclick="event.stopPropagation();alunoCheckSerieRow('+bi+','+s+','+nSeries+','+timerSeg+',\''+pq+'\')">\u2713</button>')
       +'</div>'
       +hintBlock;
@@ -2702,7 +2723,6 @@ function renderAlunoClusterRows(container,ex,b,bi,blocosRep,timerSeg,opts){
   const pq=P.replace(/'/g,'\\\'');
   const nB=blocosRep.length;
   const ant=alunoHistoricoClusterAnterior(bi);
-  const clusterLbl='Cluster '+blocosRep.join('+');
   const wrap=document.createElement('div');
   wrap.className='aluno-serie-rows-wrap';
   wrap.dataset.blocoIndex=String(bi);
@@ -2717,13 +2737,10 @@ function renderAlunoClusterRows(container,ex,b,bi,blocosRep,timerSeg,opts){
     +(sk?'':'<button type="button" class="aluno-cluster-mini-check" aria-label="Bloco '+(ci+1)+'" onclick="event.stopPropagation();alunoCheckClusterMini('+bi+','+ci+','+nB+','+timerSeg+',\''+pq+'\')">\u2713</button>')
     +'</div>').join('');
   row.innerHTML='<div class="aluno-serie-row-main">'
-    +'<span class="aluno-serie-num">C</span>'
-    +'<div class="aluno-serie-tipo aluno-serie-tipo--tap" onclick="if(!event.target.closest(\'button\'))alunoToggleClusterExpand(this)">'
-    +'<span class="aluno-serie-pill aluno-serie-pill--cluster">'+esc(clusterLbl)+'</span>'
-    +'<span class="aluno-serie-ant">'+esc(ant)+'</span></div>'
+    +alunoSerieColHtml(b,0,sk,true,blocosRep)
+    +'<span class="aluno-serie-ant">'+esc(ant)+'</span>'
     +(sk?'<span></span>':'<button type="button" class="aluno-cluster-expand" aria-expanded="false" aria-label="Expandir cluster" onclick="event.stopPropagation();alunoToggleClusterExpand(this)">\u25BE</button>')
     +'<span></span>'
-    +(sk?'':'<button type="button" class="aluno-serie-help" aria-expanded="false" aria-label="Explica\xE7\xE3o" onclick="event.stopPropagation();alunoToggleSerieHint(this)">?</button>')
     +(sk?'':'<button type="button" class="aluno-serie-check" aria-label="Concluir cluster" onclick="event.stopPropagation();alunoCheckClusterRow('+bi+','+nB+','+timerSeg+',\''+pq+'\')">\u2713</button>')
     +'</div>'
     +'<div class="aluno-cluster-panel">'
