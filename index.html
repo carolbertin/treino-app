@@ -871,6 +871,37 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-cluster-mini-inp{flex:1;min-width:0;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-cluster-mini-check{flex:0 0 28px;width:28px;height:28px;min-height:0;margin:0;padding:0;border:1px solid rgba(255,255,255,.12);border-radius:6px;background:rgba(255,255,255,.04);font-size:14px;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-cluster-mini-check.aluno-serie-check--done{background:rgba(72,160,88,.28);border-color:rgba(96,200,120,.45);color:#a8f0b8;}
+/* Tabela séries — toque confortável no mobile (só CSS) */
+@media (max-width:599px){
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1]{width:100%;max-width:100%;box-sizing:border-box;overflow-x:hidden;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-rows-wrap,
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .bloco-aluno-inputs{width:100%;max-width:100%;min-width:0;box-sizing:border-box;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head,
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main{grid-template-columns:58px minmax(0,1fr) minmax(52px,1.08fr) minmax(52px,1.08fr) 44px;gap:6px 4px;width:100%;max-width:100%;box-sizing:border-box;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head{padding:8px 6px 6px;font-size:9px;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main{min-height:68px;padding:10px 6px;align-items:center;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row--cluster .aluno-serie-row-main{min-height:68px;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-col{min-width:0;max-width:58px;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-code{font-size:18px;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-sub{font-size:10px;min-height:12px;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-col .aluno-serie-help{width:36px;height:36px;min-width:36px;min-height:36px;font-size:15px;border-radius:8px;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-ant{font-size:11px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-inp,
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-cluster-peso-inp,
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-cluster-mini-inp{min-height:44px;max-height:none;height:44px;padding:6px 4px;font-size:20px!important;min-width:0;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-check{width:44px;height:44px;min-width:44px;min-height:44px;font-size:20px;border-radius:10px;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-cluster-expand{height:44px;min-height:44px;font-size:14px;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-cluster-panel{padding:0 6px 8px 58px;box-sizing:border-box;max-width:100%;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-cluster-panel-grid{max-width:100%;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-cluster-peso-cell{flex:0 0 64px;min-width:0;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-cluster-mini-check{width:36px;height:36px;min-height:36px;flex:0 0 36px;font-size:16px;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-hint{padding:8px 8px 10px 58px;font-size:12px;box-sizing:border-box;max-width:100%;}
+}
+@media (min-width:600px) and (max-width:719px){
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main{min-height:60px;padding:8px;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-inp{min-height:40px;max-height:40px;font-size:18px!important;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-check{width:40px;height:40px;min-width:40px;min-height:40px;}
+}
 @media (min-width:720px){
   #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer{left:50%;right:auto;max-width:560px;width:calc(100% - 32px);transform:translateX(-50%);}
   #screen-exercicio.screen-exercicio--exec-simple .aluno-guided-action-bar{left:auto!important;right:auto!important;transform:none!important;width:100%!important;}
