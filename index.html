@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="app-build" content="polish-mobile-timer-20260520">
 <title>Treinos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -716,6 +717,18 @@ select.inp option{background:var(--bg3);}
 .rest-timer-sub{font-size:13px;color:rgba(255,255,255,.3);margin-top:8px;text-align:center;max-width:90%;padding:0 20px;line-height:1.35;}
 .rest-timer-skip{margin-top:36px;font-size:13px;color:rgba(255,255,255,.3);padding:8px 24px;border:0.5px solid rgba(255,255,255,.1);border-radius:20px;background:transparent;cursor:pointer;font-family:inherit;}
 .rest-timer-skip:active{transform:scale(.98);}
+#screen-exercicio.screen-exercicio--exec-simple .rest-timer-ov{inset:auto;left:0;right:0;bottom:0;top:auto;width:100%;height:auto;background:transparent;justify-content:flex-end;align-items:stretch;z-index:150;pointer-events:none;overscroll-behavior:auto;}
+#screen-exercicio.screen-exercicio--exec-simple .rest-timer-dock{pointer-events:auto;display:flex;align-items:center;gap:10px;padding:10px max(var(--exec-pad-x),env(safe-area-inset-left,0px)) 10px max(var(--exec-pad-x),env(safe-area-inset-right,0px));margin-bottom:calc(76px + env(safe-area-inset-bottom,0px));background:rgba(15,15,15,.94);border-top:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 -6px 24px rgba(0,0,0,.35);}
+#screen-exercicio.screen-exercicio--exec-simple .rest-timer-dock-main{flex:0 0 auto;min-width:72px;display:flex;flex-direction:column;align-items:flex-start;gap:0;line-height:1.1;}
+#screen-exercicio.screen-exercicio--exec-simple .rest-timer-dock .rest-timer-label{margin:0;font-size:9px;letter-spacing:.1em;color:rgba(255,255,255,.42);}
+#screen-exercicio.screen-exercicio--exec-simple .rest-timer-dock .rest-timer-num{margin:0;font-size:36px;font-weight:600;letter-spacing:-1px;color:var(--accent);font-family:'DM Mono',monospace;}
+#screen-exercicio.screen-exercicio--exec-simple .rest-timer-dock .rest-timer-sub{display:block;margin:2px 0 0;font-size:10px;color:rgba(255,255,255,.38);text-align:left;padding:0;max-width:11rem;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#screen-exercicio.screen-exercicio--exec-simple .rest-timer-dock-ctrls{flex:1;display:flex;align-items:center;justify-content:flex-end;gap:6px;min-width:0;}
+#screen-exercicio.screen-exercicio--exec-simple .rest-timer-adj{flex:1;max-width:64px;min-height:40px;padding:0 6px;border:1px solid rgba(255,255,255,.14);border-radius:10px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.75);font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;}
+#screen-exercicio.screen-exercicio--exec-simple .rest-timer-adj:active{transform:scale(.97);background:rgba(255,255,255,.1);}
+#screen-exercicio.screen-exercicio--exec-simple .rest-timer-dock .rest-timer-skip{flex:0 0 auto;margin:0;min-height:40px;padding:0 14px;font-size:12px;font-weight:600;color:rgba(255,255,255,.55);border-radius:10px;border:1px solid rgba(255,255,255,.14);}
+#screen-exercicio.screen-exercicio--exec-simple.rest-timer-dock-active .content.content-pb,
+#screen-exercicio.screen-exercicio--exec-simple.rest-timer-dock-active.screen-exercicio--guided-multi .content.content-pb{padding-bottom:calc(96px + 58px + env(safe-area-inset-bottom,0px))!important;}
 
 /* Fase 5 — visual protótipo (somente acréscimos; não remove legado) */
 .bcard-v2{background:var(--card-active,#181818);border-radius:16px;border:0.5px solid var(--border-subtle,rgba(255,255,255,.08));overflow:hidden;transition:opacity .3s;}
@@ -828,8 +841,6 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer .aluno-guided-action-bar[hidden]{display:block!important;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer .aluno-guided-btn-primary,
 #screen-exercicio.screen-exercicio--exec-simple .aluno-guided-btn-primary{width:100%!important;min-height:52px;border-radius:var(--radius);font-size:17px;font-weight:500;background:var(--accent);color:#1a2e00;box-shadow:none;}
-#screen-exercicio.screen-exercicio--exec-simple .rest-timer-sub{display:none;}
-#screen-exercicio.screen-exercicio--exec-simple .rest-timer-label{margin-bottom:8px;}
 #screen-exercicio.screen-exercicio--exec-simple .rest-timer-ov svg{display:none;}
 /* Etapa 1A–1C — tabela contínua de séries */
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1]{border:1px solid rgba(255,255,255,.09);border-radius:var(--rsm);overflow:hidden;background:rgba(0,0,0,.12);}
@@ -873,9 +884,10 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-ultimo-pill-val{color:rgba(200,240,96,.88);font-weight:600;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1]:not(.aluno-ultimo-visivel) .aluno-serie-ult-ref,
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1]:not(.aluno-ultimo-visivel) .aluno-serie-ult-tag{display:none!important;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-presc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;line-height:1.2;text-align:center;align-self:center;padding:2px 4px;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-presc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;width:100%;line-height:1.2;text-align:center;align-self:center;justify-self:center;padding:0 4px;margin:0;box-sizing:border-box;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-presc-main{display:block;width:100%;text-align:center;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-row-main>.aluno-serie-col{align-self:center;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-row-main>.aluno-serie-presc{align-self:center;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-row-main>.aluno-serie-presc{align-self:center;justify-self:center;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--feeder .aluno-serie-presc-main{color:#7eb8ff;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-serie-presc-main{color:rgba(200,240,96,.92);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--cluster .aluno-serie-presc-main{color:#e0a855;}
@@ -896,7 +908,9 @@ select.inp option{background:var(--bg3);}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1].aluno-ultimo-visivel .aluno-serie-row-main:not(.aluno-serie-row--cluster-sum){padding-bottom:20px;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-presc-main{font-size:17px;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-code{font-size:18px;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head{padding:8px 8px 6px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.62);border-bottom:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head{padding:7px 8px 5px;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.72);border-bottom:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);line-height:1.2;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head>span{display:flex;align-items:center;justify-content:center;min-width:0;text-align:center;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head>span:first-child{justify-content:flex-start;text-align:left;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head span:last-child{text-align:center;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-head-ant{text-transform:none;letter-spacing:0;align-self:center;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-anterior-pill{display:inline-flex;align-items:center;gap:0;max-width:100%;padding:4px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:rgba(255,255,255,.55);font-size:10px;font-weight:600;cursor:pointer;font-family:inherit;line-height:1.25;white-space:nowrap;}
@@ -961,7 +975,7 @@ select.inp option{background:var(--bg3);}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .bloco-aluno-inputs{width:100%;max-width:100%;min-width:0;box-sizing:border-box;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head,
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main{grid-template-columns:58px minmax(0,1fr) minmax(52px,1.08fr) minmax(52px,1.08fr) 44px;gap:6px 4px;width:100%;max-width:100%;box-sizing:border-box;}
-  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head{padding:8px 6px 6px;font-size:11px;color:rgba(255,255,255,.65);}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head{padding:7px 6px 5px;font-size:10px;color:rgba(255,255,255,.78);}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main{min-height:68px;padding:10px 6px;align-items:center;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row--cluster .aluno-serie-row-main{min-height:68px;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-col{min-width:0;max-width:58px;}
@@ -1128,7 +1142,18 @@ select.inp option{background:var(--bg3);}
     </div>
   </div>
   <div id="rest-timer-overlay" class="rest-timer-ov" style="display:none" aria-hidden="true">
-    <div class="rest-timer-label">Descanso</div>
+    <div class="rest-timer-dock">
+      <div class="rest-timer-dock-main">
+        <div class="rest-timer-label">Descanso</div>
+        <div class="rest-timer-num" id="rest-timer-num">90</div>
+        <div class="rest-timer-sub">segundos de descanso</div>
+      </div>
+      <div class="rest-timer-dock-ctrls">
+        <button type="button" class="rest-timer-adj" onclick="restTimerAdj(-15)">&minus;15s</button>
+        <button type="button" class="rest-timer-adj" onclick="restTimerAdj(15)">+15s</button>
+        <button type="button" class="rest-timer-skip" onclick="pularRestTimer()">Pular</button>
+      </div>
+    </div>
     <svg width="140" height="140" viewBox="0 0 140 140" aria-hidden="true">
       <circle cx="70" cy="70" r="52" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="4"/>
       <circle id="rest-timer-circle" cx="70" cy="70" r="52" fill="none"
@@ -1136,9 +1161,6 @@ select.inp option{background:var(--bg3);}
         stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 70 70)"
         style="transition:stroke-dashoffset .9s linear"/>
     </svg>
-    <div class="rest-timer-num" id="rest-timer-num">90</div>
-    <div class="rest-timer-sub">segundos de descanso</div>
-    <button type="button" class="rest-timer-skip" onclick="pularRestTimer()">Pular descanso</button>
   </div>
 </div>
 
@@ -1298,6 +1320,8 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signO
 import { getFirestore, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc,
   collection, query, where, orderBy, limit, getDocs, Timestamp, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+const APP_BUILD_ID='polish-mobile-timer-20260520';
+console.info('[Treinos] build',APP_BUILD_ID);
 
 const firebaseConfig = {
   apiKey: "AIzaSyBurkoF_LrsdIq2usyeaqQZIltfMa7Yg9E",
@@ -3344,15 +3368,6 @@ function renderAlunoClusterRows(container,ex,b,bi,blocosRep,timerSeg,opts){
           +'</div>';
         wrap.appendChild(row);
       }
-      const sumRow=document.createElement('div');
-      sumRow.className='aluno-serie-row aluno-serie-row--cluster aluno-serie-row--cluster-sum';
-      sumRow.dataset.bi=String(bi);
-      sumRow.dataset.s='c';
-      sumRow.innerHTML='<div class="aluno-serie-row-main">'
-        +'<span></span><span></span><span></span><span></span>'
-        +(sk?'':'<button type="button" class="aluno-serie-check" aria-label="Concluir cluster" onclick="event.stopPropagation();alunoCheckClusterRow('+bi+','+nB+','+timerSeg+',\''+pq+'\')">\u2713</button>')
-        +'</div>';
-      wrap.appendChild(sumRow);
     }else{
       const row=document.createElement('div');
       row.className='aluno-serie-row aluno-serie-row--cluster';
@@ -3907,7 +3922,26 @@ window.iniciarRestPause=(serieIdx,timerSeg,pref)=>{
   },pref);
 };
 
-// Fase 4 — RestTimer fullscreen (RAF); iniciarTimer delega quando #screen-exercicio ativo
+// Fase 4 — RestTimer (RAF); exec-simple = barra no rodapé sem bloquear interação
+function syncRestTimerDock(on){
+  const scr=$('screen-exercicio');
+  if(scr)scr.classList.toggle('rest-timer-dock-active',!!on);
+}
+function restTimerRemSeg(){
+  return Math.max(0,restTimerTotalSeg-Math.floor((Date.now()-restTimerStart)/1000));
+}
+function finishRestTimerOverlay(){
+  cancelRestTimerAnim();
+  const ov=$('rest-timer-overlay');
+  if(ov){ov.style.display='none';ov.setAttribute('aria-hidden','true');}
+  syncRestTimerDock(false);
+  const cir=$('rest-timer-circle');
+  if(cir)cir.style.strokeDashoffset='0';
+  if(navigator.vibrate)try{navigator.vibrate(200);}catch(_){}
+  const cb=restTimerOnComplete;
+  restTimerOnComplete=null;
+  setTimeout(()=>{if(cb)try{cb();}catch(e){console.warn(e);}},300);
+}
 function cancelRestTimerAnim(){
   if(restTimerRAF){cancelAnimationFrame(restTimerRAF);restTimerRAF=null;}
 }
@@ -3915,6 +3949,7 @@ function cancelRestTimerUI(invokeCb){
   cancelRestTimerAnim();
   const ov=$('rest-timer-overlay');
   if(ov){ov.style.display='none';ov.setAttribute('aria-hidden','true');}
+  syncRestTimerDock(false);
   const cir=$('rest-timer-circle');
   if(cir)cir.style.strokeDashoffset='0';
   const cb=invokeCb?restTimerOnComplete:null;
@@ -3928,24 +3963,14 @@ function tickRestOverlay(){
   const num=$('rest-timer-num');
   const cir=$('rest-timer-circle');
   if(!ov||ov.style.display!=='flex'){cancelRestTimerAnim();return;}
-  const elapsed=Math.floor((Date.now()-restTimerStart)/1000);
-  const rem=Math.max(0,restTimerTotalSeg-elapsed);
+  const rem=restTimerRemSeg();
   if(num)num.textContent=String(rem);
   if(cir){
+    const elapsed=Math.floor((Date.now()-restTimerStart)/1000);
     const denom=Math.max(1,restTimerTotalSeg);
     cir.style.strokeDashoffset=(326.7*Math.min(1,elapsed/denom)).toFixed(1);
   }
-  if(rem<=0){
-    cancelRestTimerAnim();
-    ov.style.display='none';
-    ov.setAttribute('aria-hidden','true');
-    if(cir)cir.style.strokeDashoffset='0';
-    if(navigator.vibrate)try{navigator.vibrate(200);}catch(_){}
-    const cb=restTimerOnComplete;
-    restTimerOnComplete=null;
-    setTimeout(()=>{if(cb)try{cb();}catch(e){console.warn(e);}},300);
-    return;
-  }
+  if(rem<=0){finishRestTimerOverlay();return;}
   restTimerRAF=requestAnimationFrame(tickRestOverlay);
 }
 
@@ -3961,13 +3986,28 @@ function armRestTimerOverlay(seg,proximoLabel,onFim){
   const cir=$('rest-timer-circle');
   if(cir)cir.style.strokeDashoffset='0';
   if(ov){ov.style.display='flex';ov.setAttribute('aria-hidden','false');}
+  syncRestTimerDock(true);
   restTimerRAF=requestAnimationFrame(tickRestOverlay);
 }
+
+window.restTimerAdj=function(delta){
+  const ov=$('rest-timer-overlay');
+  if(!ov||ov.style.display!=='flex')return;
+  const d=Number(delta)||0;
+  if(!d)return;
+  if(d>0)restTimerTotalSeg+=d;
+  else restTimerStart+=Math.abs(d)*1000;
+  const rem=restTimerRemSeg();
+  const num=$('rest-timer-num');
+  if(num)num.textContent=String(rem);
+  if(rem<=0)finishRestTimerOverlay();
+};
 
 window.pularRestTimer=function(){
   cancelRestTimerAnim();
   const ov=$('rest-timer-overlay');
   if(ov){ov.style.display='none';ov.setAttribute('aria-hidden','true');}
+  syncRestTimerDock(false);
   const cir=$('rest-timer-circle');
   if(cir)cir.style.strokeDashoffset='0';
   const cb=restTimerOnComplete;
