@@ -768,17 +768,22 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-stage,
 #screen-exercicio.screen-exercicio--exec-simple #aluno-exec-upcoming{display:none!important;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-ex-header-presc{margin:0 0 8px;font-size:11px;line-height:1.35;color:rgba(255,255,255,.38);font-family:'DM Mono',monospace;}
-#screen-exercicio.screen-exercicio--exec-simple .aluno-ex-header-actions{display:flex;flex-wrap:wrap;gap:6px;}
-#screen-exercicio.screen-exercicio--exec-simple .aluno-ex-chip{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(255,255,255,.03);color:rgba(255,255,255,.45);font-size:11px;font-weight:500;font-family:inherit;cursor:pointer;line-height:1.2;transition:background .15s,border-color .15s,color .15s;}
-#screen-exercicio.screen-exercicio--exec-simple .aluno-ex-chip:active{background:rgba(255,255,255,.06);}
-#screen-exercicio.screen-exercicio--exec-simple .aluno-ex-chip--on{border-color:rgba(200,240,96,.28);color:rgba(200,240,96,.75);background:rgba(200,240,96,.06);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-ex-header-actions{display:flex;flex-wrap:wrap;gap:8px;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-ex-chip{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:9px 16px;border:1px solid rgba(255,255,255,.14);border-radius:20px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.58);font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;line-height:1.2;transition:background .15s,border-color .15s,color .15s,box-shadow .15s;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-ex-chip:active{transform:scale(.98);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-ex-chip--on{border-color:rgba(200,240,96,.35);color:rgba(220,245,150,.95);background:rgba(200,240,96,.12);box-shadow:inset 0 0 0 1px rgba(200,240,96,.08);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-ex-chip--on[data-chip="prof"]{border-color:rgba(248,186,88,.62);color:#fff8ec;background:linear-gradient(160deg,#5c3f1c 0%,#4a3016 55%,#3d280f 100%);box-shadow:inset 0 1px 0 rgba(255,220,150,.2),0 0 0 1px rgba(240,160,56,.22);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-ex-chip--on[data-chip="prof"] .aluno-ex-chip-ico{opacity:1;color:#ffd9a0;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-ex-chip--subst{border-color:rgba(120,170,255,.2);color:rgba(140,180,230,.55);}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-ex-chip--subst-ativo{border-color:rgba(200,240,96,.35);color:var(--accent);background:rgba(200,240,96,.08);}
-#screen-exercicio.screen-exercicio--exec-simple .aluno-ex-chip-ico{font-size:10px;opacity:.75;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-ex-chip-ico{font-size:11px;opacity:.8;flex-shrink:0;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-ex-header-panel{margin-top:8px;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-ex-header-video-wrap{border-radius:var(--rsm);overflow:hidden;aspect-ratio:16/9;max-height:180px;background:#000;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-ex-header-video-wrap iframe{width:100%;height:100%;border:none;display:block;}
-#screen-exercicio.screen-exercicio--exec-simple .aluno-ex-header-panel--prof{padding:8px 10px;border-left:2px solid rgba(239,159,39,.4);font-size:12px;line-height:1.45;color:rgba(255,255,255,.5);white-space:pre-line;}
+#screen-exercicio.screen-exercicio--exec-simple #aluno-ex-header-prof.aluno-ex-header-panel--prof{display:none;box-sizing:border-box;padding:10px 12px 10px 13px;border-radius:var(--rsm);border:1px solid rgba(235,162,68,.58);border-left:4px solid #f2b04c;background:linear-gradient(165deg,#4f3518 0%,#3f2a12 52%,#34220e 100%);box-shadow:inset 0 1px 0 rgba(255,218,150,.22),0 4px 16px rgba(0,0,0,.38);font-size:12px;line-height:1.5;color:#fff7eb;white-space:pre-line;opacity:1;}
+#screen-exercicio.screen-exercicio--exec-simple #aluno-ex-header-prof.aluno-ex-header-panel--prof:not([hidden]){display:block;}
+#screen-exercicio.screen-exercicio--exec-simple #aluno-ex-header-prof.aluno-ex-header-panel--prof[hidden]{display:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple #aluno-ex-header-prof.aluno-ex-header-panel--prof .aluno-ex-header-prof-txt{display:block;color:#fff9f0;font-weight:500;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-legacy{display:none;}
 #screen-exercicio.screen-exercicio--exec-simple .ultimo-reg,
 #screen-exercicio.screen-exercicio--exec-simple .aluno-last-ref,
@@ -794,8 +799,8 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple .instruction{border-radius:0 var(--rsm) var(--rsm) 0;padding:12px 16px;}
 #screen-exercicio.screen-exercicio--exec-simple .instruction--primary{background:rgba(200,240,96,.07);border-left:3px solid var(--accent);}
 #screen-exercicio.screen-exercicio--exec-simple .instruction--primary .instr-txt{font-size:16px;color:var(--text);line-height:1.5;}
-#screen-exercicio.screen-exercicio--exec-simple .instruction--prof{background:rgba(239,159,39,.06);border-left:3px solid rgba(239,159,39,.45);padding:10px 14px;}
-#screen-exercicio.screen-exercicio--exec-simple .instruction--prof .instr-txt{font-size:14px;color:rgba(255,255,255,.55);line-height:1.45;}
+#screen-exercicio.screen-exercicio--exec-simple .instruction--prof{background:linear-gradient(165deg,#4f3518 0%,#3f2a12 52%,#34220e 100%);border:1px solid rgba(235,162,68,.5);border-left:4px solid #f2b04c;padding:10px 14px;box-shadow:inset 0 1px 0 rgba(255,218,150,.18);}
+#screen-exercicio.screen-exercicio--exec-simple .instruction--prof .instr-txt{font-size:14px;color:#fff7eb;line-height:1.45;}
 #screen-exercicio.screen-exercicio--exec-simple .presc-meta-discreta{font-size:12px;color:rgba(255,255,255,.28);line-height:1.4;font-family:'DM Mono',monospace;}
 #screen-exercicio.screen-exercicio--exec-simple .upcoming-preview{background:rgba(255,255,255,.04);border-radius:var(--rsm);padding:12px 16px;font-size:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
 #screen-exercicio.screen-exercicio--exec-simple .upcoming-lbl{color:rgba(255,255,255,.2);font-size:13px;}
@@ -852,9 +857,11 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--feeder .aluno-tecnica-sec-dot{background:#5b9fd4;box-shadow:0 0 8px rgba(91,159,212,.45);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--feeder .aluno-tecnica-sec-tit{color:#7eb8ff;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--feeder .aluno-serie-row-main{background:rgba(91,159,212,.04);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-tecnica-sec-dot{background:var(--accent);box-shadow:0 0 8px var(--accent-glow);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-tecnica-sec-tit{color:rgba(200,240,96,.92);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-serie-row-main{background:rgba(200,240,96,.03);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-tecnica-sec-dot{background:#a89ee8;box-shadow:0 0 8px rgba(168,150,235,.42);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-tecnica-sec-tit{color:rgba(196,182,248,.95);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-serie-row:not(.aluno-serie-row--done) .aluno-serie-row-main{background:rgba(168,150,235,.06);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-serie-code--num{color:rgba(196,182,248,.96);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-serie-row--done .aluno-serie-code--num{color:rgba(120,220,140,.95);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--cluster .aluno-tecnica-sec-dot{background:#e0a855;box-shadow:0 0 8px rgba(224,168,85,.4);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--cluster .aluno-tecnica-sec-tit{color:#e0a855;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-tit{font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:11px;}
@@ -867,7 +874,8 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-cluster-panel{display:none!important;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-row--cluster-sum .aluno-serie-row-main{min-height:0;padding:4px 8px 8px;background:transparent;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--feeder .aluno-serie-inp{color:#9ec8f0;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-serie-inp{color:rgba(200,240,96,.95);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-serie-inp{color:rgba(204,194,255,.94);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-serie-inp:focus{border-color:rgba(175,160,240,.45);background:rgba(168,150,235,.08);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--cluster .aluno-serie-inp{color:#e8c080;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .bloco-aluno-wrap--guided-feito,
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .bloco-aluno-wrap--guided-proximo{max-height:none;opacity:1;margin:0;padding:0;overflow:visible;pointer-events:auto;}
@@ -889,7 +897,7 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-row-main>.aluno-serie-col{align-self:center;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-row-main>.aluno-serie-presc{align-self:center;justify-self:center;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--feeder .aluno-serie-presc-main{color:#7eb8ff;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-serie-presc-main{color:rgba(200,240,96,.92);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-serie-presc-main{color:rgba(190,178,245,.94);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--cluster .aluno-serie-presc-main{color:#e0a855;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-presc-main{font-size:15px;font-weight:700;font-family:'DM Mono',monospace;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-presc-x{opacity:.65;font-weight:500;}
@@ -900,7 +908,13 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-ult-ref:empty{visibility:hidden;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1].aluno-ultimo-visivel .aluno-serie-row-main:not(.aluno-serie-row--cluster-sum){padding-bottom:18px;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-kg-ph{display:block;width:100%;height:44px;min-height:44px;align-self:center;box-sizing:border-box;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] > .aluno-serie-cols-head{display:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-body .aluno-serie-cols-head--sec{padding:5px 8px 4px;margin:0;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.64);background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.1);border-top:none;line-height:1.15;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-body .aluno-serie-cols-head--sec>span{display:flex;align-items:center;justify-content:center;min-width:0;text-align:center;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-body .aluno-serie-cols-head--sec>span:first-child{justify-content:flex-start;text-align:left;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-body .aluno-serie-cols-head--sec>span:last-child{min-width:36px;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head--sec,
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main{display:grid;grid-template-columns:52px minmax(0,1fr) 48px 48px 36px;gap:4px 6px;align-items:center;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-row-main{align-items:center;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-row-main .aluno-serie-check{align-self:center;margin-top:0;justify-self:center;}
@@ -948,7 +962,7 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-check{width:36px;height:34px;min-width:36px;padding:0;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;line-height:1;justify-self:end;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-check--done{background:rgba(72,160,88,.32);border-color:rgba(96,200,120,.5);color:#a8f0b8;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-hint{margin:0;padding:6px 10px 8px 12px;background:transparent;border-left:2px solid rgba(120,170,255,.45);font-size:11px;line-height:1.4;color:rgba(255,255,255,.45);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-hint--main{border-left-color:rgba(200,240,96,.45);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-hint--main{border-left-color:rgba(175,160,240,.48);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-hint--prep{border-left-color:rgba(120,170,255,.5);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-hint--cluster{border-left-color:rgba(232,160,60,.5);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-hint p{margin:0;}
@@ -974,8 +988,10 @@ select.inp option{background:var(--bg3);}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-rows-wrap,
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .bloco-aluno-inputs{width:100%;max-width:100%;min-width:0;box-sizing:border-box;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head,
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head--sec,
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main{grid-template-columns:58px minmax(0,1fr) minmax(52px,1.08fr) minmax(52px,1.08fr) 44px;gap:6px 4px;width:100%;max-width:100%;box-sizing:border-box;}
-  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head{padding:7px 6px 5px;font-size:10px;color:rgba(255,255,255,.78);}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-body .aluno-serie-cols-head--sec{padding:5px 6px 4px;font-size:9px;color:rgba(255,255,255,.68);}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-body .aluno-serie-cols-head--sec>span:last-child{min-width:44px;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main{min-height:68px;padding:10px 6px;align-items:center;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row--cluster .aluno-serie-row-main{min-height:68px;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-col{min-width:0;max-width:58px;}
@@ -2030,8 +2046,11 @@ function paintAlunoExHeader(ex,idx){
   const profEl=$('aluno-ex-header-prof');
   if(profEl){
     profEl.hidden=true;
-    profEl.textContent='';
-    if(obsTxt)profEl.innerHTML='<div class="aluno-ex-header-prof-txt">'+esc(obsTxt).replace(/\n/g,'<br>')+'</div>';
+    if(obsTxt){
+      profEl.innerHTML='<div class="aluno-ex-header-prof-txt">'+esc(obsTxt).replace(/\n/g,'<br>')+'</div>';
+    }else{
+      profEl.innerHTML='';
+    }
   }
   document.querySelectorAll('#aluno-ex-header-actions .aluno-ex-chip--on').forEach(b=>b.classList.remove('aluno-ex-chip--on'));
 }
@@ -2046,10 +2065,11 @@ window.alunoExHeaderToggleVideo=function(){
 
 window.alunoExHeaderToggleProfObs=function(){
   const p=$('aluno-ex-header-prof');
-  if(!p||!p.innerHTML.trim())return;
-  p.hidden=!p.hidden;
+  if(!p||!p.querySelector('.aluno-ex-header-prof-txt'))return;
+  const show=p.hidden;
+  p.hidden=!show;
   const btn=$('aluno-ex-header-actions')?.querySelector('[data-chip="prof"]');
-  if(btn)btn.classList.toggle('aluno-ex-chip--on',!p.hidden);
+  if(btn)btn.classList.toggle('aluno-ex-chip--on',show);
 };
 
 async function abrirExercicio(ex,idx){
@@ -2440,23 +2460,39 @@ function alunoInpCellRepHtml(P,id,bi,s,sk,placeholder,ci){
   return'<div class="aluno-serie-inp-cell"><input id="'+id+'" type="number" inputmode="numeric" placeholder="'+esc(String(placeholder||'0'))+'" class="aluno-serie-inp aluno-serie-inp-rep">'+ultEl+'</div>';
 }
 
-function alunoAppendSerieTableHead(wrap){
-  if(!alunoSerieTableNeedsHead())return;
-  const useSec=wrap.dataset&&wrap.dataset.alunoSecV1==='1';
+function alunoAppendRowsToolbar(wrap){
+  if(!wrap||wrap.querySelector('.aluno-rows-toolbar'))return;
   const lbl=esc(alunoAnteriorPillLabel());
-  if(useSec){
-    const toolbar=document.createElement('div');
-    toolbar.className='aluno-rows-toolbar';
-    toolbar.innerHTML='<div class="aluno-ultimo-pill-wrap"><button type="button" class="aluno-ultimo-pill-vis" aria-pressed="false" aria-label="Visualizar \u00faltimo registro" onclick="event.stopPropagation();alunoToggleUltimoRegVisivel(event)">\uD83D\uDC41</button><button type="button" class="aluno-ultimo-pill-filtro" aria-haspopup="listbox" aria-label="Filtro do \u00faltimo registro" onclick="event.stopPropagation();alunoToggleAnteriorFiltroMenu(this)"><span class="aluno-ultimo-pill-txt">Visualizar \u00faltimo registro</span><span class="aluno-ultimo-pill-sep"> \xB7 </span><span class="aluno-ultimo-pill-val">'+lbl+'</span></button></div>';
-    wrap.insertBefore(toolbar,wrap.firstChild);
+  const toolbar=document.createElement('div');
+  toolbar.className='aluno-rows-toolbar';
+  toolbar.innerHTML='<div class="aluno-ultimo-pill-wrap"><button type="button" class="aluno-ultimo-pill-vis" aria-pressed="false" aria-label="Visualizar \u00faltimo registro" onclick="event.stopPropagation();alunoToggleUltimoRegVisivel(event)">\uD83D\uDC41</button><button type="button" class="aluno-ultimo-pill-filtro" aria-haspopup="listbox" aria-label="Filtro do \u00faltimo registro" onclick="event.stopPropagation();alunoToggleAnteriorFiltroMenu(this)"><span class="aluno-ultimo-pill-txt">Visualizar \u00faltimo registro</span><span class="aluno-ultimo-pill-sep"> \xB7 </span><span class="aluno-ultimo-pill-val">'+lbl+'</span></button></div>';
+  wrap.insertBefore(toolbar,wrap.firstChild);
+}
+
+function alunoCreateSecColsHeadEl(){
+  const head=document.createElement('div');
+  head.className='aluno-serie-cols-head aluno-serie-cols-head--sec';
+  head.setAttribute('aria-hidden','true');
+  head.innerHTML='<span>S\xC9RIE</span><span>PRESCRI\xC7\xC3O</span><span>KG</span><span>REPS</span><span></span>';
+  return head;
+}
+
+function alunoAppendSecMiniHead(wrap){
+  if(!wrap||wrap.querySelector('.aluno-serie-cols-head'))return;
+  wrap.insertBefore(alunoCreateSecColsHeadEl(),wrap.firstChild);
+}
+
+function alunoAppendSerieTableHead(wrap){
+  const useSec=alunoUsaSecLayoutV1()||(wrap&&wrap.dataset&&wrap.dataset.alunoSecV1==='1');
+  if(useSec&&wrap&&wrap.id==='series-inputs'){
+    alunoAppendRowsToolbar(wrap);
+    return;
   }
+  if(!alunoSerieTableNeedsHead())return;
+  const lbl=esc(alunoAnteriorPillLabel());
   const head=document.createElement('div');
   head.className='aluno-serie-cols-head';
-  if(useSec){
-    head.innerHTML='<span>S\xC9RIE</span><span>PRESCRI\xC7\xC3O</span><span>KG</span><span>REPS</span><span></span>';
-  }else{
-    head.innerHTML='<span>S\xC9RIE</span><span class="aluno-serie-head-ant"><button type="button" class="aluno-anterior-pill" aria-haspopup="listbox" aria-label="Refer\xEAncia da coluna Anterior" onclick="event.stopPropagation();alunoToggleAnteriorFiltroMenu(this)"><span class="aluno-anterior-pill-prefix">Anterior</span><span class="aluno-anterior-pill-sep"> \xB7 </span><span class="aluno-anterior-pill-val">'+lbl+'</span></button></span><span>KG</span><span>REPS</span><span></span>';
-  }
+  head.innerHTML='<span>S\xC9RIE</span><span class="aluno-serie-head-ant"><button type="button" class="aluno-anterior-pill" aria-haspopup="listbox" aria-label="Refer\xEAncia da coluna Anterior" onclick="event.stopPropagation();alunoToggleAnteriorFiltroMenu(this)"><span class="aluno-anterior-pill-prefix">Anterior</span><span class="aluno-anterior-pill-sep"> \xB7 </span><span class="aluno-anterior-pill-val">'+lbl+'</span></button></span><span>KG</span><span>REPS</span><span></span>';
   wrap.insertBefore(head,wrap.firstChild);
 }
 
@@ -3299,7 +3335,8 @@ function renderAlunoSerieRows(container,ex,b,bi,nSeries,timerSeg,opts){
     const wrap=document.createElement('div');
     wrap.className='aluno-serie-rows-wrap';
     wrap.dataset.blocoIndex=String(bi);
-    if(!useSec)alunoAppendSerieTableHead(wrap);
+    if(useSec)alunoAppendSecMiniHead(wrap);
+    else alunoAppendSerieTableHead(wrap);
     const hintBlock=useSec?'':alunoSerieHintHtml(b);
     for(let s=0;s<nSeries;s++){
       const row=document.createElement('div');
@@ -3347,7 +3384,8 @@ function renderAlunoClusterRows(container,ex,b,bi,blocosRep,timerSeg,opts){
     const wrap=document.createElement('div');
     wrap.className='aluno-serie-rows-wrap';
     wrap.dataset.blocoIndex=String(bi);
-    if(!useSec)alunoAppendSerieTableHead(wrap);
+    if(useSec)alunoAppendSecMiniHead(wrap);
+    else alunoAppendSerieTableHead(wrap);
     if(useSec){
       for(let ci=0;ci<nB;ci++){
         const metaRep=blocosRep[ci];
@@ -3995,8 +4033,8 @@ window.restTimerAdj=function(delta){
   if(!ov||ov.style.display!=='flex')return;
   const d=Number(delta)||0;
   if(!d)return;
-  if(d>0)restTimerTotalSeg+=d;
-  else restTimerStart+=Math.abs(d)*1000;
+  const elapsed=Math.floor((Date.now()-restTimerStart)/1000);
+  restTimerTotalSeg=Math.max(elapsed,restTimerTotalSeg+d);
   const rem=restTimerRemSeg();
   const num=$('rest-timer-num');
   if(num)num.textContent=String(rem);
