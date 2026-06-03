@@ -195,11 +195,12 @@ select.inp option{background:var(--bg3);}
 @media(hover:hover) and (pointer:fine){
   #screen-editor.prof-editor-shell .prof-ed-nav-pill:hover:not(.active){color:rgba(255,255,255,.72);border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.05);}
 }
+#screen-editor.prof-editor-shell--tabela .prof-editor-modo-bar{justify-content:flex-end;margin:-2px 0 6px;padding:0 4px;}
+#screen-editor.prof-editor-shell--tabela .prof-editor-modo-toggle{font-size:11px;font-weight:500;color:rgba(255,255,255,.32);}
+#screen-editor.prof-editor-shell--tabela .prof-editor-modo-toggle input{width:14px;height:14px;}
 #screen-editor.prof-editor-shell .prof-editor-modo-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:0 0 10px;}
 #screen-editor.prof-editor-shell .prof-editor-modo-toggle{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;user-select:none;}
 #screen-editor.prof-editor-shell .prof-editor-modo-toggle input{width:16px;height:16px;accent-color:var(--accent);cursor:pointer;}
-#screen-editor.prof-editor-shell .prof-editor-modo-badge{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid rgba(200,240,96,.28);background:rgba(200,240,96,.08);color:rgba(200,240,96,.92);}
-#screen-editor.prof-editor-shell .prof-editor-hint-tbl{margin-top:-4px;margin-bottom:12px;line-height:1.45;}
 #screen-editor.prof-editor-shell #ed-exercicios.prof-editor-ex-list--tabela{display:block;margin-top:4px;}
 #screen-editor.prof-editor-shell .prof-tbl-stats{font-size:12px;font-weight:600;color:var(--text3);letter-spacing:.04em;margin:0 0 10px;padding:0 4px;}
 #screen-editor.prof-editor-shell .prof-tbl-wrap{border:none;border-radius:0;background:transparent;box-shadow:none;overflow:visible;max-height:none;}
@@ -1635,13 +1636,11 @@ html.debug-editor #screen-editor .prof-bloco-editor--v1 .prof-meta-gerada{
     <div class="field"><label>Nome do treino</label><input class="inp" id="ed-nome-treino" type="text" placeholder="Ex.: Pernas A, Superior empurrar…"></div>
     <div class="field"><label>Instru&#xE7;&#xF5;es gerais</label><textarea class="inp" id="ed-obs-geral" placeholder="Intervalos, aquecimento, observa&#xE7;&#xF5;es para o aluno (opcional)."></textarea></div>
     <hr class="divider">
-    <div class="section-label">Exerc&#xED;cios</div>
+    <div class="section-label">Prescri&#xE7;&#xE3;o</div>
     <div class="prof-editor-modo-bar">
-      <label class="prof-editor-modo-toggle"><input type="checkbox" id="ed-modo-tabela" onchange="profToggleModoTabela(this.checked)"> Modo tabela (beta)</label>
-      <span class="prof-editor-modo-badge" id="prof-editor-modo-badge" hidden>Edi&#xE7;&#xE3;o inline</span>
+      <label class="prof-editor-modo-toggle"><input type="checkbox" id="ed-modo-tabela" onchange="profToggleModoTabela(!this.checked)"> <span id="prof-editor-modo-lbl">Visualiza&#xE7;&#xE3;o em cards</span></label>
     </div>
-    <p class="text-sm text-muted prof-editor-hint" id="prof-editor-hint-cards">Toque na &#xE1;rea destacada com &#x25BE; para expandir ou recolher. &#x2191; &#x2193; reordenam; &#x2715; remove o exerc&#xED;cio.</p>
-    <p class="text-sm text-muted prof-editor-hint-tbl" id="prof-editor-hint-tbl" hidden>Edite inline na tabela. &#x1F441; preview &middot; coluna Ctx para v&#xED;deo, obs e substitutos.</p>
+    <p class="text-sm text-muted prof-editor-hint" id="prof-editor-hint-cards" hidden>Toque na &#xE1;rea destacada com &#x25BE; para expandir ou recolher. &#x2191; &#x2193; reordenam; &#x2715; remove o exerc&#xED;cio.</p>
     <div id="ed-exercicios" class="prof-editor-ex-list"></div>
     <button class="btn btn-secondary btn-full mt-8" onclick="addExercicioEditor()">+ Adicionar exerc&#xED;cio</button>
     <div style="height:80px;"></div>
@@ -5633,7 +5632,11 @@ function htmlProfHeaderPrescChipsFromBlocos(blocos){
   return'<span class="prof-acc-presc-inline">'+parts.join('<span class="prof-acc-presc-dot" aria-hidden="true"> \xB7 </span>')+'</span>';
 }
 function profEditorModoTabela(){
-  try{return localStorage.getItem(LS_PROF_EDITOR_TABELA)==='1';}catch(_){return false;}
+  try{
+    const v=localStorage.getItem(LS_PROF_EDITOR_TABELA);
+    if(v===null||v==='')return true;
+    return v==='1';
+  }catch(_){return true;}
 }
 function profSetEditorModoTabela(on){
   try{localStorage.setItem(LS_PROF_EDITOR_TABELA,on?'1':'0');}catch(_){}
@@ -5645,10 +5648,9 @@ function profSyncEditorShellModo(){
   const scr=$('screen-editor');
   const on=profEditorModoTabela();
   if(scr)scr.classList.toggle('prof-editor-shell--tabela',on);
-  const chk=$('ed-modo-tabela');if(chk)chk.checked=on;
-  const badge=$('prof-editor-modo-badge');if(badge)badge.hidden=!on;
+  const chk=$('ed-modo-tabela');if(chk)chk.checked=!on;
+  const modoLbl=$('prof-editor-modo-lbl');if(modoLbl)modoLbl.textContent=on?'Visualiza\u00e7\u00e3o em cards':'Editor em tabela';
   const hintCards=$('prof-editor-hint-cards');if(hintCards)hintCards.hidden=on;
-  const hintTbl=$('prof-editor-hint-tbl');if(hintTbl)hintTbl.hidden=!on;
 }
 /** Blocos para flatten (read-only; não persiste). */
 function profBlocosParaFlatten(ex){
@@ -6844,19 +6846,19 @@ function renderEditorTabelaReadOnly(){
   profTblEnsureEditBinding();
   const rows=profFlattenTreinoParaLinhas(editorExercicios);
   if(!rows.length){
-    container.innerHTML='<div class="prof-tbl-empty">Nenhum exerc\u00edcio neste treino. Desative Modo tabela para adicionar nos cards.</div>';
+    container.innerHTML='<div class="prof-tbl-empty">Nenhum exerc\u00edcio neste treino. Use <strong>+ Adicionar exerc\u00edcio</strong> abaixo.</div>';
     profTblClosePreviewPop();
     return;
   }
   const tbody=rows.map(profTblRowHtml).join('');
   const nEx=editorExercicios.length;
   container.innerHTML='<div class="prof-tbl-stats">'+rows.length+' linha'+(rows.length>1?'s':'')+' \u00b7 '+nEx+' exerc\u00edcio'+(nEx>1?'s':'')+'</div>'
-    +'<div class="prof-tbl-wrap excel-wrap"><table class="prof-tbl excel-table" aria-label="Treino em tabela"><colgroup>'
+    +'<div class="prof-tbl-wrap excel-wrap"><table class="prof-tbl excel-table" aria-label="Prescri\u00e7\u00e3o do treino"><colgroup>'
     +'<col class="col-tec"><col class="col-ex"><col class="col-ser"><col class="col-rep"><col class="col-rir"><col class="col-desc"><col class="col-ctx"><col class="col-act">'
     +'</colgroup><thead><tr>'
     +'<th class="col-tec">T\u00e9cnica</th><th class="col-ex">Exerc\u00edcio</th><th class="col-ser">S\u00e9ries</th><th class="col-rep">Reps</th><th class="col-rir">RIR</th><th class="col-desc">Desc.</th><th class="col-ctx">Ctx</th><th class="col-act" aria-label="A\u00e7\u00f5es"></th>'
     +'</tr></thead><tbody>'+tbody+'</tbody></table></div>'
-    +'<p class="prof-tbl-footnote text-sm text-muted">Prescri\u00e7\u00e3o inline \u00b7 Ctx: v\u00eddeo, substituto, obs \u00b7 Salve o treino para persistir.</p>';
+    +'<p class="prof-tbl-footnote text-sm text-muted">Salve o treino para aplicar ao aluno.</p>';
 }
 
 function renderLblMetaAccordion(i,ex){
