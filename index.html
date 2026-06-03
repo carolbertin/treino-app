@@ -188,12 +188,20 @@ select.inp option{background:var(--bg3);}
 #screen-editor.prof-editor-shell .prof-insp-obs{margin:0 0 10px;padding:8px 10px;border-radius:8px;border-left:2px solid rgba(255,180,100,.45);background:rgba(255,180,100,.06);font-size:11px;line-height:1.45;color:rgba(255,255,255,.78);}
 #screen-editor.prof-editor-shell .prof-insp-obs-lbl{display:block;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,180,100,.75);margin-bottom:4px;}
 #screen-editor.prof-editor-shell .prof-ed-nav-treinos{display:flex;flex-wrap:nowrap;align-items:center;gap:6px;margin:0 0 14px;padding:2px 4px 10px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:thin;max-width:100%;}
-#screen-editor.prof-editor-shell .prof-ed-nav-pill{flex-shrink:0;min-height:34px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:rgba(255,255,255,.45);font-family:inherit;transition:color .12s,border-color .12s,background .12s;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#screen-editor.prof-editor-shell .prof-ed-nav-pill{flex-shrink:0;display:inline-flex;align-items:center;gap:2px;min-height:34px;padding:4px 6px 4px 12px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:rgba(255,255,255,.45);font-family:inherit;transition:color .12s,border-color .12s,background .12s;max-width:220px;}
 #screen-editor.prof-editor-shell .prof-ed-nav-pill.active{background:rgba(200,240,96,.1);color:rgba(248,250,252,.95);border-color:rgba(200,240,96,.35);}
-#screen-editor.prof-editor-shell .prof-ed-nav-pill--add{color:rgba(200,240,96,.75);border-style:dashed;border-color:rgba(200,240,96,.22);}
+#screen-editor.prof-editor-shell .prof-ed-nav-pill__main{flex:1;min-width:0;border:none;background:transparent;padding:2px 4px 2px 0;font:inherit;font-weight:inherit;color:inherit;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#screen-editor.prof-editor-shell .prof-ed-nav-pill__dup,#screen-editor.prof-editor-shell .prof-ed-nav-pill__del{flex-shrink:0;width:20px;height:20px;padding:0;border:none;border-radius:50%;background:transparent;color:rgba(255,255,255,.35);font-size:13px;line-height:1;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;opacity:0;transition:opacity .12s,color .12s,background .12s;}
+#screen-editor.prof-editor-shell .prof-ed-nav-pill__dup:hover,#screen-editor.prof-editor-shell .prof-ed-nav-pill__dup:focus{color:#fff;background:rgba(96,168,240,.28);}
+#screen-editor.prof-editor-shell .prof-ed-nav-pill__del:hover,#screen-editor.prof-editor-shell .prof-ed-nav-pill__del:focus{color:#fff;background:rgba(220,80,80,.35);}
+#screen-editor.prof-editor-shell .prof-ed-nav-pill--add{padding:6px 14px;cursor:pointer;color:rgba(200,240,96,.75);border-style:dashed;border-color:rgba(200,240,96,.22);}
 #screen-editor.prof-editor-shell .prof-ed-nav-pill--add.active{background:rgba(200,240,96,.12);border-style:solid;}
 @media(hover:hover) and (pointer:fine){
   #screen-editor.prof-editor-shell .prof-ed-nav-pill:hover:not(.active){color:rgba(255,255,255,.72);border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.05);}
+  #screen-editor.prof-editor-shell .prof-ed-nav-pill:hover .prof-ed-nav-pill__dup,#screen-editor.prof-editor-shell .prof-ed-nav-pill:hover .prof-ed-nav-pill__del{opacity:1;}
+}
+@media(hover:none){
+  #screen-editor.prof-editor-shell .prof-ed-nav-pill__dup,#screen-editor.prof-editor-shell .prof-ed-nav-pill__del{opacity:.75;}
 }
 #screen-editor.prof-editor-shell--tabela .prof-editor-modo-bar{justify-content:flex-end;margin:-2px 0 6px;padding:0 4px;}
 #screen-editor.prof-editor-shell--tabela .prof-editor-modo-toggle{font-size:11px;font-weight:500;color:rgba(255,255,255,.32);}
@@ -330,14 +338,31 @@ select.inp option{background:var(--bg3);}
 #screen-editor.prof-editor-shell .prof-tbl-wrap .excel-table td.col-ex{background:transparent;}
 #screen-editor.prof-editor-shell .prof-tbl-footnote{margin-top:14px;padding:0 4px;font-size:11px;opacity:.85;}
 #screen-editor.prof-editor-shell .prof-tbl-empty{padding:24px 16px;text-align:center;color:var(--text3);font-size:13px;border:1px dashed rgba(255,255,255,.12);border-radius:10px;}
-.prof-import-bar{display:flex;align-items:center;gap:10px;margin:-2px 0 10px;flex-wrap:wrap;}
+.prof-import-bar{display:flex;align-items:center;gap:10px;margin:-2px 0 4px;flex-wrap:wrap;}
 .prof-import-bar .btn-sm{padding:7px 12px;font-size:12px;}
+.prof-import-converter-hint{flex:1 1 100%;margin:0 0 10px;padding:0 2px;font-size:11px;line-height:1.45;color:var(--text3);}
+.prof-import-converter-hint a{color:rgba(96,168,240,.82);text-decoration:none;font-weight:600;}
+.prof-import-converter-hint a:hover{text-decoration:underline;color:rgba(120,190,255,.95);}
 #prof-import-preview-banner{margin-bottom:12px;}
 .prof-import-banner{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 14px;border-radius:10px;border:1px solid rgba(96,168,240,.28);background:rgba(96,168,240,.08);}
 .prof-import-banner__main{font-size:13px;line-height:1.45;color:rgba(255,255,255,.88);}
 .prof-import-banner__tag{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(96,168,240,.95);}
 .prof-import-banner__warns{color:var(--warn);font-weight:600;}
 .prof-import-banner__acts{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+#prof-import-sheet-picker{margin-bottom:12px;}
+.prof-import-sheet-picker{padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);}
+.prof-import-sheet-picker__head{font-size:13px;line-height:1.45;color:rgba(255,255,255,.82);margin-bottom:10px;}
+.prof-import-sheet-picker__tag{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(200,240,96,.85);}
+.prof-import-sheet-picker__pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+.prof-import-sheet-pill{min-height:34px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:rgba(255,255,255,.55);font-family:inherit;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.prof-import-sheet-pill.active{background:rgba(96,168,240,.12);color:rgba(248,250,252,.95);border-color:rgba(96,168,240,.4);}
+.prof-import-sheet-pill--disabled{opacity:.4;cursor:not-allowed;}
+.prof-import-sheet-picker__acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
+.prof-import-multi-summary{margin:0;padding:0;list-style:none;}
+.prof-import-multi-summary li{padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);margin-bottom:8px;font-size:13px;line-height:1.45;color:rgba(255,255,255,.88);}
+.prof-import-multi-summary__name{font-weight:600;color:rgba(248,250,252,.95);}
+.prof-import-multi-summary__meta{font-size:12px;color:rgba(255,255,255,.55);margin-top:4px;}
+.prof-import-multi-summary__warn{color:var(--warn);font-weight:600;}
 #screen-editor.prof-editor-shell .prof-tbl-prev-cell{padding:8px 10px;font-size:13px;color:rgba(255,255,255,.9);vertical-align:middle;line-height:1.35;}
 #screen-editor.prof-editor-shell .prof-tbl-prev-cell.col-ex{text-align:left;font-weight:600;font-size:14px;}
 #screen-editor.prof-editor-shell .prof-tbl-prev-cell.prof-tbl-num{text-align:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:600;}
@@ -1654,7 +1679,10 @@ html.debug-editor #screen-editor .prof-bloco-editor--v1 .prof-meta-gerada{
       <input type="file" id="prof-import-file" accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" hidden>
       <button type="button" class="btn btn-sm btn-secondary" id="prof-import-open-btn" onclick="profImportOpenFilePicker()">Importar Excel</button>
       <span class="text-xs text-muted">.xlsx &middot; preview sem salvar</span>
+      <p class="prof-import-converter-hint">Sua planilha ainda n&#xE3;o est&#xE1; no modelo compat&#xED;vel?
+        <a href="https://carolbertin.github.io/conversor-treino/" target="_blank" rel="noopener noreferrer">Converter planilha antiga</a></p>
     </div>
+    <div id="prof-import-sheet-picker" hidden></div>
     <div id="prof-import-preview-banner" hidden></div>
     <div class="prof-editor-modo-bar">
       <label class="prof-editor-modo-toggle"><input type="checkbox" id="ed-modo-tabela" onchange="profToggleModoTabela(!this.checked)"> <span id="prof-editor-modo-lbl">Visualiza&#xE7;&#xE3;o em cards</span></label>
@@ -1756,6 +1784,15 @@ html.debug-editor #screen-editor .prof-bloco-editor--v1 .prof-meta-gerada{
     <div id="mad-sessoes"></div>
     <hr class="divider">
     <div style="display:flex;gap:10px;"><button class="btn btn-secondary flex-1" onclick="fecharModal('modal-al-det')">Fechar</button><button class="btn btn-danger flex-1" onclick="removerAluno()">Remover aluno</button></div>
+  </div>
+</div>
+
+<div class="modal-bd" id="modal-del-treino">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Excluir treino</div>
+    <p class="text-sm" style="line-height:1.5;margin-bottom:20px;">Tem certeza que deseja excluir este treino? Essa a&#xE7;&#xE3;o n&#xE3;o poder&#xE1; ser desfeita.</p>
+    <div style="display:flex;gap:10px;"><button type="button" class="btn btn-secondary flex-1" onclick="profEditorCancelDeleteTreino()">Cancelar</button><button type="button" class="btn btn-danger flex-1" onclick="profEditorConfirmDeleteTreino()">Excluir treino</button></div>
   </div>
 </div>
 
@@ -1905,9 +1942,11 @@ let editorSnapshotBaseline=null;
 let editorExpandedIdx=null;
 /** Preview Excel — aplicação opcional em editorExercicios (não salva Firebase). */
 let profImportPreview=null;
+/** Workbook em memória entre upload e escolha da aba (cada aba = um treino). */
+let profImportPending=null;
 /** Exercício ativo: preview de importação tem prioridade sobre editorExercicios. */
 function profEditorExercicioAt(exIdx){
-  if(profImportPreview&&profImportPreview.exercicios&&profImportPreview.exercicios[exIdx]!=null)
+  if(profImportPreview&&profImportPreview.mode!=='multi'&&profImportPreview.exercicios&&profImportPreview.exercicios[exIdx]!=null)
     return profImportPreview.exercicios[exIdx];
   return editorExercicios[exIdx]||null;
 }
@@ -5518,6 +5557,7 @@ function profEditorIsDirty(){
   const c=profEditorCaptureSnapshot();
   return c.nome!==editorSnapshotBaseline.nome||c.obsGeral!==editorSnapshotBaseline.obsGeral||c.ex!==editorSnapshotBaseline.ex;
 }
+let profEditorDeleteTreinoPendingIdx=null;
 function profRenderEditorTreinoNav(){
   const nav=$('ed-nav-treinos');
   if(!nav)return;
@@ -5527,14 +5567,31 @@ function profRenderEditorTreinoNav(){
   nav.hidden=false;
   nav.innerHTML='';
   treinos.forEach(function(tr,i){
-    const btn=document.createElement('button');
-    btn.type='button';
-    btn.className='prof-ed-nav-pill'+(i===editorTreinoIdx?' active':'');
-    btn.textContent=((tr.nome||'')+'').trim()||('Treino '+(i+1));
-    btn.setAttribute('role','tab');
-    btn.setAttribute('aria-selected',i===editorTreinoIdx?'true':'false');
-    btn.onclick=function(){profEditorNavTreino(i);};
-    nav.appendChild(btn);
+    const pill=document.createElement('div');
+    pill.className='prof-ed-nav-pill'+(i===editorTreinoIdx?' active':'');
+    pill.setAttribute('role','tab');
+    pill.setAttribute('aria-selected',i===editorTreinoIdx?'true':'false');
+    const main=document.createElement('button');
+    main.type='button';
+    main.className='prof-ed-nav-pill__main';
+    main.textContent=((tr.nome||'')+'').trim()||('Treino '+(i+1));
+    main.onclick=function(){profEditorNavTreino(i);};
+    const dup=document.createElement('button');
+    dup.type='button';
+    dup.className='prof-ed-nav-pill__dup';
+    dup.setAttribute('aria-label','Duplicar treino');
+    dup.textContent='\u2398';
+    dup.onclick=function(ev){ev.preventDefault();ev.stopPropagation();profEditorDuplicateTreino(i,ev);};
+    const del=document.createElement('button');
+    del.type='button';
+    del.className='prof-ed-nav-pill__del';
+    del.setAttribute('aria-label','Excluir treino');
+    del.textContent='\u00d7';
+    del.onclick=function(ev){ev.preventDefault();ev.stopPropagation();profEditorAskDeleteTreino(i,ev);};
+    pill.appendChild(main);
+    pill.appendChild(dup);
+    pill.appendChild(del);
+    nav.appendChild(pill);
   });
   const add=document.createElement('button');
   add.type='button';
@@ -5549,7 +5606,7 @@ function profRenderEditorTreinoNav(){
     if(active)active.scrollIntoView({inline:'nearest',block:'nearest',behavior:'smooth'});
   });
 }
-function profEditorLoadTreinoIdx(idx){
+function profEditorLoadTreinoIdx(idx,opts){
   if(typeof profTblCloseCtxPop==='function')profTblCloseCtxPop();
   if(typeof profTblClosePreviewPop==='function')profTblClosePreviewPop();
   profImportDiscardPreview(false);
@@ -5575,7 +5632,8 @@ function profEditorLoadTreinoIdx(idx){
   }
   profSyncEditorShellModo();
   renderTodosExercicios();
-  profEditorSetBaseline();
+  if(opts&&opts.keepDirty)editorSnapshotBaseline={nome:'',obsGeral:'',ex:'[]'};
+  else profEditorSetBaseline();
   profRenderEditorTreinoNav();
 }
 window.profEditorNavTreino=function(idx){
@@ -5586,6 +5644,72 @@ window.profEditorNavTreino=function(idx){
     if(!al||!(al.treinos||[])[idx])return;
   }
   profEditorLoadTreinoIdx(idx);
+};
+function profEditorUniqueCopyNome(baseNome,treinos){
+  var base=((baseNome||'')+'').trim()||'Treino';
+  var used={};
+  (treinos||[]).forEach(function(t){used[((t.nome||'')+'').trim().toLowerCase()]=true;});
+  var cand=base+' (c\u00f3pia)';
+  if(!used[cand.toLowerCase()])return cand;
+  var n=2;
+  while(used[(base+' (c\u00f3pia '+n+')').toLowerCase()])n++;
+  return base+' (c\u00f3pia '+n+')';
+}
+function profEditorDuplicateTreino(idx,ev){
+  if(ev){ev.preventDefault();ev.stopPropagation();}
+  var al=editorAluno||alunoSel;
+  if(!al||!(al.treinos||[])[idx])return;
+  var src;
+  if(idx===editorTreinoIdx){
+    src={
+      nome:($('ed-nome-treino')&&$('ed-nome-treino').value||'').trim(),
+      obsGeral:($('ed-obs-geral')&&$('ed-obs-geral').value||'').trim(),
+      exercicios:JSON.parse(JSON.stringify(editorExercicios||[]))
+    };
+  }else{
+    src=JSON.parse(JSON.stringify(al.treinos[idx]));
+  }
+  var copy=JSON.parse(JSON.stringify(src));
+  copy.nome=profEditorUniqueCopyNome(src.nome,al.treinos);
+  if(!al.treinos)al.treinos=[];
+  al.treinos.splice(idx+1,0,copy);
+  editorAluno=al;
+  var newIdx=idx+1;
+  profEditorLoadTreinoIdx(newIdx,{keepDirty:true});
+  toast('Treino duplicado \u2014 clique em Salvar para persistir');
+}
+window.profEditorDuplicateTreino=profEditorDuplicateTreino;
+function profEditorAskDeleteTreino(idx,ev){
+  if(ev){ev.preventDefault();ev.stopPropagation();}
+  const al=editorAluno||alunoSel;
+  if(!al||!(al.treinos||[])[idx])return;
+  profEditorDeleteTreinoPendingIdx=idx;
+  abrirModal('modal-del-treino');
+}
+window.profEditorCancelDeleteTreino=function(){
+  profEditorDeleteTreinoPendingIdx=null;
+  fecharModal('modal-del-treino');
+};
+function profEditorDeleteTreino(idx){
+  const al=editorAluno||alunoSel;
+  if(!al||!(al.treinos||[])[idx])return;
+  al.treinos.splice(idx,1);
+  editorAluno=al;
+  const wasActive=editorTreinoIdx===idx;
+  if(wasActive){
+    const rest=al.treinos||[];
+    profEditorLoadTreinoIdx(rest.length?Math.min(idx,rest.length-1):-1);
+  }else{
+    if(editorTreinoIdx>idx)editorTreinoIdx--;
+    profRenderEditorTreinoNav();
+  }
+}
+window.profEditorConfirmDeleteTreino=function(){
+  const idx=profEditorDeleteTreinoPendingIdx;
+  profEditorDeleteTreinoPendingIdx=null;
+  fecharModal('modal-del-treino');
+  if(idx==null||idx<0)return;
+  profEditorDeleteTreino(idx);
 };
 window.novoTreinoParaAluno=()=>{
   editorAluno=alunoSel;
@@ -7045,17 +7169,128 @@ function profImportSheetToMatrix(sheet){
   }
   return rows;
 }
-/** Escolhe primeira aba que bate o template organizado. */
-function profImportPickTreinoSheet(wb){
-  if(!wb||!wb.SheetNames||!wb.SheetNames.length)return null;
-  for(var si=0;si<wb.SheetNames.length;si++){
-    var sheetName=wb.SheetNames[si];
-    var sheet=wb.Sheets[sheetName];
-    var matrix=profImportSheetToMatrix(sheet);
-    if(profImportSheetHasTemplate(matrix))return{sheetName:sheetName,matrix:matrix};
-  }
-  return null;
+/** Lista abas do workbook com flag de template organizado. */
+function profImportEnumerateSheets(wb){
+  if(!wb||!wb.SheetNames||!wb.SheetNames.length)return [];
+  return wb.SheetNames.map(function(sheetName){
+    var matrix=profImportSheetToMatrix(wb.Sheets[sheetName]);
+    return{name:sheetName,matrix:matrix,hasTemplate:profImportSheetHasTemplate(matrix)};
+  });
 }
+function profImportSuggestTreinoNome(sheetName){
+  var el=$('ed-nome-treino');
+  if(el&&sheetName)el.value=sheetName;
+}
+function profImportFinalizeExercicios(exercicios){
+  var out=(exercicios||[]).map(profImportStripImportMeta);
+  out.forEach(function(ex){
+    if(Array.isArray(ex.blocos)&&ex.blocos.length)syncParentDoPrimeiroBloco(ex);
+    profImportPreencherMidiaDoBancoSeVazio(ex);
+  });
+  return out;
+}
+function profImportParseSheetToTreino(sh){
+  if(!sh||!sh.hasTemplate)return null;
+  var parsed=profImportParseSheetRows(sh.matrix);
+  if(!parsed.ok||parsed.error==='TEMPLATE_NOT_FOUND'||!parsed.exercicios.length)return null;
+  return{
+    sheetName:sh.name,
+    nome:sh.name,
+    obsGeral:'',
+    exercicios:profImportFinalizeExercicios(parsed.exercicios),
+    warnCount:parsed.warnCount||0,
+    rowCount:parsed.rowCount||0,
+    skipped:parsed.skipped||0
+  };
+}
+function profImportFindTreinoIdxByNome(al,nome){
+  var treinos=(al&&al.treinos)||[];
+  var n=(nome||'').trim().toLowerCase();
+  if(!n)return-1;
+  for(var i=0;i<treinos.length;i++){
+    if(((treinos[i].nome||'')+'').trim().toLowerCase()===n)return i;
+  }
+  return-1;
+}
+function profEditorFlushCurrentTreinoLocal(){
+  var al=editorAluno||alunoSel;
+  if(!al)return;
+  var nome=($('ed-nome-treino')&&$('ed-nome-treino').value||'').trim();
+  var obsGeral=($('ed-obs-geral')&&$('ed-obs-geral').value||'').trim();
+  if(editorTreinoIdx===-1&&!nome&&!(editorExercicios||[]).length)return;
+  var treino={nome:nome||'Treino',obsGeral:obsGeral,exercicios:JSON.parse(JSON.stringify(editorExercicios||[]))};
+  if(!al.treinos)al.treinos=[];
+  if(editorTreinoIdx===-1)al.treinos.push(treino);
+  else al.treinos[editorTreinoIdx]=treino;
+  editorAluno=al;
+}
+function profImportSelectSheet(sheetName){
+  if(!profImportPending)return;
+  var sh=profImportPending.sheets.find(function(s){return s.name===sheetName;});
+  if(!sh)return;
+  if(!sh.hasTemplate){toast('Aba sem template organizado (coluna Exerc\u00edcio).');return;}
+  var parsed=profImportParseSheetRows(sh.matrix);
+  console.log('[prof-import] aba',sheetName,parsed);
+  if(!parsed.ok||parsed.error==='TEMPLATE_NOT_FOUND'){
+    toast('Use a planilha organizada oficial (cabe\u00e7alho com coluna Exerc\u00edcio).');
+    return;
+  }
+  if(!parsed.exercicios.length){
+    toast('Nenhum exerc\u00edcio nesta aba \u2014 preencha a coluna Exerc\u00edcio');
+    return;
+  }
+  profImportPending.selectedSheet=sheetName;
+  profImportPreview={
+    mode:'single',
+    fileName:profImportPending.fileName,
+    sheetName:sheetName,
+    treinoNameSuggest:sheetName,
+    exercicios:parsed.exercicios,
+    warnCount:parsed.warnCount,
+    rowCount:parsed.rowCount
+  };
+  profImportSuggestTreinoNome(sheetName);
+  profImportRenderSheetPicker();
+  profImportRenderBanner();
+  if(!profEditorModoTabela())profSetEditorModoTabela(true);
+  profSyncEditorShellModo();
+  renderTodosExercicios();
+  toast('Preview: '+parsed.exercicios.length+' exerc\u00edcio(s)'
+    +(parsed.skipped?' \u00b7 '+parsed.skipped+' linha(s) ignorada(s)':'')
+    +(parsed.warnCount?' \u00b7 '+parsed.warnCount+' aviso(s)':''));
+}
+window.profImportSelectSheet=profImportSelectSheet;
+function profImportPreviewAllSheets(){
+  if(!profImportPending)return;
+  var list=[];
+  var skippedSheets=0;
+  profImportPending.sheets.forEach(function(sh){
+    if(!sh.hasTemplate){skippedSheets++;return;}
+    var t=profImportParseSheetToTreino(sh);
+    if(t)list.push(t);
+    else skippedSheets++;
+  });
+  if(!list.length){
+    toast('Nenhuma aba com exerc\u00edcios import\u00e1veis.');
+    return;
+  }
+  profImportPending.selectedSheet='*';
+  var warnTotal=list.reduce(function(s,t){return s+(t.warnCount||0);},0);
+  profImportPreview={
+    mode:'multi',
+    fileName:profImportPending.fileName,
+    treinos:list,
+    warnCount:warnTotal,
+    skippedSheets:skippedSheets
+  };
+  profImportRenderSheetPicker();
+  profImportRenderBanner();
+  if(!profEditorModoTabela())profSetEditorModoTabela(true);
+  profSyncEditorShellModo();
+  renderTodosExercicios();
+  toast('Preview: '+list.length+' treino(s) da planilha');
+}
+window.profImportPreviewAllSheets=profImportPreviewAllSheets;
 function profImportNormalizeSubstNome(nome){
   return profImportCellStr(nome).replace(/^por\s+/i,'').trim();
 }
@@ -7209,6 +7444,30 @@ function profImportPreencherMidiaDoBancoSeVazio(ex){
     }
   }
 }
+/** Linha consecutiva do mesmo exercício (nome repetido ou célula de exercício vazia). */
+function profImportRowContinuesEx(lastEx,nome){
+  if(!lastEx)return false;
+  var nomeTrim=profImportCellStr(nome);
+  if(!nomeTrim)return true;
+  return profImportNomeMatchKey(nomeTrim)===profImportNomeMatchKey(lastEx.nome);
+}
+function profImportMergeRowIntoEx(ex,bloco,warnings,youtube,substitutos){
+  if(!ex.blocos)ex.blocos=[];
+  ex.blocos.push(bloco);
+  ex._importWarnings=ex._importWarnings||{};
+  Object.keys(warnings||{}).forEach(function(k){if(warnings[k])ex._importWarnings[k]=true;});
+  if(!profImportCellStr(ex.youtube)&&youtube)ex.youtube=youtube;
+  if(substitutos&&substitutos.length){
+    if(!ex.substitutos||!ex.substitutos.length||!profImportCellStr(ex.substitutos[0].nome)){
+      ex.substitutos=substitutos;
+    }else{
+      var s0=ex.substitutos[0];
+      var n0=substitutos[0];
+      if(n0&&profImportCellStr(n0.nome)&&!profImportCellStr(s0.nome))s0.nome=n0.nome;
+      if(n0&&profImportCellStr(n0.youtube)&&!profImportCellStr(s0.youtube))s0.youtube=n0.youtube;
+    }
+  }
+}
 function profImportBuildTemplateRows(dataRows,colMap){
   var exercicios=[];
   var warnCount=0;
@@ -7225,7 +7484,12 @@ function profImportBuildTemplateRows(dataRows,colMap){
       profImportStatsBump(stats,'vazio');
       return;
     }
-    if(!nome||nome.length<2){
+    var lastExForNome=exercicios.length?exercicios[exercicios.length-1]:null;
+    if(!profImportCellStr(nome)){
+      if(profImportRowContinuesEx(lastExForNome,''))nome=((lastExForNome.nome||'')+'').trim();
+      else{profImportStatsBump(stats,'sem_exercicio');return;}
+    }
+    if(nome.length<2){
       profImportStatsBump(stats,'sem_exercicio');
       return;
     }
@@ -7246,6 +7510,23 @@ function profImportBuildTemplateRows(dataRows,colMap){
     var tipo=tipoCanonicoParaTecnica(tec);
     var youtube=profImportNormalizeMediaUrl(video);
     if(video&&!youtube)warnings.video=true;
+    var substRows=[];
+    if(subst){
+      var subNome=profImportNormalizeSubstNome(subst);
+      var subYoutube=profImportNormalizeMediaUrl(videoSub);
+      if(videoSub&&!subYoutube)warnings.videoSubst=true;
+      substRows=[{nome:subNome,youtube:subYoutube,imagem:'',obs:''}];
+    }
+    var bloco={tipo:tipo,tecnica:tec,meta:metaFinal,obs:''};
+    var lastEx=exercicios.length?exercicios[exercicios.length-1]:null;
+    if(profImportRowContinuesEx(lastEx,nome)){
+      profImportMergeRowIntoEx(lastEx,bloco,warnings,youtube,substRows);
+      profImportPreencherMidiaDoBancoSeVazio(lastEx);
+      if(Object.keys(warnings).length)warnCount++;
+      stats.aceitas++;
+      console.log('[prof-import] linha',ri+1,'bloco+',lastEx.nome,tecRes.label,metaFinal||'(sem meta)');
+      return;
+    }
     var ex={
       nome:nome,
       tipo:tipo,
@@ -7254,17 +7535,11 @@ function profImportBuildTemplateRows(dataRows,colMap){
       youtube:youtube,
       imagem:'',
       obs:'',
-      substitutos:[],
-      blocos:[{tipo:tipo,tecnica:tec,meta:metaFinal,obs:''}],
+      substitutos:substRows,
+      blocos:[bloco],
       _importWarnings:warnings,
       _importRow:ri+1
     };
-    if(subst){
-      var subNome=profImportNormalizeSubstNome(subst);
-      var subYoutube=profImportNormalizeMediaUrl(videoSub);
-      if(videoSub&&!subYoutube)warnings.videoSubst=true;
-      ex.substitutos=[{nome:subNome,youtube:subYoutube,imagem:'',obs:''}];
-    }
     profImportPreencherMidiaDoBancoSeVazio(ex);
     if(Object.keys(warnings).length)warnCount++;
     exercicios.push(ex);
@@ -7275,6 +7550,7 @@ function profImportBuildTemplateRows(dataRows,colMap){
       substituto:subst||'—',videoSubRaw:videoSub||'—',videoSubst:ex.substitutos[0]&&ex.substitutos[0].youtube||'—'
     });
   });
+  exercicios.forEach(function(ex){if(ex.blocos&&ex.blocos.length)syncParentDoPrimeiroBloco(ex);});
   return{exercicios:exercicios,warnCount:warnCount,rowCount:exercicios.length,stats:stats};
 }
 function profImportParseSheetRows(matrix){
@@ -7316,21 +7592,44 @@ function profImportParseSheetRows(matrix){
   return built;
 }
 function profImportApplyToEditor(){
-  if(!profImportPreview||!profImportPreview.exercicios||!profImportPreview.exercicios.length){
+  if(!profImportPreview||profImportPreview.mode==='multi'){toast('Nada para importar');return;}
+  if(!profImportPreview.exercicios||!profImportPreview.exercicios.length){
     toast('Nada para importar');
     return;
   }
-  editorExercicios=profImportPreview.exercicios.map(profImportStripImportMeta);
-  editorExercicios.forEach(function(ex){
-    if(Array.isArray(ex.blocos)&&ex.blocos.length)syncParentDoPrimeiroBloco(ex);
-    profImportPreencherMidiaDoBancoSeVazio(ex);
-  });
+  var sug=profImportPreview.treinoNameSuggest||profImportPreview.sheetName;
+  if(sug)profImportSuggestTreinoNome(sug);
+  editorExercicios=profImportFinalizeExercicios(profImportPreview.exercicios);
   editorExpandedIdx=editorExercicios.length?0:null;
   var n=editorExercicios.length;
   profImportDiscardPreview();
   toast('Importados '+n+' exercício'+(n>1?'s':'')+' na tabela — clique em Salvar treino');
 }
+function profImportApplyAllToEditor(){
+  if(!profImportPreview||profImportPreview.mode!=='multi'||!profImportPreview.treinos||!profImportPreview.treinos.length){
+    toast('Nada para importar');
+    return;
+  }
+  var al=editorAluno||alunoSel;
+  if(!al){toast('Abra o editor de um aluno');return;}
+  profEditorFlushCurrentTreinoLocal();
+  if(!al.treinos)al.treinos=[];
+  var created=0,updated=0,firstIdx=null;
+  profImportPreview.treinos.forEach(function(t){
+    var treino={nome:t.nome||t.sheetName,obsGeral:t.obsGeral||'',exercicios:JSON.parse(JSON.stringify(t.exercicios||[]))};
+    var idx=profImportFindTreinoIdxByNome(al,treino.nome);
+    if(idx>=0){al.treinos[idx]=treino;updated++;if(firstIdx===null)firstIdx=idx;}
+    else{al.treinos.push(treino);created++;if(firstIdx===null)firstIdx=al.treinos.length-1;}
+  });
+  editorAluno=al;
+  var n=profImportPreview.treinos.length;
+  profImportDiscardPreview(false);
+  if(firstIdx!==null)profEditorLoadTreinoIdx(firstIdx);
+  else{profRenderEditorTreinoNav();profSyncEditorShellModo();renderTodosExercicios();}
+  toast('Aplicados '+n+' treino(s) no editor ('+created+' novo(s), '+updated+' atualizado(s)) — clique em Salvar');
+}
 window.profImportApplyToEditor=profImportApplyToEditor;
+window.profImportApplyAllToEditor=profImportApplyAllToEditor;
 
 let _profImportXlsxPromise=null;
 function profImportEnsureXlsx(){
@@ -7410,6 +7709,34 @@ function profTblRowHtmlImportPreview(r){
     +'<td class="prof-tbl-act" aria-hidden="true"></td>'
   +'</tr>';
 }
+function profImportRenderSheetPicker(){
+  const el=$('prof-import-sheet-picker');
+  if(!el)return;
+  if(!profImportPending){
+    el.hidden=true;
+    el.innerHTML='';
+    return;
+  }
+  const p=profImportPending;
+  var validN=p.sheets.filter(function(s){return s.hasTemplate;}).length;
+  const pills=p.sheets.map(function(sh){
+    let cls='prof-import-sheet-pill';
+    if(p.selectedSheet===sh.name)cls+=' active';
+    if(!sh.hasTemplate)cls+=' prof-import-sheet-pill--disabled';
+    const dis=!sh.hasTemplate?' disabled':'';
+    const tip=!sh.hasTemplate?' title="Sem template organizado"':'';
+    return'<button type="button" class="'+cls+'"'+dis+tip+' onclick="profImportSelectSheet(\''+escJs(sh.name)+'\')">'+esc(sh.name)+'</button>';
+  }).join('');
+  el.hidden=false;
+  el.innerHTML='<div class="prof-import-sheet-picker">'
+    +'<div class="prof-import-sheet-picker__head"><span class="prof-import-sheet-picker__tag">Excel</span> '
+    +esc(p.fileName)+' \u00b7 escolha a aba (cada aba = um treino)</div>'
+    +'<div class="prof-import-sheet-picker__pills" role="tablist">'+pills+'</div>'
+    +'<div class="prof-import-sheet-picker__acts">'
+    +(validN?'<button type="button" class="btn btn-sm btn-primary" onclick="profImportPreviewAllSheets()">Importar todas as abas</button>':'')
+    +'<button type="button" class="btn btn-sm btn-ghost" onclick="profImportDiscardPreview()">Descartar arquivo</button>'
+    +'</div></div>';
+}
 function profImportRenderBanner(){
   const el=$('prof-import-preview-banner');
   if(!el)return;
@@ -7420,10 +7747,32 @@ function profImportRenderBanner(){
   }
   const p=profImportPreview;
   el.hidden=false;
+  if(p.mode==='multi'){
+    const items=(p.treinos||[]).map(function(t){
+      const meta=t.exercicios.length+' exerc\u00edcio'+(t.exercicios.length>1?'s':'')
+        +(t.rowCount?' \u00b7 '+t.rowCount+' linha(s)':'')
+        +(t.warnCount?' \u00b7 <span class="prof-import-multi-summary__warn">'+t.warnCount+' aviso(s)</span>':'');
+      return'<li><div class="prof-import-multi-summary__name">'+esc(t.nome||t.sheetName)+'</div>'
+        +'<div class="prof-import-multi-summary__meta">'+meta+'</div></li>';
+    }).join('');
+    el.innerHTML='<div class="prof-import-banner">'
+      +'<div class="prof-import-banner__main"><span class="prof-import-banner__tag">Preview Excel</span> '
+      +esc(p.fileName)+' \u00b7 '+p.treinos.length+' treino(s)'
+      +(p.warnCount?' \u00b7 <span class="prof-import-banner__warns">'+p.warnCount+' aviso(s)</span>':'')
+      +(p.skippedSheets?' \u00b7 '+p.skippedSheets+' aba(s) ignorada(s)':'')
+      +'</div>'
+      +'<ul class="prof-import-multi-summary">'+items+'</ul>'
+      +'<div class="prof-import-banner__acts">'
+      +'<button type="button" class="btn btn-sm btn-primary" onclick="profImportApplyAllToEditor()">Aplicar treinos no editor</button>'
+      +'<button type="button" class="btn btn-sm btn-ghost" onclick="profImportDiscardPreview()">Descartar</button>'
+      +'</div></div>';
+    return;
+  }
   el.innerHTML='<div class="prof-import-banner">'
     +'<div class="prof-import-banner__main"><span class="prof-import-banner__tag">Preview Excel</span> '
     +esc(p.fileName)
     +(p.sheetName?' \u00b7 aba '+esc(p.sheetName):'')
+    +(p.treinoNameSuggest?' \u00b7 treino sugerido: '+esc(p.treinoNameSuggest):'')
     +' \u00b7 '+p.rowCount+' linha(s) \u00b7 '+p.exercicios.length+' exerc\u00edcio(s)'
     +(p.warnCount?' \u00b7 <span class="prof-import-banner__warns">'+p.warnCount+' aviso(s)</span>':'')
     +'</div>'
@@ -7434,6 +7783,8 @@ function profImportRenderBanner(){
 }
 function profImportDiscardPreview(rerender){
   profImportPreview=null;
+  profImportPending=null;
+  profImportRenderSheetPicker();
   profImportRenderBanner();
   if(rerender!==false){
     profSyncEditorShellModo();
@@ -7454,47 +7805,19 @@ window.profImportOnFileSelected=async function(ev){
     const wb=XLSX.read(buf,{type:'array'});
     console.log('[prof-import] abas',wb.SheetNames);
     if(!wb.SheetNames||!wb.SheetNames.length){toast('Planilha vazia');return;}
-    var picked=profImportPickTreinoSheet(wb);
-    if(!picked){
+    profImportDiscardPreview(false);
+    var sheets=profImportEnumerateSheets(wb);
+    var valid=sheets.filter(function(s){return s.hasTemplate;});
+    if(!valid.length){
       toast('Nenhuma aba com template organizado (coluna Exerc\u00edcio).');
       return;
     }
-    const sheetName=picked.sheetName;
-    const matrix=picked.matrix;
-    console.log('[prof-import] aba escolhida',sheetName);
-    const parsed=profImportParseSheetRows(matrix);
-    console.log('[prof-import] parse',{
-      ok:parsed.ok,
-      template:parsed.template,
-      cabecalho:parsed.headerIdx>=0?parsed.headerIdx+1:null,
-      colunas:parsed.colMap,
-      error:parsed.error
-    });
-    if(parsed.stats)console.log('[prof-import] resumo',parsed.stats);
-    if(!parsed.ok||parsed.error==='TEMPLATE_NOT_FOUND'){
-      toast('Use a planilha organizada oficial (cabe\u00e7alho com coluna Exerc\u00edcio).');
-      return;
-    }
-    if(!parsed.exercicios.length){
-      toast('Nenhum exerc\u00edcio na planilha \u2014 preencha a coluna Exerc\u00edcio');
-      return;
-    }
-    profImportPreview={
-      fileName:file.name,
-      sheetName:sheetName,
-      exercicios:parsed.exercicios,
-      warnCount:parsed.warnCount,
-      rowCount:parsed.rowCount
-    };
+    profImportPending={fileName:file.name,sheets:sheets,selectedSheet:null};
+    profImportRenderSheetPicker();
     profImportRenderBanner();
-    if(!profEditorModoTabela())profSetEditorModoTabela(true);
     profSyncEditorShellModo();
     renderTodosExercicios();
-    const flat=profImportFlattenPreviewRows(profImportPreview.exercicios);
-    console.log('[prof-import] preview render',flat.length,'linhas tabela');
-    toast('Preview: '+parsed.exercicios.length+' exerc\u00edcio(s)'
-      +(parsed.skipped?' \u00b7 '+parsed.skipped+' linha(s) ignorada(s)':'')
-      +(parsed.warnCount?' \u00b7 '+parsed.warnCount+' aviso(s)':''));
+    toast('Escolha a aba do treino ('+valid.length+' com template de '+sheets.length+')');
   }catch(err){
     console.error('[prof-import] erro',err);
     toast('Erro ao ler o Excel');
@@ -7535,6 +7858,23 @@ function renderEditorTabelaImportPreview(){
     +'<th class="col-tec">T\u00e9cnica</th><th class="col-ex">Exerc\u00edcio</th><th class="col-ser">S\u00e9ries</th><th class="col-rep">Reps</th><th class="col-rir">RIR</th><th class="col-desc">Desc.</th><th class="col-ctx">Ctx</th><th class="col-act" aria-label="A\u00e7\u00f5es"></th>'
     +'</tr></thead><tbody>'+tbody+'</tbody></table></div>'
     +'<p class="prof-tbl-footnote text-sm text-muted">Preview tempor\u00e1rio \u2014 n\u00e3o altera o treino atual.</p>';
+}
+function renderEditorMultiImportPreview(){
+  const container=$('ed-exercicios');
+  if(!container||!profImportPreview||profImportPreview.mode!=='multi')return;
+  container.className='prof-editor-ex-list prof-editor-ex-list--import-multi';
+  profTblClosePreviewPop();
+  profTblCloseCtxPop();
+  const treinos=profImportPreview.treinos||[];
+  const items=treinos.map(function(t){
+    return'<li><div class="prof-import-multi-summary__name">'+esc(t.nome||t.sheetName)+'</div>'
+      +'<div class="prof-import-multi-summary__meta">'+t.exercicios.length+' exerc\u00edcio'+(t.exercicios.length>1?'s':'')
+      +(t.warnCount?' \u00b7 <span class="prof-import-multi-summary__warn">'+t.warnCount+' aviso(s)</span>':'')
+      +'</div></li>';
+  }).join('');
+  container.innerHTML='<div class="prof-tbl-stats">'+treinos.length+' treino(s) \u00b7 preview multi-aba</div>'
+    +'<ul class="prof-import-multi-summary">'+items+'</ul>'
+    +'<p class="prof-tbl-footnote text-sm text-muted">Cada aba vira um treino no editor. Use <strong>Aplicar treinos no editor</strong> acima \u2014 depois <strong>Salvar</strong>.</p>';
 }
 function renderEditorTabelaReadOnly(){
   const container=$('ed-exercicios');
@@ -7594,7 +7934,8 @@ function renderTodosExercicios(){
   profSyncEditorShellModo();
   if(profImportPreview){
     if(!profEditorModoTabela())profSetEditorModoTabela(true);
-    renderEditorTabelaImportPreview();
+    if(profImportPreview.mode==='multi')renderEditorMultiImportPreview();
+    else renderEditorTabelaImportPreview();
     return;
   }
   if(profEditorModoTabela()){
