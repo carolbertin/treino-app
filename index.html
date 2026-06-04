@@ -1315,6 +1315,12 @@ html.debug-editor #screen-editor .prof-bloco-editor--v1 .prof-meta-gerada{
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer .aluno-guided-btn-primary,
 #screen-exercicio.screen-exercicio--exec-simple .aluno-guided-btn-primary{width:100%!important;min-height:52px;border-radius:var(--radius);font-size:17px;font-weight:500;background:var(--accent);color:#1a2e00;box-shadow:none;}
 #screen-exercicio.screen-exercicio--exec-simple .rest-timer-ov svg{display:none;}
+.academia-chip{display:inline-flex;align-items:stretch;gap:0;border-radius:20px;overflow:hidden;border:1px solid var(--border);background:var(--bg3);}
+.academia-chip--on{border-color:rgba(200,240,96,.3);background:rgba(200,240,96,.12);}
+.academia-chip-btn{padding:8px 12px 8px 14px;border:none;background:transparent;color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;}
+.academia-chip--on .academia-chip-btn{color:var(--accent);}
+.academia-chip-arquivar{align-self:stretch;display:flex;align-items:center;justify-content:center;width:28px;padding:0;border:none;border-left:1px solid var(--border);background:transparent;color:var(--text3);font-size:16px;line-height:1;cursor:pointer;font-family:inherit;}
+.academia-chip-arquivar:hover{color:var(--text);background:rgba(255,255,255,.04);}
 /* Back-off — passos em cards (só apresentação) */
 .aluno-backoff-guided{margin:12px 0 16px;max-width:100%;box-sizing:border-box;}
 .aluno-backoff-guided__title{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--backoff-color,#F0997B);margin:0 0 10px;padding:0 2px;}
@@ -2023,6 +2029,15 @@ html.debug-editor #screen-editor .prof-bloco-editor--v1 .prof-meta-gerada{
   </div>
 </div>
 
+<div class="modal-bd" id="modal-academia-arquivar">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Arquivar academia?</div>
+    <p class="text-sm" style="line-height:1.5;margin-bottom:20px;">Os registros realizados nessa academia ser&#xE3;o preservados e poder&#xE3;o ser restaurados futuramente.</p>
+    <div style="display:flex;gap:10px;"><button type="button" class="btn btn-secondary flex-1" onclick="cancelarArquivarAcademia()">Cancelar</button><button type="button" class="btn btn-primary flex-1" onclick="confirmarArquivarAcademia()">Arquivar</button></div>
+  </div>
+</div>
+
 <div class="modal-bd" id="modal-tipo-custom">
   <div class="modal" style="padding-bottom:60px;">
     <div class="modal-handle"></div>
@@ -2158,6 +2173,47 @@ let alunoState={blockIdx:0,blocksDone:[],seriesDone:{},seriesData:{},seqStep:{},
 let academiaSelecionada=''; // academia escolhida para a sessão atual
 let academiaFiltroUltimoReg=''; // filtro manual da coluna Anterior (localStorage ult_reg_unidade_*)
 let academiaFiltroAnteriorManual=false; // true = pill/select escolheu; false = default auto da sessão
+let _academiaArquivarNome=null;
+
+function academiaNomeKey(n){return((n||'')+'').trim().toLowerCase();}
+function academiasHistNormItem(x){return typeof x==='string'?((x||'')+'').trim():((x&&x.nome)||'').trim();}
+function academiasArquivadasRead(){
+  try{
+    const a=JSON.parse(localStorage.getItem('academias_arquivadas')||'[]');
+    return Array.isArray(a)?a.map(academiasHistNormItem).filter(Boolean):[];
+  }catch(_){return [];}
+}
+function academiasArquivadasWrite(list){
+  const seen=new Set();
+  const out=[];
+  (list||[]).forEach(n=>{
+    const t=academiasHistNormItem(n);
+    const k=academiaNomeKey(t);
+    if(t&&!seen.has(k)){seen.add(k);out.push(t);}
+  });
+  localStorage.setItem('academias_arquivadas',JSON.stringify(out.slice(0,50)));
+}
+function academiasAtivasRead(){
+  const arq=new Set(academiasArquivadasRead().map(academiaNomeKey));
+  try{
+    const raw=JSON.parse(localStorage.getItem('academias_hist')||'[]');
+    if(!Array.isArray(raw))return [];
+    const out=[];
+    raw.forEach(x=>{
+      const t=academiasHistNormItem(x);
+      const k=academiaNomeKey(t);
+      if(t&&!arq.has(k)&&!out.includes(t))out.push(t);
+    });
+    return out;
+  }catch(_){return [];}
+}
+function academiasAtivasWrite(list){
+  localStorage.setItem('academias_hist',JSON.stringify((list||[]).slice(0,10)));
+}
+function academiaEstaArquivada(nome){
+  const k=academiaNomeKey(nome);
+  return academiasArquivadasRead().some(a=>academiaNomeKey(a)===k);
+}
 let alunoMostrarUltimoReg=false; // toggle visual: refs abaixo dos inputs (não altera filtro/histórico)
 let exSubstitutoIdx=null;   // índice do exercício sendo substituído na sessão
 let viewDetalhado=true;
@@ -2897,25 +2953,34 @@ function renderInstrucoes(){
 }
 
 function renderAcademiaSelector(){
-  const academias=JSON.parse(localStorage.getItem('academias_hist')||'[]');
+  const academias=academiasAtivasRead();
   const wrap=$('academia-selector-wrap');
   const primeira=$('academia-primeira-wrap');
+  if(academiaSelecionada&&academiaEstaArquivada(academiaSelecionada)){
+    academiaSelecionada='';
+    localStorage.removeItem('academia_atual');
+  }
   if(academias.length){
     wrap.style.display=''; primeira.style.display='none';
     const btns=$('academia-selector-btns'); btns.innerHTML='';
     academias.forEach(a=>{
+      const chip=document.createElement('div');
+      chip.className='academia-chip'+(a===academiaSelecionada?' academia-chip--on':'');
       const btn=document.createElement('button');
-      btn.style.cssText='padding:8px 16px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-family:inherit;transition:all .15s;';
+      btn.type='button';
+      btn.className='academia-chip-btn';
       btn.textContent=a;
-      if(a===academiaSelecionada){
-        btn.style.background='rgba(200,240,96,.12)';
-        btn.style.color='var(--accent)';
-        btn.style.borderColor='rgba(200,240,96,.3)';
-      }
       btn.onclick=()=>{ academiaSelecionada=a; localStorage.setItem('academia_atual',a); renderAcademiaSelector(); if($('screen-exercicio').classList.contains('active')) carregarHistoricoEx(); };
-      btns.appendChild(btn);
+      const btnArq=document.createElement('button');
+      btnArq.type='button';
+      btnArq.className='academia-chip-arquivar';
+      btnArq.setAttribute('aria-label','Arquivar '+a);
+      btnArq.textContent='\u00d7';
+      btnArq.onclick=e=>{e.stopPropagation();abrirModalArquivarAcademia(a);};
+      chip.appendChild(btn);
+      chip.appendChild(btnArq);
+      btns.appendChild(chip);
     });
-    // Botão "Sem filtro"
     const btnTodos=document.createElement('button');
     btnTodos.style.cssText='padding:8px 16px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-family:inherit;transition:all .15s;';
     btnTodos.textContent='Todas';
@@ -2929,11 +2994,45 @@ function renderAcademiaSelector(){
 
 window.adicionarAcademia=nome=>{
   nome=nome.trim(); if(!nome) return;
-  const hist=JSON.parse(localStorage.getItem('academias_hist')||'[]');
-  if(!hist.includes(nome)){hist.unshift(nome);localStorage.setItem('academias_hist',JSON.stringify(hist.slice(0,10)));}
+  const k=academiaNomeKey(nome);
+  const arq=academiasArquivadasRead().filter(a=>academiaNomeKey(a)!==k);
+  academiasArquivadasWrite(arq);
+  const hist=academiasAtivasRead().filter(a=>academiaNomeKey(a)!==k);
+  hist.unshift(nome);
+  academiasAtivasWrite(hist);
   academiaSelecionada=nome; localStorage.setItem('academia_atual',nome);
   $('academia-primeira-wrap').style.display='none';
   renderAcademiaSelector();
+};
+
+window.abrirModalArquivarAcademia=nome=>{
+  _academiaArquivarNome=((nome||'')+'').trim();
+  if(!_academiaArquivarNome)return;
+  abrirModal('modal-academia-arquivar');
+};
+window.cancelarArquivarAcademia=()=>{
+  _academiaArquivarNome=null;
+  fecharModal('modal-academia-arquivar');
+};
+window.confirmarArquivarAcademia=()=>{
+  const nome=_academiaArquivarNome;
+  _academiaArquivarNome=null;
+  fecharModal('modal-academia-arquivar');
+  if(!nome)return;
+  const k=academiaNomeKey(nome);
+  const ativas=academiasAtivasRead().filter(a=>academiaNomeKey(a)!==k);
+  academiasAtivasWrite(ativas);
+  const arq=academiasArquivadasRead();
+  if(!arq.some(a=>academiaNomeKey(a)===k))arq.unshift(nome);
+  academiasArquivadasWrite(arq);
+  if(academiaNomeKey(academiaSelecionada)===k){
+    academiaSelecionada='';
+    localStorage.removeItem('academia_atual');
+  }
+  if(academiaFiltroAnteriorManual&&academiaNomeKey(academiaFiltroUltimoReg)===k)alunoSetAnteriorFiltroManual('');
+  renderAcademiaSelector();
+  if($('screen-exercicio')&&$('screen-exercicio').classList.contains('active'))carregarHistoricoEx();
+  toast('Academia arquivada');
 };
 
 function renderListaEx(){
@@ -3194,8 +3293,11 @@ function alunoLoadAnteriorFiltroState(){
 
 /** Filtro efetivo da coluna Anterior (não altera academiaSelecionada / salvar). */
 function alunoAnteriorFiltroEfetivo(){
-  if(academiaFiltroAnteriorManual)return(academiaFiltroUltimoReg||'').trim();
-  return(academiaSelecionada||'').trim();
+  let v;
+  if(academiaFiltroAnteriorManual)v=(academiaFiltroUltimoReg||'').trim();
+  else v=(academiaSelecionada||'').trim();
+  if(v&&academiaEstaArquivada(v))return'';
+  return v;
 }
 
 function alunoAnteriorPillLabel(){
@@ -3238,10 +3340,11 @@ function alunoPaintAnteriorColHead(){
 function alunoAnteriorFiltroOpcoes(){
   const nomeKey=n=>((n||'')+'').trim().toLowerCase();
   const map=new Map();
-  try{JSON.parse(localStorage.getItem('academias_hist')||'[]').forEach(a=>{const t=((a||'')+'').trim();if(t)map.set(nomeKey(t),t);});}catch(_){}
-  (window.alunoHistoricoUnidadesList||[]).forEach(u=>{const t=((u||'')+'').trim();if(t)map.set(nomeKey(t),t);});
+  const arqSet=new Set(academiasArquivadasRead().map(academiaNomeKey));
+  try{academiasAtivasRead().forEach(a=>{const t=((a||'')+'').trim();if(t&&!arqSet.has(nomeKey(t)))map.set(nomeKey(t),t);});}catch(_){}
+  (window.alunoHistoricoUnidadesList||[]).forEach(u=>{const t=((u||'')+'').trim();if(t&&!arqSet.has(nomeKey(t)))map.set(nomeKey(t),t);});
   const ef=alunoAnteriorFiltroEfetivo();
-  if(ef)map.set(nomeKey(ef),ef);
+  if(ef&&!arqSet.has(nomeKey(ef)))map.set(nomeKey(ef),ef);
   return[...map.values()].sort((a,b)=>a.localeCompare(b,'pt-BR'));
 }
 
@@ -3310,9 +3413,10 @@ async function carregarHistoricoEx(){
     if(!hS.empty){
       const allDocs=hS.docs.map(d=>d.data()).filter(d=>d.data).sort((a,b)=>(b.data.seconds||0)-(a.data.seconds||0));
       const nomeKey=n=>((n||'')+'').trim().toLowerCase();
+      const arqSet=new Set(academiasArquivadasRead().map(academiaNomeKey));
       const unidadesMap=new Map();
-      allDocs.forEach(d=>{const raw=(d.academia||'')+'';const t=raw.trim();if(t)unidadesMap.set(nomeKey(t),t);});
-      try{JSON.parse(localStorage.getItem('academias_hist')||'[]').forEach(a=>{const t=((a||'')+'').trim();if(t)unidadesMap.set(nomeKey(t),t);});}catch(_){}
+      allDocs.forEach(d=>{const raw=(d.academia||'')+'';const t=raw.trim();if(t&&!arqSet.has(nomeKey(t)))unidadesMap.set(nomeKey(t),t);});
+      try{academiasAtivasRead().forEach(a=>{const t=((a||'')+'').trim();if(t&&!arqSet.has(nomeKey(t)))unidadesMap.set(nomeKey(t),t);});}catch(_){}
       const unidadesList=[...unidadesMap.values()].sort((a,b)=>a.localeCompare(b,'pt-BR'));
       window.alunoHistoricoUnidadesList=unidadesList;
       const wrap=$('ult-filtro-unidade-wrap');const sel=$('ult-filtro-unidade');
@@ -6076,6 +6180,10 @@ window.pularTimer=()=>{
 // Série 1 sempre lidera: replica para TODAS as demais (mesmo que já preenchidas)
 // Séries 2,3,4+ replicam apenas para as seguintes ainda em branco
 // pref '' = bloco 0; b1_/b2_/… = demais blocos; meta do bloco via arg ou data-bloco-meta / exAtual.meta
+function alunoPesoInpSkipReplicar(inp){
+  return!!(inp&&inp.closest&&inp.closest('.aluno-backoff-reg-fields--guided,.aluno-drop-reg-fields--guided'));
+}
+
 window.replicarPeso=(s,val,pref,meta)=>{
   if(!exAtual) return;
   const P=pref!=null&&pref!==undefined?String(pref):'';
@@ -6091,12 +6199,12 @@ window.replicarPeso=(s,val,pref,meta)=>{
   if(s===0){
     for(let i=1;i<n;i++){
       const campo=$(P+'p'+i);
-      if(campo) campo.value=val;
+      if(campo&&!alunoPesoInpSkipReplicar(campo))campo.value=val;
     }
   } else {
     for(let i=s+1;i<n;i++){
       const campo=$(P+'p'+i);
-      if(campo&&!campo.value) campo.value=val;
+      if(campo&&!campo.value&&!alunoPesoInpSkipReplicar(campo))campo.value=val;
     }
   }
 };
