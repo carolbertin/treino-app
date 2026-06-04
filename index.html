@@ -184,10 +184,15 @@ select.inp option{background:var(--bg3);}
 #screen-editor.prof-editor-shell .prof-insp-bloco-sep{border:none;border-top:1px solid rgba(255,255,255,.06);margin:14px 0;}
 #screen-editor.prof-editor-shell .prof-tbl-preview-pop--ex{width:min(340px,calc(100vw - 24px));}
 #screen-editor.prof-editor-shell .prof-tbl-pend-hint{display:block;margin-top:4px;font-size:9px;font-weight:600;line-height:1.3;color:rgba(240,168,72,.88);letter-spacing:.01em;}
+#screen-editor.prof-editor-shell .prof-tbl-pend-bar{display:flex;align-items:center;gap:6px;margin-top:6px;padding:5px 8px;border-radius:6px;background:rgba(240,168,72,.08);border:1px solid rgba(240,168,72,.22);}
+#screen-editor.prof-editor-shell .prof-tbl-pend-ico{flex-shrink:0;font-size:11px;line-height:1;color:rgba(240,168,72,.95);}
+#screen-editor.prof-editor-shell .prof-tbl-pend-txt{flex:1;min-width:0;font-size:9px;font-weight:600;line-height:1.3;color:rgba(240,168,72,.92);letter-spacing:.01em;}
+#screen-editor.prof-editor-shell .prof-tbl-avanc-cfg-wrap{margin-top:4px;}
 #screen-editor.prof-editor-shell .prof-tbl-row--avanc .prof-tbl-inp--ro{opacity:.45;cursor:default;}
-#screen-editor.prof-editor-shell .prof-tbl-avanc-cfg{width:22px;height:22px;padding:0;margin-right:2px;border:none;border-radius:6px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.5);font-size:12px;line-height:1;cursor:pointer;font-family:inherit;vertical-align:middle;}
-#screen-editor.prof-editor-shell .prof-tbl-avanc-cfg:hover{color:var(--accent);background:rgba(200,240,96,.1);}
-#screen-editor.prof-editor-shell .prof-tbl-avanc-cfg--pend{color:rgba(240,168,72,.9);background:rgba(240,168,72,.1);}
+#screen-editor.prof-editor-shell .prof-tbl-avanc-cfg{flex-shrink:0;padding:3px 8px;border:1px solid rgba(240,168,72,.38);border-radius:5px;background:rgba(240,168,72,.14);color:rgba(255,235,205,.96);font-size:9px;font-weight:600;line-height:1.25;letter-spacing:.02em;cursor:pointer;font-family:inherit;white-space:nowrap;}
+#screen-editor.prof-editor-shell .prof-tbl-avanc-cfg:hover{color:#fff;background:rgba(240,168,72,.28);border-color:rgba(240,168,72,.55);}
+#screen-editor.prof-editor-shell .prof-tbl-avanc-cfg--subtle{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:rgba(255,255,255,.5);}
+#screen-editor.prof-editor-shell .prof-tbl-avanc-cfg--subtle:hover{color:var(--accent);background:rgba(200,240,96,.1);border-color:rgba(200,240,96,.28);}
 #screen-editor.prof-editor-shell .prof-tbl-avanc-pop{position:fixed;z-index:1315;width:min(300px,calc(100vw - 24px));padding:14px 32px 14px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg,#1e2229,#161a20);box-shadow:0 16px 48px rgba(0,0,0,.55);box-sizing:border-box;}
 #screen-editor.prof-editor-shell .prof-tbl-avanc-pop[hidden]{display:none!important;}
 #screen-editor.prof-editor-shell .prof-tbl-avanc-pop-hd{margin:0 0 10px;font-size:12px;font-weight:700;color:rgba(248,250,252,.95);}
@@ -1268,6 +1273,7 @@ html.debug-editor #screen-editor .prof-bloco-editor--v1 .prof-meta-gerada{
 #screen-exercicio.screen-exercicio--exec-simple .upcoming-lbl{color:rgba(255,255,255,.2);font-size:13px;}
 #screen-exercicio.screen-exercicio--exec-simple .upcoming-val{color:rgba(255,255,255,.35);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs{display:flex;flex-direction:column;gap:0;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1]{gap:14px;padding:2px 0;overflow:visible;}
 #screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-wrap.bcard-v2{background:transparent;border:none;border-radius:0;margin:0;padding:0;overflow:visible;transition:opacity .28s ease,max-height .35s ease,margin .28s ease;}
 #screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-wrap--guided-feito,
 #screen-exercicio.screen-exercicio--exec-simple .bloco-aluno-wrap--guided-proximo{max-height:0;opacity:0;margin:0;padding:0;overflow:hidden;pointer-events:none;border:none;}
@@ -1309,11 +1315,174 @@ html.debug-editor #screen-editor .prof-bloco-editor--v1 .prof-meta-gerada{
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer .aluno-guided-btn-primary,
 #screen-exercicio.screen-exercicio--exec-simple .aluno-guided-btn-primary{width:100%!important;min-height:52px;border-radius:var(--radius);font-size:17px;font-weight:500;background:var(--accent);color:#1a2e00;box-shadow:none;}
 #screen-exercicio.screen-exercicio--exec-simple .rest-timer-ov svg{display:none;}
+/* Back-off — passos em cards (só apresentação) */
+.aluno-backoff-guided{margin:12px 0 16px;max-width:100%;box-sizing:border-box;}
+.aluno-backoff-guided__title{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--backoff-color,#F0997B);margin:0 0 10px;padding:0 2px;}
+.aluno-backoff-guided__steps{display:flex;flex-direction:column;gap:10px;}
+.aluno-backoff-guided__step{display:flex;gap:12px;align-items:flex-start;padding:14px 14px;border-radius:13px;border:1px solid rgba(240,153,123,.36);background:linear-gradient(165deg,rgba(240,153,123,.14) 0%,rgba(30,24,20,.95) 48%);box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 2px 12px rgba(0,0,0,.22);}
+.aluno-backoff-guided__num{flex:0 0 auto;font-size:18px;line-height:1.25;color:var(--backoff-color,#F0997B);font-weight:700;}
+.aluno-backoff-guided__content{flex:1;min-width:0;}
+.aluno-backoff-guided__tit{font-size:14px;font-weight:600;color:var(--text);line-height:1.35;margin:0 0 6px;}
+.aluno-backoff-guided__body{font-size:12px;line-height:1.5;color:var(--text2);margin:0;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-tecnica-sec--backoff .aluno-tecnica-sec-dot{background:var(--backoff-color,#F0997B);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-tecnica-sec--backoff .aluno-tecnica-sec-tit{color:var(--backoff-color,#F0997B);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-inputs{
+  display:flex;flex-direction:column;gap:14px;margin:0;padding:0;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-backoff-guided,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-drop-guided,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-rp-guided{
+  margin:0;flex-shrink:0;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(18,18,18,.92);
+  box-shadow:0 2px 10px rgba(0,0,0,.2);overflow:hidden;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-backoff-guided{
+  margin:0;padding:12px 12px 10px;box-sizing:border-box;
+  border-color:rgba(240,153,123,.32);background:rgba(28,22,18,.95);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-backoff-guided__step--registro .aluno-backoff-guided__content{width:100%;min-width:0;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-backoff-guided__step--registro .aluno-serie-row--backoff-reg{margin:6px 0 0;padding:0;background:transparent;width:100%;max-width:100%;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-backoff-reg-fields--guided{margin:0;padding:0;width:100%;max-width:100%;box-sizing:border-box;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-backoff-reg-grid{
+  display:grid;grid-template-columns:minmax(72px,1fr) minmax(72px,1fr) 40px;grid-template-rows:auto auto;
+  gap:4px 10px;align-items:end;width:100%;max-width:268px;box-sizing:border-box;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-backoff-reg-cell{
+  display:flex;flex-direction:column;align-items:stretch;gap:4px;min-width:0;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-backoff-reg-cell--chk{
+  display:flex;align-items:flex-end;justify-content:center;padding-bottom:0;grid-row:1;grid-column:3;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-backoff-reg-lbl{
+  font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(240,153,123,.78);line-height:1.2;text-align:center;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-inp-cell--backoff-reg{
+  width:100%;height:40px;min-height:40px;max-height:40px;display:flex;align-items:center;justify-content:center;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-inp-cell--backoff-reg .aluno-serie-inp{
+  width:100%;height:40px;min-height:40px;max-height:40px;margin:0;padding:4px 6px;text-align:center;font-size:20px;
+  color:#f0c4a8;border:1px solid rgba(240,153,123,.28);background:rgba(240,153,123,.06);border-radius:8px;box-sizing:border-box;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-inp-cell--backoff-reg .aluno-serie-inp:focus{
+  border-color:rgba(240,153,123,.52);background:rgba(240,153,123,.1);box-shadow:0 0 0 2px rgba(240,153,123,.12);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-backoff-reg-sug{
+  grid-column:1;grid-row:2;margin:0;padding:0;min-height:0;
+  font-size:10px;line-height:1.3;color:rgba(240,153,123,.68);text-align:left;font-family:inherit;font-weight:500;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-backoff-reg-sug:empty{display:none;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-backoff-reg-check{
+  width:40px;height:40px;min-width:40px;min-height:40px;margin:0;padding:0;
+  border-color:rgba(240,153,123,.35);background:rgba(240,153,123,.08);color:rgba(240,200,170,.95);border-radius:8px;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-backoff-reg-check.aluno-serie-check--done{
+  background:rgba(240,153,123,.22);border-color:rgba(240,153,123,.55);color:#ffe8d8;
+}
+/* Drop set — passos em cards (mesmo padrão back-off) */
+.aluno-drop-guided{margin:12px 0 16px;max-width:100%;box-sizing:border-box;}
+.aluno-drop-guided__title{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--drop-color,#97C459);margin:0 0 10px;padding:0 2px;}
+.aluno-drop-guided__steps{display:flex;flex-direction:column;gap:10px;}
+.aluno-drop-guided__step{display:flex;gap:12px;align-items:flex-start;padding:14px 14px;border-radius:13px;border:1px solid rgba(151,196,89,.36);background:linear-gradient(165deg,rgba(151,196,89,.14) 0%,rgba(20,28,18,.95) 48%);box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 2px 12px rgba(0,0,0,.22);}
+.aluno-drop-guided__num{flex:0 0 auto;font-size:18px;line-height:1.25;color:var(--drop-color,#97C459);font-weight:700;}
+.aluno-drop-guided__content{flex:1;min-width:0;}
+.aluno-drop-guided__tit{font-size:14px;font-weight:600;color:var(--text);line-height:1.35;margin:0 0 6px;}
+.aluno-drop-guided__body{font-size:12px;line-height:1.5;color:var(--text2);margin:0;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-drop-guided{
+  margin:0;padding:12px 12px 10px;box-sizing:border-box;
+  border-color:rgba(151,196,89,.32);background:rgba(18,28,16,.95);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-drop-guided__step--registro .aluno-drop-guided__content{width:100%;min-width:0;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-drop-guided__step--registro .aluno-serie-row--drop-reg{margin:6px 0 0;padding:0;background:transparent;width:100%;max-width:100%;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-drop-reg-fields--guided{margin:0;padding:0;width:100%;max-width:100%;box-sizing:border-box;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-drop-reg-grid{
+  display:grid;grid-template-columns:minmax(72px,1fr) minmax(72px,1fr) 40px;grid-template-rows:auto auto;
+  gap:4px 10px;align-items:end;width:100%;max-width:268px;box-sizing:border-box;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-drop-reg-cell{
+  display:flex;flex-direction:column;align-items:stretch;gap:4px;min-width:0;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-drop-reg-cell--chk{
+  display:flex;align-items:flex-end;justify-content:center;padding-bottom:0;grid-row:1;grid-column:3;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-drop-reg-lbl{
+  font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(151,196,89,.78);line-height:1.2;text-align:center;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-inp-cell--drop-reg{
+  width:100%;height:40px;min-height:40px;max-height:40px;display:flex;align-items:center;justify-content:center;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-inp-cell--drop-reg .aluno-serie-inp{
+  width:100%;height:40px;min-height:40px;max-height:40px;margin:0;padding:4px 6px;text-align:center;font-size:20px;
+  color:#d4e8b8;border:1px solid rgba(151,196,89,.28);background:rgba(151,196,89,.06);border-radius:8px;box-sizing:border-box;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-inp-cell--drop-reg .aluno-serie-inp:focus{
+  border-color:rgba(151,196,89,.52);background:rgba(151,196,89,.1);box-shadow:0 0 0 2px rgba(151,196,89,.12);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-drop-reg-sug{
+  grid-column:1;grid-row:2;margin:0;padding:0;min-height:0;
+  font-size:10px;line-height:1.3;color:rgba(151,196,89,.68);text-align:left;font-family:inherit;font-weight:500;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-drop-reg-sug:empty{display:none;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-drop-reg-check{
+  width:40px;height:40px;min-width:40px;min-height:40px;margin:0;padding:0;
+  border-color:rgba(151,196,89,.35);background:rgba(151,196,89,.08);color:rgba(200,230,160,.95);border-radius:8px;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-drop-reg-check.aluno-serie-check--done{
+  background:rgba(151,196,89,.22);border-color:rgba(151,196,89,.55);color:#e8ffd0;
+}
+/* Rest-pause — passos em cards (mesmo padrão back-off / drop) */
+.aluno-rp-guided{margin:12px 0 16px;max-width:100%;box-sizing:border-box;}
+.aluno-rp-guided__title{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--rp-color,#AFA9EC);margin:0 0 10px;padding:0 2px;}
+.aluno-rp-guided__steps{display:flex;flex-direction:column;gap:10px;}
+.aluno-rp-guided__step{display:flex;gap:12px;align-items:flex-start;padding:14px 14px;border-radius:13px;border:1px solid rgba(175,169,236,.36);background:linear-gradient(165deg,rgba(175,169,236,.14) 0%,rgba(22,20,32,.95) 48%);box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 2px 12px rgba(0,0,0,.22);}
+.aluno-rp-guided__num{flex:0 0 auto;font-size:18px;line-height:1.25;color:var(--rp-color,#AFA9EC);font-weight:700;}
+.aluno-rp-guided__content{flex:1;min-width:0;}
+.aluno-rp-guided__tit{font-size:14px;font-weight:600;color:var(--text);line-height:1.35;margin:0 0 6px;}
+.aluno-rp-guided__body{font-size:12px;line-height:1.5;color:var(--text2);margin:0;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-rp-guided{
+  margin:0;padding:12px 12px 10px;box-sizing:border-box;
+  border-color:rgba(175,169,236,.32);background:rgba(22,20,34,.95);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-rp-guided__step--registro .aluno-rp-guided__content{width:100%;min-width:0;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-rp-guided__step--registro .aluno-serie-row--rp-reg{margin:6px 0 0;padding:0;background:transparent;width:100%;max-width:100%;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-rp-reg-fields--guided{margin:0;padding:0;width:100%;max-width:100%;box-sizing:border-box;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-rp-reg-grid{
+  display:grid;grid-template-columns:minmax(72px,1fr) minmax(72px,1fr) 40px;grid-template-rows:auto;
+  gap:4px 10px;align-items:end;width:100%;max-width:268px;box-sizing:border-box;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-rp-reg-cell{
+  display:flex;flex-direction:column;align-items:stretch;gap:4px;min-width:0;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-rp-reg-cell--chk{
+  display:flex;align-items:flex-end;justify-content:center;padding-bottom:0;grid-row:1;grid-column:3;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-rp-reg-lbl{
+  font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(175,169,236,.78);line-height:1.2;text-align:center;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-inp-cell--rp-reg{
+  width:100%;height:40px;min-height:40px;max-height:40px;display:flex;align-items:center;justify-content:center;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-inp-cell--rp-reg .aluno-serie-inp{
+  width:100%;height:40px;min-height:40px;max-height:40px;margin:0;padding:4px 6px;text-align:center;font-size:20px;
+  color:#d8d4f8;border:1px solid rgba(175,169,236,.28);background:rgba(175,169,236,.06);border-radius:8px;box-sizing:border-box;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-inp-cell--rp-reg .aluno-serie-inp:focus{
+  border-color:rgba(175,169,236,.52);background:rgba(175,169,236,.1);box-shadow:0 0 0 2px rgba(175,169,236,.12);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-rp-reg-check{
+  width:40px;height:40px;min-width:40px;min-height:40px;margin:0;padding:0;
+  border-color:rgba(175,169,236,.35);background:rgba(175,169,236,.08);color:rgba(220,214,248,.95);border-radius:8px;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-rp-reg-check.aluno-serie-check--done{
+  background:rgba(175,169,236,.22);border-color:rgba(175,169,236,.55);color:#eee8ff;
+}
 /* Etapa 1A–1C — tabela contínua de séries */
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1]{border:1px solid rgba(255,255,255,.09);border-radius:var(--rsm);overflow:hidden;background:rgba(0,0,0,.12);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap.bcard-v2{margin:0;padding:0;background:transparent;border:none;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap .bloco-aluno-inputs{margin:0;padding:0;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap+.bloco-aluno-wrap .aluno-tecnica-sec{border-top:1px solid rgba(255,255,255,.07);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1][data-aluno-sec-v1]{border:none;border-radius:0;background:transparent;overflow:visible;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1]:not([data-aluno-sec-v1]){border:1px solid rgba(255,255,255,.09);border-radius:var(--rsm);overflow:hidden;background:rgba(0,0,0,.12);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap.bcard-v2{margin:0;padding:0;background:transparent;border:none;box-shadow:none;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap .bloco-aluno-inputs{margin:0;padding:0;background:transparent;border:none;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-head{
   display:flex;align-items:flex-start;gap:10px;padding:10px 10px 6px;font-size:11px;line-height:1.35;color:rgba(255,255,255,.45);
 }
@@ -1497,8 +1666,8 @@ html.debug-editor #screen-editor .prof-bloco-editor--v1 .prof-meta-gerada{
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-rows-wrap,
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .bloco-aluno-inputs{width:100%;max-width:100%;min-width:0;box-sizing:border-box;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head,
-  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head--sec:not(.aluno-serie-cols-head--cluster-id),
-  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main:not(.aluno-serie-row-main--cluster-id){grid-template-columns:minmax(0,1fr) minmax(52px,1.1fr) minmax(52px,1.1fr) 44px;gap:6px 4px;width:100%;max-width:100%;box-sizing:border-box;}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head--sec:not(.aluno-serie-cols-head--cluster-id):not(.aluno-serie-cols-head--backoff-reg),
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main:not(.aluno-serie-row-main--cluster-id):not(.aluno-serie-row-main--backoff-reg){grid-template-columns:minmax(0,1fr) minmax(52px,1.1fr) minmax(52px,1.1fr) 44px;gap:6px 4px;width:100%;max-width:100%;box-sizing:border-box;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head--sec.aluno-serie-cols-head--cluster-id,
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main--cluster-id{grid-template-columns:minmax(58px,0.55fr) minmax(0,1fr) minmax(52px,1.1fr) minmax(52px,1.1fr) 44px;gap:6px 4px;width:100%;max-width:100%;box-sizing:border-box;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-body .aluno-serie-cols-head--sec{padding:5px 6px 4px;font-size:9px;color:rgba(255,255,255,.68);}
@@ -2025,6 +2194,29 @@ const ytEmbed=url=>{const id=ytVideoId(url);return id?'https://www.youtube.com/e
 const ytWatchUrl=id=>'https://www.youtube.com/watch?v='+id;
 const ytThumbUrl=id=>'https://img.youtube.com/vi/'+id+'/mqdefault.jpg';
 const ytShortLabel=(url,id)=>id?'youtu.be/'+id:(String(url||'').length>40?String(url).slice(0,36)+'\u2026':String(url||'').trim());
+/** Meta avançada Back-off (ex.: 1x7 -20% 30s +4/5) sem palavra "back-off". */
+function metaLooksLikeBackoffAdv(meta){
+  const m=(meta||'').toLowerCase();
+  if(/back.?off/.test(m))return true;
+  if(/drop\s*set|dropset/i.test(m))return false;
+  if(/\+99|rest.?pause/i.test(m))return false;
+  if(/cluster|\d+\+\d+/.test(m))return false;
+  return /-\s*\d+\s*%/.test(meta||'')&&/\d+\s*s\b/i.test(meta||'')&&/\+\s*\d+/.test(meta||'');
+}
+/** Meta avançada Drop set (ex.: 1x10 -25% 5s +6/8) sem palavra "drop". */
+function metaLooksLikeDropAdv(meta){
+  const m=(meta||'').toLowerCase();
+  if(/drop\s*set|dropset/.test(m))return true;
+  if(/back.?off|backoff/.test(m))return false;
+  if(/\+99|rest.?pause/i.test(m))return false;
+  if(/cluster|\d+\+\d+/.test(m))return false;
+  if(!/-\s*\d+\s*%/.test(meta||''))return false;
+  if(!/\+\s*\d+/.test(meta||''))return false;
+  const tok=extractTokens(meta);
+  if(tok.restSec!=null&&tok.restSec>15)return false;
+  return true;
+}
+
 // Interpreta a prescrição do professor e retorna estrutura interna
 function interpretarPrescricao(meta){
   if(!meta) return {tipo:'normal',series:2,blocos:null,label:'',linhas:null,modoLinhas:false};
@@ -2032,7 +2224,8 @@ function interpretarPrescricao(meta){
   let tipo='normal';
   if(/\+99/.test(m)) tipo='rest-pause';
   else if(/cluster|\d+\+\d+/.test(m)) tipo='cluster';
-  else if(/back.?off/.test(m)) tipo='back-off';
+  else if(/drop\s*set|dropset/i.test(m)||metaLooksLikeDropAdv(meta)) tipo='drop-set';
+  else if(/back.?off/.test(m)||metaLooksLikeBackoffAdv(meta)) tipo='back-off';
   else if(/drop/.test(m)) tipo='drop-set';
   const nMatch=meta.match(/(\d+)\s*[xX×]/);
   const nSeries=nMatch?Math.min(parseInt(nMatch[1]),6):1;
@@ -2064,6 +2257,20 @@ function interpretarPrescricao(meta){
       out.modoLinhas=true;
       out.series=linhas.length;
     }
+  }
+  if(out.tipo==='back-off'){
+    const tok=extractTokens(meta);
+    const nMain=Math.max(1,Math.min(tok.series||nSeries,6));
+    if(metaLooksLikeBackoffAdv(meta)||tok.dropPct!=null||tok.restSec!=null||tok.contStr)
+      out.series=nMain+1;
+    else out.series=Math.max(2,nSeries);
+  }
+  if(out.tipo==='drop-set'){
+    const tok=extractTokens(meta);
+    const nMain=Math.max(1,Math.min(tok.series||nSeries,6));
+    if(metaLooksLikeDropAdv(meta)||tok.dropPct!=null||tok.restSec!=null||tok.contStr)
+      out.series=nMain+1;
+    else out.series=Math.max(2,nSeries);
   }
   return out;
 }
@@ -3234,6 +3441,18 @@ function alunoBuildLinhaNumeracaoMap(blocos){
         serie[bi+'|'+s]=String(n);
         n++;
       }
+    }else if(t==='back-off'||t==='drop-set'||t==='drop'){
+      const nSer=Math.max(2,presc.series||parseSeries(b.meta||'')||2);
+      for(let s=0;s<nSer;s++){
+        serie[bi+'|'+s]=String(n);
+        n++;
+      }
+    }else if(t==='rest-pause'){
+      const nSer=Math.max(1,presc.series||parseSeries(b.meta||'')||1);
+      for(let s=0;s<nSer;s++){
+        serie[bi+'|'+s]=String(n);
+        n++;
+      }
     }
   });
   return{serie,cluster};
@@ -3352,6 +3571,16 @@ function alunoAppendSecMiniHead(wrap,isCluster){
   wrap.insertBefore(alunoCreateSecColsHeadEl(!!isCluster),wrap.firstChild);
 }
 
+/** Cabeçalho KG/REPS — bloco final de registro do Back-off (sem prescrição). */
+function alunoAppendBackoffRegHead(wrap){
+  if(!wrap||wrap.querySelector('.aluno-serie-cols-head--backoff-reg'))return;
+  const head=document.createElement('div');
+  head.className='aluno-serie-cols-head aluno-serie-cols-head--sec aluno-serie-cols-head--backoff-reg';
+  head.setAttribute('aria-hidden','true');
+  head.innerHTML='<span>KG</span><span>REPS</span><span></span>';
+  wrap.insertBefore(head,wrap.firstChild);
+}
+
 function alunoAppendSerieTableHead(wrap){
   const useSec=alunoUsaSecLayoutV1()||(wrap&&wrap.dataset&&wrap.dataset.alunoSecV1==='1');
   if(useSec&&wrap&&wrap.id==='series-inputs'){
@@ -3372,7 +3601,9 @@ function alunoUsaSecLayoutV1(){
 }
 
 function alunoSecaoKind(b){
-  const t=alunoTecnicaParaTranslator(b);
+  const bl=b&&typeof b==='object'?b:{};
+  if(bl._alunoSecRelief)return'back-off';
+  const t=alunoTecnicaParaTranslator(bl);
   if(t==='feeder')return'feeder';
   if(t==='cluster')return'cluster';
   return'work';
@@ -3382,6 +3613,7 @@ function alunoSecaoTituloLabel(b){
   const k=alunoSecaoKind(b);
   if(k==='feeder')return'AQUECIMENTO';
   if(k==='cluster')return'CLUSTER SET';
+  if(k==='back-off')return'BACK-OFF';
   return'S\xC9RIE PESADA';
 }
 
@@ -3505,31 +3737,9 @@ function alunoDicaTecnicaTexto(b){
     else if(tok.clusterRest){const m=String(tok.clusterRest).match(/(\d+)/);if(m)restSec=+m[1];}
     return'Fa\xE7a '+nBl+' bloco'+(nBl>1?'s':'')+' de '+reps+' repeti\xE7\xF5es com o mesmo peso. Descanse '+restSec+' segundos entre cada bloco.';
   }
-  if(tec==='back-off'){
-    const tok=extractTokens(meta);
-    const ser=tok.series||presc.series||1;
-    const reps=tok.repsStr||(tok.repsMin!=null?String(tok.repsMin):'8');
-    const pct=tok.dropPct||20;
-    const rest=tok.restSec||30;
-    const extra=tok.contStr||(tok.contMin!=null?String(tok.contMin):'4');
-    return'Fa\xE7a a s\xE9rie principal'+(ser>1?' ('+ser+' s\xE9ries)':'')+' de ~'+reps+' reps, reduza cerca de '+pct+'% da carga, descanse '+rest+' segundos e continue com carga menor por cerca de '+extra+' reps finais.';
-  }
-  if(tec==='drop'||tec==='drop-set'){
-    const tok=extractTokens(meta);
-    const reps=tok.repsStr||(tok.repsMin!=null?String(tok.repsMin):'10');
-    const pct=tok.dropPct||25;
-    const pause=tok.restSec||5;
-    const extra=tok.contStr||(tok.contMin!=null?String(tok.contMin):'6');
-    return'Fa\xE7a a s\xE9rie principal de ~'+reps+' reps, reduza cerca de '+pct+'% da carga imediatamente, descanse no m\xE1ximo '+pause+' segundos e continue at\xE9 falhar novamente (cerca de '+extra+' reps finais).';
-  }
-  if(tec==='rest-pause'){
-    const tok=extractTokens(meta);
-    const ser=tok.series||presc.series||1;
-    const reps=tok.repsStr||(tok.repsMin!=null?String(tok.repsMin):'8');
-    const rest=tok.restSec||15;
-    const extra=tok.contStr||(tok.contMin!=null?String(tok.contMin):'3');
-    return'Fa\xE7a a s\xE9rie principal'+(ser>1?' ('+ser+' s\xE9ries)':'')+' de ~'+reps+' reps, descanse '+rest+' segundos e continue com o mesmo peso at\xE9 completar cerca de '+extra+' reps finais.';
-  }
+  if(tec==='back-off')return'';
+  if(tec==='drop'||tec==='drop-set')return'';
+  if(tec==='rest-pause')return'';
   if((tec==='feeder'||tec==='work')&&presc.modoLinhas&&presc.linhas&&presc.linhas.length>=2){
     const progTxt=alunoDicaTextoProgressao(presc,tec);
     if(progTxt)return progTxt;
@@ -3913,6 +4123,9 @@ function alunoExecUpdateLastRef(ult){
 function alunoMetaDiscretaText(meta){
   const m=((meta||'')+'').trim();
   if(!m)return'';
+  if(/back.?off/i.test(m)||metaLooksLikeBackoffAdv(m))return'';
+  if(/drop\s*set|dropset/i.test(m)||metaLooksLikeDropAdv(m))return'';
+  if(/\+99|rest.?pause/i.test(m))return'';
   return m.replace(/\s*\(\s*/g,' \xB7 ').replace(/\)\s*/g,'').replace(/\s+/g,' ').trim();
 }
 
@@ -4372,7 +4585,7 @@ function renderBlocoAlunoInputsInner(inner,ex,b,bi,nBl,skipInteractive){
   const copyBloco=alunoCopyBloco(b,{blocoIndex:bi,totalBlocos:nBl});
   const idPrefix=nBl>1&&bi>0?'b'+bi+'_':'';
   const presc=interpretarPrescricao(b.meta||'');
-  const tecnica=b.tecnica||presc.tipo;
+  const tecnica=alunoTecnicaParaTranslator(b);
   const nSeries=presc.modoLinhas&&presc.linhas&&presc.linhas.length
     ?presc.linhas.length
     :(presc.series||parseSeries(b.meta||'')||1);
@@ -4397,9 +4610,16 @@ function renderBlocoAlunoInputsInner(inner,ex,b,bi,nBl,skipInteractive){
     const blC=presc.blocos||[4,4,4];
     renderCluster(inner, blC, timer, Object.assign({},ro,{alunoTitulo:copyBloco.tituloAluno,alunoSub:copyBloco.subtitulo}));
   }else if(tecnica==='rest-pause'){
-    renderRestPause(inner, nSeries, timer, ro);
+    if(execSimple)renderAlunoRestPauseExecSimple(inner,ex,b,bi,nSeries,timer,ro);
+    else renderRestPause(inner,nSeries,timer,ro);
   }else if(tecnica==='back-off'){
-    renderBackOff(inner, nSeries, timer, Object.assign({},ro,{backOffCardTitulo:copyBloco.tituloAluno}));
+    const nBo=Math.max(2,presc.series||parseSeries(b.meta||'')||2);
+    if(execSimple)renderAlunoBackoffExecSimple(inner,ex,b,bi,nBo,timer,ro);
+    else renderBackOff(inner,nBo,timer,Object.assign({},ro,{backOffCardTitulo:copyBloco.tituloAluno}));
+  }else if(tecnica==='drop'||tecnica==='drop-set'){
+    const nDrop=Math.max(2,presc.series||parseSeries(b.meta||'')||2);
+    if(execSimple)renderAlunoDropExecSimple(inner,ex,b,bi,nDrop,timer,ro);
+    else renderDrop(inner,nDrop,timer,Object.assign({},ro,{dropCardTitulo:copyBloco.tituloAluno}));
   }else{
     renderNormal(inner, nSeries, timer, tecnica, ro);
   }
@@ -4916,6 +5136,164 @@ function renderCluster(container, blocos, timerSeg, opts){
   }
 }
 
+function alunoParseRestPauseGuided(meta){
+  const tok=extractTokens(meta||'');
+  const cont=tok.contStr?String(tok.contStr).split('/'):null;
+  return{
+    restSec:tok.restSec!=null?tok.restSec:null,
+    repsMin:cont&&cont[0]?String(cont[0]).trim():tok.contMin!=null?String(tok.contMin):null,
+    repsMax:cont&&cont[1]?String(cont[1]).trim():null,
+    mainSeries:tok.series||1
+  };
+}
+
+function alunoRestPauseGuidedSteps(cfg){
+  const c=cfg||{};
+  const steps=[];
+  const pause=c.restSec!=null?c.restSec:15;
+  steps.push({title:'Descanse '+pause+' segundos',body:'Recupere parcialmente antes de continuar.'});
+  steps.push({title:'Continue com o mesmo peso',body:'N\xE3o altere a carga utilizada.'});
+  if(c.repsMin!=null||c.repsMax!=null){
+    const min=c.repsMin||c.repsMax;
+    const max=c.repsMax||c.repsMin;
+    const range=(min&&max&&min!==max)?min+'\u2013'+max:(min||max);
+    steps.push({title:'V\xE1 at\xE9 a falha',body:'Tente realizar aproximadamente '+range+' repeti\xE7\xF5es extras.'});
+  }else{
+    steps.push({title:'V\xE1 at\xE9 a falha',body:'Continue com o mesmo peso at\xE9 n\xE3o conseguir mais repeti\xE7\xF5es com boa forma.'});
+  }
+  steps.push({title:'Registre as repeti\xE7\xF5es finais',body:'registro'});
+  return steps;
+}
+
+window.alunoRpSyncKgDisp=function(pref,s){
+  const P=pref!=null?String(pref):'';
+  const idx=s!=null?s:0;
+  const v=$(P+'p'+idx)?.value||'';
+  const d=$(P+'p_rp_disp_'+idx);
+  if(d)d.value=v;
+};
+
+window.alunoRpSyncKgFromDisp=function(pref,s,val,pq,mjs){
+  const P=pref!=null?String(pref):'';
+  const idx=s!=null?s:0;
+  const inp=$(P+'p'+idx);
+  if(inp)inp.value=val!=null?String(val):'';
+  if(typeof replicarPeso==='function')replicarPeso(idx,val,pq||'',mjs||'');
+  alunoRpSyncKgDisp(P,idx);
+};
+
+function alunoRestPauseGuidedRegistroFieldsHtml(ro){
+  const o=ro||{};
+  const P=o.idPrefix!=null?String(o.idPrefix):'';
+  const s=o.reliefIdx!=null?o.reliefIdx:0;
+  const bi=o.blocoIndex!=null?o.blocoIndex:0;
+  const nSeries=o.nSeries!=null?o.nSeries:1;
+  const timerSeg=o.timerSeg!=null?o.timerSeg:0;
+  const pq=(o.pq||'').replace(/'/g,'\\\'');
+  const mjs=o.mjs||'';
+  const sk=!!o.skipInteractive;
+  const syncMain=!sk?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\');alunoRpSyncKgDisp(\''+pq+'\','+s+')"':'';
+  const syncDisp=!sk?' oninput="alunoRpSyncKgFromDisp(\''+pq+'\','+s+',this.value,\''+pq+'\',\''+mjs+'\')"':'';
+  let dispVal='';
+  if(typeof document!=='undefined'){
+    const pMain=$(P+'p'+s);
+    if(pMain&&pMain.value!=null)dispVal=String(pMain.value);
+  }
+  const chk=sk?'':'<button type="button" class="aluno-serie-check aluno-rp-reg-check" aria-label="Marcar rest-pause" onclick="event.stopPropagation();alunoCheckSerieRow('+bi+',\'rp\','+nSeries+','+timerSeg+',\''+pq+'\')">\u2713</button>';
+  return'<div class="aluno-serie-row aluno-serie-row--rp-reg" id="'+P+'serie-row-rp-'+s+'" data-bi="'+bi+'" data-s="rp" data-rp-idx="'+s+'">'
+    +'<div class="aluno-rp-reg-fields aluno-rp-reg-fields--guided">'
+      +'<div class="aluno-rp-reg-grid">'
+        +'<div class="aluno-rp-reg-cell aluno-rp-reg-cell--kg">'
+          +'<span class="aluno-rp-reg-lbl">KG</span>'
+          +'<div class="aluno-serie-inp-cell aluno-serie-inp-cell--rp-reg"><input id="'+P+'p_rp_disp_'+s+'" type="number" inputmode="decimal" placeholder="kg" class="aluno-serie-inp aluno-serie-inp-kg aluno-serie-inp-kg--rp-reg" value="'+esc(dispVal)+'"'+syncDisp+'></div>'
+        +'</div>'
+        +'<div class="aluno-rp-reg-cell aluno-rp-reg-cell--rep">'
+          +'<span class="aluno-rp-reg-lbl">REPS</span>'
+          +'<div class="aluno-serie-inp-cell aluno-serie-inp-cell--rp-reg"><input id="'+P+'rext'+s+'" type="number" inputmode="numeric" placeholder="0" class="aluno-serie-inp aluno-serie-inp-rep aluno-serie-inp-rep--rp-reg"></div>'
+        +'</div>'
+        +'<div class="aluno-rp-reg-cell aluno-rp-reg-cell--chk">'+chk+'</div>'
+      +'</div>'
+    +'</div></div>';
+}
+
+function alunoRestPauseGuidedPanelHtml(steps,P,regOpts){
+  const nums=['\u2460','\u2461','\u2462','\u2463','\u2464'];
+  let html='<div class="aluno-rp-guided" data-aluno-rp-guide="1">';
+  html+='<div class="aluno-rp-guided__title">REST-PAUSE</div>';
+  html+='<div class="aluno-rp-guided__steps">';
+  (steps||[]).forEach((st,i)=>{
+    const num=nums[i]||String(i+1);
+    let bodyHtml;
+    const isReg=st.body==='registro';
+    if(isReg&&regOpts){
+      bodyHtml=alunoRestPauseGuidedRegistroFieldsHtml(Object.assign({idPrefix:P},regOpts));
+    }else if(!isReg){
+      bodyHtml='<p class="aluno-rp-guided__body">'+esc(st.body)+'</p>';
+    }else{
+      bodyHtml='';
+    }
+    html+='<div class="aluno-rp-guided__step'+(isReg?' aluno-rp-guided__step--registro':'')+'"><span class="aluno-rp-guided__num" aria-hidden="true">'+num+'</span><div class="aluno-rp-guided__content"><p class="aluno-rp-guided__tit">'+esc(st.title)+'</p>'+bodyHtml+'</div></div>';
+  });
+  return html+'</div></div>';
+}
+
+function renderAlunoRestPauseExecSimple(container,ex,b,bi,nSeries,timerSeg,opts){
+  opts=opts||{};
+  const P=opts.idPrefix||'';
+  const sk=!!opts.skipInteractive;
+  const pq=P.replace(/'/g,'\\\'');
+  const mjs=escJs(opts.blocoMeta||b.meta||'');
+  const meta=b.meta||'';
+  const cfg=alunoParseRestPauseGuided(meta);
+  const steps=alunoRestPauseGuidedSteps(cfg);
+  const nMain=Math.max(1,nSeries);
+  const reliefIdx=Math.max(0,nMain-1);
+  const restAfterMain=cfg.restSec!=null?cfg.restSec:timerSeg;
+  const buildMainRow=(target,s)=>{
+    const row=document.createElement('div');
+    row.className='aluno-serie-row';
+    row.id=P+'serie-row-'+s;
+    row.dataset.bi=String(bi);
+    row.dataset.s=String(s);
+    const inpP=!sk?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\');alunoRpSyncKgDisp(\''+pq+'\','+s+')"':'';
+    const prescCol=alunoPrescricaoColHtml(b,null,null,null);
+    const kgCell=alunoInpCellKgHtml(P,s,bi,sk,inpP,null);
+    const repCell=alunoInpCellRepHtml(P,P+'r'+s,bi,s,sk,'0',null);
+    const timerArg=s===reliefIdx?restAfterMain:timerSeg;
+    row.innerHTML='<div class="aluno-serie-row-main">'
+      +alunoSerieColHtml(b,s,sk,false,null,bi,null)
+      +prescCol
+      +kgCell
+      +repCell
+      +(sk?'':'<button type="button" class="aluno-serie-check" aria-label="Marcar s\xE9rie" onclick="event.stopPropagation();alunoCheckSerieRow('+bi+','+s+','+nSeries+','+timerArg+',\''+pq+'\')">\u2713</button>')
+      +'</div>';
+    target.appendChild(row);
+  };
+  const buildMain=body=>{
+    const wrap=document.createElement('div');
+    wrap.className='aluno-serie-rows-wrap';
+    wrap.dataset.blocoIndex=String(bi);
+    alunoAppendSecMiniHead(wrap,false);
+    for(let s=0;s<nMain;s++)buildMainRow(wrap,s);
+    body.appendChild(wrap);
+  };
+  const bMain=Object.assign({},b,{tecnica:'work'});
+  alunoWrapTecnicaSec(container,bMain,buildMain);
+  const guide=document.createElement('div');
+  guide.innerHTML=alunoRestPauseGuidedPanelHtml(steps,P,{
+    reliefIdx,blocoIndex:bi,nSeries,timerSeg:restAfterMain,pq,mjs,sk
+  });
+  container.appendChild(guide.firstElementChild);
+  if(!sk){
+    const timerEl=document.createElement('div');
+    timerEl.id=P+'timer-descanso';
+    timerEl.style.cssText='display:none;';
+    timerEl.innerHTML='<div id="'+P+'timer-val"></div><div id="'+P+'timer-prox"></div>';
+    container.insertBefore(timerEl,container.firstChild);
+    setTimeout(()=>alunoRpSyncKgDisp(P,reliefIdx),0);
+  }
+}
+
 // Rest-pause: série principal + timer + reps extras na mesma carga
 function renderRestPause(container, nSeries, timerSeg, opts){
   opts=opts||{};
@@ -4953,6 +5331,478 @@ function renderRestPause(container, nSeries, timerSeg, opts){
   }
 }
 
+function alunoParseBackoffGuided(meta){
+  const tok=extractTokens(meta||'');
+  const cont=tok.contStr?String(tok.contStr).split('/'):null;
+  return{
+    dropPct:tok.dropPct!=null?tok.dropPct:null,
+    restSec:tok.restSec!=null?tok.restSec:null,
+    repsMin:cont&&cont[0]?String(cont[0]).trim():tok.contMin!=null?String(tok.contMin):null,
+    repsMax:cont&&cont[1]?String(cont[1]).trim():null,
+    mainSeries:tok.series||1
+  };
+}
+
+function alunoBackoffGuidedSteps(cfg){
+  const c=cfg||{};
+  const steps=[];
+  if(c.dropPct!=null){
+    steps.push({title:'Reduza a carga em '+c.dropPct+'%',body:'kg-hint'});
+  }
+  if(c.restSec!=null){
+    steps.push({title:'Descanse '+c.restSec+' segundos',body:'Recupere parcialmente antes de continuar'});
+  }
+  if(c.repsMin!=null||c.repsMax!=null){
+    const min=c.repsMin||c.repsMax;
+    const max=c.repsMax||c.repsMin;
+    const range=(min&&max&&min!==max)?min+'\u2013'+max:(min||max);
+    steps.push({title:'Continue at\xE9 a falha',body:'Tente realizar aproximadamente '+range+' repeti\xE7\xF5es'});
+  }
+  steps.push({title:'Registre as repeti\xE7\xF5es finais',body:'registro'});
+  return steps;
+}
+
+function alunoBackoffGuidedRegistroFieldsHtml(ro){
+  const o=ro||{};
+  const P=o.idPrefix!=null?String(o.idPrefix):'';
+  const s=o.reliefIdx!=null?o.reliefIdx:1;
+  const bi=o.blocoIndex!=null?o.blocoIndex:0;
+  const nSeries=o.nSeries!=null?o.nSeries:2;
+  const timerSeg=o.timerSeg!=null?o.timerSeg:0;
+  const pq=(o.pq||'').replace(/'/g,'\\\'');
+  const mjs=o.mjs||'';
+  const sk=!!o.skipInteractive;
+  const inpP=!sk?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\')"':'';
+  const sugInit=alunoBackoffSugestaoKg(P,o.meta||'');
+  const sugTxt=sugInit!=null?'Peso sugerido: '+esc(alunoBackoffFmtKg(sugInit)+' kg'):'';
+  const chk=sk?'':'<button type="button" class="aluno-serie-check aluno-backoff-reg-check" aria-label="Marcar s\xE9rie de al\xEDvio" onclick="event.stopPropagation();alunoCheckSerieRow('+bi+','+s+','+nSeries+','+timerSeg+',\''+pq+'\')">\u2713</button>';
+  return'<div class="aluno-serie-row aluno-serie-row--backoff-reg" id="'+P+'serie-row-'+s+'" data-bi="'+bi+'" data-s="'+s+'">'
+    +'<div class="aluno-backoff-reg-fields aluno-backoff-reg-fields--guided">'
+      +'<div class="aluno-backoff-reg-grid">'
+        +'<div class="aluno-backoff-reg-cell aluno-backoff-reg-cell--kg">'
+          +'<span class="aluno-backoff-reg-lbl">KG</span>'
+          +'<div class="aluno-serie-inp-cell aluno-serie-inp-cell--backoff-reg"><input id="'+P+'p'+s+'" type="number" inputmode="decimal" placeholder="kg" class="aluno-serie-inp aluno-serie-inp-kg aluno-serie-inp-kg--backoff-reg"'+inpP+'></div>'
+        +'</div>'
+        +'<div class="aluno-backoff-reg-cell aluno-backoff-reg-cell--rep">'
+          +'<span class="aluno-backoff-reg-lbl">REPS</span>'
+          +'<div class="aluno-serie-inp-cell aluno-serie-inp-cell--backoff-reg"><input id="'+P+'r'+s+'" type="number" inputmode="numeric" placeholder="0" class="aluno-serie-inp aluno-serie-inp-rep aluno-serie-inp-rep--backoff-reg"></div>'
+        +'</div>'
+        +'<div class="aluno-backoff-reg-cell aluno-backoff-reg-cell--chk">'+chk+'</div>'
+        +'<span class="aluno-backoff-reg-sug" id="'+P+'backoff-reg-sug">'+sugTxt+'</span>'
+      +'</div>'
+    +'</div></div>';
+}
+
+function alunoBackoffGuidedPanelHtml(steps,cfg,P,regOpts){
+  const nums=['\u2460','\u2461','\u2462','\u2463','\u2464'];
+  let html='<div class="aluno-backoff-guided" data-aluno-backoff-guide="1">';
+  html+='<div class="aluno-backoff-guided__title">BACK-OFF</div>';
+  html+='<div class="aluno-backoff-guided__steps">';
+  (steps||[]).forEach((st,i)=>{
+    const num=nums[i]||String(i+1);
+    let bodyHtml;
+    const isReg=st.body==='registro';
+    if(st.body==='kg-hint'){
+      bodyHtml='<p class="aluno-backoff-guided__body" id="'+P+'backoff-kg-hint">Use o peso da s\xE9rie principal e reduza conforme o passo acima.</p>';
+    }else if(isReg&&regOpts){
+      bodyHtml=alunoBackoffGuidedRegistroFieldsHtml(Object.assign({idPrefix:P},regOpts));
+    }else if(!isReg){
+      bodyHtml='<p class="aluno-backoff-guided__body">'+esc(st.body)+'</p>';
+    }else{
+      bodyHtml='';
+    }
+    html+='<div class="aluno-backoff-guided__step'+(isReg?' aluno-backoff-guided__step--registro':'')+'"><span class="aluno-backoff-guided__num" aria-hidden="true">'+num+'</span><div class="aluno-backoff-guided__content"><p class="aluno-backoff-guided__tit">'+esc(st.title)+'</p>'+bodyHtml+'</div></div>';
+  });
+  return html+'</div></div>';
+}
+
+/** Carga sugerida do back-off a partir da última série pesada (não preenche o input). */
+function alunoBackoffSugestaoKg(pref,meta){
+  const P=pref!=null?String(pref):'';
+  let metaStr=meta!=null&&String(meta).trim()?String(meta):'';
+  if(!metaStr){
+    const active=typeof document!=='undefined'&&document.activeElement;
+    const root=active&&active.closest&&active.closest('.bloco-aluno-inputs');
+    if(root&&root.dataset&&root.dataset.blocoMeta!=null)metaStr=String(root.dataset.blocoMeta||'');
+  }
+  const tok=extractTokens(metaStr);
+  const pct=tok.dropPct!=null?tok.dropPct:null;
+  if(pct==null)return null;
+  const presc=interpretarPrescricao(metaStr);
+  const nSeries=Math.max(2,presc.series||parseSeries(metaStr)||2);
+  const nMain=Math.max(1,nSeries-1);
+  const pMain=parseFloat($(P+'p'+(nMain-1))?.value||0);
+  if(!(pMain>0))return null;
+  return Math.round(pMain*(1-pct/100)*2)/2;
+}
+
+function alunoBackoffFmtKg(n){
+  if(n==null||isNaN(+n))return'';
+  return String(n).replace(/\.0+$/,'');
+}
+
+window.alunoBackoffUpdateRegSugestao=function(pref,meta){
+  const P=pref!=null?String(pref):'';
+  let metaStr=meta!=null&&String(meta).trim()?String(meta):'';
+  if(!metaStr){
+    const active=document.activeElement;
+    const root=active&&active.closest&&active.closest('.bloco-aluno-inputs');
+    if(root&&root.dataset&&root.dataset.blocoMeta!=null)metaStr=String(root.dataset.blocoMeta||'');
+  }
+  const presc=interpretarPrescricao(metaStr);
+  const nSeries=Math.max(2,presc.series||parseSeries(metaStr)||2);
+  const reliefIdx=Math.max(1,nSeries-1);
+  const inp=$(P+'p'+reliefIdx);
+  const sugEl=$(P+'backoff-reg-sug');
+  const sugestao=alunoBackoffSugestaoKg(P,metaStr);
+  if(inp){
+    inp.placeholder='kg';
+    if(sugestao!=null){
+      const lbl=alunoBackoffFmtKg(sugestao)+' kg';
+      inp.setAttribute('aria-label','Peso em kg. Peso sugerido: '+lbl);
+    }else{
+      inp.setAttribute('aria-label','Peso em kg');
+    }
+  }
+  if(sugEl){
+    if(sugestao!=null)sugEl.textContent='Peso sugerido: '+alunoBackoffFmtKg(sugestao)+' kg';
+    else sugEl.textContent='';
+  }
+};
+
+window.alunoBackoffUpdateKgHint=function(pref,dropPct){
+  const P=pref!=null?String(pref):'';
+  const el=$(P+'backoff-kg-hint');
+  if(!el)return;
+  const p0=parseFloat($(P+'p0')?.value||0);
+  const pct=dropPct!=null&&!isNaN(+dropPct)?+dropPct:null;
+  if(p0>0&&pct!=null){
+    const p1=Math.round(p0*(1-pct/100)*2)/2;
+    const p0s=String(p0).replace(/\.0+$/,'');
+    const p1s=String(p1).replace(/\.0+$/,'');
+    el.textContent='Se estava usando '+p0s+' kg \u2192 utilize '+p1s+' kg';
+  }else if(pct!=null){
+    el.textContent='Use o peso da s\xE9rie principal e reduza em '+pct+'%.';
+  }else{
+    el.textContent='Use o peso da s\xE9rie principal e reduza conforme o passo acima.';
+  }
+};
+
+function renderAlunoBackoffExecSimple(container,ex,b,bi,nSeries,timerSeg,opts){
+  opts=opts||{};
+  const P=opts.idPrefix||'';
+  const sk=!!opts.skipInteractive;
+  const pq=P.replace(/'/g,'\\\'');
+  const mjs=escJs(opts.blocoMeta||b.meta||'');
+  const meta=b.meta||'';
+  const cfg=alunoParseBackoffGuided(meta);
+  const steps=alunoBackoffGuidedSteps(cfg);
+  const nMain=Math.max(1,nSeries-1);
+  const restAfterMain=cfg.restSec!=null?cfg.restSec:timerSeg;
+  const buildMainRow=(target,s)=>{
+    const row=document.createElement('div');
+    row.className='aluno-serie-row';
+    row.id=P+'serie-row-'+s;
+    row.dataset.bi=String(bi);
+    row.dataset.s=String(s);
+    const inpP=!sk?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\');calcBackOff(\''+pq+'\',\''+mjs+'\');alunoBackoffUpdateKgHint(\''+pq+'\','+(cfg.dropPct!=null?cfg.dropPct:'null')+');alunoBackoffUpdateRegSugestao(\''+pq+'\',\''+mjs+'\')"':'';
+    const prescCol=alunoPrescricaoColHtml(b,null,null,null);
+    const kgCell=alunoInpCellKgHtml(P,s,bi,sk,inpP,null);
+    const repCell=alunoInpCellRepHtml(P,P+'r'+s,bi,s,sk,'0',null);
+    const timerArg=s===nMain-1?restAfterMain:timerSeg;
+    row.innerHTML='<div class="aluno-serie-row-main">'
+      +alunoSerieColHtml(b,s,sk,false,null,bi,null)
+      +prescCol
+      +kgCell
+      +repCell
+      +(sk?'':'<button type="button" class="aluno-serie-check" aria-label="Marcar s\xE9rie" onclick="event.stopPropagation();alunoCheckSerieRow('+bi+','+s+','+nSeries+','+timerArg+',\''+pq+'\')">\u2713</button>')
+      +'</div>';
+    target.appendChild(row);
+  };
+  const buildMain=body=>{
+    const wrap=document.createElement('div');
+    wrap.className='aluno-serie-rows-wrap';
+    wrap.dataset.blocoIndex=String(bi);
+    alunoAppendSecMiniHead(wrap,false);
+    for(let s=0;s<nMain;s++)buildMainRow(wrap,s);
+    body.appendChild(wrap);
+  };
+  const bMain=Object.assign({},b,{tecnica:'work'});
+  alunoWrapTecnicaSec(container,bMain,buildMain);
+  const guide=document.createElement('div');
+  guide.innerHTML=alunoBackoffGuidedPanelHtml(steps,cfg,P,{
+    reliefIdx:nMain,blocoIndex:bi,nSeries,timerSeg,pq,mjs,sk,meta
+  });
+  container.appendChild(guide.firstElementChild);
+  if(!sk){
+    const timerEl=document.createElement('div');
+    timerEl.id=P+'timer-descanso';
+    timerEl.style.cssText='display:none;';
+    timerEl.innerHTML='<div id="'+P+'timer-val"></div><div id="'+P+'timer-prox"></div>';
+    container.insertBefore(timerEl,container.firstChild);
+    setTimeout(()=>{
+      if(cfg.dropPct!=null)alunoBackoffUpdateKgHint(P,cfg.dropPct);
+      alunoBackoffUpdateRegSugestao(P,meta);
+    },0);
+  }
+}
+
+function alunoParseDropGuided(meta){
+  return alunoParseBackoffGuided(meta);
+}
+
+function alunoDropGuidedSteps(cfg){
+  const c=cfg||{};
+  const steps=[];
+  if(c.dropPct!=null){
+    steps.push({title:'Reduza a carga em '+c.dropPct+'%',body:'kg-hint'});
+  }
+  const pause=c.restSec!=null?c.restSec:null;
+  steps.push({
+    title:'Continue imediatamente',
+    body:pause!=null?'Sem descanso ou no m\xE1ximo '+pause+' segundos.':'Sem descanso \u2014 siga direto para a pr\xF3xima s\xE9rie.'
+  });
+  if(c.repsMin!=null||c.repsMax!=null){
+    const min=c.repsMin||c.repsMax;
+    const max=c.repsMax||c.repsMin;
+    const range=(min&&max&&min!==max)?min+'\u2013'+max:(min||max);
+    steps.push({title:'V\xE1 at\xE9 a falha novamente',body:'Continue com a carga reduzida (cerca de '+range+' repeti\xE7\xF5es).'});
+  }else{
+    steps.push({title:'V\xE1 at\xE9 a falha novamente',body:'Continue com a carga reduzida at\xE9 n\xE3o conseguir mais uma repeti\xE7\xE3o com boa forma.'});
+  }
+  steps.push({title:'Registre as repeti\xE7\xF5es finais',body:'registro'});
+  return steps;
+}
+
+function alunoDropGuidedRegistroFieldsHtml(ro){
+  const o=ro||{};
+  const P=o.idPrefix!=null?String(o.idPrefix):'';
+  const s=o.reliefIdx!=null?o.reliefIdx:1;
+  const bi=o.blocoIndex!=null?o.blocoIndex:0;
+  const nSeries=o.nSeries!=null?o.nSeries:2;
+  const timerSeg=o.timerSeg!=null?o.timerSeg:0;
+  const pq=(o.pq||'').replace(/'/g,'\\\'');
+  const mjs=o.mjs||'';
+  const sk=!!o.skipInteractive;
+  const inpP=!sk?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\');calcDrop(\''+pq+'\',\''+mjs+'\');alunoDropUpdateKgHint(\''+pq+'\','+(o.dropPct!=null?o.dropPct:'null')+');alunoDropUpdateRegSugestao(\''+pq+'\',\''+mjs+'\')"':'';
+  const sugInit=alunoDropSugestaoKg(P,o.meta||'');
+  const sugTxt=sugInit!=null?'Peso sugerido: '+esc(alunoBackoffFmtKg(sugInit)+' kg'):'';
+  const chk=sk?'':'<button type="button" class="aluno-serie-check aluno-drop-reg-check" aria-label="Marcar drop set" onclick="event.stopPropagation();alunoCheckSerieRow('+bi+','+s+','+nSeries+','+timerSeg+',\''+pq+'\')">\u2713</button>';
+  return'<div class="aluno-serie-row aluno-serie-row--drop-reg" id="'+P+'serie-row-'+s+'" data-bi="'+bi+'" data-s="'+s+'">'
+    +'<div class="aluno-drop-reg-fields aluno-drop-reg-fields--guided">'
+      +'<div class="aluno-drop-reg-grid">'
+        +'<div class="aluno-drop-reg-cell aluno-drop-reg-cell--kg">'
+          +'<span class="aluno-drop-reg-lbl">KG</span>'
+          +'<div class="aluno-serie-inp-cell aluno-serie-inp-cell--drop-reg"><input id="'+P+'p'+s+'" type="number" inputmode="decimal" placeholder="kg" class="aluno-serie-inp aluno-serie-inp-kg aluno-serie-inp-kg--drop-reg"'+inpP+'></div>'
+        +'</div>'
+        +'<div class="aluno-drop-reg-cell aluno-drop-reg-cell--rep">'
+          +'<span class="aluno-drop-reg-lbl">REPS</span>'
+          +'<div class="aluno-serie-inp-cell aluno-serie-inp-cell--drop-reg"><input id="'+P+'r'+s+'" type="number" inputmode="numeric" placeholder="0" class="aluno-serie-inp aluno-serie-inp-rep aluno-serie-inp-rep--drop-reg"></div>'
+        +'</div>'
+        +'<div class="aluno-drop-reg-cell aluno-drop-reg-cell--chk">'+chk+'</div>'
+        +'<span class="aluno-drop-reg-sug" id="'+P+'drop-reg-sug">'+sugTxt+'</span>'
+      +'</div>'
+    +'</div></div>';
+}
+
+function alunoDropGuidedPanelHtml(steps,cfg,P,regOpts){
+  const nums=['\u2460','\u2461','\u2462','\u2463','\u2464'];
+  let html='<div class="aluno-drop-guided" data-aluno-drop-guide="1">';
+  html+='<div class="aluno-drop-guided__title">DROP SET</div>';
+  html+='<div class="aluno-drop-guided__steps">';
+  (steps||[]).forEach((st,i)=>{
+    const num=nums[i]||String(i+1);
+    let bodyHtml;
+    const isReg=st.body==='registro';
+    if(st.body==='kg-hint'){
+      bodyHtml='<p class="aluno-drop-guided__body" id="'+P+'drop-kg-hint">Use o peso da s\xE9rie principal e reduza conforme o passo acima.</p>';
+    }else if(isReg&&regOpts){
+      bodyHtml=alunoDropGuidedRegistroFieldsHtml(Object.assign({idPrefix:P,dropPct:cfg&&cfg.dropPct!=null?cfg.dropPct:null},regOpts));
+    }else if(!isReg){
+      bodyHtml='<p class="aluno-drop-guided__body">'+esc(st.body)+'</p>';
+    }else{
+      bodyHtml='';
+    }
+    html+='<div class="aluno-drop-guided__step'+(isReg?' aluno-drop-guided__step--registro':'')+'"><span class="aluno-drop-guided__num" aria-hidden="true">'+num+'</span><div class="aluno-drop-guided__content"><p class="aluno-drop-guided__tit">'+esc(st.title)+'</p>'+bodyHtml+'</div></div>';
+  });
+  return html+'</div></div>';
+}
+
+function alunoDropSugestaoKg(pref,meta){
+  return alunoBackoffSugestaoKg(pref,meta);
+}
+
+window.alunoDropUpdateRegSugestao=function(pref,meta){
+  const P=pref!=null?String(pref):'';
+  let metaStr=meta!=null&&String(meta).trim()?String(meta):'';
+  if(!metaStr){
+    const active=document.activeElement;
+    const root=active&&active.closest&&active.closest('.bloco-aluno-inputs');
+    if(root&&root.dataset&&root.dataset.blocoMeta!=null)metaStr=String(root.dataset.blocoMeta||'');
+  }
+  const presc=interpretarPrescricao(metaStr);
+  const nSeries=Math.max(2,presc.series||parseSeries(metaStr)||2);
+  const reliefIdx=Math.max(1,nSeries-1);
+  const inp=$(P+'p'+reliefIdx);
+  const sugEl=$(P+'drop-reg-sug');
+  const sugestao=alunoDropSugestaoKg(P,metaStr);
+  if(inp){
+    inp.placeholder='kg';
+    if(sugestao!=null){
+      const lbl=alunoBackoffFmtKg(sugestao)+' kg';
+      inp.setAttribute('aria-label','Peso em kg. Peso sugerido: '+lbl);
+    }else{
+      inp.setAttribute('aria-label','Peso em kg');
+    }
+  }
+  if(sugEl){
+    if(sugestao!=null)sugEl.textContent='Peso sugerido: '+alunoBackoffFmtKg(sugestao)+' kg';
+    else sugEl.textContent='';
+  }
+};
+
+window.alunoDropUpdateKgHint=function(pref,dropPct){
+  const P=pref!=null?String(pref):'';
+  const el=$(P+'drop-kg-hint');
+  if(!el)return;
+  const p0=parseFloat($(P+'p0')?.value||0);
+  const pct=dropPct!=null&&!isNaN(+dropPct)?+dropPct:null;
+  if(p0>0&&pct!=null){
+    const p1=Math.round(p0*(1-pct/100)*2)/2;
+    const p0s=String(p0).replace(/\.0+$/,'');
+    const p1s=String(p1).replace(/\.0+$/,'');
+    el.textContent='Se estava usando '+p0s+' kg \u2192 utilize '+p1s+' kg';
+  }else if(pct!=null){
+    el.textContent='Cerca de '+pct+'% a menos na s\xE9rie seguinte.';
+  }else{
+    el.textContent='Use o peso da s\xE9rie principal e reduza conforme o passo acima.';
+  }
+};
+
+function renderAlunoDropExecSimple(container,ex,b,bi,nSeries,timerSeg,opts){
+  opts=opts||{};
+  const P=opts.idPrefix||'';
+  const sk=!!opts.skipInteractive;
+  const pq=P.replace(/'/g,'\\\'');
+  const mjs=escJs(opts.blocoMeta||b.meta||'');
+  const meta=b.meta||'';
+  const cfg=alunoParseDropGuided(meta);
+  const steps=alunoDropGuidedSteps(cfg);
+  const nMain=Math.max(1,nSeries-1);
+  const restAfterMain=cfg.restSec!=null?cfg.restSec:timerSeg;
+  const buildMainRow=(target,s)=>{
+    const row=document.createElement('div');
+    row.className='aluno-serie-row';
+    row.id=P+'serie-row-'+s;
+    row.dataset.bi=String(bi);
+    row.dataset.s=String(s);
+    const inpP=!sk?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\');calcDrop(\''+pq+'\',\''+mjs+'\');alunoDropUpdateKgHint(\''+pq+'\','+(cfg.dropPct!=null?cfg.dropPct:'null')+');alunoDropUpdateRegSugestao(\''+pq+'\',\''+mjs+'\')"':'';
+    const prescCol=alunoPrescricaoColHtml(b,null,null,null);
+    const kgCell=alunoInpCellKgHtml(P,s,bi,sk,inpP,null);
+    const repCell=alunoInpCellRepHtml(P,P+'r'+s,bi,s,sk,'0',null);
+    const timerArg=s===nMain-1?restAfterMain:timerSeg;
+    row.innerHTML='<div class="aluno-serie-row-main">'
+      +alunoSerieColHtml(b,s,sk,false,null,bi,null)
+      +prescCol
+      +kgCell
+      +repCell
+      +(sk?'':'<button type="button" class="aluno-serie-check" aria-label="Marcar s\xE9rie" onclick="event.stopPropagation();alunoCheckSerieRow('+bi+','+s+','+nSeries+','+timerArg+',\''+pq+'\')">\u2713</button>')
+      +'</div>';
+    target.appendChild(row);
+  };
+  const buildMain=body=>{
+    const wrap=document.createElement('div');
+    wrap.className='aluno-serie-rows-wrap';
+    wrap.dataset.blocoIndex=String(bi);
+    alunoAppendSecMiniHead(wrap,false);
+    for(let s=0;s<nMain;s++)buildMainRow(wrap,s);
+    body.appendChild(wrap);
+  };
+  const bMain=Object.assign({},b,{tecnica:'work'});
+  alunoWrapTecnicaSec(container,bMain,buildMain);
+  const guide=document.createElement('div');
+  guide.innerHTML=alunoDropGuidedPanelHtml(steps,cfg,P,{
+    reliefIdx:nMain,blocoIndex:bi,nSeries,timerSeg,pq,mjs,sk,meta
+  });
+  container.appendChild(guide.firstElementChild);
+  if(!sk){
+    const timerEl=document.createElement('div');
+    timerEl.id=P+'timer-descanso';
+    timerEl.style.cssText='display:none;';
+    timerEl.innerHTML='<div id="'+P+'timer-val"></div><div id="'+P+'timer-prox"></div>';
+    container.insertBefore(timerEl,container.firstChild);
+    setTimeout(()=>{
+      if(cfg.dropPct!=null)alunoDropUpdateKgHint(P,cfg.dropPct);
+      alunoDropUpdateRegSugestao(P,meta);
+    },0);
+  }
+}
+
+// Drop set (legado): série principal + painel guiado + registro final
+function renderDrop(container, nSeries, timerSeg, opts){
+  opts=opts||{};
+  const P=opts.idPrefix||'';
+  const sk=!!opts.skipInteractive;
+  const pq=P.replace(/'/g,'\\\'');
+  const mjs=escJs(opts.blocoMeta||'');
+  const meta=opts.blocoMeta||'';
+  const cfg=alunoParseDropGuided(meta);
+  const steps=alunoDropGuidedSteps(cfg);
+  const restAfterMain=cfg.restSec!=null?cfg.restSec:timerSeg;
+  for(let s=0;s<nSeries;s++){
+    const isDrop=s===nSeries-1;
+    if(isDrop){
+      const g=document.createElement('div');
+      g.innerHTML=alunoDropGuidedPanelHtml(steps,cfg,P);
+      container.appendChild(g.firstElementChild);
+    }
+    const card=document.createElement('div');
+    card.id=P+'serie-card-'+s;
+    card.style.cssText='background:var(--bg2);border:1px solid '+(isDrop?'rgba(151,196,89,.35)':'var(--border)')+';border-radius:var(--rsm);padding:14px;margin-bottom:8px;'+(s===0?'':(!sk?'opacity:0.4;':''));
+    const btnDrop=!isDrop
+      ?(sk?'<div style="font-size:11px;color:var(--text3);text-align:center;padding:6px 0;">Preencha a s\xE9rie principal; siga os passos do drop set em seguida.</div>'
+        :'<button onclick="finalizarSerie('+s+','+nSeries+','+restAfterMain+',\''+pq+'\')" style="width:100%;padding:12px;background:var(--accent);color:#0f0f0f;border:none;border-radius:var(--rsm);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">\u2713 Ir para drop set</button>')
+      :'<div style="font-size:12px;color:var(--text2);text-align:center;padding:4px 0;">\u2190 Salvar</div>';
+    const titDrop=(opts&&opts.dropCardTitulo)?esc(opts.dropCardTitulo):'Drop set';
+    card.innerHTML='<div style="font-size:14px;font-weight:600;color:'+(isDrop?'var(--drop-color,#97C459)':'var(--accent)')+';margin-bottom:'+(isDrop?'4':'12')+'px;">'+(isDrop?titDrop:'S\xE9rie '+(s+1))+'</div>'
+      +(isDrop&&!steps.length?'<div id="'+P+'drop-sugestao" style="font-size:12px;color:var(--text2);margin-bottom:10px;">Sugest\xE3o: \u2014 kg</div>':'')
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">'
+        +'<div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;"><div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.06em;margin-bottom:4px;">PESO (kg)</div><input id="'+P+'p'+s+'" type="number" inputmode="decimal" placeholder="0"'+(!sk?(s===0?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\');calcDrop(\''+pq+'\',\''+mjs+'\');alunoDropUpdateKgHint(\''+pq+'\','+(cfg.dropPct!=null?cfg.dropPct:'null')+')"':' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\')"'):'')+' style="background:none;border:none;color:var(--text);font-family:monospace;font-size:26px;font-weight:600;width:100%;outline:none;"></div>'
+        +'<div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;"><div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.06em;margin-bottom:4px;">REPS</div><input id="'+P+'r'+s+'" type="number" inputmode="numeric" placeholder="0" style="background:none;border:none;color:var(--text);font-family:monospace;font-size:26px;font-weight:600;width:100%;outline:none;"></div>'
+      +'</div>'
+      +btnDrop;
+    container.appendChild(card);
+  }
+  if(!sk){
+    const timerEl=document.createElement('div');
+    timerEl.id=P+'timer-descanso';
+    timerEl.style.cssText='background:var(--bg3);border:1px solid rgba(151,196,89,.25);border-radius:var(--rsm);padding:16px;margin-bottom:8px;text-align:center;display:none;';
+    timerEl.innerHTML='<div style="font-size:11px;color:var(--drop-color,#97C459);letter-spacing:.08em;margin-bottom:6px;">PAUSA DROP</div>'
+      +'<div id="'+P+'timer-val" style="font-size:40px;font-weight:700;color:var(--drop-color,#97C459);font-family:monospace;">'+timerSeg+'s</div>'
+      +'<button onclick="pularTimer()" style="margin-top:10px;padding:8px 20px;background:none;border:1px solid var(--border2);border-radius:20px;color:var(--text2);font-size:12px;cursor:pointer;font-family:inherit;">Pular</button>';
+    container.insertBefore(timerEl, container.firstChild);
+  }
+}
+
+window.calcDrop=(pref,meta)=>{
+  const P=pref!=null&&pref!==undefined?String(pref):'';
+  let metaStr=meta!=null&&meta!==undefined&&String(meta).trim().length?String(meta):'';
+  if(!metaStr){
+    const active=typeof document!=='undefined'&&document.activeElement;
+    const root=active&&active.closest&&active.closest('.bloco-aluno-inputs');
+    if(root&&root.dataset&&root.dataset.blocoMeta!=null)metaStr=String(root.dataset.blocoMeta||'');
+  }
+  if(!metaStr)metaStr=(exAtual&&exAtual.meta)||'';
+  const tok=extractTokens(metaStr);
+  const pct=tok.dropPct!=null?tok.dropPct:20;
+  const p0=parseFloat($(P+'p0')?.value||0);
+  const sugestao=p0>0?Math.round(p0*(1-pct/100)*2)/2:null;
+  const el=$(P+'drop-sugestao');
+  if(el&&sugestao)el.textContent='Sugest\xE3o: '+sugestao+' kg (\u2212'+pct+'%)';
+  alunoDropUpdateKgHint(P,tok.dropPct!=null?tok.dropPct:null);
+  alunoDropUpdateRegSugestao(P,metaStr);
+};
+
 // Back-off: série principal + pausa + back-off com carga reduzida
 function renderBackOff(container, nSeries, timerSeg, opts){
   opts=opts||{};
@@ -4960,20 +5810,30 @@ function renderBackOff(container, nSeries, timerSeg, opts){
   const sk=!!opts.skipInteractive;
   const pq=P.replace(/'/g,'\\\'');
   const mjs=escJs(opts.blocoMeta||'');
+  const meta=opts.blocoMeta||'';
+  const cfg=alunoParseBackoffGuided(meta);
+  const steps=alunoBackoffGuidedSteps(cfg);
+  const restAfterMain=cfg.restSec!=null?cfg.restSec:timerSeg;
   for(let s=0;s<nSeries;s++){
     const isBackOff=s===nSeries-1;
+    if(isBackOff){
+      const g=document.createElement('div');
+      g.innerHTML=alunoBackoffGuidedPanelHtml(steps,cfg,P);
+      container.appendChild(g.firstElementChild);
+    }
     const card=document.createElement('div');
     card.id=P+'serie-card-'+s;
     card.style.cssText='background:var(--bg2);border:1px solid '+(isBackOff?'rgba(240,168,48,.3)':'var(--border)')+';border-radius:var(--rsm);padding:14px;margin-bottom:8px;'+(s===0?'':(!sk?'opacity:0.4;':''));
     const btnBo=!isBackOff
-      ?(sk?'<div style="font-size:11px;color:var(--text3);text-align:center;padding:6px 0;">Preencha s\xE9ries; sequ\xEAncia guiada no pr\xF3ximo passo.</div>'
-        :'<button onclick="finalizarSerie('+s+','+nSeries+','+timerSeg+',\''+pq+'\')" style="width:100%;padding:12px;background:var(--accent);color:#0f0f0f;border:none;border-radius:var(--rsm);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">\u2713 Ir para back-off</button>')
+      ?(sk?'<div style="font-size:11px;color:var(--text3);text-align:center;padding:6px 0;">Preencha a s\xE9rie principal; siga os passos do back-off em seguida.</div>'
+        :'<button onclick="finalizarSerie('+s+','+nSeries+','+restAfterMain+',\''+pq+'\')" style="width:100%;padding:12px;background:var(--accent);color:#0f0f0f;border:none;border-radius:var(--rsm);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">\u2713 Ir para back-off</button>')
       :'<div style="font-size:12px;color:var(--text2);text-align:center;padding:4px 0;">\u2190 Salvar</div>';
     const titBackOff=(opts&&opts.backOffCardTitulo)?esc(opts.backOffCardTitulo):'S\xE9rie de al\xEDvio';
+    const pctLbl=cfg.dropPct!=null?cfg.dropPct:20;
     card.innerHTML='<div style="font-size:14px;font-weight:600;color:'+(isBackOff?'var(--warn)':'var(--accent)')+';margin-bottom:'+(isBackOff?'4':'12')+'px;">'+(isBackOff?titBackOff:'S\xE9rie '+(s+1))+'</div>'
-      +(isBackOff?'<div id="'+P+'backoff-sugestao" style="font-size:12px;color:var(--text2);margin-bottom:10px;">Sugest\xE3o: — kg (−20%)</div>':'')
+      +(isBackOff&&!steps.length?'<div id="'+P+'backoff-sugestao" style="font-size:12px;color:var(--text2);margin-bottom:10px;">Sugest\xE3o: \u2014 kg</div>':'')
       +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">'
-        +'<div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;"><div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.06em;margin-bottom:4px;">PESO (kg)</div><input id="'+P+'p'+s+'" type="number" inputmode="decimal" placeholder="0"'+(!sk?(s===0?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\');calcBackOff(\''+pq+'\',\''+mjs+'\')"':' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\')"'):'')+' style="background:none;border:none;color:var(--text);font-family:monospace;font-size:26px;font-weight:600;width:100%;outline:none;"></div>'
+        +'<div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;"><div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.06em;margin-bottom:4px;">PESO (kg)</div><input id="'+P+'p'+s+'" type="number" inputmode="decimal" placeholder="0"'+(!sk?(s===0?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\');calcBackOff(\''+pq+'\',\''+mjs+'\');alunoBackoffUpdateKgHint(\''+pq+'\','+(cfg.dropPct!=null?cfg.dropPct:'null')+')"':' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\')"'):'')+' style="background:none;border:none;color:var(--text);font-family:monospace;font-size:26px;font-weight:600;width:100%;outline:none;"></div>'
         +'<div style="background:var(--bg3);border-radius:var(--rsm);padding:10px;"><div style="font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.06em;margin-bottom:4px;">REPS</div><input id="'+P+'r'+s+'" type="number" inputmode="numeric" placeholder="0" style="background:none;border:none;color:var(--text);font-family:monospace;font-size:26px;font-weight:600;width:100%;outline:none;"></div>'
       +'</div>'
       +btnBo;
@@ -5002,12 +5862,14 @@ window.calcBackOff=(pref,meta)=>{
   if(!metaStr)metaStr=(exAtual&&exAtual.meta)||'';
   const presc=interpretarPrescricao(metaStr);
   const nSeries=Math.max(1,presc.series||parseSeries(metaStr)||1);
+  const tok=extractTokens(metaStr);
+  const pct=tok.dropPct!=null?tok.dropPct:20;
   const p0=parseFloat($(P+'p0')?.value||0);
-  const sugestao=p0>0?Math.round(p0*0.8*2)/2:null;
+  const sugestao=p0>0?Math.round(p0*(1-pct/100)*2)/2:null;
   const el=$(P+'backoff-sugestao');
-  if(el&&sugestao) el.textContent='Sugest\xE3o: '+sugestao+' kg (\u221220%)';
-  const pLast=$(P+'p'+(nSeries-1));
-  if(pLast&&!pLast.value&&sugestao) pLast.value=String(sugestao);
+  if(el&&sugestao)el.textContent='Sugest\xE3o: '+sugestao+' kg (\u2212'+pct+'%)';
+  alunoBackoffUpdateKgHint(P,tok.dropPct!=null?tok.dropPct:null);
+  alunoBackoffUpdateRegSugestao(P,metaStr);
 };
 
 // Finaliza série normal → timer → ativa próxima (pref = prefixo id, '' no 1º bloco)
@@ -6229,14 +7091,27 @@ function profTblTecSelectHtml(r){
   }).join('');
   return'<select class="prof-tbl-tec-select" data-ex="'+r.exIdx+'" data-bi="'+r.bi+'" aria-label="T\u00e9cnica bloco '+(r.bi+1)+'">'+opts+'</select>';
 }
+function profTblAvancCfgBtnHtml(r,subtle){
+  if(!profTecAvancada(r.tecnica)||(r.li|0)!==0)return'';
+  const cls='prof-tbl-avanc-cfg'+(subtle?' prof-tbl-avanc-cfg--subtle':'');
+  return'<button type="button" class="'+cls+'" aria-label="Configurar prescri\u00e7\u00e3o" title="Configurar prescri\u00e7\u00e3o" onclick="event.stopPropagation();profTblOpenAvancConfig('+r.exIdx+','+r.bi+',this)">Configurar</button>';
+}
+function profTblPendBarHtml(r){
+  return'<div class="prof-tbl-pend-bar">'
+    +'<span class="prof-tbl-pend-ico" aria-hidden="true">\u26A0</span>'
+    +'<span class="prof-tbl-pend-txt">Completar prescri\u00e7\u00e3o manualmente</span>'
+    +profTblAvancCfgBtnHtml(r,false)
+    +'</div>';
+}
 function profTblTecCellHtml(r){
   const tecCls='prof-tbl-tec prof-tbl-tec--'+esc(r.tecnica).replace(/[^a-z0-9-]/g,'');
   if((r.li|0)===0){
-    let hint='';
-    if(profTecAvancada(r.tecnica)&&r.metaPendente){
-      hint='<span class="prof-tbl-pend-hint">Completar prescri\u00e7\u00e3o manualmente</span>';
+    let extra='';
+    if(profTecAvancada(r.tecnica)){
+      if(r.metaPendente)extra=profTblPendBarHtml(r);
+      else extra='<div class="prof-tbl-avanc-cfg-wrap">'+profTblAvancCfgBtnHtml(r,true)+'</div>';
     }
-    return'<td class="'+tecCls+'">'+profTblTecSelectHtml(r)+hint+'</td>';
+    return'<td class="'+tecCls+'">'+profTblTecSelectHtml(r)+extra+'</td>';
   }
   return'<td class="prof-tbl-tec prof-tbl-tec-cont"></td>';
 }
@@ -6978,8 +7853,7 @@ function profTblBlockRowHtml(r){
   const descInp=profTblInpHtml(r,'desc',avanc?'':descVal,roAvanc);
   const li=r.li!=null?r.li:0;
   const delLbl=(r.li|0)===0?'Remover bloco':'Remover linha';
-  const cfgBtn=avanc&&(li|0)===0?'<button type="button" class="prof-tbl-avanc-cfg'+(r.metaPendente?' prof-tbl-avanc-cfg--pend':'')+'" aria-label="Configurar prescri\u00e7\u00e3o" title="Configurar prescri\u00e7\u00e3o" onclick="event.stopPropagation();profTblOpenAvancConfig('+r.exIdx+','+r.bi+',this)">\u2699</button>':'';
-  const delBtn='<td class="prof-tbl-act prof-tbl-row-act">'+cfgBtn+'<button type="button" class="prof-tbl-prev-btn" aria-label="'+delLbl+'" title="'+delLbl+'" onclick="event.stopPropagation();profTblDeleteRow('+r.exIdx+','+r.bi+','+li+')">\u2715</button></td>';
+  const delBtn='<td class="prof-tbl-act prof-tbl-row-act"><button type="button" class="prof-tbl-prev-btn" aria-label="'+delLbl+'" title="'+delLbl+'" onclick="event.stopPropagation();profTblDeleteRow('+r.exIdx+','+r.bi+','+li+')">\u2715</button></td>';
   const rowCls='prof-tbl-row prof-tbl-row--ex-cont'+(avanc?' prof-tbl-row--avanc':'');
   return'<tr class="'+rowCls+'" data-ex="'+r.exIdx+'" data-bi="'+r.bi+'" data-li="'+li+'"'+titleAttr+'>'
     +profTblTecCellHtml(r)
@@ -7308,7 +8182,7 @@ function profTblBindPreviewPopDismiss(){
   document.addEventListener('mousedown',function(e){
     const pop=document.getElementById('prof-tbl-avanc-pop');
     if(!pop||pop.hidden)return;
-    if(pop.contains(e.target)||e.target.closest('.prof-tbl-avanc-cfg'))return;
+    if(pop.contains(e.target)||e.target.closest('.prof-tbl-avanc-cfg,.prof-tbl-pend-bar'))return;
     profTblCloseAvancPop();
   });
   document.addEventListener('keydown',function(e){
@@ -7817,7 +8691,34 @@ function profImportSplitBodyRows(dataRows){
   });
   return{main:main,substSection:substSection};
 }
+/** Detecta técnica pelo texto completo da célula (import Excel). Prioridade: avançadas > cluster > feeder > work. */
+function profImportDetectTecnicaFromText(raw){
+  const s=profImportNormalizeHeader(raw);
+  if(!s)return null;
+  const compact=s.replace(/\s+/g,'');
+  if(/\bback\s*off\b/.test(s)||compact.indexOf('backoff')>=0)return'back-off';
+  if(/\bdrop\s*set\b/.test(s)||compact.indexOf('dropset')>=0)return'drop';
+  if(/\brest\s*pause\b/.test(s)||compact.indexOf('restpause')>=0)return'rest-pause';
+  if(/\bcluster\b/.test(s)||/\d+\s*\+\s*\d+/.test(s))return'cluster';
+  if(/\bfeeder\b/.test(s))return'feeder';
+  if(/\bentre\s*lados\b/.test(s)||/\bbilateral\b/.test(s))return'bilateral';
+  if(/\bwork\b/.test(s)||/\bnormal\b/.test(s)||/\bwarm\s*up\b/.test(s)||/\baquecimento\b/.test(s)
+    ||/\bserie\s*principal\b/.test(s)||/\bpreparatoria\b/.test(s))return'work';
+  return null;
+}
+function profImportResolveTecnicaLabel(val){
+  var i,t;
+  for(i=0;i<TECNICAS.length;i++){
+    t=TECNICAS[i];
+    if(t.val===val)return t.label;
+  }
+  return PROF_TBL_TEC_LABELS[val]||val;
+}
 function profImportResolveTecnica(raw){
+  const detected=profImportDetectTecnicaFromText(raw);
+  if(detected){
+    return{val:detected,unknown:false,label:profImportResolveTecnicaLabel(detected)};
+  }
   const s=profImportNormalizeHeader(raw).replace(/\s+/g,' ');
   const key=profImportTecKeyNorm(raw);
   if(!s&&!key)return{val:'work',unknown:false,label:'Work set'};
@@ -7833,11 +8734,11 @@ function profImportResolveTecnica(raw){
     work:'work',feeder:'feeder',cluster:'cluster','back-off':'back-off',drop:'drop',bilateral:'bilateral',normal:'normal',
     warmup:'normal',aquecimento:'normal','serie principal':'work','série principal':'work','preparatoria':'feeder','preparatória':'feeder'
   };
-  if(aliases[s])return{val:aliases[s],unknown:false,label:PROF_TBL_TEC_LABELS[aliases[s]]||aliases[s]};
+  if(aliases[s])return{val:aliases[s],unknown:false,label:profImportResolveTecnicaLabel(aliases[s])};
   const keyMap={
     dropset:'drop',backoff:'back-off',backoffset:'back-off',restpause:'rest-pause'
   };
-  if(keyMap[key])return{val:keyMap[key],unknown:false,label:PROF_TBL_TEC_LABELS[keyMap[key]]||keyMap[key]};
+  if(keyMap[key])return{val:keyMap[key],unknown:false,label:profImportResolveTecnicaLabel(keyMap[key])};
   return{val:'work',unknown:true,label:profImportCellStr(raw)||'?'};
 }
 function profImportParseNum(raw){
@@ -9107,7 +10008,9 @@ function extractTokens(s){
   if(cb){t.cluster=[cb[1],cb[2],cb[3]];if(cb[4])t.cluster.push(cb[4]);}
   const rir=s.match(/\((\d+)\s*rir\)/i);if(rir)t.rir=+rir[1];
   const pct=s.match(/-\s*(\d+)\s*%/);if(pct)t.dropPct=+pct[1];
-  const rest=s.match(/(\d+)\s*seg/i);if(rest)t.restSec=+rest[1];
+  const rest=s.match(/(\d+)\s*seg/i);
+  if(rest)t.restSec=+rest[1];
+  else{const rs=s.match(/(\d+)\s*s\b/i);if(rs)t.restSec=+rs[1];}
   const cr=s.match(/(\d+)(?:\/(\d+))?\s*seg\s*entre/i);
   if(cr)t.clusterRest=cr[1]+(cr[2]?'–'+cr[2]:'')+'s';
   const cRange=s.match(/\+\s*(\d+)\s*\/\s*(\d+)/);
