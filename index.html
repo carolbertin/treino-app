@@ -104,15 +104,92 @@ select.inp option{background:var(--bg3);}
 .bloco-aluno-wrap:last-child{margin-bottom:0;}
 .bloco-aluno-head{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm);padding:14px 16px;border-left:3px solid rgba(200,240,96,.35);transition:border-color .25s ease,box-shadow .3s ease,opacity .24s ease;}
 .bloco-aluno-wrap--ativo .bloco-aluno-head{border-left-color:rgba(200,240,96,.85);box-shadow:0 4px 22px rgba(0,0,0,.32);}
-/* Micro-teste: foco no bloco atual (múltiplos blocos; demais inalterados) */
-#screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual > .bloco-aluno-inputs > .aluno-tecnica-sec,
-#screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual > .bloco-aluno-inputs > .aluno-backoff-guided,
-#screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual > .bloco-aluno-inputs > .aluno-drop-guided,
-#screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual > .bloco-aluno-inputs > .aluno-rp-guided{
-  border-color:rgba(255,255,255,.22);
-  box-shadow:0 4px 22px rgba(0,0,0,.34),0 0 0 1px rgba(200,240,96,.16);
-  background:rgba(24,24,26,.97);
+/* Foco exec-simple — borda forte, glow discreto (classe no .bloco-aluno-wrap) */
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo{
+  opacity:.85!important;box-shadow:none!important;filter:none;transition:opacity .24s ease;
 }
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido{
+  opacity:.72!important;box-shadow:none!important;filter:saturate(.9);transition:opacity .24s ease;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual{
+  opacity:1!important;position:relative;z-index:2;padding:4px;border-radius:14px;
+  transition:opacity .24s ease,box-shadow .28s ease,background .28s ease;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-tecnica-sec,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-backoff-guided,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-drop-guided,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-rp-guided{
+  border-width:2px;border-style:solid;
+  box-shadow:0 6px 20px rgba(0,0,0,.28),0 0 16px rgba(255,255,255,.03);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual:has(.aluno-tecnica-sec--feeder){
+  background:linear-gradient(155deg,rgba(91,159,212,.38),rgba(18,22,28,.92) 58%);
+  box-shadow:0 0 0 2px rgba(91,159,212,.82),0 8px 22px rgba(40,100,180,.2),0 0 24px rgba(91,159,212,.14);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual:has(.aluno-tecnica-sec--work){
+  background:linear-gradient(155deg,rgba(168,150,235,.42),rgba(22,20,32,.92) 58%);
+  box-shadow:0 0 0 2px rgba(186,172,248,.88),0 8px 22px rgba(90,70,200,.22),0 0 26px rgba(168,150,235,.16);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual:has(.aluno-tecnica-sec--cluster){
+  background:linear-gradient(155deg,rgba(224,168,85,.34),rgba(28,22,14,.92) 58%);
+  box-shadow:0 0 0 2px rgba(224,168,85,.78),0 8px 22px rgba(180,120,40,.2),0 0 24px rgba(224,168,85,.12);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual:has(.aluno-backoff-guided),
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual:has(.aluno-tecnica-sec--back-off),
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual:has(.aluno-tecnica-sec--backoff){
+  background:linear-gradient(155deg,rgba(240,153,123,.36),rgba(30,20,16,.92) 58%);
+  box-shadow:0 0 0 2px rgba(240,153,123,.85),0 8px 22px rgba(200,90,50,.2),0 0 24px rgba(240,153,123,.14);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual:has(.aluno-drop-guided){
+  background:linear-gradient(155deg,rgba(227,90,90,.34),rgba(30,16,16,.92) 58%);
+  box-shadow:0 0 0 2px rgba(240,100,100,.82),0 8px 22px rgba(180,50,50,.2),0 0 24px rgba(227,90,90,.13);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual:has(.aluno-rp-guided){
+  background:linear-gradient(155deg,rgba(175,169,236,.34),rgba(24,22,34,.92) 58%);
+  box-shadow:0 0 0 2px rgba(175,169,236,.78),0 8px 22px rgba(100,90,200,.2),0 0 24px rgba(175,169,236,.12);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-tecnica-sec--feeder{
+  border-color:rgba(126,184,255,.95);background:rgba(16,24,34,.97);
+  box-shadow:0 6px 20px rgba(0,0,0,.3),0 0 18px rgba(91,159,212,.16),inset 0 0 0 1px rgba(126,184,255,.25);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-tecnica-sec--feeder .aluno-tecnica-sec-tit{color:#9fd0ff;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-tecnica-sec--feeder .aluno-tecnica-sec-dot{box-shadow:0 0 8px rgba(91,159,212,.42);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-tecnica-sec--work{
+  border-color:rgba(196,182,248,.98);background:rgba(22,20,32,.97);
+  box-shadow:0 6px 20px rgba(0,0,0,.3),0 0 20px rgba(168,150,235,.18),inset 0 0 0 1px rgba(196,182,248,.28);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-tecnica-sec--work .aluno-tecnica-sec-tit{color:#d8cffc;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-tecnica-sec--work .aluno-tecnica-sec-dot{box-shadow:0 0 8px rgba(168,150,235,.45);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-tecnica-sec--cluster{
+  border-color:rgba(240,190,110,.95);background:rgba(28,22,14,.97);
+  box-shadow:0 6px 20px rgba(0,0,0,.3),0 0 18px rgba(224,168,85,.15),inset 0 0 0 1px rgba(240,190,110,.22);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-tecnica-sec--cluster .aluno-tecnica-sec-tit{color:#f0c878;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-backoff-guided,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-tecnica-sec--back-off,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-tecnica-sec--backoff{
+  border-color:rgba(255,170,130,.95);background:rgba(32,22,18,.97);
+  box-shadow:0 6px 20px rgba(0,0,0,.3),0 0 20px rgba(240,153,123,.17),inset 0 0 0 1px rgba(255,170,130,.24);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-backoff-guided__title,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-tecnica-sec--back-off .aluno-tecnica-sec-tit,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-tecnica-sec--backoff .aluno-tecnica-sec-tit{color:#ffb894;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-drop-guided{
+  border-color:rgba(255,110,110,.92);background:rgba(32,16,16,.97);
+  box-shadow:0 6px 20px rgba(0,0,0,.3),0 0 20px rgba(227,90,90,.16),inset 0 0 0 1px rgba(255,110,110,.22);
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-drop-guided__title{color:#ff9a9a;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .aluno-rp-guided{
+  border-color:rgba(190,184,252,.9);background:rgba(24,22,34,.97);
+  box-shadow:0 6px 20px rgba(0,0,0,.3),0 0 18px rgba(175,169,236,.15),inset 0 0 0 1px rgba(190,184,252,.2);
+}
+#screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual{opacity:1;}
+#screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo{opacity:.85;transition:opacity .24s ease;}
+#screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido{opacity:.72;transition:opacity .24s ease;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-row--exec-current .aluno-serie-row-main,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row--exec-current .aluno-serie-row-main,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-row--exec-current .aluno-serie-check,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row--exec-current .aluno-serie-check{background:inherit;box-shadow:none;border-color:inherit;color:inherit;}
 .bloco-aluno-wrap--foco-atual.bloco-aluno-wrap--guided-multi .bloco-aluno-head{
   border-color:rgba(255,255,255,.14);
   border-left-color:rgba(200,240,96,.72);
@@ -122,9 +199,6 @@ select.inp option{background:var(--bg3);}
   border-left-color:rgba(200,240,96,.78);
   box-shadow:0 4px 20px rgba(0,0,0,.3),0 0 0 1px rgba(200,240,96,.12);
 }
-#screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual{opacity:1;}
-#screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo{opacity:.72;transition:opacity .24s ease;}
-#screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido{opacity:.58;transition:opacity .24s ease;}
 #screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual.bloco-aluno-wrap--guided-multi{opacity:1;}
 #screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual .bloco-aluno-head{
   border-left-width:4px;
@@ -961,9 +1035,14 @@ select.inp option{background:var(--bg3);}
 #screen-prof-aluno .prof-dash-card-tit{margin:0 0 3px;font-size:16px;font-weight:600;color:var(--text);line-height:1.25;}
 #screen-prof-aluno .prof-dash-card-sub{margin:0;font-size:13px;color:rgba(255,255,255,.38);line-height:1.35;}
 #screen-prof-aluno .prof-dash-card-chev{flex-shrink:0;font-size:18px;color:rgba(255,255,255,.22);font-weight:300;}
-#screen-prof-aluno .prof-dash-foot{margin-top:24px;text-align:center;}
+#screen-prof-aluno .prof-dash-foot{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:32px;padding-top:4px;text-align:center;}
+#screen-prof-aluno .prof-dash-clear-hist{border:none;background:transparent;color:rgba(251,191,36,.45);font-size:12px;font-family:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+#screen-prof-aluno .prof-dash-clear-hist:hover{color:rgba(251,191,36,.78);}
+#screen-prof-aluno .prof-dash-clear-hist:disabled{opacity:.4;cursor:not-allowed;}
 #screen-prof-aluno .prof-dash-remove{border:none;background:transparent;color:rgba(248,113,113,.55);font-size:12px;font-family:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
 #screen-prof-aluno .prof-dash-remove:hover{color:rgba(248,113,113,.85);}
+#modal-limpar-historico .prof-limpar-hist-warn{margin:0 0 20px;font-size:14px;line-height:1.55;color:var(--text2);}
+#modal-limpar-historico .prof-limpar-hist-warn strong{color:var(--text);font-weight:600;}
 .content-pb{padding-bottom:90px;}
 #screen-exercicio .content.content-pb{padding-bottom:148px;}
 #screen-exercicio.screen-exercicio--guided-multi .content.content-pb{padding-bottom:calc(148px + env(safe-area-inset-bottom,0px) + 88px);}
@@ -1114,9 +1193,14 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple .ultimo-reg,
 #screen-exercicio.screen-exercicio--exec-simple .aluno-last-ref,
 #screen-exercicio.screen-exercicio--exec-simple .section-label{display:none!important;}
+.aluno-obs-anterior{display:none;margin:0 0 10px;padding:10px 12px 10px 13px;border-radius:var(--rsm);border:1px solid rgba(240,168,48,.28);border-left:3px solid rgba(240,168,48,.55);background:rgba(240,168,48,.06);}
+.aluno-obs-anterior:not([hidden]){display:block;}
+.aluno-obs-ant-lbl{margin:0 0 6px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);}
+.aluno-obs-ant-txt{margin:0;font-size:13px;line-height:1.5;color:var(--warn);white-space:pre-line;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-obs-wrap{margin-top:4px;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-obs-wrap label{font-size:11px;color:var(--text3);}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-obs-wrap .inp{min-height:56px;font-size:14px;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-obs-anterior{margin-bottom:8px;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-last-ref{background:rgba(255,255,255,.05);border-radius:var(--rsm);padding:10px 14px;font-size:14px;line-height:1.4;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-last-ref-lbl{color:rgba(255,255,255,.45);}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-last-ref-val{color:rgba(255,255,255,.6);font-weight:500;}
@@ -1707,6 +1791,7 @@ select.inp option{background:var(--bg3);}
       <span class="upcoming-lbl">A seguir</span>
       <span class="upcoming-val" id="aluno-exec-upcoming-val"></span>
     </div>
+    <div id="aluno-obs-anterior" class="aluno-obs-anterior" hidden></div>
     <div class="field aluno-exec-obs-wrap"><label>Observa&#xE7;&#xF5;es da sess&#xE3;o</label><textarea class="inp" id="obs-inp" placeholder="Dor, dificuldade..."></textarea></div>
   </div>
   <button class="btn-voltar-fixo" onclick="goTo('treino');renderListaEx();" aria-hidden="true" tabindex="-1">&#x2190; Voltar</button>
@@ -1913,6 +1998,7 @@ select.inp option{background:var(--bg3);}
       </button>
     </nav>
     <div class="prof-dash-foot">
+      <button type="button" class="prof-dash-clear-hist" id="prof-dash-clear-hist-btn" onclick="profDashAbrirLimparHistorico()">Limpar hist&#243;rico de testes</button>
       <button type="button" class="prof-dash-remove" onclick="removerAluno()">Remover aluno</button>
     </div>
   </div>
@@ -1969,6 +2055,18 @@ select.inp option{background:var(--bg3);}
   </div>
 </div>
 
+<div class="modal-bd" id="modal-limpar-historico">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Limpar hist&#243;rico?</div>
+    <p class="prof-limpar-hist-warn">Isso apagar&#225; <strong>todos os registros de treino</strong>, evolu&#231;&#227;o, gr&#225;ficos e observa&#231;&#245;es deste aluno.<br><br>Os treinos prescritos ser&#227;o mantidos.<br><br>Esta a&#231;&#227;o n&#227;o pode ser desfeita.</p>
+    <div style="display:flex;gap:10px;">
+      <button type="button" class="btn btn-secondary flex-1" id="prof-limpar-hist-cancel" onclick="profDashFecharLimparHistorico()">Cancelar</button>
+      <button type="button" class="btn btn-danger flex-1" id="prof-limpar-hist-confirm" onclick="profDashConfirmarLimparHistorico()">Apagar hist&#243;rico</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-bd" id="modal-tipo-custom">
   <div class="modal" style="padding-bottom:60px;">
     <div class="modal-handle"></div>
@@ -1982,7 +2080,7 @@ select.inp option{background:var(--bg3);}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc,
+import { getFirestore, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc, writeBatch,
   collection, query, where, orderBy, limit, getDocs, Timestamp, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 const APP_BUILD_ID='polish-mobile-timer-20260520';
@@ -3083,6 +3181,7 @@ async function abrirExercicio(ex,idx){
   const scrEx=$('screen-exercicio');
   if(scrEx)scrEx.classList.add('screen-exercicio--exec-simple');
   goTo('exercicio');
+  alunoClearObsAnterior();
   carregarHistoricoEx();
 }
 
@@ -3211,10 +3310,36 @@ window.alunoToggleAnteriorFiltroMenu=function(btn){
   setTimeout(()=>document.addEventListener('click',alunoCloseAnteriorFiltroMenuDoc,true),0);
 };
 
+function alunoClearObsAnterior(){
+  const box=$('aluno-obs-anterior');
+  if(!box)return;
+  box.hidden=true;
+  box.innerHTML='';
+}
+
+function alunoFindUltimaObsHistorico(allDocs){
+  if(!allDocs||!allDocs.length)return'';
+  for(let i=0;i<allDocs.length;i++){
+    const o=((allDocs[i].obs||'')+'').trim();
+    if(o)return o;
+  }
+  return'';
+}
+
+function alunoRenderObsAnterior(txt){
+  const box=$('aluno-obs-anterior');
+  if(!box)return;
+  const t=((txt||'')+'').trim();
+  if(!t){alunoClearObsAnterior();return;}
+  box.hidden=false;
+  box.innerHTML='<div class="aluno-obs-ant-lbl">Observa\u00E7\u00E3o anterior</div><div class="aluno-obs-ant-txt">'+esc(t).replace(/\n/g,'<br>')+'</div>';
+}
+
 // Carrega histórico do exercício; coluna Anterior usa alunoAnteriorFiltroEfetivo (pill / default sessão)
 // Chamada ao abrir exercício e ao mudar o filtro de referência
 async function carregarHistoricoEx(){
   if(!exAtual||!me) return;
+  alunoClearObsAnterior();
   const lsKey=alunoAnteriorFiltroLsKey();
   const filtroAnt=alunoAnteriorFiltroEfetivo();
   $('ult-series-detail').innerHTML='<div style="color:var(--text3);font-size:13px;">⏳ carregando...</div>';
@@ -3224,6 +3349,7 @@ async function carregarHistoricoEx(){
     const hS=await getDocs(hQ);
     if(!hS.empty){
       const allDocs=hS.docs.map(d=>d.data()).filter(d=>d.data).sort((a,b)=>(b.data.seconds||0)-(a.data.seconds||0));
+      alunoRenderObsAnterior(alunoFindUltimaObsHistorico(allDocs));
       const nomeKey=n=>((n||'')+'').trim().toLowerCase();
       const arqSet=new Set(academiasArquivadasRead().map(academiaNomeKey));
       const unidadesMap=new Map();
@@ -3281,6 +3407,7 @@ async function carregarHistoricoEx(){
         window.alunoHistoricoUltimo=null;
       }
     } else {
+      alunoClearObsAnterior();
       window.alunoHistoricoUltimo=null;
       window.alunoHistoricoUnidadesList=[];
       const wrap=$('ult-filtro-unidade-wrap');if(wrap)wrap.style.display='none';
@@ -3291,6 +3418,7 @@ async function carregarHistoricoEx(){
     }
   }catch(e){
     console.error('historico:',e);
+    alunoClearObsAnterior();
     $('ult-series-detail').innerHTML='<div style="color:var(--text3);font-size:13px;">—</div>';
     alunoExecUpdateLastRef(null);
     window.alunoHistoricoUltimo=null;
@@ -3881,23 +4009,105 @@ function alunoSyncRowsProgress(){
   const done=c.querySelectorAll('.aluno-serie-row--done').length;
   if(posEl)posEl.textContent=done+'/'+total+' s\xE9ries';
   if(progFill)progFill.style.width=(total?Math.round((done/total)*100):0)+'%';
-  applyAlunoGuidedBlockUI();
+  alunoRefreshExecFocoVisual();
+  if(!alunoExecSimpleRowsV1())applyAlunoGuidedBlockUI();
 }
-function alunoBlocoWrapIsComplete(wrap){
-  if(!wrap)return true;
+function alunoExecSimpleRowsV1(){
+  const c=$('series-inputs');
+  const scr=$('screen-exercicio');
+  return!!(scr&&scr.classList.contains('screen-exercicio--exec-simple')&&c&&c.dataset.alunoRowsV1);
+}
+function alunoExecStepIsPending(el){
+  if(!el)return false;
+  if(el.classList.contains('aluno-cluster-mini')){
+    return!!el.querySelector('.aluno-cluster-mini-check')&&!el.classList.contains('aluno-cluster-mini--done');
+  }
+  if(!el.classList.contains('aluno-serie-row')||el.classList.contains('aluno-serie-row--cluster-sum'))return false;
+  if(el.classList.contains('aluno-serie-row--cluster-block')){
+    const mini=el.querySelector('.aluno-cluster-mini');
+    return!!mini&&!mini.classList.contains('aluno-cluster-mini--done');
+  }
+  if(el.classList.contains('aluno-serie-row--cluster')){
+    const minis=el.querySelectorAll('.aluno-cluster-mini');
+    for(let i=0;i<minis.length;i++){
+      if(minis[i].querySelector('.aluno-cluster-mini-check')&&!minis[i].classList.contains('aluno-cluster-mini--done'))return false;
+    }
+    return!!el.querySelector('.aluno-serie-check')&&!el.classList.contains('aluno-serie-row--done');
+  }
+  if(!el.querySelector('.aluno-serie-check'))return false;
+  return!el.classList.contains('aluno-serie-row--done');
+}
+function alunoFirstPendingExecLine(){
+  const c=$('series-inputs');
+  if(!c)return null;
+  const walker=document.createTreeWalker(c,NodeFilter.SHOW_ELEMENT,{
+    acceptNode(node){
+      if(node.classList&&node.classList.contains('aluno-cluster-mini')&&node.querySelector('.aluno-cluster-mini-check'))return NodeFilter.FILTER_ACCEPT;
+      if(node.classList&&node.classList.contains('aluno-serie-row')&&!node.classList.contains('aluno-serie-row--cluster-sum'))return NodeFilter.FILTER_ACCEPT;
+      return NodeFilter.FILTER_SKIP;
+    }
+  });
+  let node;
+  while((node=walker.nextNode())){
+    if(alunoExecStepIsPending(node))return node;
+  }
+  return null;
+}
+function alunoExecFocusRowForPending(pending){
+  if(!pending)return null;
+  if(pending.classList.contains('aluno-cluster-mini'))return pending.closest('.aluno-serie-row');
+  return pending.classList.contains('aluno-serie-row')?pending:null;
+}
+function alunoClearExecFocoVisual(c){
+  if(!c)return;
+  c.querySelectorAll('.aluno-serie-row--exec-current').forEach(el=>el.classList.remove('aluno-serie-row--exec-current'));
+}
+function alunoExecWrapsOrdered(){
+  const c=$('series-inputs');
+  if(!c)return[];
+  return[...c.querySelectorAll('.bloco-aluno-wrap')];
+}
+/** Raízes de foco dentro do wrap (várias técnicas no mesmo bloco → uma unidade por card). */
+function alunoExecFocoRootsInWrap(wrap){
+  const inputs=wrap&&wrap.querySelector('.bloco-aluno-inputs');
+  if(!inputs)return[wrap];
+  const roots=[...inputs.children].filter(el=>el.nodeType===1&&(
+    el.classList.contains('aluno-tecnica-sec')||
+    el.classList.contains('aluno-backoff-guided')||
+    el.classList.contains('aluno-drop-guided')||
+    el.classList.contains('aluno-rp-guided')
+  ));
+  return roots.length>1?roots:[wrap];
+}
+function alunoExecFocoUnitsOrdered(){
+  const units=[];
+  alunoExecWrapsOrdered().forEach(wrap=>{
+    alunoExecFocoRootsInWrap(wrap).forEach(root=>units.push({wrap,root}));
+  });
+  return units;
+}
+function alunoExecScopedIsComplete(scopeEl){
+  if(!scopeEl)return true;
   let anyCheckable=false;
-  const minis=wrap.querySelectorAll('.aluno-cluster-mini');
+  const minis=scopeEl.querySelectorAll('.aluno-cluster-mini');
   if(minis.length){
     anyCheckable=true;
     for(let i=0;i<minis.length;i++){
       if(!minis[i].classList.contains('aluno-cluster-mini--done'))return false;
     }
   }
-  const rows=wrap.querySelectorAll('.aluno-serie-row');
+  const rows=scopeEl.querySelectorAll('.aluno-serie-row');
   for(let i=0;i<rows.length;i++){
     const row=rows[i];
     if(row.classList.contains('aluno-serie-row--cluster-sum'))continue;
-    if(row.classList.contains('aluno-serie-row--cluster-block'))continue;
+    if(row.classList.contains('aluno-serie-row--cluster-block')){
+      const mini=row.querySelector('.aluno-cluster-mini');
+      if(mini&&mini.querySelector('.aluno-cluster-mini-check')){
+        anyCheckable=true;
+        if(!mini.classList.contains('aluno-cluster-mini--done'))return false;
+      }
+      continue;
+    }
     if(row.classList.contains('aluno-serie-row--cluster')){
       anyCheckable=true;
       if(!row.classList.contains('aluno-serie-row--done'))return false;
@@ -3907,7 +4117,61 @@ function alunoBlocoWrapIsComplete(wrap){
     anyCheckable=true;
     if(!row.classList.contains('aluno-serie-row--done'))return false;
   }
-  return !anyCheckable;
+  return true;
+}
+function alunoFirstIncompleteUnitIndex(units){
+  for(let i=0;i<units.length;i++){
+    if(!alunoExecScopedIsComplete(units[i].root))return i;
+  }
+  return-1;
+}
+function alunoApplyWrapFocoExecState(wrap,state){
+  if(!wrap)return;
+  wrap.classList.remove('bloco-aluno-wrap--foco-atual','bloco-aluno-wrap--foco-inativo','bloco-aluno-wrap--foco-concluido',
+    'bloco-aluno-wrap--guided-feito','bloco-aluno-wrap--guided-proximo','bloco-aluno-wrap--guided-ativo',
+    'bloco-aluno-wrap--ativo','bloco-aluno-wrap--secundario','done','upcoming');
+  if(state==='atual')wrap.classList.add('bloco-aluno-wrap--foco-atual');
+  else if(state==='concluido')wrap.classList.add('bloco-aluno-wrap--foco-concluido');
+  else wrap.classList.add('bloco-aluno-wrap--foco-inativo');
+}
+function alunoApplyWrapFocoFromStep(wrap,focusBi){
+  if(!wrap)return;
+  wrap.classList.remove('bloco-aluno-wrap--foco-atual','bloco-aluno-wrap--foco-inativo','bloco-aluno-wrap--foco-concluido',
+    'bloco-aluno-wrap--guided-feito','bloco-aluno-wrap--guided-proximo','bloco-aluno-wrap--guided-ativo',
+    'bloco-aluno-wrap--ativo','bloco-aluno-wrap--secundario','done','upcoming');
+  const biRaw=wrap.dataset.blocoIndex;
+  const bi=biRaw==null||biRaw===''?0:parseInt(biRaw,10);
+  if(Number.isNaN(bi))return;
+  if(focusBi<0)wrap.classList.add('bloco-aluno-wrap--foco-concluido');
+  else if(bi===focusBi)wrap.classList.add('bloco-aluno-wrap--foco-atual');
+  else wrap.classList.add('bloco-aluno-wrap--foco-inativo');
+}
+function alunoRefreshExecFocoVisual(){
+  if(alunoExecSimpleRowsV1())alunoApplyExecFocus();
+}
+function alunoApplyExecFocus(){
+  const c=$('series-inputs');
+  if(!c||!alunoExecSimpleRowsV1())return;
+  alunoClearExecFocoVisual(c);
+  const units=alunoExecFocoUnitsOrdered();
+  const curIdx=alunoFirstIncompleteUnitIndex(units);
+  const wrapStates=new Map();
+  units.forEach((unit,i)=>{
+    let st;
+    if(curIdx<0)st='concluido';
+    else if(i<curIdx)st='concluido';
+    else if(i===curIdx)st='atual';
+    else st='inativo';
+    const prev=wrapStates.get(unit.wrap);
+    if(!prev||st==='atual'||(st==='inativo'&&prev==='concluido'))wrapStates.set(unit.wrap,st);
+  });
+  alunoExecWrapsOrdered().forEach(wrap=>{
+    const st=wrapStates.get(wrap)||(curIdx<0?'concluido':'inativo');
+    alunoApplyWrapFocoExecState(wrap,st);
+  });
+}
+function alunoBlocoWrapIsComplete(wrap){
+  return alunoExecScopedIsComplete(wrap);
 }
 function alunoGetBlocoWrap(bi){
   const c=$('series-inputs');
@@ -4008,6 +4272,7 @@ window.alunoCheckSerieRow=function(bi,s,nSeries,timerSeg,pref){
     persistirExercicioAtualNaSessao();
     salvarSessaoTreinoLS();
     alunoSyncRowsProgress();
+    alunoRefreshExecFocoVisual();
     return;
   }
   row.classList.add('aluno-serie-row--done');
@@ -4019,6 +4284,7 @@ window.alunoCheckSerieRow=function(bi,s,nSeries,timerSeg,pref){
   persistirExercicioAtualNaSessao();
   salvarSessaoTreinoLS();
   alunoSyncRowsProgress();
+  alunoRefreshExecFocoVisual();
 };
 
 window.alunoCheckClusterMini=function(bi,ci,total,timerSeg,pref){
@@ -4038,6 +4304,7 @@ window.alunoCheckClusterMini=function(bi,ci,total,timerSeg,pref){
     persistirExercicioAtualNaSessao();
     salvarSessaoTreinoLS();
     alunoSyncRowsProgress();
+    alunoRefreshExecFocoVisual();
     return;
   }
   const p0=$(pref+'p0');
@@ -4050,6 +4317,7 @@ window.alunoCheckClusterMini=function(bi,ci,total,timerSeg,pref){
   persistirExercicioAtualNaSessao();
   salvarSessaoTreinoLS();
   alunoSyncRowsProgress();
+  alunoRefreshExecFocoVisual();
 };
 
 window.alunoCheckClusterRow=function(bi,total,timerSeg,pref){
@@ -4063,6 +4331,7 @@ window.alunoCheckClusterRow=function(bi,total,timerSeg,pref){
     persistirExercicioAtualNaSessao();
     salvarSessaoTreinoLS();
     alunoSyncRowsProgress();
+    alunoRefreshExecFocoVisual();
     return;
   }
   if(!alunoClusterMinisDone(bi,pref,total)){
@@ -4074,6 +4343,7 @@ window.alunoCheckClusterRow=function(bi,total,timerSeg,pref){
   persistirExercicioAtualNaSessao();
   salvarSessaoTreinoLS();
   alunoSyncRowsProgress();
+  alunoRefreshExecFocoVisual();
 };
 
 function alunoExecUpdateLastRef(ult){
@@ -4433,26 +4703,10 @@ function applyAlunoGuidedBlockUI(){
   const c=$('series-inputs');
   if(!c){syncAlunoGuidedChrome();return;}
   const scr=$('screen-exercicio');
-  const rowsV1=!!(scr&&scr.classList.contains('screen-exercicio--exec-simple')&&c.dataset.alunoRowsV1);
+  const rowsV1=alunoExecSimpleRowsV1();
   const nB=parseInt(c.dataset.guidedNB||'0',10)||0;
-  const nEff=Math.max(nB,1);
-  let focusBi=alunoActiveBlockIndex;
   if(rowsV1){
-    focusBi=alunoComputeActiveBlockIndexFromDOM(nEff);
-    alunoActiveBlockIndex=focusBi>=0?focusBi:Math.max(0,nEff-1);
-    if(focusBi<0)alunoGuidedLastStepDone=nEff>1;
-  }
-  if(rowsV1){
-    const wraps=c.querySelectorAll('.bloco-aluno-wrap[data-bloco-index]');
-    wraps.forEach(wrap=>{
-      wrap.classList.remove('bloco-aluno-wrap--guided-feito','bloco-aluno-wrap--guided-proximo','bloco-aluno-wrap--guided-ocultar-inputs','bloco-aluno-wrap--guided-ocultar-preview','bloco-aluno-wrap--guided-ativo','bloco-aluno-wrap--ativo','bloco-aluno-wrap--secundario','done','upcoming');
-      const bi=parseInt(wrap.dataset.blocoIndex,10);
-      const complete=alunoBlocoWrapIsComplete(wrap);
-      if(complete)wrap.classList.add('bloco-aluno-wrap--guided-feito','done');
-      else if(focusBi>=0&&bi===focusBi)wrap.classList.add('bloco-aluno-wrap--guided-ativo','bloco-aluno-wrap--ativo');
-      else wrap.classList.add('bloco-aluno-wrap--guided-proximo','upcoming');
-      alunoApplyWrapFocoClasses(wrap,focusBi);
-    });
+    alunoApplyExecFocus();
     syncAlunoGuidedChrome();
     return;
   }
@@ -6587,6 +6841,74 @@ window.removerAluno=async()=>{
   fecharDetalheAlunoDash();
   toast('Removido');
   await carregarAlunos();
+};
+
+let profLimparHistoricoBusy=false;
+window.profDashAbrirLimparHistorico=function(){
+  if(!alunoSel){toast('Selecione um aluno');return;}
+  abrirModal('modal-limpar-historico');
+};
+window.profDashFecharLimparHistorico=function(){
+  if(profLimparHistoricoBusy)return;
+  fecharModal('modal-limpar-historico');
+};
+function profHistoricoResetCachesProf(){
+  profEvDrawerClose();
+  profEvListItemsCache=[];
+  profEvListSeq++;
+  profEvDrawerExNome=null;
+  profEvDrawerExIdx=null;
+  const evScr=$('screen-prof-evolucao');
+  if(evScr&&evScr.classList.contains('active')){
+    fecharProfEvolucao();
+    return;
+  }
+  const listEl=$('prof-ev-al-list');
+  if(listEl)listEl.innerHTML='';
+  profEvAlunoListClearSelection();
+}
+async function profHistoricoDeleteAllDocs(alunoId){
+  const collRef=collection(db,'alunos',alunoId,'historico');
+  const PAGE=400;
+  let deleted=0;
+  while(true){
+    const snap=await getDocs(query(collRef,limit(PAGE)));
+    if(snap.empty)break;
+    const batch=writeBatch(db);
+    snap.docs.forEach(d=>batch.delete(d.ref));
+    await batch.commit();
+    deleted+=snap.docs.length;
+    if(snap.docs.length<PAGE)break;
+  }
+  return deleted;
+}
+window.profDashConfirmarLimparHistorico=async function(){
+  const al=alunoSel;
+  if(!al||profLimparHistoricoBusy)return;
+  const btn=$('prof-limpar-hist-confirm');
+  const cancel=$('prof-limpar-hist-cancel');
+  const footBtn=$('prof-dash-clear-hist-btn');
+  profLimparHistoricoBusy=true;
+  if(btn){btn.disabled=true;btn.textContent='Apagando\u2026';}
+  if(cancel)cancel.disabled=true;
+  if(footBtn)footBtn.disabled=true;
+  try{
+    const n=await profHistoricoDeleteAllDocs(al.id);
+    profHistoricoResetCachesProf();
+    profDashLoadWeek(al);
+    profDashLoadStatus(al);
+    await carregarAlunos();
+    fecharModal('modal-limpar-historico');
+    toast(n>0?'\u2713 Hist\u00f3rico apagado ('+n+' registro'+(n>1?'s':'')+')':'Hist\u00f3rico j\u00e1 estava vazio');
+  }catch(e){
+    console.error('profDashConfirmarLimparHistorico:',e);
+    toast('\u274C Erro ao apagar hist\u00f3rico. Verifique conex\u00e3o.');
+  }finally{
+    profLimparHistoricoBusy=false;
+    if(btn){btn.disabled=false;btn.textContent='Apagar hist\u00f3rico';}
+    if(cancel)cancel.disabled=false;
+    if(footBtn)footBtn.disabled=false;
+  }
 };
 
 // EDITOR — estado em editorExercicios[], DOM criado uma vez por card
