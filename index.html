@@ -61,8 +61,42 @@ select.inp option{background:var(--bg3);}
 .aluno-semana-head-txt{min-width:0;padding-top:2px;}
 .aluno-semana-title{font-size:17px;font-weight:600;line-height:1.2;margin:0 0 3px;color:var(--text);}
 .aluno-semana-sub{font-size:13px;color:var(--text2);line-height:1.35;margin:0;}
-.aluno-semana-ver-mes{flex-shrink:0;display:inline-flex;align-items:center;gap:5px;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:rgba(255,255,255,.72);font-family:inherit;font-size:12px;font-weight:500;line-height:1;cursor:default;opacity:.92;}
+.aluno-semana-ver-mes{flex-shrink:0;display:inline-flex;align-items:center;gap:5px;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:rgba(255,255,255,.72);font-family:inherit;font-size:12px;font-weight:500;line-height:1;cursor:pointer;opacity:.92;transition:background .15s,border-color .15s,color .15s;}
+.aluno-semana-ver-mes:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.88);}
+.aluno-semana-ver-mes:active{transform:scale(.97);}
 .aluno-semana-ver-mes svg{width:14px;height:14px;opacity:.55;flex-shrink:0;}
+.aluno-mes-modal{padding-bottom:32px;}
+.aluno-mes-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px;}
+.aluno-mes-nav-btn{flex-shrink:0;width:40px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:rgba(255,255,255,.72);font-size:22px;line-height:1;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;padding:0;transition:background .15s,border-color .15s;}
+.aluno-mes-nav-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);}
+.aluno-mes-nav-btn:active{transform:scale(.96);}
+.aluno-mes-nav .aluno-mes-title{flex:1;text-align:center;margin:0;font-size:18px;font-weight:600;line-height:1.25;}
+.aluno-mes-sub{font-size:13px;color:var(--text2);margin:0 0 18px;text-align:center;}
+.aluno-mes-dow-hdr{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:10px;text-align:center;}
+.aluno-mes-dow-hdr span{font-size:11px;font-weight:500;color:rgba(255,255,255,.28);line-height:1;}
+.aluno-mes-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px 4px;margin-bottom:20px;}
+.aluno-mes-cell{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;min-height:46px;padding:2px 0;}
+.aluno-mes-cell--pad{pointer-events:none;visibility:hidden;}
+.aluno-mes-num-wrap{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;box-sizing:border-box;border:2px solid transparent;}
+.aluno-mes-num{font-size:16px;font-weight:600;font-family:'DM Sans',sans-serif;color:rgba(255,255,255,.22);line-height:1;}
+.aluno-mes-cell--hoje .aluno-mes-num-wrap{background:rgba(200,240,96,.1);border-color:rgba(200,240,96,.35);box-shadow:0 0 0 1px rgba(200,240,96,.12);}
+.aluno-mes-cell--hoje .aluno-mes-num{color:var(--text);}
+.aluno-mes-cell--treino .aluno-mes-num{color:var(--text);}
+.aluno-mes-cell--treino.aluno-mes-ring-0 .aluno-mes-num-wrap{border-color:var(--rp-color,#AFA9EC);box-shadow:0 0 10px rgba(175,169,236,.2);}
+.aluno-mes-cell--treino.aluno-mes-ring-1 .aluno-mes-num-wrap{border-color:var(--biset-color,#ED93B1);box-shadow:0 0 10px rgba(237,147,177,.18);}
+.aluno-mes-cell--treino.aluno-mes-ring-2 .aluno-mes-num-wrap{border-color:var(--info,#60a8f0);box-shadow:0 0 10px rgba(96,168,240,.2);}
+.aluno-mes-cell--hoje.aluno-mes-cell--treino .aluno-mes-num-wrap{background:rgba(255,255,255,.06);}
+.aluno-mes-cell[data-day-key]{cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.aluno-mes-cell[data-day-key]:active .aluno-mes-num-wrap{transform:scale(.94);}
+.aluno-mes-cell--selected .aluno-mes-num-wrap{box-shadow:0 0 0 2px rgba(200,240,96,.45),inset 0 0 0 1px rgba(200,240,96,.2);}
+.aluno-mes-detail{margin-bottom:18px;padding:14px 16px;border-radius:var(--rsm);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);}
+.aluno-mes-detail-date{margin:0 0 10px;font-size:15px;font-weight:600;color:var(--text);}
+.aluno-mes-detail-lbl{margin:0 0 8px;font-size:12px;font-weight:600;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;}
+.aluno-mes-detail-list{margin:0;padding:0 0 0 18px;list-style:disc;}
+.aluno-mes-detail-list li{margin:0 0 6px;font-size:14px;line-height:1.4;color:var(--text2);}
+.aluno-mes-detail-list li:last-child{margin-bottom:0;}
+.aluno-mes-detail-empty{margin:0;font-size:14px;line-height:1.45;color:var(--text3);}
+.aluno-mes-loading{grid-column:1/-1;text-align:center;color:var(--text3);font-size:13px;padding:28px 0;}
 .aluno-semana-days{display:flex;justify-content:space-between;gap:6px;padding:0 2px;}
 .aluno-semana-day{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:10px;}
 .aluno-semana-dow{font-size:11px;font-weight:500;color:rgba(255,255,255,.28);letter-spacing:.02em;line-height:1;}
@@ -1095,8 +1129,9 @@ select.inp option{background:var(--bg3);}
 .flex{display:flex;}.flex-1{flex:1;}.gap-8{gap:8px;}.gap-10{gap:10px;}
 .text-sm{font-size:13px;}.text-xs{font-size:12px;}.text-muted{color:var(--text2);}.text-accent{color:var(--accent);}
 .font-mono{font-family:'DM Mono',monospace;}.fw-500{font-weight:500;}
-/* Botão voltar fixo rodapé esquerdo */
+/* Botão voltar fixo — aluno: rodapé direito; professor: rodapé esquerdo */
 .btn-voltar-fixo{position:fixed;bottom:24px;left:20px;z-index:150;display:flex;align-items:center;gap:8px;padding:14px 22px;background:var(--accent);color:#0f0f0f;border:none;border-radius:var(--radius);font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(200,240,96,.3);transition:all .18s;}
+#screen-treino .btn-voltar-fixo,#screen-exercicio .btn-voltar-fixo{left:auto;right:max(20px,env(safe-area-inset-right,0px));bottom:max(24px,env(safe-area-inset-bottom,0px));}
 .btn-voltar-fixo:active{transform:scale(.96);}
 /* Botão salvar fixo rodapé direito */
 .btn-salvar-fixo{position:fixed;bottom:24px;right:max(20px,env(safe-area-inset-right,0px));z-index:150;display:flex;align-items:center;gap:8px;padding:14px 22px;background:var(--bg2);color:var(--accent);border:2px solid var(--accent);border-radius:var(--radius);font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:bottom .25s ease,transform .18s;}
@@ -1729,7 +1764,7 @@ select.inp option{background:var(--bg3);}
             <p class="aluno-semana-sub" id="aluno-semana-sub"></p>
           </div>
         </div>
-        <button type="button" class="aluno-semana-ver-mes" tabindex="-1" aria-disabled="true" title="Em breve">
+        <button type="button" class="aluno-semana-ver-mes" onclick="alunoMesAbrir()" aria-label="Ver calend&#225;rio do m&#234;s">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
           Ver m&#xEA;s
         </button>
@@ -2102,6 +2137,25 @@ select.inp option{background:var(--bg3);}
       <button type="button" class="btn btn-secondary flex-1" id="prof-limpar-hist-cancel" onclick="profDashFecharLimparHistorico()">Cancelar</button>
       <button type="button" class="btn btn-danger flex-1" id="prof-limpar-hist-confirm" onclick="profDashConfirmarLimparHistorico()">Apagar hist&#243;rico</button>
     </div>
+  </div>
+</div>
+
+<div class="modal-bd" id="modal-aluno-mes">
+  <div class="modal aluno-mes-modal">
+    <div class="modal-handle"></div>
+    <div class="aluno-mes-nav">
+      <button type="button" class="aluno-mes-nav-btn" onclick="alunoMesNav(-1)" aria-label="M&#234;s anterior">&#x2039;</button>
+      <h2 class="aluno-mes-title" id="aluno-mes-title"></h2>
+      <button type="button" class="aluno-mes-nav-btn" onclick="alunoMesNav(1)" aria-label="Pr&#243;ximo m&#234;s">&#x203A;</button>
+    </div>
+    <p class="aluno-mes-sub" id="aluno-mes-sub"></p>
+    <div class="aluno-mes-dow-hdr" aria-hidden="true"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+    <div class="aluno-mes-grid" id="aluno-mes-grid" role="grid" aria-label="Calend&#225;rio do m&#234;s atual"></div>
+    <div class="aluno-mes-detail" id="aluno-mes-detail" hidden>
+      <div class="aluno-mes-detail-date" id="aluno-mes-detail-date"></div>
+      <div id="aluno-mes-detail-body"></div>
+    </div>
+    <button type="button" class="btn btn-secondary btn-full" onclick="fecharModal('modal-aluno-mes')">Fechar</button>
   </div>
 </div>
 
@@ -2679,36 +2733,223 @@ onAuthStateChanged(auth,async user=>{
 window.loginGoogle=async()=>{try{await signInWithPopup(auth,new GoogleAuthProvider());}catch(e){toast('Erro ao fazer login');console.error(e);}};
 
 // ALUNO
-/** Fase 1 calendário — só layout; dados mockados até integrar histórico. */
-function alunoSemanaRenderPlaceholder(){
+function alunoSemanaDayKey(d){
+  const x=d instanceof Date?d:(d.toDate?d.toDate():new Date(d));
+  return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');
+}
+function alunoSemanaWeekBounds(){
+  const now=new Date();
+  const start=new Date(now.getFullYear(),now.getMonth(),now.getDate()-now.getDay());
+  start.setHours(0,0,0,0);
+  const end=new Date(start);
+  end.setDate(start.getDate()+7);
+  return{start,end};
+}
+function alunoSemanaMonthBounds(ref){
+  const now=ref||new Date();
+  const start=new Date(now.getFullYear(),now.getMonth(),1);
+  start.setHours(0,0,0,0);
+  const end=new Date(now.getFullYear(),now.getMonth()+1,1);
+  return{start,end};
+}
+async function alunoHistoricoTrainedDayKeys(rangeStart,rangeEnd){
+  const keys=new Set();
+  if(!me||!me.email)return keys;
+  try{
+    const hQ=query(collection(db,'alunos',me.email,'historico'),where('data','>=',Timestamp.fromDate(rangeStart)),orderBy('data','asc'));
+    const hS=await getDocs(hQ);
+    hS.forEach(snap=>{
+      const row=snap.data();
+      const raw=row.data;
+      if(!raw)return;
+      const d=raw.toDate?raw.toDate():new Date(raw);
+      if(d<rangeStart||d>=rangeEnd)return;
+      keys.add(alunoSemanaDayKey(d));
+    });
+  }catch(e){
+    console.error('alunoHistoricoTrainedDayKeys:',e);
+  }
+  return keys;
+}
+async function alunoHistoricoMesData(rangeStart,rangeEnd){
+  const trainedKeys=new Set();
+  const treinosByDay=new Map();
+  if(!me||!me.email)return{trainedKeys,treinosByDay};
+  try{
+    const hQ=query(collection(db,'alunos',me.email,'historico'),where('data','>=',Timestamp.fromDate(rangeStart)),orderBy('data','asc'));
+    const hS=await getDocs(hQ);
+    hS.forEach(snap=>{
+      const row=snap.data();
+      const raw=row.data;
+      if(!raw)return;
+      const d=raw.toDate?raw.toDate():new Date(raw);
+      if(d<rangeStart||d>=rangeEnd)return;
+      const key=alunoSemanaDayKey(d);
+      trainedKeys.add(key);
+      const nome=(row.treinoNome||'').trim();
+      if(!nome)return;
+      if(!treinosByDay.has(key))treinosByDay.set(key,new Set());
+      treinosByDay.get(key).add(nome);
+    });
+  }catch(e){
+    console.error('alunoHistoricoMesData:',e);
+  }
+  return{trainedKeys,treinosByDay};
+}
+let alunoMesViewY=null;
+let alunoMesViewM=null;
+let alunoMesTreinosByDay=new Map();
+function alunoMesClearDetail(){
+  const panel=$('aluno-mes-detail');
+  if(panel)panel.hidden=true;
+  const grid=$('aluno-mes-grid');
+  if(grid)grid.querySelectorAll('.aluno-mes-cell--selected').forEach(c=>c.classList.remove('aluno-mes-cell--selected'));
+}
+function alunoMesShowDayDetail(dayKey,y,m,day){
+  const panel=$('aluno-mes-detail');
+  const dateEl=$('aluno-mes-detail-date');
+  const body=$('aluno-mes-detail-body');
+  const grid=$('aluno-mes-grid');
+  if(!panel||!dateEl||!body)return;
+  if(grid){
+    grid.querySelectorAll('.aluno-mes-cell--selected').forEach(c=>c.classList.remove('aluno-mes-cell--selected'));
+    const sel=grid.querySelector('[data-day-key="'+dayKey+'"]');
+    if(sel)sel.classList.add('aluno-mes-cell--selected');
+  }
+  dateEl.textContent=day+' de '+alunoMesNomeMes(m).toLowerCase()+' de '+y;
+  const treinos=alunoMesTreinosByDay.get(dayKey);
+  if(!treinos||!treinos.size){
+    body.innerHTML='<p class="aluno-mes-detail-empty">Nenhum treino registrado neste dia.</p>';
+  }else{
+    const list=[...treinos].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+    body.innerHTML='<div class="aluno-mes-detail-lbl">Treinos realizados:</div><ul class="aluno-mes-detail-list">'+list.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>';
+  }
+  panel.hidden=false;
+}
+function alunoMesNomeMes(m){
+  const meses=['janeiro','fevereiro','mar\u00E7o','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  const n=meses[m]||'';
+  return n?n.charAt(0).toUpperCase()+n.slice(1):'';
+}
+function alunoMesPaint(trainedMonth,viewY,viewM){
+  const title=$('aluno-mes-title');
+  const sub=$('aluno-mes-sub');
+  const grid=$('aluno-mes-grid');
+  if(!grid)return;
+  const trained=trainedMonth instanceof Set?trainedMonth:new Set();
+  const n=trained.size;
+  const y=viewY;
+  const m=viewM;
+  const now=new Date();
+  const isCurrentMonth=y===now.getFullYear()&&m===now.getMonth();
+  if(title)title.textContent=alunoMesNomeMes(m)+' '+y;
+  if(sub)sub.textContent=n+' treino'+(n===1?'':'s')+' em '+alunoMesNomeMes(m).toLowerCase();
+  const lastDay=new Date(y,m+1,0).getDate();
+  const todayKey=isCurrentMonth?sessaoDataHojeLocal():'';
+  let ringN=0;
+  let html='';
+  const pad=new Date(y,m,1).getDay();
+  for(let i=0;i<pad;i++)html+='<div class="aluno-mes-cell aluno-mes-cell--pad" role="presentation"></div>';
+  for(let day=1;day<=lastDay;day++){
+    const cur=new Date(y,m,day);
+    const key=alunoSemanaDayKey(cur);
+    const hoje=isCurrentMonth&&key===todayKey;
+    const treino=trained.has(key);
+    let cls='aluno-mes-cell'+(hoje?' aluno-mes-cell--hoje':'');
+    if(treino){cls+=' aluno-mes-cell--treino aluno-mes-ring-'+(ringN%3);ringN++;}
+    html+='<div class="'+cls+'" role="gridcell" data-day-key="'+key+'" data-day="'+day+'"><span class="aluno-mes-num-wrap"><span class="aluno-mes-num">'+day+'</span></span></div>';
+  }
+  grid.innerHTML=html;
+  grid.onclick=e=>{
+    const cell=e.target.closest('[data-day-key]');
+    if(!cell)return;
+    alunoMesShowDayDetail(cell.dataset.dayKey,y,m,parseInt(cell.dataset.day,10));
+  };
+}
+async function alunoMesLoadMonth(y,m){
+  alunoMesClearDetail();
+  const grid=$('aluno-mes-grid');
+  if(grid)grid.innerHTML='<div class="aluno-mes-loading">Carregando\u2026</div>';
+  const{start,end}=alunoSemanaMonthBounds(new Date(y,m,1));
+  const{trainedKeys,treinosByDay}=await alunoHistoricoMesData(start,end);
+  alunoMesTreinosByDay=treinosByDay;
+  alunoMesPaint(trainedKeys,y,m);
+}
+window.alunoMesNav=async delta=>{
+  if(alunoMesViewY==null||alunoMesViewM==null)return;
+  let y=alunoMesViewY;
+  let m=alunoMesViewM+delta;
+  if(m<0){m=11;y--;}
+  else if(m>11){m=0;y++;}
+  alunoMesViewY=y;
+  alunoMesViewM=m;
+  await alunoMesLoadMonth(y,m);
+};
+window.alunoMesAbrir=async()=>{
+  alunoMesClearDetail();
+  abrirModal('modal-aluno-mes');
+  const now=new Date();
+  alunoMesViewY=now.getFullYear();
+  alunoMesViewM=now.getMonth();
+  await alunoMesLoadMonth(alunoMesViewY,alunoMesViewM);
+};
+function alunoSemanaPaint(trainedWeek,monthCount){
   const sub=$('aluno-semana-sub');
   const daysEl=$('aluno-semana-days');
   if(!daysEl)return;
   const now=new Date();
   const meses=['janeiro','fevereiro','mar\u00E7o','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-  const treinosMock=3;
-  if(sub)sub.textContent=treinosMock+' treino'+(treinosMock===1?'':'s')+' em '+meses[now.getMonth()];
+  const n=monthCount!=null?monthCount:0;
+  if(sub)sub.textContent=n+' treino'+(n===1?'':'s')+' em '+meses[now.getMonth()];
   const letras=['D','S','T','Q','Q','S','S'];
-  const start=new Date(now.getFullYear(),now.getMonth(),now.getDate()-now.getDay());
-  const mockTreinoDow=new Set([1,3,5]);
+  const{start}=alunoSemanaWeekBounds();
+  const todayKey=sessaoDataHojeLocal();
+  const trained=trainedWeek instanceof Set?trainedWeek:new Set();
   let ringN=0;
   let html='';
   for(let i=0;i<7;i++){
     const cur=new Date(start);
     cur.setDate(start.getDate()+i);
-    const hoje=cur.toDateString()===now.toDateString();
-    const treino=mockTreinoDow.has(i);
+    const key=alunoSemanaDayKey(cur);
+    const hoje=key===todayKey;
+    const treino=trained.has(key);
     let cls='aluno-semana-day'+(hoje?' aluno-semana-day--hoje':'');
     if(treino){cls+=' aluno-semana-day--treino aluno-semana-ring-'+(ringN%3);ringN++;}
     html+='<div class="'+cls+'"><span class="aluno-semana-dow">'+letras[i]+'</span><span class="aluno-semana-num-wrap"><span class="aluno-semana-num">'+cur.getDate()+'</span></span></div>';
   }
   daysEl.innerHTML=html;
 }
+async function alunoSemanaRender(){
+  alunoSemanaPaint(new Set(),0);
+  if(!me||!me.email)return;
+  const now=new Date();
+  const{start:weekStart,end:weekEnd}=alunoSemanaWeekBounds();
+  const{start:monthStart,end:monthEnd}=alunoSemanaMonthBounds(now);
+  const queryStart=weekStart<monthStart?weekStart:monthStart;
+  const trainedWeek=new Set();
+  const trainedMonth=new Set();
+  try{
+    const hQ=query(collection(db,'alunos',me.email,'historico'),where('data','>=',Timestamp.fromDate(queryStart)),orderBy('data','asc'));
+    const hS=await getDocs(hQ);
+    hS.forEach(snap=>{
+      const row=snap.data();
+      const raw=row.data;
+      if(!raw)return;
+      const d=raw.toDate?raw.toDate():new Date(raw);
+      const key=alunoSemanaDayKey(d);
+      if(d>=weekStart&&d<weekEnd)trainedWeek.add(key);
+      if(d>=monthStart&&d<monthEnd)trainedMonth.add(key);
+    });
+  }catch(e){
+    console.error('alunoSemanaRender:',e);
+  }
+  alunoSemanaPaint(trainedWeek,trainedMonth.size);
+}
 
 async function initAluno(){
   $('g-nome').textContent='Ol\xE1, '+(me.displayName?.split(' ')[0]||'')+'!';
   $('av-home').innerHTML=avatarEl(me,'sair()');
-  alunoSemanaRenderPlaceholder();
+  await alunoSemanaRender();
   const snap=await getDoc(doc(db,'alunos',me.email));
   if(!snap.exists()){$('treino-grid').innerHTML='<div class="empty"><div class="empty-icon">\u23F3</div><div class="empty-text">Aguardando professor configurar seu treino.</div></div>';return;}
   meAluno={id:me.email,...snap.data()};
