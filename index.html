@@ -1053,6 +1053,7 @@ select.inp option{background:var(--bg3);}
 .chart-val{font-size:10px;color:var(--text2);font-family:'DM Mono',monospace;}
 .modal-bd{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:flex-end;justify-content:center;}
 .modal-bd.modal-bd--stack{z-index:250;}
+#modal-prof-ev-excluir-registro.modal-bd{z-index:1280;}
 .modal-bd.open{display:flex;}
 .modal{background:var(--bg2);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;border:1px solid var(--border);animation:slideUp .25s ease;}
 @keyframes slideUp{from{transform:translateY(40px);opacity:0;}to{transform:translateY(0);opacity:1;}}
@@ -1132,6 +1133,7 @@ select.inp option{background:var(--bg3);}
 .chart-val{font-size:10px;color:var(--text2);font-family:'DM Mono',monospace;}
 .modal-bd{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:flex-end;justify-content:center;}
 .modal-bd.modal-bd--stack{z-index:250;}
+#modal-prof-ev-excluir-registro.modal-bd{z-index:1280;}
 .modal-bd.open{display:flex;}
 .modal{background:var(--bg2);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;border:1px solid var(--border);animation:slideUp .25s ease;}
 @keyframes slideUp{from{transform:translateY(40px);opacity:0;}to{transform:translateY(0);opacity:1;}}
@@ -9009,6 +9011,15 @@ let profEvListSeq=0;
 let profEvListItemsCache=[];
 let profEvTreinoFiltro='';
 let profEvTreinoExMap={};
+/** type="module": clique na lista de evolução via delegação (onclick inline não vê o módulo). */
+function profEvAlListClickDelegation(ev){
+  const item=ev.target&&ev.target.closest?ev.target.closest('.prof-ev-al-item'):null;
+  if(!item)return;
+  const wrap=item.closest('#prof-ev-al-list,#prof-ev-tab-list,#pt-ev-list');
+  if(!wrap)return;
+  profEvAlItemClick(item);
+}
+document.addEventListener('click',profEvAlListClickDelegation,true);
 const PROF_EV_SPLIT_BP=900;
 function profEvBuildTreinoExMap(al){
   const map={};
@@ -9186,6 +9197,7 @@ function profEvAlItemClick(btn){
   if(!nome)return;
   profEvDrawerOpenByNome(nome);
 }
+window.profEvAlItemClick=profEvAlItemClick;
 function profEvNormSearch(s){
   return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 }
@@ -9196,7 +9208,7 @@ function profEvAlunoListMatchesQuery(nome,q){
 function profEvAlunoListHtml(items){
   return items.map((item,i)=>{
     const active=profEvDrawerMode==='list'&&profEvDrawerExNome===item.nome?' prof-ev-al-item--active':'';
-    return'<button type="button" class="prof-ev-al-item'+active+'" data-ex-nome="'+esc(item.nome)+'" onclick="profEvAlItemClick(this)">'
+    return'<button type="button" class="prof-ev-al-item'+active+'" data-ex-nome="'+esc(item.nome)+'">'
       +profEvAlListItemBodyHtml(item,i+1)
       +'</button>';
   }).join('');
@@ -9651,7 +9663,8 @@ window.profEvConfirmarExcluirRegistro=async function(){
   if(cancel)cancel.disabled=true;
   try{
     await deleteDoc(doc(db,'alunos',ctx.alunoId,'historico',ctx.docId));
-    profEvFecharExcluirRegistro();
+    profEvExcluirRegCtx=null;
+    fecharModal('modal-prof-ev-excluir-registro');
     toast('\u2713 Registro exclu\u00eddo');
     await profEvRefreshAfterDelete(ctx);
   }catch(err){
@@ -9772,7 +9785,6 @@ window.profEvDrawerClose=function(){
   document.querySelectorAll('.prof-tbl-ev-btn').forEach(btn=>btn.classList.remove('prof-ev-btn--active'));
   profEvAlunoListRefreshActive();
 };
-window.profEvAlItemClick=profEvAlItemClick;
 function profEvDrawerOnExRemoved(removedIdx){
   if(profEvDrawerExIdx==null)return;
   if(removedIdx===profEvDrawerExIdx)profEvDrawerClose();
