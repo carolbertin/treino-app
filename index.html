@@ -502,7 +502,8 @@ select.inp option{background:var(--bg3);}
   #screen-prof-evolucao .prof-ev-pane-chart--wide .prof-ev-chart-plot{padding:12px 10px;}
   #screen-prof-evolucao .prof-ev-pane-chart--wide .prof-ev-chart-svg{min-height:120px;}
   #screen-prof-evolucao .prof-ev-sess-card{padding:12px 12px 11px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;}
-  #screen-prof-evolucao .prof-ev-sess-hd{display:flex;align-items:center;gap:8px;min-width:0;}
+  #screen-prof-evolucao .prof-ev-sess-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0;}
+  #screen-prof-evolucao .prof-ev-sess-hd-main{display:flex;align-items:center;gap:8px;flex:1;min-width:0;flex-wrap:wrap;}
   #screen-prof-evolucao .prof-ev-sess-ac{flex-shrink:0;font-size:10px;font-weight:600;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.1);}
   #screen-prof-evolucao .prof-ev-sess-card .prof-ev-reg-data{margin:0;}
 }
@@ -540,7 +541,10 @@ select.inp option{background:var(--bg3);}
 .prof-ev-ultimo-ac{margin:6px 0 0;font-size:12px;color:var(--text3);}
 .prof-ev-list-compact{display:flex;flex-direction:column;gap:12px;}
 .prof-ev-sess-card{padding:11px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);}
-.prof-ev-sess-hd{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+.prof-ev-sess-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;}
+.prof-ev-sess-hd-main{display:flex;align-items:center;gap:8px;flex:1;min-width:0;flex-wrap:wrap;}
+.prof-ev-sess-del{flex-shrink:0;width:30px;height:30px;padding:0;margin:-2px -4px 0 0;border:none;border-radius:7px;background:transparent;color:rgba(255,255,255,.32);cursor:pointer;font-size:15px;line-height:1;display:inline-flex;align-items:center;justify-content:center;opacity:.75;transition:opacity .15s,color .15s,background .15s;font-family:inherit;-webkit-tap-highlight-color:transparent;}
+.prof-ev-sess-del:hover,.prof-ev-sess-del:focus-visible{opacity:1;color:var(--danger);background:rgba(255,85,85,.12);outline:none;}
 .prof-ev-sess-ac{flex-shrink:0;font-size:10px;font-weight:600;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.1);}
 .prof-ev-sess-body{display:flex;flex-direction:column;gap:10px;}
 .prof-ev-sess-bloco{display:flex;flex-direction:column;gap:3px;}
@@ -1048,6 +1052,7 @@ select.inp option{background:var(--bg3);}
 .chart-bar-label{font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;white-space:nowrap;}
 .chart-val{font-size:10px;color:var(--text2);font-family:'DM Mono',monospace;}
 .modal-bd{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:flex-end;justify-content:center;}
+.modal-bd.modal-bd--stack{z-index:250;}
 .modal-bd.open{display:flex;}
 .modal{background:var(--bg2);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;border:1px solid var(--border);animation:slideUp .25s ease;}
 @keyframes slideUp{from{transform:translateY(40px);opacity:0;}to{transform:translateY(0);opacity:1;}}
@@ -1126,6 +1131,7 @@ select.inp option{background:var(--bg3);}
 .chart-bar-label{font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;white-space:nowrap;}
 .chart-val{font-size:10px;color:var(--text2);font-family:'DM Mono',monospace;}
 .modal-bd{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:flex-end;justify-content:center;}
+.modal-bd.modal-bd--stack{z-index:250;}
 .modal-bd.open{display:flex;}
 .modal{background:var(--bg2);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;border:1px solid var(--border);animation:slideUp .25s ease;}
 @keyframes slideUp{from{transform:translateY(40px);opacity:0;}to{transform:translateY(0);opacity:1;}}
@@ -1551,6 +1557,16 @@ select.inp option{background:var(--bg3);}
 }
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-dica[hidden]{display:none!important;margin:0;padding:0;border:none;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-dica p{margin:0;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-presc{margin:0 10px 8px;padding:0;font-size:12px;line-height:1.45;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-presc-lbl{display:block;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:3px;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-presc-txt{display:block;font-size:13px;font-weight:500;line-height:1.4;color:rgba(255,255,255,.88);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--feeder .aluno-tecnica-sec-presc-txt{color:rgba(158,200,245,.92);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-tecnica-sec-presc-txt{color:rgba(196,182,248,.92);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--cluster .aluno-tecnica-sec-presc-txt{color:rgba(240,200,120,.92);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-ordem{align-items:flex-start;justify-content:flex-start;text-align:left;padding:0 4px 0 0;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-ordem-txt{display:block;font-size:13px;font-weight:600;line-height:1.25;color:rgba(255,255,255,.78);font-family:inherit;text-align:left;white-space:nowrap;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--feeder .aluno-serie-ordem-txt{color:rgba(158,200,245,.9);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-serie-ordem-txt{color:rgba(190,178,245,.9);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--feeder .aluno-tecnica-sec-dica{
   background:rgba(91,159,212,.1);border:1px solid rgba(91,159,212,.32);
 }
@@ -2163,7 +2179,19 @@ select.inp option{background:var(--bg3);}
   </div>
 </div>
 
-<div class="modal-bd" id="modal-aluno-excluir-treino">
+<div class="modal-bd modal-bd--stack" id="modal-prof-ev-excluir-registro">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Excluir este registro?</div>
+    <p class="prof-limpar-hist-warn">Esse registro ser&#225; removido do hist&#243;rico, evolu&#231;&#227;o e gr&#225;ficos do aluno.<br><br>Esta a&#231;&#227;o n&#227;o pode ser desfeita.</p>
+    <div style="display:flex;gap:10px;">
+      <button type="button" class="btn btn-secondary flex-1" id="prof-ev-excluir-reg-cancel" onclick="profEvFecharExcluirRegistro()">Cancelar</button>
+      <button type="button" class="btn btn-danger flex-1" id="prof-ev-excluir-reg-confirm" onclick="profEvConfirmarExcluirRegistro()">Excluir</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bd modal-bd--stack" id="modal-aluno-excluir-treino">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">Excluir treino registrado?</div>
@@ -4107,6 +4135,85 @@ function alunoPrescRirSubHtml(linhaPresc,metaFallback){
   return'<span class="aluno-serie-presc-sub">'+esc(txt)+'</span>';
 }
 
+/** Rótulo ordinal da linha de registro (1ª série, 2ª série…). */
+function alunoSerieOrdemLabel(s){
+  return(s+1)+'\u00AA s\xE9rie';
+}
+
+function alunoSerieOrdemColHtml(s){
+  return'<div class="aluno-serie-presc aluno-serie-ordem"><span class="aluno-serie-ordem-txt">'+esc(alunoSerieOrdemLabel(s))+'</span></div>';
+}
+
+/** Coluna da 1ª coluna no layout sec: ordinal para séries normais; prescrição por bloco no cluster. */
+function alunoSecSerieColHtml(b,s,clusterCi,clusterRep){
+  if(clusterCi!=null)return alunoPrescricaoColHtml(b,clusterCi,clusterRep,null);
+  return alunoSerieOrdemColHtml(s);
+}
+
+function alunoFmtRepsMetaText(meta,presc){
+  const p=presc||interpretarPrescricao(meta);
+  if(p.modoLinhas&&p.linhas&&p.linhas.length>=2){
+    const lista=alunoFmtRepsLista(p.linhas);
+    return lista?lista+' reps':'';
+  }
+  try{
+    const t=extractTokens(meta);
+    if(t.repsMin!=null&&t.repsMax!=null&&t.repsMin!==t.repsMax)return t.repsMin+' a '+t.repsMax+' reps';
+    if(t.repsStr){
+      const rs=String(t.repsStr).replace(/\u2013/g,'-').trim();
+      const rm=rs.match(/^(\d+)\s*[-\u2013]\s*(\d+)$/);
+      if(rm)return rm[1]+' a '+rm[2]+' reps';
+      return rs.replace(/\+.*$/,'').trim()+' reps';
+    }
+    if(t.repsMin!=null)return String(t.repsMin)+' reps';
+  }catch(_){}
+  return'';
+}
+
+function alunoPrescricaoEsforcoText(b,presc){
+  const bl=b&&typeof b==='object'?b:{};
+  const meta=((bl.meta||'')+'').trim();
+  const tec=alunoTecnicaParaTranslator(bl);
+  const p=presc||interpretarPrescricao(meta);
+  let rir=null;
+  if(p.modoLinhas&&p.linhas&&p.linhas.length){
+    const rirs=p.linhas.map(l=>alunoRirDaLinha(l,meta));
+    if(rirs.length&&rirs.every(r=>r!=null&&!isNaN(r))&&rirs.every(r=>r===rirs[0]))rir=rirs[0];
+  }
+  if(rir==null)rir=alunoRirDoMeta(meta);
+  if(tec==='feeder'){
+    if(rir!=null&&rir>0)return'Pare com '+rir+' sobrando';
+    return'Pare com folga';
+  }
+  if(rir!=null&&rir>0)return'Pare com '+rir+' sobrando';
+  return'V\xE1 at\xE9 o limite';
+}
+
+/** Texto humanizado da prescrição completa (cabeçalho do bloco sec). */
+function alunoPrescricaoSecHeaderText(b){
+  const bl=b&&typeof b==='object'?b:{};
+  const meta=((bl.meta||'')+'').trim();
+  if(!meta)return'';
+  const presc=interpretarPrescricao(meta);
+  const tec=alunoTecnicaParaTranslator(bl);
+  const k=alunoSecaoKind(bl);
+  if(k==='cluster'||tec==='cluster'){
+    const parts=presc.blocos&&presc.blocos.length?presc.blocos:[4,4,4];
+    const nBl=parts.length;
+    const allSame=parts.every(p=>p===parts[0]);
+    const repsPart=allSame?(parts[0]||4)+' reps cada':alunoFmtRepsLista(parts.map(r=>({reps:r})))+' reps';
+    const T=timerPadrao('cluster');
+    return nBl+' blocos \xB7 '+repsPart+' \xB7 '+T+'s entre blocos';
+  }
+  const nSer=Math.max(1,presc.modoLinhas&&presc.linhas&&presc.linhas.length?presc.linhas.length:(presc.series||parseSeries(meta)||1));
+  const chunks=[nSer+' s\xE9rie'+(nSer>1?'s':'')];
+  const repsTxt=alunoFmtRepsMetaText(meta,presc);
+  if(repsTxt)chunks.push(repsTxt);
+  const esf=alunoPrescricaoEsforcoText(bl,presc);
+  if(esf)chunks.push(esf);
+  return chunks.join(' \xB7 ');
+}
+
 function alunoPrescricaoColHtml(b,clusterCi,clusterRep,linhaPresc){
   const meta=((b.meta||'')+'').trim();
   if(clusterCi!=null){
@@ -4167,7 +4274,7 @@ function alunoCreateSecColsHeadEl(isCluster){
   if(isCluster){
     head.innerHTML='<span class="aluno-serie-head-id">BLOCO</span><span>PRESCRI\xC7\xC3O</span><span>KG</span><span>REPS</span><span></span>';
   }else{
-    head.innerHTML='<span>PRESCRI\xC7\xC3O</span><span>KG</span><span>REPS</span><span></span>';
+    head.innerHTML='<span>S\xC9RIE</span><span>KG</span><span>REPS</span><span></span>';
   }
   return head;
 }
@@ -4382,6 +4489,13 @@ function alunoWrapTecnicaSec(container,b,buildFn){
   const head=document.createElement('div');
   head.innerHTML=alunoSecaoHeaderHtml(b);
   sec.appendChild(head.firstElementChild);
+  const prescTxt=alunoPrescricaoSecHeaderText(b);
+  if(prescTxt){
+    const prescEl=document.createElement('div');
+    prescEl.className='aluno-tecnica-sec-presc';
+    prescEl.innerHTML='<span class="aluno-tecnica-sec-presc-lbl">Prescri\xE7\xE3o:</span><span class="aluno-tecnica-sec-presc-txt">'+esc(prescTxt)+'</span>';
+    sec.appendChild(prescEl);
+  }
   const dicaTxt=alunoDicaTecnicaTexto(b);
   if(dicaTxt){
     const dica=document.createElement('div');
@@ -5461,7 +5575,7 @@ function renderAlunoSerieRows(container,ex,b,bi,nSeries,timerSeg,opts){
       row.dataset.bi=String(bi);
       row.dataset.s=String(s);
       const inpP=!sk?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\')"':'';
-      const prescCol=useSec?alunoPrescricaoColHtml(b,null,null,linha):'<span class="aluno-serie-ant">'+esc(alunoHistoricoSerieAnterior(bi,s))+'</span>';
+      const prescCol=useSec?alunoSecSerieColHtml(b,s,null,null):'<span class="aluno-serie-ant">'+esc(alunoHistoricoSerieAnterior(bi,s))+'</span>';
       const kgCell=useSec?alunoInpCellKgHtml(P,s,bi,sk,inpP,null):'<input id="'+P+'p'+s+'" type="number" inputmode="decimal" placeholder="0" class="aluno-serie-inp aluno-serie-inp-kg"'+inpP+'>';
       const repCell=useSec?alunoInpCellRepHtml(P,P+'r'+s,bi,s,sk,'0',null):'<input id="'+P+'r'+s+'" type="number" inputmode="numeric" placeholder="0" class="aluno-serie-inp aluno-serie-inp-rep">';
       row.innerHTML='<div class="'+mainCls+'">'
@@ -5511,7 +5625,7 @@ function renderAlunoClusterRows(container,ex,b,bi,blocosRep,timerSeg,opts){
         row.dataset.bi=String(bi);
         row.dataset.s='cb'+ci;
         const inpP=ci===0&&!sk?' oninput="replicarPeso(0,this.value,\''+pq+'\',\''+mjs+'\')"':'';
-        const prescCol=alunoPrescricaoColHtml(b,ci,metaRep);
+        const prescCol=alunoSecSerieColHtml(b,0,ci,metaRep);
         const kgCell=alunoInpCellKgHtml(P,0,bi,sk,inpP,ci);
         const repCell=alunoInpCellRepHtml(P,P+'rb'+ci,bi,0,sk,metaRep,ci);
         row.innerHTML='<div class="'+mainClsCluster+'">'
@@ -6066,7 +6180,7 @@ function renderAlunoRestPauseExecSimple(container,ex,b,bi,nSeries,timerSeg,opts)
     row.dataset.bi=String(bi);
     row.dataset.s=String(s);
     const inpP=!sk?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\');alunoRpSyncKgDisp(\''+pq+'\','+s+')"':'';
-    const prescCol=alunoPrescricaoColHtml(b,null,null,null);
+    const prescCol=alunoSecSerieColHtml(b,s,null,null);
     const kgCell=alunoInpCellKgHtml(P,s,bi,sk,inpP,null);
     const repCell=alunoInpCellRepHtml(P,P+'r'+s,bi,s,sk,'0',null);
     const timerArg=s===reliefIdx?restAfterMain:timerSeg;
@@ -6316,7 +6430,7 @@ function renderAlunoBackoffExecSimple(container,ex,b,bi,nSeries,timerSeg,opts){
     row.dataset.bi=String(bi);
     row.dataset.s=String(s);
     const inpP=!sk?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\');calcBackOff(\''+pq+'\',\''+mjs+'\');alunoBackoffUpdateKgHint(\''+pq+'\','+(cfg.dropPct!=null?cfg.dropPct:'null')+');alunoBackoffUpdateRegSugestao(\''+pq+'\',\''+mjs+'\')"':'';
-    const prescCol=alunoPrescricaoColHtml(b,null,null,null);
+    const prescCol=alunoSecSerieColHtml(b,s,null,null);
     const kgCell=alunoInpCellKgHtml(P,s,bi,sk,inpP,null);
     const repCell=alunoInpCellRepHtml(P,P+'r'+s,bi,s,sk,'0',null);
     const timerArg=s===nMain-1?restAfterMain:timerSeg;
@@ -6507,7 +6621,7 @@ function renderAlunoDropExecSimple(container,ex,b,bi,nSeries,timerSeg,opts){
     row.dataset.bi=String(bi);
     row.dataset.s=String(s);
     const inpP=!sk?' oninput="replicarPeso('+s+',this.value,\''+pq+'\',\''+mjs+'\');calcDrop(\''+pq+'\',\''+mjs+'\');alunoDropUpdateKgHint(\''+pq+'\','+(cfg.dropPct!=null?cfg.dropPct:'null')+');alunoDropUpdateRegSugestao(\''+pq+'\',\''+mjs+'\')"':'';
-    const prescCol=alunoPrescricaoColHtml(b,null,null,null);
+    const prescCol=alunoSecSerieColHtml(b,s,null,null);
     const kgCell=alunoInpCellKgHtml(P,s,bi,sk,inpP,null);
     const repCell=alunoInpCellRepHtml(P,P+'r'+s,bi,s,sk,'0',null);
     const timerArg=s===nMain-1?restAfterMain:timerSeg;
@@ -9297,6 +9411,8 @@ function profEvSessRowHtml(d){
   if(!d||!d.data)return'';
   const ac=((d.academia||'')+'').trim();
   const acTag=ac?'<span class="prof-ev-sess-ac">'+esc(ac)+'</span>':'';
+  const docId=((d._docId||'')+'').trim();
+  const delBtn=docId?'<button type="button" class="prof-ev-sess-del" aria-label="Excluir registro" title="Excluir registro" onclick="event.stopPropagation();profEvAbrirExcluirRegistro(\''+escJs(docId)+'\')"><span aria-hidden="true">&#x1F5D1;&#xFE0F;</span></button>':'';
   const blocos=profEvSessBlocosFromDoc(d);
   let body='';
   if(blocos.length){
@@ -9307,7 +9423,7 @@ function profEvSessRowHtml(d){
   const obs=((d.obs||'')+'').trim();
   const obsHtml=obs?'<p class="prof-ev-reg-obs">'+esc(obs)+'</p>':'';
   return'<div class="prof-ev-sess-card">'
-    +'<div class="prof-ev-sess-hd"><span class="prof-ev-reg-data">'+esc(profEvFmtData(d.data))+'</span>'+acTag+'</div>'
+    +'<div class="prof-ev-sess-hd"><div class="prof-ev-sess-hd-main"><span class="prof-ev-reg-data">'+esc(profEvFmtData(d.data))+'</span>'+acTag+'</div>'+delBtn+'</div>'
     +body+obsHtml
     +'</div>';
 }
@@ -9488,6 +9604,65 @@ function profEvDrawerSetPane(resumo,chart,ultimo,list,obs){
     const o=root.querySelector('.prof-ev-pane-obs-list');if(o)o.innerHTML=obs!=null?obs:'';
   });
 }
+let profEvExcluirRegBusy=false;
+let profEvExcluirRegCtx=null;
+window.profEvAbrirExcluirRegistro=function(docId){
+  docId=((docId||'')+'').trim();
+  if(!docId)return;
+  const al=editorAluno||alunoSel;
+  if(!al||!al.id){toast('Aluno n\u00e3o identificado');return;}
+  const exNome=profEvDrawerMode==='list'?profEvDrawerExNome:(profEvDrawerExIdx!=null?profEvDrawerNome(profEvDrawerExIdx):'');
+  profEvExcluirRegCtx={
+    alunoId:al.id,
+    docId,
+    exNome,
+    exKey:profEvDrawerMode==='list'?exNome:profEvDrawerExIdx
+  };
+  abrirModal('modal-prof-ev-excluir-registro');
+};
+window.profEvFecharExcluirRegistro=function(){
+  if(profEvExcluirRegBusy)return;
+  profEvExcluirRegCtx=null;
+  fecharModal('modal-prof-ev-excluir-registro');
+};
+async function profEvRefreshAfterDelete(ctx){
+  if(!ctx)return;
+  if(profEvDrawerMode==='list'&&typeof ctx.exKey==='string'&&ctx.exKey){
+    profEvDrawerLoadHistorico(ctx.exKey);
+  }else if(profEvDrawerExIdx!=null){
+    profEvDrawerLoadHistorico(profEvDrawerExIdx);
+  }
+  const al=alunosDB.find(a=>a.id===ctx.alunoId)||alunoSel||editorAluno;
+  if(!al||al.id!==ctx.alunoId)return;
+  if(profEvIsAlunoEvolucaoScreenActive()){
+    const listEl=$('prof-ev-al-list');
+    if(listEl)await profEvAlunoListRender(listEl,al);
+  }
+  const tabList=$('prof-ev-tab-list');
+  if(tabList&&profEvListAlunoId===ctx.alunoId)await profEvAlunoListRender(tabList,al);
+}
+window.profEvConfirmarExcluirRegistro=async function(){
+  if(profEvExcluirRegBusy||!profEvExcluirRegCtx)return;
+  const ctx=profEvExcluirRegCtx;
+  const btn=$('prof-ev-excluir-reg-confirm');
+  const cancel=$('prof-ev-excluir-reg-cancel');
+  profEvExcluirRegBusy=true;
+  if(btn){btn.disabled=true;btn.textContent='Excluindo\u2026';}
+  if(cancel)cancel.disabled=true;
+  try{
+    await deleteDoc(doc(db,'alunos',ctx.alunoId,'historico',ctx.docId));
+    profEvFecharExcluirRegistro();
+    toast('\u2713 Registro exclu\u00eddo');
+    await profEvRefreshAfterDelete(ctx);
+  }catch(err){
+    console.error('profEvConfirmarExcluirRegistro:',err);
+    toast('\u274C Erro ao excluir registro');
+  }finally{
+    profEvExcluirRegBusy=false;
+    if(btn){btn.disabled=false;btn.textContent='Excluir';}
+    if(cancel)cancel.disabled=false;
+  }
+};
 async function profEvDrawerLoadHistorico(exKey){
   const seq=++profEvDrawerLoadSeq;
   const load='<p class="prof-ev-reg-loading">Carregando\u2026</p>';
@@ -9515,7 +9690,11 @@ async function profEvDrawerLoadHistorico(exKey){
       profEvDrawerSetPane(profEvPaneResumoHtml([]),profEvChartHtml([]),empty,empty,'<p class="prof-ev-reg-empty">Nenhuma observa\u00e7\u00e3o</p>');
       return;
     }
-    const rawDocs=hS.docs.map(x=>x.data()).filter(d=>d.data)
+    const rawDocs=hS.docs.map(x=>{
+      const d=x.data();
+      if(!d.data)return null;
+      return Object.assign({},d,{_docId:x.id});
+    }).filter(Boolean)
       .sort((a,b)=>(b.data.seconds||0)-(a.data.seconds||0));
     const workSnaps=rawDocs.map(profEvExtractWork).filter(Boolean);
     const split=profEvUseSplitPane();
