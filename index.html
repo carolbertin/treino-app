@@ -92,9 +92,12 @@ select.inp option{background:var(--bg3);}
 .aluno-mes-detail{margin-bottom:18px;padding:14px 16px;border-radius:var(--rsm);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);}
 .aluno-mes-detail-date{margin:0 0 10px;font-size:15px;font-weight:600;color:var(--text);}
 .aluno-mes-detail-lbl{margin:0 0 8px;font-size:12px;font-weight:600;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;}
-.aluno-mes-detail-list{margin:0;padding:0 0 0 18px;list-style:disc;}
-.aluno-mes-detail-list li{margin:0 0 6px;font-size:14px;line-height:1.4;color:var(--text2);}
+.aluno-mes-detail-list{margin:0;padding:0;list-style:none;}
+.aluno-mes-detail-list li{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 8px;font-size:14px;line-height:1.4;color:var(--text2);}
 .aluno-mes-detail-list li:last-child{margin-bottom:0;}
+.aluno-mes-detail-treino{flex:1;min-width:0;}
+.aluno-mes-detail-excluir{flex-shrink:0;padding:6px 12px;font-size:12px;font-weight:600;font-family:inherit;color:rgba(255,140,140,.95);background:rgba(220,80,80,.12);border:1px solid rgba(220,80,80,.35);border-radius:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.aluno-mes-detail-excluir:active{opacity:.85;}
 .aluno-mes-detail-empty{margin:0;font-size:14px;line-height:1.45;color:var(--text3);}
 .aluno-mes-loading{grid-column:1/-1;text-align:center;color:var(--text3);font-size:13px;padding:28px 0;}
 .aluno-semana-days{display:flex;justify-content:space-between;gap:6px;padding:0 2px;}
@@ -467,6 +470,10 @@ select.inp option{background:var(--bg3);}
 #screen-prof-evolucao .prof-ev-al-pane--idle .prof-ev-al-pane-empty{display:block;}
 #screen-prof-evolucao .prof-ev-al-pane--idle #prof-ev-al-pane-inner{display:none;}
 #screen-prof-evolucao .prof-ev-list-hint{display:none;}
+#screen-prof-evolucao .prof-ev-treino-pills{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px;}
+#screen-prof-evolucao .prof-ev-treino-pill{padding:8px 14px;border-radius:999px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-family:inherit;font-size:12px;font-weight:500;line-height:1.2;cursor:pointer;transition:border-color .15s,background .15s,color .15s;}
+#screen-prof-evolucao .prof-ev-treino-pill:hover{border-color:rgba(255,255,255,.18);color:var(--text);}
+#screen-prof-evolucao .prof-ev-treino-pill--on{border-color:rgba(200,240,96,.35);background:rgba(200,240,96,.12);color:var(--accent);}
 @media (min-width:900px){
   #screen-prof-evolucao .prof-ev-list-hint{display:block;}
   #screen-prof-evolucao .prof-ev-aluno-split{flex-direction:row;align-items:stretch;gap:0;min-height:calc(100vh - 56px);}
@@ -494,11 +501,10 @@ select.inp option{background:var(--bg3);}
   #screen-prof-evolucao .prof-ev-kpi-hint{font-size:11px;color:rgba(255,255,255,.32);line-height:1.35;}
   #screen-prof-evolucao .prof-ev-pane-chart--wide .prof-ev-chart-plot{padding:12px 10px;}
   #screen-prof-evolucao .prof-ev-pane-chart--wide .prof-ev-chart-svg{min-height:120px;}
-  #screen-prof-evolucao .prof-ev-list-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;}
+  #screen-prof-evolucao .prof-ev-sess-card{padding:12px 12px 11px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;}
   #screen-prof-evolucao .prof-ev-sess-hd{display:flex;align-items:center;gap:8px;min-width:0;}
   #screen-prof-evolucao .prof-ev-sess-ac{flex-shrink:0;font-size:10px;font-weight:600;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.1);}
-  #screen-prof-evolucao .prof-ev-list-row .prof-ev-reg-carga{margin:0;font-size:14px;white-space:nowrap;}
-  #screen-prof-evolucao .prof-ev-list-row .prof-ev-reg-data{margin:0;}
+  #screen-prof-evolucao .prof-ev-sess-card .prof-ev-reg-data{margin:0;}
 }
 @media (min-width:900px) and (max-width:1024px){
   #screen-prof-evolucao .prof-ev-kpis{grid-template-columns:1fr;}
@@ -533,6 +539,14 @@ select.inp option{background:var(--bg3);}
 .prof-ev-ultimo-card .prof-ev-reg-carga{margin-bottom:0;}
 .prof-ev-ultimo-ac{margin:6px 0 0;font-size:12px;color:var(--text3);}
 .prof-ev-list-compact{display:flex;flex-direction:column;gap:12px;}
+.prof-ev-sess-card{padding:11px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rsm);}
+.prof-ev-sess-hd{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+.prof-ev-sess-ac{flex-shrink:0;font-size:10px;font-weight:600;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.1);}
+.prof-ev-sess-body{display:flex;flex-direction:column;gap:10px;}
+.prof-ev-sess-bloco{display:flex;flex-direction:column;gap:3px;}
+.prof-ev-sess-bloco-lbl{margin:0;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);line-height:1.3;}
+.prof-ev-sess-serie{margin:0;font-size:13px;font-weight:500;color:var(--text);font-family:'DM Mono',monospace;line-height:1.45;}
+.prof-ev-sess-card .prof-ev-reg-obs{margin-top:10px;}
 .prof-ev-list-row .prof-ev-reg-data{margin-bottom:4px;}
 .prof-ev-list-row .prof-ev-reg-carga{margin:0;font-size:14px;}
 .prof-ev-obs-list{display:flex;flex-direction:column;gap:10px;}
@@ -1070,7 +1084,9 @@ select.inp option{background:var(--bg3);}
 #screen-prof-aluno .prof-dash-status-dot--ok{background:#4ade80;box-shadow:0 0 8px rgba(74,222,128,.45);}
 #screen-prof-aluno .prof-dash-status-dot--load{background:rgba(255,255,255,.2);animation:profDashPulse 1s ease infinite alternate;}
 @keyframes profDashPulse{to{opacity:.35;}}
-#screen-prof-aluno .prof-dash-sec-tit{margin:0 0 14px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.32);}
+#screen-prof-aluno .prof-dash-sec-tit{margin:0;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.32);}
+#screen-prof-aluno .prof-dash-week-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;}
+#screen-prof-aluno .prof-dash-ver-mes{flex-shrink:0;}
 #screen-prof-aluno .prof-dash-week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:28px;}
 #screen-prof-aluno .prof-dash-day{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;}
 #screen-prof-aluno .prof-dash-day-box{width:100%;aspect-ratio:1;max-width:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;line-height:1;box-sizing:border-box;}
@@ -2041,7 +2057,13 @@ select.inp option{background:var(--bg3);}
       </div>
     </header>
     <section class="prof-dash-week" aria-labelledby="pad-week-tit">
-      <h2 class="prof-dash-sec-tit" id="pad-week-tit">Esta semana</h2>
+      <div class="prof-dash-week-head">
+        <h2 class="prof-dash-sec-tit" id="pad-week-tit">Esta semana</h2>
+        <button type="button" class="aluno-semana-ver-mes prof-dash-ver-mes" onclick="profDashMesAbrir()" aria-label="Ver calend&#225;rio do m&#234;s do aluno">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          Ver m&#xEA;s
+        </button>
+      </div>
       <div id="pad-week-grid" class="prof-dash-week-grid" role="list" aria-label="Resumo semanal"></div>
     </section>
     <nav class="prof-dash-actions" aria-label="A&#xE7;&#xF5;es do aluno">
@@ -2087,6 +2109,7 @@ select.inp option{background:var(--bg3);}
     <div class="prof-ev-aluno-split">
       <div class="prof-ev-aluno-list-col">
         <p class="prof-ev-list-hint">Selecione um exerc&#237;cio</p>
+        <div id="prof-ev-treino-pills" class="prof-ev-treino-pills" hidden></div>
         <div class="field prof-ev-list-search">
           <input type="search" class="inp" id="prof-ev-al-search" placeholder="Pesquisar exerc&#237;cio..." autocomplete="off" aria-label="Pesquisar exerc&#237;cio" oninput="profEvAlunoListApplyFilter()">
         </div>
@@ -2136,6 +2159,18 @@ select.inp option{background:var(--bg3);}
     <div style="display:flex;gap:10px;">
       <button type="button" class="btn btn-secondary flex-1" id="prof-limpar-hist-cancel" onclick="profDashFecharLimparHistorico()">Cancelar</button>
       <button type="button" class="btn btn-danger flex-1" id="prof-limpar-hist-confirm" onclick="profDashConfirmarLimparHistorico()">Apagar hist&#243;rico</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bd" id="modal-aluno-excluir-treino">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Excluir treino registrado?</div>
+    <p class="prof-limpar-hist-warn" id="aluno-excluir-treino-msg"></p>
+    <div style="display:flex;gap:10px;">
+      <button type="button" class="btn btn-secondary flex-1" id="aluno-excluir-treino-cancel" onclick="alunoMesFecharExcluirTreino()">Cancelar</button>
+      <button type="button" class="btn btn-danger flex-1" id="aluno-excluir-treino-confirm" onclick="alunoMesConfirmarExcluirTreino()">Excluir registro</button>
     </div>
   </div>
 </div>
@@ -2752,11 +2787,12 @@ function alunoSemanaMonthBounds(ref){
   const end=new Date(now.getFullYear(),now.getMonth()+1,1);
   return{start,end};
 }
-async function alunoHistoricoTrainedDayKeys(rangeStart,rangeEnd){
+let calMesAlunoId=null;
+async function historicoTrainedDayKeys(alunoId,rangeStart,rangeEnd){
   const keys=new Set();
-  if(!me||!me.email)return keys;
+  if(!alunoId)return keys;
   try{
-    const hQ=query(collection(db,'alunos',me.email,'historico'),where('data','>=',Timestamp.fromDate(rangeStart)),orderBy('data','asc'));
+    const hQ=query(collection(db,'alunos',alunoId,'historico'),where('data','>=',Timestamp.fromDate(rangeStart)),orderBy('data','asc'));
     const hS=await getDocs(hQ);
     hS.forEach(snap=>{
       const row=snap.data();
@@ -2767,16 +2803,16 @@ async function alunoHistoricoTrainedDayKeys(rangeStart,rangeEnd){
       keys.add(alunoSemanaDayKey(d));
     });
   }catch(e){
-    console.error('alunoHistoricoTrainedDayKeys:',e);
+    console.error('historicoTrainedDayKeys:',e);
   }
   return keys;
 }
-async function alunoHistoricoMesData(rangeStart,rangeEnd){
+async function historicoMesData(alunoId,rangeStart,rangeEnd){
   const trainedKeys=new Set();
   const treinosByDay=new Map();
-  if(!me||!me.email)return{trainedKeys,treinosByDay};
+  if(!alunoId)return{trainedKeys,treinosByDay};
   try{
-    const hQ=query(collection(db,'alunos',me.email,'historico'),where('data','>=',Timestamp.fromDate(rangeStart)),orderBy('data','asc'));
+    const hQ=query(collection(db,'alunos',alunoId,'historico'),where('data','>=',Timestamp.fromDate(rangeStart)),orderBy('data','asc'));
     const hS=await getDocs(hQ);
     hS.forEach(snap=>{
       const row=snap.data();
@@ -2792,13 +2828,92 @@ async function alunoHistoricoMesData(rangeStart,rangeEnd){
       treinosByDay.get(key).add(nome);
     });
   }catch(e){
-    console.error('alunoHistoricoMesData:',e);
+    console.error('historicoMesData:',e);
   }
   return{trainedKeys,treinosByDay};
+}
+function calMesResolveAlunoId(){
+  return calMesAlunoId||(me&&me.email)||'';
+}
+async function alunoHistoricoTrainedDayKeys(rangeStart,rangeEnd){
+  return historicoTrainedDayKeys(me&&me.email,rangeStart,rangeEnd);
+}
+async function alunoHistoricoMesData(rangeStart,rangeEnd){
+  return historicoMesData(calMesResolveAlunoId(),rangeStart,rangeEnd);
 }
 let alunoMesViewY=null;
 let alunoMesViewM=null;
 let alunoMesTreinosByDay=new Map();
+let alunoMesDetailCtx=null;
+let alunoExcluirTreinoCtx=null;
+let alunoExcluirTreinoBusy=false;
+function alunoDayKeyBounds(dayKey){
+  const parts=String(dayKey||'').split('-');
+  const y=parseInt(parts[0],10),m=parseInt(parts[1],10)-1,d=parseInt(parts[2],10);
+  if(Number.isNaN(y)||Number.isNaN(m)||Number.isNaN(d))return{start:new Date(0),end:new Date(0)};
+  const start=new Date(y,m,d);
+  start.setHours(0,0,0,0);
+  const end=new Date(start);
+  end.setDate(start.getDate()+1);
+  return{start,end};
+}
+function alunoDayKeyFmtCurto(dayKey){
+  const p=String(dayKey||'').split('-');
+  if(p.length!==3)return dayKey||'';
+  return p[2]+'/'+p[1];
+}
+function alunoSessaoLsKeyParaData(treinoNome,dayKey){
+  return'sessao_treino_v1_'+sessaoEmailPart()+'_'+dayKey+'_'+treinoSessaoKey(treinoNome);
+}
+function alunoLimparRascunhoSessaoTreino(dayKey,treinoNome){
+  try{localStorage.removeItem(alunoSessaoLsKeyParaData(treinoNome,dayKey));}catch(_){}
+  const nome=String(treinoNome||'').trim();
+  if(sessaoTreinoAtual&&sessaoTreinoAtual.data===dayKey&&String(sessaoTreinoAtual.treinoNome||'').trim()===nome)
+    sessaoTreinoAtual=null;
+}
+async function alunoHistoricoDeleteTreinoDia(alunoId,dayKey,treinoNome){
+  const nome=String(treinoNome||'').trim();
+  if(!alunoId||!nome||!dayKey)return 0;
+  const{start,end}=alunoDayKeyBounds(dayKey);
+  const collRef=collection(db,'alunos',alunoId,'historico');
+  const hQ=query(collRef,where('data','>=',Timestamp.fromDate(start)),where('data','<',Timestamp.fromDate(end)),orderBy('data','asc'));
+  const hS=await getDocs(hQ);
+  const refs=[];
+  hS.forEach(snap=>{
+    const row=snap.data();
+    if(String(row.treinoNome||'').trim()!==nome)return;
+    const raw=row.data;
+    if(!raw)return;
+    const d=raw.toDate?raw.toDate():new Date(raw);
+    if(alunoSemanaDayKey(d)!==dayKey)return;
+    refs.push(snap.ref);
+  });
+  for(let i=0;i<refs.length;i+=400){
+    const batch=writeBatch(db);
+    refs.slice(i,i+400).forEach(ref=>batch.delete(ref));
+    await batch.commit();
+  }
+  return refs.length;
+}
+async function alunoRefreshAposExcluirTreino(){
+  await alunoSemanaRender();
+  if(!me||!me.email)return;
+  const lastNome=$('last-nome');
+  const lastData=$('last-data');
+  if(!lastNome&&!lastData)return;
+  try{
+    const hQ=query(collection(db,'alunos',me.email,'historico'),orderBy('data','desc'),limit(1));
+    const hS=await getDocs(hQ);
+    if(!hS.empty){
+      const d=hS.docs[0].data();
+      if(lastNome)lastNome.textContent=d.treinoNome||'\u2014';
+      if(lastData)lastData.textContent=fmtDate(d.data);
+    }else{
+      if(lastNome)lastNome.textContent='\u2014';
+      if(lastData)lastData.textContent='';
+    }
+  }catch(e){console.error('alunoRefreshAposExcluirTreino:',e);}
+}
 function alunoMesClearDetail(){
   const panel=$('aluno-mes-detail');
   if(panel)panel.hidden=true;
@@ -2817,15 +2932,72 @@ function alunoMesShowDayDetail(dayKey,y,m,day){
     if(sel)sel.classList.add('aluno-mes-cell--selected');
   }
   dateEl.textContent=day+' de '+alunoMesNomeMes(m).toLowerCase()+' de '+y;
+  alunoMesDetailCtx={dayKey,y,m,day};
   const treinos=alunoMesTreinosByDay.get(dayKey);
+  const podeExcluir=!calMesAlunoId&&!!(me&&me.email);
   if(!treinos||!treinos.size){
     body.innerHTML='<p class="aluno-mes-detail-empty">Nenhum treino registrado neste dia.</p>';
   }else{
     const list=[...treinos].sort((a,b)=>a.localeCompare(b,'pt-BR'));
-    body.innerHTML='<div class="aluno-mes-detail-lbl">Treinos realizados:</div><ul class="aluno-mes-detail-list">'+list.map(t=>'<li>'+esc(t)+'</li>').join('')+'</ul>';
+    body.innerHTML='<div class="aluno-mes-detail-lbl">Treinos realizados:</div><ul class="aluno-mes-detail-list">'
+      +list.map((t,i)=>'<li><span class="aluno-mes-detail-treino">'+esc(t)+'</span>'
+        +(podeExcluir?'<button type="button" class="aluno-mes-detail-excluir" data-treino-idx="'+i+'">Excluir</button>':'')
+        +'</li>').join('')
+      +'</ul>';
+    if(podeExcluir){
+      body.querySelectorAll('.aluno-mes-detail-excluir').forEach(btn=>{
+        const idx=parseInt(btn.dataset.treinoIdx,10);
+        const nome=list[idx];
+        if(nome)btn.onclick=()=>alunoMesAbrirExcluirTreino(nome);
+      });
+    }
   }
   panel.hidden=false;
 }
+window.alunoMesAbrirExcluirTreino=function(treinoNome){
+  if(calMesAlunoId||!alunoMesDetailCtx||!me||!me.email)return;
+  const nome=String(treinoNome||'').trim();
+  if(!nome)return;
+  alunoExcluirTreinoCtx={...alunoMesDetailCtx,treinoNome:nome};
+  const msg=$('aluno-excluir-treino-msg');
+  if(msg){
+    msg.innerHTML='Isso remover\u00E1 todos os registros de <strong>'+esc(nome)+'</strong> feitos em <strong>'+esc(alunoDayKeyFmtCurto(alunoMesDetailCtx.dayKey))+'</strong>.<br><br>Essa a\u00E7\u00E3o remover\u00E1 o treino do calend\u00E1rio, hist\u00F3rico, evolu\u00E7\u00E3o e gr\u00E1ficos.<br><br>Os treinos prescritos n\u00E3o ser\u00E3o apagados.';
+  }
+  abrirModal('modal-aluno-excluir-treino');
+};
+window.alunoMesFecharExcluirTreino=function(){
+  if(alunoExcluirTreinoBusy)return;
+  alunoExcluirTreinoCtx=null;
+  fecharModal('modal-aluno-excluir-treino');
+};
+window.alunoMesConfirmarExcluirTreino=async function(){
+  const ctx=alunoExcluirTreinoCtx;
+  if(!ctx||alunoExcluirTreinoBusy||calMesAlunoId||!me||!me.email)return;
+  const btn=$('aluno-excluir-treino-confirm');
+  const cancel=$('aluno-excluir-treino-cancel');
+  alunoExcluirTreinoBusy=true;
+  if(btn){btn.disabled=true;btn.textContent='Excluindo\u2026';}
+  if(cancel)cancel.disabled=true;
+  try{
+    const n=await alunoHistoricoDeleteTreinoDia(me.email,ctx.dayKey,ctx.treinoNome);
+    alunoLimparRascunhoSessaoTreino(ctx.dayKey,ctx.treinoNome);
+    fecharModal('modal-aluno-excluir-treino');
+    alunoExcluirTreinoCtx=null;
+    toast(n?'\u2713 Treino removido ('+n+' registro'+(n===1?'':'s')+')':'\u2713 Treino removido');
+    const detailCtx={dayKey:ctx.dayKey,y:ctx.y,m:ctx.m,day:ctx.day};
+    if(alunoMesViewY!=null&&alunoMesViewM!=null)
+      await alunoMesLoadMonth(alunoMesViewY,alunoMesViewM);
+    alunoMesShowDayDetail(detailCtx.dayKey,detailCtx.y,detailCtx.m,detailCtx.day);
+    await alunoRefreshAposExcluirTreino();
+  }catch(e){
+    console.error('alunoMesConfirmarExcluirTreino:',e);
+    toast('\u274C Erro ao excluir. Verifique conex\u00E3o.');
+  }finally{
+    alunoExcluirTreinoBusy=false;
+    if(btn){btn.disabled=false;btn.textContent='Excluir registro';}
+    if(cancel)cancel.disabled=false;
+  }
+};
 function alunoMesNomeMes(m){
   const meses=['janeiro','fevereiro','mar\u00E7o','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
   const n=meses[m]||'';
@@ -2886,6 +3058,17 @@ window.alunoMesNav=async delta=>{
   await alunoMesLoadMonth(y,m);
 };
 window.alunoMesAbrir=async()=>{
+  calMesAlunoId=null;
+  alunoMesClearDetail();
+  abrirModal('modal-aluno-mes');
+  const now=new Date();
+  alunoMesViewY=now.getFullYear();
+  alunoMesViewM=now.getMonth();
+  await alunoMesLoadMonth(alunoMesViewY,alunoMesViewM);
+};
+window.profDashMesAbrir=async()=>{
+  if(!alunoSel||!alunoSel.id){toast('Selecione um aluno');return;}
+  calMesAlunoId=alunoSel.id;
   alunoMesClearDetail();
   abrirModal('modal-aluno-mes');
   const now=new Date();
@@ -3002,6 +3185,62 @@ function alunoSnapshotSeriesDoneDom(){
   return m;
 }
 
+/** Chaves bi|s / bi|cbN que precisam estar em seriesDone (exec-simple + rows v1). */
+function alunoSeriesDoneKeysEsperadasEx(ex){
+  const keys=[];
+  const blocos=normalizarExercicio(ex);
+  const usaRowsV1=blocos.some(b=>{
+    const presc=interpretarPrescricao(b.meta||'');
+    const t=b.tecnica||presc.tipo;
+    const tipo=((b.tipo||'')+'').toLowerCase();
+    return alunoUsaRenderSerieRows(t,tipo)||alunoUsaRenderClusterRows(t,tipo);
+  });
+  if(!usaRowsV1)return keys;
+  blocos.forEach((b,bi)=>{
+    const presc=interpretarPrescricao(b.meta||'');
+    const tecnica=alunoTecnicaParaTranslator(b);
+    const tipoAluno=((b.tipo||'')+'').toLowerCase();
+    const nSeries=presc.modoLinhas&&presc.linhas&&presc.linhas.length
+      ?presc.linhas.length
+      :(presc.series||parseSeries(b.meta||'')||1);
+    if(alunoUsaRenderSerieRows(tecnica,tipoAluno)){
+      for(let s=0;s<nSeries;s++)keys.push(bi+'|'+s);
+    }else if(alunoUsaRenderClusterRows(tecnica,tipoAluno)){
+      const blC=presc.blocos||[4,4,4];
+      for(let ci=0;ci<blC.length;ci++)keys.push(bi+'|cb'+ci);
+    }else if(tecnica==='rest-pause'){
+      const nMain=Math.max(1,nSeries);
+      for(let s=0;s<nMain;s++)keys.push(bi+'|'+s);
+      keys.push(bi+'|rp');
+    }else if(tecnica==='back-off'){
+      const nBo=Math.max(2,presc.series||parseSeries(b.meta||'')||2);
+      const nMain=Math.max(1,nBo-1);
+      for(let s=0;s<nMain;s++)keys.push(bi+'|'+s);
+      keys.push(bi+'|'+nMain);
+    }else if(tecnica==='drop'||tecnica==='drop-set'){
+      const nDrop=Math.max(2,presc.series||parseSeries(b.meta||'')||2);
+      const nMain=Math.max(1,nDrop-1);
+      for(let s=0;s<nMain;s++)keys.push(bi+'|'+s);
+      keys.push(bi+'|'+nMain);
+    }
+  });
+  return keys;
+}
+
+function alunoRascunhoExercicioConcluido(idx,nome,ex){
+  if(!sessaoTreinoValidaHoje(sessaoTreinoAtual,treinoAtual&&treinoAtual.nome))return false;
+  const draft=sessaoTreinoAtual.exercicios[exercicioSessaoKey(idx,nome)];
+  if(!draft||!draft.seriesDone||typeof draft.seriesDone!=='object')return false;
+  const esperadas=alunoSeriesDoneKeysEsperadasEx(ex);
+  if(!esperadas.length)return false;
+  const sd=draft.seriesDone;
+  return esperadas.every(k=>!!sd[k]);
+}
+
+function alunoExercicioListaConcluido(ex,idx){
+  return exFeitosHoje.has(idx)||alunoRascunhoExercicioConcluido(idx,ex.nome,ex);
+}
+
 function persistirExercicioAtualNaSessao(){
   if(!sessaoTreinoValidaHoje(sessaoTreinoAtual,treinoAtual&&treinoAtual.nome)||!exAtual||exAtual.idx==null)return;
   const key=exercicioSessaoKey(exAtual.idx,exAtual.nome);
@@ -3066,13 +3305,30 @@ function aplicarRascunhoExercicio(idx,nome){
     if(typeof draft.guided.alunoActiveBlockIndex==='number')alunoActiveBlockIndex=draft.guided.alunoActiveBlockIndex;
     alunoGuidedLastStepDone=!!draft.guided.alunoGuidedLastStepDone;
   }
+  const obsEl=$('obs-inp');
+  if(obsEl&&draft.obsSessao!=null)obsEl.value=String(draft.obsSessao);
+}
+
+/** Checks + progresso: só após render completo e tela ativa (goTo). Logs temporários de diagnóstico. */
+function alunoRestaurarChecksPosRender(idx,nome){
+  if(!sessaoTreinoValidaHoje(sessaoTreinoAtual,treinoAtual&&treinoAtual.nome))return;
+  const draft=sessaoTreinoAtual.exercicios[exercicioSessaoKey(idx,nome)];
   const c=$('series-inputs');
-  if(c&&draft.seriesDone)alunoRestoreSeriesDone(draft.seriesDone);
+  const seriesDone=draft&&draft.seriesDone;
+  const keys=seriesDone&&typeof seriesDone==='object'?Object.keys(seriesDone).filter(k=>seriesDone[k]):[];
+  const domDoneAntes=c?c.querySelectorAll('.aluno-serie-row--done,.aluno-cluster-mini--done').length:0;
+  const domCheckable=c?c.querySelectorAll('.aluno-serie-check,.aluno-cluster-mini-check').length:0;
+  console.log('[rascunho-checks] draft.seriesDone recebido:', seriesDone);
+  console.log('[rascunho-checks] chaves marcadas no rascunho:', keys.length, keys);
+  const stats=alunoRestoreSeriesDone(seriesDone,c);
+  const domDoneDepois=c?c.querySelectorAll('.aluno-serie-row--done,.aluno-cluster-mini--done').length:0;
+  console.log('[rascunho-checks] checks restaurados (aplicados):', stats.restored,'de',stats.keysTotal);
+  if(stats.missed.length)console.log('[rascunho-checks] chaves sem elemento no DOM:', stats.missed);
+  console.log('[rascunho-checks] DOM --done antes/depois:', domDoneAntes,'→',domDoneDepois,'| botões ✓ no DOM:', domCheckable);
+  if(!draft)return;
   if(c&&draft.guided)applyAlunoGuidedBlockUI();
   else if(c)paintAlunoExecActiveBlock();
   if(c&&c.dataset.alunoRowsV1)alunoSyncRowsProgress();
-  const obsEl=$('obs-inp');
-  if(obsEl&&draft.obsSessao!=null)obsEl.value=String(draft.obsSessao);
 }
 
 function abrirTreino(t){
@@ -3257,7 +3513,7 @@ function renderListaEx(){
   if(!exercicios.length){lista.innerHTML='<div class="empty"><div class="empty-icon">\uD83D\uDCCB</div><div class="empty-text">Nenhum exerc\xEDcio</div></div>';return;}
   if(viewDetalhado){
     exercicios.forEach((ex,i)=>{
-      const feito=exFeitosHoje.has(i);
+      const feito=alunoExercicioListaConcluido(ex,i);
       const temSubst=(ex.substitutos||[]).filter(s=>s.nome).length>0;
       const el=document.createElement('div');el.className='ex-item'+(feito?' done':'');
       el.innerHTML='<div class="ex-num">'+(feito?'\u2713':(i+1))+'</div>'
@@ -3281,13 +3537,13 @@ function renderListaEx(){
     const wrap=document.createElement('div');wrap.className='planilha-view';
     wrap.innerHTML='<div class="planilha-header"><span>#</span><span>Exerc\xEDcio</span><span>Tipo</span><span>S\xE9ries</span></div>';
     exercicios.forEach((ex,i)=>{
-      const feito=exFeitosHoje.has(i);
+      const feito=alunoExercicioListaConcluido(ex,i);
       const row=document.createElement('div');row.className='planilha-row'+(feito?' done':'');
       const blPl=normalizarExercicio(ex);
       const tipoPl=blPl.length>1
         ?(blPl.length+' etapas')
         :alunoCopyBloco(blPl[0]||{tipo:ex.tipo,tecnica:ex.tecnica,meta:ex.meta||'',obs:ex.obs||''},{blocoIndex:0,totalBlocos:Math.max(1,blPl.length)}).tituloAluno;
-      row.innerHTML='<div class="planilha-num">'+(i+1)+'</div><div class="planilha-nome">'+esc(ex.nome)+'</div><div class="planilha-tipo">'+esc(tipoPl)+'</div><div class="planilha-meta">'+esc(textoMetaListaAlunoSimples(ex))+'</div>';
+      row.innerHTML='<div class="planilha-num">'+(feito?'\u2713':(i+1))+'</div><div class="planilha-nome">'+esc(ex.nome)+'</div><div class="planilha-tipo">'+esc(tipoPl)+'</div><div class="planilha-meta">'+esc(textoMetaListaAlunoSimples(ex))+'</div>';
       row.addEventListener('click',()=>abrirExercicio(ex,i));wrap.appendChild(row);
     });
     lista.appendChild(wrap);
@@ -3483,10 +3739,10 @@ async function abrirExercicio(ex,idx){
   renderSeriesInputs(ex);
   aplicarRascunhoExercicio(idx,ex.nome);
   alunoLoadAnteriorFiltroState();
-  // Navegar ANTES de buscar histórico
   const scrEx=$('screen-exercicio');
   if(scrEx)scrEx.classList.add('screen-exercicio--exec-simple');
   goTo('exercicio');
+  alunoRestaurarChecksPosRender(idx,ex.nome);
   alunoClearObsAnterior();
   carregarHistoricoEx();
 }
@@ -4099,7 +4355,7 @@ function alunoDicaTecnicaTexto(b){
   if(rir==null)rir=alunoRirDoMeta(meta);
   if(tec==='feeder'){
     if(rir!=null&&rir>0){
-      return'S\xE9rie leve de aquecimento. Pare com '+rir+' repeti\xE7\xF5es de sobra \u2014 n\xE3o v\xE1 at\xE9 a falha. Mantenha controle e boa forma.';
+      return'S\xE9rie leve de aquecimento. Pare com '+rir+' repeti\xE7\xF5es de sobra \u2014 n\xE3o v\xE1 at\xE9 a falha.';
     }
     return'S\xE9rie leve de aquecimento. Pare antes da falha, com folga e controle do movimento.';
   }
@@ -4240,28 +4496,34 @@ function alunoSerieHintHtml(b){
   return'<div class="aluno-serie-hint '+cls+'" hidden><p>'+esc(hint)+'</p></div>';
 }
 
-function alunoRestoreSeriesDone(m){
-  if(!m||typeof m!=='object')return;
+function alunoRestoreSeriesDone(m,root){
+  const stats={keysTotal:0,restored:0,missed:[]};
+  const c=root||$('series-inputs');
+  if(!m||typeof m!=='object'||!c)return stats;
   Object.keys(m).forEach(key=>{
     if(!m[key])return;
+    stats.keysTotal++;
     const parts=key.split('|');
     const bi=parts[0],s=parts[1];
-    if(!s)return;
+    if(!s){stats.missed.push(key);return;}
     if(String(s).indexOf('cb')===0){
       const ci=String(s).slice(2);
-      const mini=document.querySelector('.aluno-cluster-mini[data-bi="'+bi+'"][data-cbi="'+ci+'"]');
-      if(!mini)return;
+      const mini=c.querySelector('.aluno-cluster-mini[data-bi="'+bi+'"][data-cbi="'+ci+'"]');
+      if(!mini){stats.missed.push(key);return;}
       mini.classList.add('aluno-cluster-mini--done');
       const mchk=mini.querySelector('.aluno-cluster-mini-check');
       if(mchk)mchk.classList.add('aluno-serie-check--done');
+      stats.restored++;
       return;
     }
-    const row=document.querySelector('.aluno-serie-row[data-bi="'+bi+'"][data-s="'+s+'"]');
-    if(!row)return;
+    const row=c.querySelector('.aluno-serie-row[data-bi="'+bi+'"][data-s="'+s+'"]');
+    if(!row){stats.missed.push(key);return;}
     row.classList.add('aluno-serie-row--done');
     const chk=row.querySelector('.aluno-serie-check');
     if(chk)chk.classList.add('aluno-serie-check--done');
+    stats.restored++;
   });
+  return stats;
 }
 
 function alunoRefreshSerieRowAnteriores(){
@@ -7111,6 +7373,9 @@ window.profEvAlunoOpen=function(al){
   alunoSel=al;
   profEvListAlunoId=al.id;
   profEvListItemsCache=[];
+  profEvTreinoFiltro='';
+  profEvTreinoExMap=profEvBuildTreinoExMap(al);
+  profEvTreinoPillsRender(al);
   const searchInp=$('prof-ev-al-search');
   if(searchInp)searchInp.value='';
   profEvDrawerClose();
@@ -8628,7 +8893,43 @@ let profEvDrawerLoadSeq=0;
 let profEvListAlunoId=null;
 let profEvListSeq=0;
 let profEvListItemsCache=[];
+let profEvTreinoFiltro='';
+let profEvTreinoExMap={};
 const PROF_EV_SPLIT_BP=900;
+function profEvBuildTreinoExMap(al){
+  const map={};
+  if(!al)return map;
+  (al.treinos||[]).forEach(t=>{
+    const n=((t.nome||'')+'').trim();
+    if(!n)return;
+    const set=new Set();
+    (t.exercicios||[]).forEach(ex=>{
+      const en=((ex&&ex.nome||'')+'').trim();
+      if(en)set.add(en);
+    });
+    map[n]=set;
+  });
+  return map;
+}
+function profEvTreinoPillsRender(al){
+  const wrap=$('prof-ev-treino-pills');
+  if(!wrap)return;
+  const names=(al&&al.treinos||[]).map(t=>((t.nome||'')+'').trim()).filter(Boolean);
+  if(!names.length){wrap.hidden=true;wrap.innerHTML='';return;}
+  wrap.hidden=false;
+  const active=profEvTreinoFiltro||'';
+  let html='<button type="button" class="prof-ev-treino-pill'+(!active?' prof-ev-treino-pill--on':'')+'" data-treino="" onclick="profEvTreinoFilterSet(\'\')">Todos</button>';
+  names.forEach(n=>{
+    const on=active===n?' prof-ev-treino-pill--on':'';
+    html+='<button type="button" class="prof-ev-treino-pill'+on+'" data-treino="'+esc(n)+'" onclick="profEvTreinoFilterSet(this.getAttribute(\'data-treino\'))">'+esc(n)+'</button>';
+  });
+  wrap.innerHTML=html;
+}
+window.profEvTreinoFilterSet=function(nome){
+  profEvTreinoFiltro=((nome||'')+'').trim();
+  profEvTreinoPillsRender(alunoSel);
+  profEvAlunoListApplyFilter();
+};
 function profEvIsSplitDesktop(){
   return window.matchMedia('(min-width:'+PROF_EV_SPLIT_BP+'px)').matches;
 }
@@ -8806,10 +9107,17 @@ window.profEvAlunoListApplyFilter=function(){
   if(!listEl)return;
   const items=profEvListItemsCache;
   if(!items||!items.length)return;
+  const treinoFiltro=profEvTreinoFiltro||'';
   const q=(($('prof-ev-al-search')&&$('prof-ev-al-search').value)||'').trim();
-  const filtered=q?items.filter(it=>profEvAlunoListMatchesQuery(it.nome,q)):items;
+  let filtered=items;
+  if(treinoFiltro){
+    const set=profEvTreinoExMap[treinoFiltro];
+    filtered=set?filtered.filter(it=>set.has(it.nome)):[];
+  }
+  if(q)filtered=filtered.filter(it=>profEvAlunoListMatchesQuery(it.nome,q));
   if(!filtered.length){
-    listEl.innerHTML='<p class="prof-ev-reg-empty prof-ev-al-list-empty">Nenhum exerc\u00edcio encontrado</p>';
+    const msg=treinoFiltro&&!q?'Nenhum exerc\u00edcio com registros neste treino.':'Nenhum exerc\u00edcio encontrado';
+    listEl.innerHTML='<p class="prof-ev-reg-empty prof-ev-al-list-empty">'+msg+'</p>';
     if(profEvDrawerExNome)profEvAlunoListClearSelection();
     return;
   }
@@ -8843,6 +9151,8 @@ async function profEvAlunoListRender(containerEl,al){
       if(containerEl.id==='prof-ev-al-list'){
         const searchInp=$('prof-ev-al-search');
         if(searchInp)searchInp.value='';
+        profEvTreinoFiltro='';
+        profEvTreinoPillsRender(al);
       }
       containerEl.innerHTML='<div class="empty"><div class="empty-icon">&#x1F4CA;</div><div class="empty-text text-sm">Nenhum exerc\u00edcio com registro Work ainda</div></div>';
       return;
@@ -8955,12 +9265,50 @@ function profEvUltimoHtml(snap){
     +(ac?'<p class="prof-ev-ultimo-ac">'+esc(ac)+'</p>':'')
     +'</div>';
 }
-function profEvListRowHtml(snap){
-  const ac=((snap.academia||'')+'').trim();
+function profEvSessBlocoLabel(b,rootTec){
+  const tipo=((b.tipo||'')+'').trim();
+  if(tipo){
+    if(/feeder/i.test(tipo))return'Feeder';
+    if(/back.?off/i.test(tipo))return'Back-off';
+    if(/cluster/i.test(tipo))return'Cluster';
+    if(/drop/i.test(tipo))return'Drop';
+    if(/rest.?pause/i.test(tipo))return'Rest-pause';
+    if(/bilateral|entre\s*lados/i.test(tipo))return'Entre lados';
+    if(/work/i.test(tipo))return'Work';
+    return tipo.replace(/\s*set\s*$/i,'').trim()||tipo;
+  }
+  const t=profEvNormTec(b.tecnica||rootTec);
+  const map={feeder:'Feeder',work:'Work',cluster:'Cluster','back-off':'Back-off','rest-pause':'Rest-pause',drop:'Drop',bilateral:'Entre lados'};
+  return map[t]||'Work';
+}
+function profEvSessBlocosFromDoc(d){
+  if(Array.isArray(d.blocos)&&d.blocos.length){
+    return d.blocos.slice().sort((a,b)=>(a.blocoIndex|0)-(b.blocoIndex|0)).filter(b=>profEvSeriesTemDado(b.series));
+  }
+  if(profEvSeriesTemDado(d.series))return[{tipo:'',tecnica:d.tecnica,series:d.series,blocoIndex:0}];
+  return[];
+}
+function profEvSessSeriesLinesHtml(b){
+  const arr=(b.series||[]).filter(s=>((s.peso!=null?s.peso:'')+'').trim()||((s.reps!=null?s.reps:'')+'').trim()||((s.repsExtra!=null?s.repsExtra:'')+'').trim());
+  if(!arr.length)return'';
+  return arr.map(s=>'<p class="prof-ev-sess-serie">'+esc(profEvFmtCargaRepsLine([s]))+'</p>').join('');
+}
+function profEvSessRowHtml(d){
+  if(!d||!d.data)return'';
+  const ac=((d.academia||'')+'').trim();
   const acTag=ac?'<span class="prof-ev-sess-ac">'+esc(ac)+'</span>':'';
-  return'<div class="prof-ev-list-row">'
-    +'<div class="prof-ev-sess-hd"><span class="prof-ev-reg-data">'+esc(profEvFmtData(snap.data))+'</span>'+acTag+'</div>'
-    +'<p class="prof-ev-reg-carga">'+esc(profEvFmtCargaRepsLine(snap.series))+'</p>'
+  const blocos=profEvSessBlocosFromDoc(d);
+  let body='';
+  if(blocos.length){
+    body='<div class="prof-ev-sess-body">'+blocos.map(b=>'<div class="prof-ev-sess-bloco"><p class="prof-ev-sess-bloco-lbl">'+esc(profEvSessBlocoLabel(b,d.tecnica))+'</p>'+profEvSessSeriesLinesHtml(b)+'</div>').join('')+'</div>';
+  }else{
+    body='<p class="prof-ev-reg-carga">\u2014</p>';
+  }
+  const obs=((d.obs||'')+'').trim();
+  const obsHtml=obs?'<p class="prof-ev-reg-obs">'+esc(obs)+'</p>':'';
+  return'<div class="prof-ev-sess-card">'
+    +'<div class="prof-ev-sess-hd"><span class="prof-ev-reg-data">'+esc(profEvFmtData(d.data))+'</span>'+acTag+'</div>'
+    +body+obsHtml
     +'</div>';
 }
 function profEvObsItemHtml(d){
@@ -9175,8 +9523,8 @@ async function profEvDrawerLoadHistorico(exKey){
     const chart=profEvChartHtml(workSnaps);
     const ultimo=!split&&workSnaps.length?profEvUltimoHtml(workSnaps[0]):empty;
     const listLimit=split?8:5;
-    const list=workSnaps.length
-      ?workSnaps.slice(0,listLimit).map(profEvListRowHtml).join('')
+    const list=rawDocs.length
+      ?rawDocs.slice(0,listLimit).map(profEvSessRowHtml).join('')
       :empty;
     const obsDocs=rawDocs.filter(d=>((d.obs||'')+'').trim()).slice(0,3);
     const obs=obsDocs.length
