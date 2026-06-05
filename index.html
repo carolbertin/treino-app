@@ -123,6 +123,86 @@ select.inp option{background:var(--bg3);}
 .treino-letra{font-size:32px;font-weight:600;color:var(--accent);font-family:'DM Mono',monospace;}
 .treino-nome{font-size:20px;font-weight:600;color:var(--accent);margin-top:0;}
 .treino-count{font-size:11px;color:var(--text3);margin-top:4px;}
+.treino-card--cardio{border-color:rgba(72,160,220,.32);background:linear-gradient(180deg,rgba(56,140,200,.08) 0%,var(--bg2) 100%);}
+.treino-card--cardio:hover{border-color:rgba(96,184,240,.55);}
+.treino-card--cardio .treino-nome{color:rgba(168,218,252,.95);}
+.treino-card--cardio .treino-count{color:rgba(96,184,240,.75);}
+#screen-cardio{background:var(--bg);}
+#screen-cardio .content.content-pb{padding-left:22px;padding-right:22px;}
+#screen-cardio .aluno-cardio-wrap{display:flex;flex-direction:column;gap:18px;padding-bottom:24px;max-width:520px;margin:0 auto;}
+#screen-cardio .aluno-cardio-proto{background:var(--bg2);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:16px 18px 14px;box-shadow:0 1px 0 rgba(255,255,255,.03);}
+#screen-cardio .aluno-cardio-proto-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:12px;margin-bottom:10px;border-bottom:1px solid rgba(255,255,255,.07);}
+#screen-cardio .aluno-cardio-proto-tit{margin:0;font-size:15px;font-weight:700;color:var(--text);line-height:1.25;}
+#screen-cardio .aluno-cardio-proto-total{font-size:13px;font-weight:600;font-family:'DM Mono',monospace;color:var(--text3);white-space:nowrap;}
+#screen-cardio .aluno-cardio-proto-body{display:flex;flex-direction:column;gap:8px;padding:2px 2px 0;}
+#screen-cardio .aluno-cardio-fase{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:12px;border:1px solid transparent;}
+#screen-cardio .aluno-cardio-fase--z1{background:rgba(42,95,143,.16);border-color:rgba(61,142,200,.22);}
+#screen-cardio .aluno-cardio-fase--z2{background:rgba(61,142,200,.14);border-color:rgba(61,142,200,.24);}
+#screen-cardio .aluno-cardio-fase--z3{background:rgba(58,143,92,.14);border-color:rgba(58,143,92,.24);}
+#screen-cardio .aluno-cardio-fase--z4{background:rgba(224,144,48,.14);border-color:rgba(224,144,48,.26);}
+#screen-cardio .aluno-cardio-fase--z5{background:rgba(217,69,69,.14);border-color:rgba(217,69,69,.26);}
+#screen-cardio .aluno-cardio-fase-dot{flex-shrink:0;width:8px;height:8px;border-radius:50%;margin-top:5px;}
+#screen-cardio .aluno-cardio-fase--z1 .aluno-cardio-fase-dot{background:#3d8ec8;}
+#screen-cardio .aluno-cardio-fase--z2 .aluno-cardio-fase-dot{background:#4aa0dc;}
+#screen-cardio .aluno-cardio-fase--z3 .aluno-cardio-fase-dot{background:#4caf6a;}
+#screen-cardio .aluno-cardio-fase--z4 .aluno-cardio-fase-dot{background:#e8a040;}
+#screen-cardio .aluno-cardio-fase--z5 .aluno-cardio-fase-dot{background:#e05858;}
+#screen-cardio .aluno-cardio-fase-main{flex:1;min-width:0;}
+#screen-cardio .aluno-cardio-fase-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:1px;}
+#screen-cardio .aluno-cardio-fase-zona{margin:0;font-size:14px;font-weight:700;color:var(--text);line-height:1.25;}
+#screen-cardio .aluno-cardio-fase-dur{flex-shrink:0;font-size:15px;font-weight:700;font-family:'DM Mono',monospace;color:var(--text);line-height:1.2;}
+#screen-cardio .aluno-cardio-fase-bpm{margin:0 0 3px;font-size:12px;font-weight:500;font-family:'DM Mono',monospace;color:var(--text3);line-height:1.3;}
+#screen-cardio .aluno-cardio-fase-inst p{margin:0;font-size:12px;line-height:1.42;color:var(--text2);}
+#screen-cardio .aluno-cardio-fase-inst p+p{margin-top:2px;}
+#screen-cardio .aluno-cardio-reg{padding:18px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:16px;}
+#screen-cardio .aluno-cardio-reg-tit{margin:0 0 14px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);}
+#screen-cardio .aluno-cardio-reg .field{margin-bottom:12px;}
+#screen-cardio .aluno-cardio-reg .field--optional label{color:var(--text2);}
+#screen-cardio .aluno-cardio-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px;}
+#screen-cardio .aluno-cardio-metric{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;}
+#screen-cardio .aluno-cardio-metric-hd{display:flex;align-items:center;justify-content:center;gap:4px;width:100%;font-size:11px;font-weight:600;color:var(--text3);line-height:1.2;}
+#screen-cardio .aluno-cardio-metric-ico{font-size:13px;line-height:1;flex-shrink:0;}
+#screen-cardio .aluno-cardio-metric-inp-wrap{width:100%;}
+#screen-cardio .aluno-cardio-metric-inp{width:100%;box-sizing:border-box;text-align:center;font-size:28px;font-weight:700;font-family:'DM Mono',monospace;line-height:1.1;padding:14px 6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;color:var(--text);outline:none;transition:border-color .16s,background .16s;-moz-appearance:textfield;}
+#screen-cardio .aluno-cardio-metric-inp::-webkit-outer-spin-button,#screen-cardio .aluno-cardio-metric-inp::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+#screen-cardio .aluno-cardio-metric-inp::placeholder{color:rgba(255,255,255,.18);font-size:22px;font-weight:600;}
+#screen-cardio .aluno-cardio-metric-inp:hover{background:rgba(255,255,255,.06);}
+#screen-cardio .aluno-cardio-metric-inp:focus{border-color:rgba(72,160,220,.45);background:rgba(255,255,255,.07);}
+#screen-cardio .aluno-cardio-metric--pse .aluno-cardio-metric-inp{font-size:32px;padding:16px 6px;}
+#screen-cardio .aluno-cardio-metric-foot{font-size:11px;font-weight:500;color:var(--text3);text-align:center;line-height:1.25;min-height:14px;}
+#screen-cardio .aluno-cardio-metric-pse-lbl{font-size:12px;font-weight:700;color:var(--text3);min-height:15px;}
+#screen-cardio .aluno-cardio-metric-pse-lbl--sel{color:rgba(168,218,252,.95);}
+#screen-cardio .aluno-cardio-metric--optional .aluno-cardio-metric-hd{opacity:.88;}
+@media(max-width:400px){
+#screen-cardio .aluno-cardio-metrics{gap:8px;}
+#screen-cardio .aluno-cardio-metric-inp{font-size:24px;padding:12px 4px;}
+#screen-cardio .aluno-cardio-metric--pse .aluno-cardio-metric-inp{font-size:28px;padding:14px 4px;}
+#screen-cardio .aluno-cardio-metric-hd{font-size:10px;}
+}
+#screen-cardio .aluno-cardio-pse-acc{margin:4px 0 14px;border:1px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.03);}
+#screen-cardio .aluno-cardio-pse-acc-hd{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 14px;background:transparent;border:none;cursor:pointer;font-family:inherit;text-align:left;color:inherit;transition:background .14s;}
+#screen-cardio .aluno-cardio-pse-acc-hd:hover{background:rgba(255,255,255,.04);}
+#screen-cardio .aluno-cardio-pse-acc-hd-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;}
+#screen-cardio .aluno-cardio-pse-acc-tit{font-size:14px;font-weight:600;color:var(--text);line-height:1.3;}
+#screen-cardio .aluno-cardio-pse-acc-hint{font-size:12px;line-height:1.35;color:var(--text3);}
+#screen-cardio .aluno-cardio-pse-acc-hint--sel{color:rgba(168,218,252,.92);font-weight:600;}
+#screen-cardio .aluno-cardio-pse-acc-chev{flex-shrink:0;font-size:14px;color:var(--text3);line-height:1;transition:transform .2s ease;}
+#screen-cardio .aluno-cardio-pse-acc--open .aluno-cardio-pse-acc-chev{transform:rotate(180deg);}
+#screen-cardio .aluno-cardio-pse-acc-body{display:flex;flex-direction:column;gap:8px;padding:0 10px 12px;}
+#screen-cardio .aluno-cardio-pse-acc-body[hidden]{display:none;}
+#screen-cardio .aluno-cardio-pse-scale-card{display:flex;align-items:flex-start;gap:12px;padding:14px 14px;border-radius:12px;color:#fff;line-height:1.35;}
+#screen-cardio .aluno-cardio-pse-scale-num{flex-shrink:0;min-width:48px;font-size:26px;font-weight:700;font-family:'DM Mono',monospace;line-height:1.1;letter-spacing:-.02em;}
+#screen-cardio .aluno-cardio-pse-scale-txt{flex:1;min-width:0;}
+#screen-cardio .aluno-cardio-pse-scale-lbl{display:block;font-size:14px;font-weight:700;margin-bottom:4px;}
+#screen-cardio .aluno-cardio-pse-scale-desc{display:block;font-size:12px;opacity:.92;line-height:1.45;}
+#screen-cardio .aluno-cardio-pse-scale-card--0{background:linear-gradient(135deg,#4a5568,#3d4654);}
+#screen-cardio .aluno-cardio-pse-scale-card--1{background:linear-gradient(135deg,#5eb4e8,#3d8ec8);}
+#screen-cardio .aluno-cardio-pse-scale-card--2{background:linear-gradient(135deg,#3db8a8,#2a8f7a);}
+#screen-cardio .aluno-cardio-pse-scale-card--3{background:linear-gradient(135deg,#5cb85c,#3d9a4a);}
+#screen-cardio .aluno-cardio-pse-scale-card--4{background:linear-gradient(135deg,#e8a838,#c97a18);}
+#screen-cardio .aluno-cardio-pse-scale-card--5{background:linear-gradient(135deg,#e85858,#c93838);}
+#screen-cardio .aluno-cardio-pse-scale-card--6{background:linear-gradient(135deg,#a83232,#7a2222);}
+#screen-cardio .aluno-cardio-reg-actions{margin-top:16px;}
 .ex-item{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:all .18s;}
 .ex-item:hover{border-color:var(--accent);background:var(--bg3);}
 .ex-item:active{transform:scale(.98);}
@@ -1986,6 +2066,15 @@ select.inp option{background:var(--bg3);}
   </div>
 </div>
 
+<div id="screen-cardio" class="screen">
+  <div class="topbar">
+    <button type="button" class="topbar-back" onclick="goTo('home')" aria-label="Voltar para treinos">&#x2190; Voltar</button>
+    <div class="topbar-title">Cardio</div>
+    <div style="width:44px;" aria-hidden="true"></div>
+  </div>
+  <div class="content content-pb" id="aluno-cardio-content" aria-live="polite"></div>
+</div>
+
 <div id="screen-treino" class="screen">
   <div class="topbar">
     <div style="width:44px;"></div>
@@ -2662,8 +2751,37 @@ function profCardioNormalizeProtocolo(proto){
   }
   return profCardioDefaultProtocolo();
 }
+function profCardioLsKey(alId){
+  return 'cardio_presc_v1_'+slugifyChave(alId||'');
+}
+function profCardioLoadDraftFromLs(alId){
+  if(!alId||editorCardioStateByAluno[alId])return;
+  try{
+    const raw=localStorage.getItem(profCardioLsKey(alId));
+    if(!raw)return;
+    const d=JSON.parse(raw);
+    if(!d||d.v!==1)return;
+    editorCardioStateByAluno[alId]={
+      idade:d.idade!=null?d.idade:null,
+      protocolo:profCardioNormalizeProtocolo(d.protocolo)
+    };
+  }catch(e){console.warn('cardio draft load:',e);}
+}
+function profCardioPersistDraft(alId){
+  if(!alId)return;
+  const st=editorCardioStateByAluno[alId];
+  if(!st)return;
+  try{
+    localStorage.setItem(profCardioLsKey(alId),JSON.stringify({
+      v:1,
+      idade:st.idade!=null?st.idade:null,
+      protocolo:profCardioNormalizeProtocolo(st.protocolo)
+    }));
+  }catch(e){console.warn('cardio draft save:',e);}
+}
 function profCardioGetState(alId){
   if(!alId)return{idade:null,protocolo:profCardioDefaultProtocolo()};
+  profCardioLoadDraftFromLs(alId);
   if(!editorCardioStateByAluno[alId])editorCardioStateByAluno[alId]={idade:null,protocolo:profCardioDefaultProtocolo()};
   const st=editorCardioStateByAluno[alId];
   if(!st.protocolo&&st.continuo)st.protocolo=st.continuo;
@@ -2762,6 +2880,7 @@ function profCardioSyncProtocoloFromDom(){
     });
   });
   st.protocolo={fases:fases.length?fases:[profCardioDefaultFase()]};
+  profCardioPersistDraft(al.id);
 }
 function profCardioRenderProtocoloFases(st){
   const box=$('ed-cardio-proto-fases');
@@ -2784,6 +2903,8 @@ function profCardioRenderProtocoloFases(st){
   }).join('');
   profCardioRenderProtoTotal(st);
   profCardioRenderAlunoPreview(st);
+  const alPersist=editorAluno||alunoSel;
+  if(alPersist)profCardioPersistDraft(alPersist.id);
 }
 window.profCardioOnFaseInput=function(){
   profCardioSyncProtocoloFromDom();
@@ -2878,8 +2999,257 @@ window.profCardioOnIdadeInput=function(){
   const raw=inp.value.trim();
   const parsed=raw===''?null:parseInt(raw,10);
   const idade=(parsed!=null&&!isNaN(parsed)&&parsed>0)?parsed:null;
-  if(al)profCardioGetState(al.id).idade=idade;
+  if(al){profCardioGetState(al.id).idade=idade;profCardioPersistDraft(al.id);}
   profCardioSyncFromIdade(idade);
+};
+function alunoCardioLoadPrescricao(){
+  const email=me&&me.email;
+  if(!email)return null;
+  if(editorCardioStateByAluno[email]){
+    const st=profCardioGetState(email);
+    return{idade:st.idade,protocolo:profCardioNormalizeProtocolo(st.protocolo)};
+  }
+  try{
+    const raw=localStorage.getItem(profCardioLsKey(email));
+    if(!raw)return null;
+    const d=JSON.parse(raw);
+    if(!d||d.v!==1)return null;
+    return{idade:d.idade!=null?d.idade:null,protocolo:profCardioNormalizeProtocolo(d.protocolo)};
+  }catch(e){console.warn('aluno cardio load:',e);return null;}
+}
+function alunoCardioFasesPreenchidas(proto){
+  return profCardioNormalizeProtocolo(proto).fases.some(function(f){
+    return profCardioParseDuracaoMin(f&&f.duracao)!=null;
+  });
+}
+function alunoCardioZonaRangeTxt(zona,idade){
+  const fcMax=profCardioFcMaxFromIdade(idade);
+  const zDef=PROF_CARDIO_ZONAS_PCT.find(function(z){return String(z.n)===String(zona);});
+  if(!zDef||!fcMax)return'\u2014';
+  return profCardioFormatZonaRange(profCardioCalcZonaRange(fcMax,zDef.pctMin,zDef.pctMax));
+}
+function alunoCardioFaseInstrucao(fase){
+  const t=((fase&&fase.instrucao)||'').trim();
+  return t||profCardioInstrucaoPadrao(fase&&fase.zona);
+}
+const ALUNO_CARDIO_ATIVIDADES=[
+  'Esteira',
+  'Bicicleta ergom\u00e9trica',
+  'El\u00edptico',
+  'Escada / step',
+  'Caminhada',
+  'Corrida',
+  'Remo',
+  'Corda',
+  'Bike ao ar livre',
+  'Outro'
+];
+const ALUNO_CARDIO_PSE_ESCALA=[
+  {range:'0',lbl:'Nenhum esfor\u00e7o',desc:'Repouso total',tone:'0'},
+  {range:'1',lbl:'Muito leve',desc:'Quase sem esfor\u00e7o. Fala normalmente.',tone:'1'},
+  {range:'2\u20133',lbl:'Leve',desc:'F\u00e1cil de manter. Conversa normal.',tone:'2'},
+  {range:'4\u20136',lbl:'Moderado',desc:'Respira\u00e7\u00e3o mais profunda. Conversa curta.',tone:'3'},
+  {range:'7\u20138',lbl:'Vigoroso',desc:'Desconfort\u00e1vel. Fala s\u00f3 frases curtas.',tone:'4'},
+  {range:'9',lbl:'Muito dif\u00edcil',desc:'Mal consegue falar. Dif\u00edcil de manter.',tone:'5'},
+  {range:'10',lbl:'M\u00e1ximo',desc:'Esfor\u00e7o m\u00e1ximo.',tone:'6'}
+];
+function alunoCardioPseNivelCurto(val){
+  const v=parseInt(val,10);
+  if(isNaN(v)||v<0||v>10)return null;
+  if(v===0)return'Nenhum esfor\u00e7o';
+  if(v===1)return'Muito leve';
+  if(v<=3)return'Leve';
+  if(v<=6)return'Moderado';
+  if(v<=8)return'Vigoroso';
+  if(v===9)return'Muito dif\u00edcil';
+  return'M\u00e1ximo';
+}
+function alunoCardioPseAccHintTxt(val){
+  const nivel=alunoCardioPseNivelCurto(val);
+  if(nivel==null)return{txt:'Toque para entender a escala',sel:false};
+  return{txt:'PSE '+parseInt(val,10)+' \u2014 '+nivel,sel:true};
+}
+function alunoCardioPseAccSyncHint(){
+  const inp=$('aluno-cardio-pse');
+  const hint=$('aluno-cardio-pse-acc-hint');
+  const pseLbl=$('aluno-cardio-pse-lbl');
+  const nivel=alunoCardioPseNivelCurto(inp?inp.value:'');
+  if(pseLbl){
+    pseLbl.textContent=nivel||'\u2014';
+    pseLbl.classList.toggle('aluno-cardio-metric-pse-lbl--sel',!!nivel);
+  }
+  if(!hint)return;
+  const h=alunoCardioPseAccHintTxt(inp?inp.value:'');
+  hint.textContent=h.txt;
+  hint.classList.toggle('aluno-cardio-pse-acc-hint--sel',h.sel);
+}
+function alunoCardioMetricsHtml(){
+  return'<div class="aluno-cardio-metrics">'+
+    '<div class="aluno-cardio-metric aluno-cardio-metric--tempo">'+
+      '<div class="aluno-cardio-metric-hd"><span class="aluno-cardio-metric-ico" aria-hidden="true">\u23f1</span><span>Tempo</span></div>'+
+      '<div class="aluno-cardio-metric-inp-wrap">'+
+        '<input class="aluno-cardio-metric-inp" id="aluno-cardio-tempo" type="number" min="1" step="1" inputmode="numeric" placeholder="\u2014" aria-label="Tempo realizado em minutos">'+
+      '</div>'+
+      '<div class="aluno-cardio-metric-foot">min</div>'+
+    '</div>'+
+    '<div class="aluno-cardio-metric aluno-cardio-metric--fc aluno-cardio-metric--optional">'+
+      '<div class="aluno-cardio-metric-hd"><span class="aluno-cardio-metric-ico" aria-hidden="true">\u2764\ufe0f</span><span>FC m\u00e9dia</span></div>'+
+      '<div class="aluno-cardio-metric-inp-wrap">'+
+        '<input class="aluno-cardio-metric-inp" id="aluno-cardio-fc-media" type="number" min="40" max="220" step="1" inputmode="numeric" placeholder="\u2014" aria-label="FC m\u00e9dia em bpm (opcional)">'+
+      '</div>'+
+      '<div class="aluno-cardio-metric-foot">bpm</div>'+
+    '</div>'+
+    '<div class="aluno-cardio-metric aluno-cardio-metric--pse">'+
+      '<div class="aluno-cardio-metric-hd"><span class="aluno-cardio-metric-ico" aria-hidden="true">\uD83D\uDCAA</span><span>PSE</span></div>'+
+      '<div class="aluno-cardio-metric-inp-wrap">'+
+        '<input class="aluno-cardio-metric-inp" id="aluno-cardio-pse" type="number" min="0" max="10" step="1" inputmode="numeric" placeholder="\u2014" aria-label="PSE de 0 a 10">'+
+      '</div>'+
+      '<div class="aluno-cardio-metric-foot aluno-cardio-metric-pse-lbl" id="aluno-cardio-pse-lbl">\u2014</div>'+
+    '</div>'+
+  '</div>';
+}
+function alunoCardioPseAccBind(){
+  const inp=$('aluno-cardio-pse');
+  if(inp){
+    inp.addEventListener('input',alunoCardioPseAccSyncHint);
+    inp.addEventListener('change',alunoCardioPseAccSyncHint);
+  }
+  alunoCardioPseAccSyncHint();
+}
+window.alunoCardioPseAccToggle=function(){
+  const acc=$('aluno-cardio-pse-acc');
+  const body=$('aluno-cardio-pse-acc-body');
+  const btn=acc&&acc.querySelector('.aluno-cardio-pse-acc-hd');
+  if(!acc||!body||!btn)return;
+  const open=!acc.classList.contains('aluno-cardio-pse-acc--open');
+  acc.classList.toggle('aluno-cardio-pse-acc--open',open);
+  body.hidden=!open;
+  btn.setAttribute('aria-expanded',open?'true':'false');
+};
+function alunoCardioAtividadeSelectHtml(){
+  return'<option value="">Selecione\u2026</option>'+
+    ALUNO_CARDIO_ATIVIDADES.map(function(a){
+      return'<option value="'+esc(a)+'">'+esc(a)+'</option>';
+    }).join('');
+}
+function alunoCardioPseAccHtml(){
+  const cards=ALUNO_CARDIO_PSE_ESCALA.map(function(item){
+    return'<div class="aluno-cardio-pse-scale-card aluno-cardio-pse-scale-card--'+item.tone+'">'+
+      '<span class="aluno-cardio-pse-scale-num">'+item.range+'</span>'+
+      '<div class="aluno-cardio-pse-scale-txt">'+
+        '<span class="aluno-cardio-pse-scale-lbl">'+esc(item.lbl)+'</span>'+
+        '<span class="aluno-cardio-pse-scale-desc">'+esc(item.desc)+'</span>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+  return'<div class="aluno-cardio-pse-acc" id="aluno-cardio-pse-acc">'+
+    '<button type="button" class="aluno-cardio-pse-acc-hd" onclick="alunoCardioPseAccToggle()" aria-expanded="false" aria-controls="aluno-cardio-pse-acc-body">'+
+      '<span class="aluno-cardio-pse-acc-hd-main">'+
+        '<span class="aluno-cardio-pse-acc-tit">Escala de esfor\u00e7o (PSE)</span>'+
+        '<span class="aluno-cardio-pse-acc-hint" id="aluno-cardio-pse-acc-hint">Toque para entender a escala</span>'+
+      '</span>'+
+      '<span class="aluno-cardio-pse-acc-chev" aria-hidden="true">\u02c5</span>'+
+    '</button>'+
+    '<div class="aluno-cardio-pse-acc-body" id="aluno-cardio-pse-acc-body" hidden>'+cards+'</div>'+
+  '</div>';
+}
+function alunoCardioFormatInstHtml(txt){
+  const t=((txt||'')+'').trim();
+  if(!t)return'';
+  const dot=t.indexOf('. ');
+  if(dot>0){
+    return'<p>'+esc(t.slice(0,dot+1))+'</p><p>'+esc(t.slice(dot+2))+'</p>';
+  }
+  return'<p>'+esc(t)+'</p>';
+}
+function alunoCardioFasesHtml(st){
+  const proto=profCardioNormalizeProtocolo(st&&st.protocolo);
+  const idade=st&&st.idade;
+  return proto.fases.filter(function(fase){
+    return profCardioParseDuracaoMin(fase&&fase.duracao)!=null;
+  }).map(function(fase){
+    const z=fase.zona||'1';
+    const durMin=profCardioParseDuracaoMin(fase.duracao);
+    const inst=alunoCardioFaseInstrucao(fase);
+    return'<article class="aluno-cardio-fase aluno-cardio-fase--z'+z+'">'+
+      '<span class="aluno-cardio-fase-dot" aria-hidden="true"></span>'+
+      '<div class="aluno-cardio-fase-main">'+
+        '<div class="aluno-cardio-fase-top">'+
+          '<h3 class="aluno-cardio-fase-zona">Zona '+esc(z)+'</h3>'+
+          '<span class="aluno-cardio-fase-dur">'+durMin+' min</span>'+
+        '</div>'+
+        '<p class="aluno-cardio-fase-bpm">'+esc(alunoCardioZonaRangeTxt(z,idade))+'</p>'+
+        '<div class="aluno-cardio-fase-inst">'+alunoCardioFormatInstHtml(inst)+'</div>'+
+      '</div>'+
+    '</article>';
+  }).join('');
+}
+function alunoCardioRenderScreen(){
+  const box=$('aluno-cardio-content');
+  if(!box)return;
+  const st=alunoCardioLoadPrescricao();
+  if(!st||!alunoCardioFasesPreenchidas(st.protocolo)){
+    box.innerHTML='<div class="empty"><div class="empty-icon">\u2014</div><div class="empty-text">Nenhum protocolo de cardio dispon\u00edvel.</div></div>';
+    return;
+  }
+  const total=profCardioCalcTotalMin(profCardioNormalizeProtocolo(st.protocolo).fases);
+  box.innerHTML='<div class="aluno-cardio-wrap">'+
+    '<section class="aluno-cardio-proto" aria-label="Protocolo de cardio">'+
+      '<div class="aluno-cardio-proto-hd">'+
+        '<h2 class="aluno-cardio-proto-tit">Protocolo prescrito</h2>'+
+        '<span class="aluno-cardio-proto-total">\u007e'+total+' min</span>'+
+      '</div>'+
+      '<div class="aluno-cardio-proto-body">'+alunoCardioFasesHtml(st)+'</div>'+
+    '</section>'+
+    '<section class="aluno-cardio-reg">'+
+      '<h3 class="aluno-cardio-reg-tit">Seu registro</h3>'+
+      '<div class="field"><label for="aluno-cardio-atividade">Tipo de atividade</label>'+
+        '<select class="inp" id="aluno-cardio-atividade">'+alunoCardioAtividadeSelectHtml()+'</select></div>'+
+      alunoCardioMetricsHtml()+
+      alunoCardioPseAccHtml()+
+      '<div class="field field--optional"><label for="aluno-cardio-obs">Observa\u00e7\u00f5es <span style="font-weight:400;color:var(--text3);">(opcional)</span></label>'+
+        '<textarea class="inp" id="aluno-cardio-obs" rows="3" placeholder="Como foi o cardio?"></textarea></div>'+
+      '<div class="aluno-cardio-reg-actions">'+
+        '<button type="button" class="btn btn-primary btn-full" onclick="alunoCardioSalvarRegistro()">Salvar cardio</button>'+
+      '</div>'+
+    '</section>'+
+  '</div>';
+  alunoCardioPseAccBind();
+}
+function alunoCardioAppendHomeCard(grid){
+  if(!grid)return;
+  const st=alunoCardioLoadPrescricao();
+  if(!st||!alunoCardioFasesPreenchidas(st.protocolo))return;
+  const total=profCardioCalcTotalMin(profCardioNormalizeProtocolo(st.protocolo).fases);
+  const el=document.createElement('div');
+  el.className='treino-card treino-card--cardio';
+  el.innerHTML='<div class="treino-nome">Cardio</div><div class="treino-count">'+total+' min estimados</div>';
+  el.onclick=abrirCardioAluno;
+  grid.appendChild(el);
+}
+window.abrirCardioAluno=function(){
+  alunoCardioRenderScreen();
+  goTo('cardio');
+};
+window.alunoCardioSalvarRegistro=function(){
+  const atividade=$('aluno-cardio-atividade');
+  const tempo=$('aluno-cardio-tempo');
+  const fcMedia=$('aluno-cardio-fc-media');
+  const pse=$('aluno-cardio-pse');
+  const obs=$('aluno-cardio-obs');
+  const payload={
+    atividade:atividade?atividade.value.trim():'',
+    tempoRealizado:tempo?tempo.value.trim():'',
+    fcMedia:fcMedia?fcMedia.value.trim():'',
+    pse:pse?pse.value.trim():'',
+    observacoes:obs?obs.value.trim():''
+  };
+  if(!payload.atividade){toast('Selecione o tipo de atividade');return;}
+  if(!payload.tempoRealizado||parseInt(payload.tempoRealizado,10)<=0){toast('Informe o tempo realizado');return;}
+  if(payload.pse===''||parseInt(payload.pse,10)<0||parseInt(payload.pse,10)>10){toast('Informe a PSE de 0 a 10');return;}
+  const msg='Registro de cardio ainda n\u00e3o salva nesta etapa.';
+  console.log(msg,payload);
+  toast(msg);
 };
 function profCardioRenderPanel(){
   const al=editorAluno||alunoSel;
@@ -3672,11 +4042,11 @@ async function initAluno(){
   if(!hS.empty){const d=hS.docs[0].data();$('last-nome').textContent=d.treinoNome||'\u2014';$('last-data').textContent=fmtDate(d.data);}
   const grid=$('treino-grid');grid.innerHTML='';
   (meAluno.treinos||[]).forEach(t=>{
-    const ul=t.nome?.charAt(t.nome.length-1)||'?';
     const el=document.createElement('div');el.className='treino-card';
-    el.innerHTML='<div class="treino-nome">'+esc(t.nome)+'</div><div class="treino-count">'+(t.exercicios||[]).length+' exercícios</div>';
+    el.innerHTML='<div class="treino-nome">'+esc(t.nome)+'</div><div class="treino-count">'+(t.exercicios||[]).length+' exerc\u00edcios</div>';
     el.onclick=()=>abrirTreino(t);grid.appendChild(el);
   });
+  alunoCardioAppendHomeCard(grid);
 }
 
 function snapshotInputsExercicioDom(){
