@@ -4721,12 +4721,37 @@ window.switchTab=tab=>{
   $('tab-'+tab).classList.add('active');
 };
 
+let _fsDiagSeq=0;
+function fsDiag(fn,msg,detail){
+  const n=++_fsDiagSeq;
+  const base='[FS-DIAG #'+n+'] ['+fn+'] '+msg;
+  if(detail!==undefined)console.info(base,detail);
+  else console.info(base);
+}
+
 onAuthStateChanged(auth,async user=>{
+  fsDiag('onAuthStateChanged','início — auth state mudou',{
+    email:user&&user.email,
+    uid:user&&user.uid,
+    isProf:!!(user&&user.email===PROF_EMAIL)
+  });
   $('loading').classList.add('hidden');
-  if(!user){goTo('login');return;}
-  me=user;
-  if(user.email===PROF_EMAIL){await initProf();goTo('prof');}
-  else{await initAluno();goTo('home');}
+  try{
+    if(!user){goTo('login');return;}
+    me=user;
+    if(user.email===PROF_EMAIL){
+      fsDiag('onAuthStateChanged','próximo: initProf()',{email:me.email,uid:me.uid});
+      await initProf();goTo('prof');
+    }else{
+      fsDiag('onAuthStateChanged','próximo: initAluno()',{email:me.email,uid:me.uid});
+      await initAluno();goTo('home');
+    }
+  }catch(e){
+    console.warn('onAuthStateChanged:',e);
+    fsDiag('onAuthStateChanged','ERRO capturado (promise rejeitada)',{code:e&&e.code,message:e&&e.message});
+    if(user){me=user;goTo(user.email===PROF_EMAIL?'prof':'home');}
+    else{goTo('login');}
+  }
 });
 window.loginGoogle=async()=>{try{await signInWithPopup(auth,new GoogleAuthProvider());}catch(e){toast('Erro ao fazer login');console.error(e);}};
 
@@ -5066,6 +5091,7 @@ function alunoSemanaPaint(trainedWeek,monthCount){
   daysEl.innerHTML=html;
 }
 async function alunoSemanaRender(){
+  fsDiag('alunoSemanaRender','início',{email:me&&me.email,uid:me&&me.uid});
   alunoSemanaPaint(new Set(),0);
   if(!me||!me.email)return;
   const now=new Date();
@@ -5075,8 +5101,15 @@ async function alunoSemanaRender(){
   const trainedWeek=new Set();
   const trainedMonth=new Set();
   try{
+    const path='alunos/'+me.email+'/historico';
+    fsDiag('alunoSemanaRender','Tentando ler: '+path,{
+      colecao:'alunos/'+me.email+'/historico',
+      documento:'(subcoleção — query)',
+      query:'where(data >= '+queryStart.toISOString()+'), orderBy(data, asc)'
+    });
     const hQ=query(collection(db,'alunos',me.email,'historico'),where('data','>=',Timestamp.fromDate(queryStart)),orderBy('data','asc'));
     const hS=await getDocs(hQ);
+    fsDiag('alunoSemanaRender','OK: '+path,{docs:hS.size});
     hS.forEach(snap=>{
       const row=snap.data();
       const raw=row.data;
@@ -5088,27 +5121,59 @@ async function alunoSemanaRender(){
     });
   }catch(e){
     console.error('alunoSemanaRender:',e);
+    fsDiag('alunoSemanaRender','ERRO permissão em: alunos/'+(me&&me.email)+'/historico',{code:e&&e.code,message:e&&e.message});
   }
   alunoSemanaPaint(trainedWeek,trainedMonth.size);
 }
 
 async function initAluno(){
+  fsDiag('initAluno','início',{email:me&&me.email,uid:me&&me.uid});
   $('g-nome').textContent='Ol\xE1, '+(me.displayName?.split(' ')[0]||'')+'!';
   $('av-home').innerHTML=avatarEl(me,'sair()');
+  fsDiag('initAluno','próximo: alunoSemanaRender()');
   await alunoSemanaRender();
-  const snap=await getDoc(doc(db,'alunos',me.email));
-  if(!snap.exists()){$('treino-grid').innerHTML='<div class="empty"><div class="empty-icon">\u23F3</div><div class="empty-text">Aguardando professor configurar seu treino.</div></div>';return;}
-  meAluno={id:me.email,...snap.data()};
-  const hQ=query(collection(db,'alunos',me.email,'historico'),orderBy('data','desc'),limit(1));
-  const hS=await getDocs(hQ);
-  if(!hS.empty){const d=hS.docs[0].data();$('last-nome').textContent=d.treinoNome||'\u2014';$('last-data').textContent=fmtDate(d.data);}
-  const grid=$('treino-grid');grid.innerHTML='';
-  (meAluno.treinos||[]).forEach(t=>{
-    const el=document.createElement('div');el.className='treino-card';
-    el.innerHTML='<div class="treino-nome">'+esc(t.nome)+'</div><div class="treino-count">'+(t.exercicios||[]).length+' exerc\u00edcios</div>';
-    el.onclick=()=>abrirTreino(t);grid.appendChild(el);
-  });
-  alunoCardioAppendHomeCard(grid);
+  const grid=$('treino-grid');
+  try{
+    const path='alunos/'+me.email;
+    fsDiag('initAluno','Tentando ler: '+path,{
+      colecao:'alunos',
+      documento:me.email,
+      query:'getDoc(doc(db, "alunos", me.email)'
+    });
+    const snap=await getDoc(doc(db,'alunos',me.email));
+    fsDiag('initAluno','OK: '+path,{exists:snap.exists()});
+    if(!snap.exists()){
+      if(grid)grid.innerHTML='<div class="empty"><div class="empty-icon">\u23F3</div><div class="empty-text">Aguardando professor configurar seu treino.</div></div>';
+      return;
+    }
+    meAluno={id:me.email,...snap.data()};
+    try{
+      const pathHist='alunos/'+me.email+'/historico';
+      fsDiag('initAluno','Tentando ler: '+pathHist,{
+        colecao:'alunos/'+me.email+'/historico',
+        documento:'(subcoleção — query)',
+        query:'orderBy(data, desc), limit(1)'
+      });
+      const hQ=query(collection(db,'alunos',me.email,'historico'),orderBy('data','desc'),limit(1));
+      const hS=await getDocs(hQ);
+      fsDiag('initAluno','OK: '+pathHist,{docs:hS.size});
+      if(!hS.empty){const d=hS.docs[0].data();$('last-nome').textContent=d.treinoNome||'\u2014';$('last-data').textContent=fmtDate(d.data);}
+    }catch(e){
+      console.warn('initAluno historico:',e);
+      fsDiag('initAluno','ERRO permissão em: alunos/'+(me&&me.email)+'/historico',{code:e&&e.code,message:e&&e.message});
+    }
+    if(grid)grid.innerHTML='';
+    (meAluno.treinos||[]).forEach(t=>{
+      const el=document.createElement('div');el.className='treino-card';
+      el.innerHTML='<div class="treino-nome">'+esc(t.nome)+'</div><div class="treino-count">'+(t.exercicios||[]).length+' exerc\u00edcios</div>';
+      el.onclick=()=>abrirTreino(t);grid.appendChild(el);
+    });
+    alunoCardioAppendHomeCard(grid);
+  }catch(e){
+    console.warn('initAluno:',e);
+    fsDiag('initAluno','ERRO permissão em: alunos/'+(me&&me.email),{code:e&&e.code,message:e&&e.message});
+    if(grid)grid.innerHTML='<div class="empty"><div class="empty-icon">\u2014</div><div class="empty-text">N\u00e3o foi poss\u00edvel carregar seu treino agora.</div></div>';
+  }
 }
 
 function snapshotInputsExercicioDom(){
@@ -9101,9 +9166,31 @@ window.voltarExercicioPrincipal=function(exIdx){
 window.finalizarTreino=async()=>{toast('\u2713 Treino '+treinoAtual.nome+' conclу\xEDdo!');await initAluno();goTo('home');};
 
 // PROFESSOR
-async function initProf(){$('av-prof').innerHTML=avatarEl(me,'sair()');await Promise.all([carregarAlunos(),carregarBanco()]);renderTiposSerieCustom();}
+async function initProf(){
+  fsDiag('initProf','início',{email:me&&me.email,uid:me&&me.uid});
+  $('av-prof').innerHTML=avatarEl(me,'sair()');
+  fsDiag('initProf','próximo: Promise.all([carregarAlunos(), carregarBanco()])');
+  await Promise.all([carregarAlunos(),carregarBanco()]);
+  fsDiag('initProf','OK: carregarAlunos + carregarBanco concluídos');
+  renderTiposSerieCustom();
+}
 
-async function carregarBanco(){const snap=await getDocs(collection(db,'exercicios'));bancoDB=snap.docs.map(d=>({id:d.id,...d.data()}));renderBanco();popularSelectEx();}
+async function carregarBanco(){
+  fsDiag('carregarBanco','Tentando ler: exercicios',{
+    colecao:'exercicios',
+    documento:'(toda a coleção)',
+    query:'getDocs(collection(db, "exercicios"))'
+  });
+  try{
+    const snap=await getDocs(collection(db,'exercicios'));
+    fsDiag('carregarBanco','OK: exercicios',{docs:snap.size});
+    bancoDB=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderBanco();popularSelectEx();
+  }catch(e){
+    fsDiag('carregarBanco','ERRO permissão em: exercicios',{code:e&&e.code,message:e&&e.message});
+    throw e;
+  }
+}
 function renderBanco(){
   const l=$('lista-ex-banco');l.innerHTML='';
   if(!bancoDB.length){l.innerHTML='<div class="empty"><div class="empty-icon">\uD83C\uDFCB\uFE0F</div><div class="empty-text">Nenhum exerc\xEDcio</div></div>';return;}
@@ -9259,12 +9346,36 @@ window.salvarExBanco=async()=>{
 function popularSelectEx(){}
 
 async function carregarAlunos(){
-  const snap=await getDocs(collection(db,'alunos'));
-  alunosDB=snap.docs.map(d=>({id:d.id,...d.data()}));
-  $('stat-total').textContent=alunosDB.length;
-  const hoje=new Date();hoje.setHours(0,0,0,0);let th=0;
-  for(const al of alunosDB){const hQ=query(collection(db,'alunos',al.id,'historico'),where('data','>=',Timestamp.fromDate(hoje)),limit(1));const h=await getDocs(hQ);if(!h.empty)th++;}
-  $('stat-hoje').textContent=th;renderAlunos();popularSelectAlunos();
+  fsDiag('carregarAlunos','início');
+  fsDiag('carregarAlunos','Tentando ler: alunos',{
+    colecao:'alunos',
+    documento:'(toda a coleção)',
+    query:'getDocs(collection(db, "alunos"))'
+  });
+  try{
+    const snap=await getDocs(collection(db,'alunos'));
+    fsDiag('carregarAlunos','OK: alunos',{docs:snap.size});
+    alunosDB=snap.docs.map(d=>({id:d.id,...d.data()}));
+    $('stat-total').textContent=alunosDB.length;
+    const hoje=new Date();hoje.setHours(0,0,0,0);let th=0;
+    for(const al of alunosDB){
+      const path='alunos/'+al.id+'/historico';
+      fsDiag('carregarAlunos','Tentando ler: '+path,{
+        colecao:'alunos/'+al.id+'/historico',
+        documento:'(subcoleção — query)',
+        query:'where(data >= hoje), limit(1)'
+      });
+      const hQ=query(collection(db,'alunos',al.id,'historico'),where('data','>=',Timestamp.fromDate(hoje)),limit(1));
+      const h=await getDocs(hQ);
+      fsDiag('carregarAlunos','OK: '+path,{docs:h.size});
+      if(!h.empty)th++;
+    }
+    $('stat-hoje').textContent=th;renderAlunos();popularSelectAlunos();
+    fsDiag('carregarAlunos','concluído',{total:alunosDB.length,treinaramHoje:th});
+  }catch(e){
+    fsDiag('carregarAlunos','ERRO permissão',{code:e&&e.code,message:e&&e.message});
+    throw e;
+  }
 }
 function renderAlunos(){
   const l=$('lista-alunos');l.innerHTML='';
