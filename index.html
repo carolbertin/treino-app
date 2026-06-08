@@ -4007,6 +4007,8 @@ function alunoCardioExecLayoutHtml(st,fasesAtivas,stepIdx){
   '</div>';
 }
 let alunoCardioExecStepIdx=0;
+let alunoCardioExecMode='protocolo';
+let alunoCardioLivreAtividade='';
 const alunoCardioExecBloco={roundIdx:0,segIdx:0,stepIdx:-1};
 const alunoCardioExecTimer={intervalId:null,mode:'fase',status:'idle',remainingSec:0,totalSec:0,stepIdx:-1};
 function alunoCardioExecTimerInitBlocoSeg(bloco,roundIdx,segIdx){
@@ -4227,6 +4229,23 @@ function alunoCardioExecPaintStep(st,fasesAtivas,stepIdx){
   const box=$('aluno-cardio-content');
   if(box)box.innerHTML=alunoCardioExecLayoutHtml(st,fasesAtivas,stepIdx);
 }
+function alunoCardioMostrarRegistro(){
+  const execBody=$('aluno-cardio-exec-body');
+  const regSec=document.querySelector('#aluno-cardio-content .aluno-cardio-reg');
+  if(execBody)execBody.hidden=true;
+  if(regSec){
+    regSec.classList.remove('aluno-cardio-reg--exec-off');
+    regSec.setAttribute('aria-hidden','false');
+  }
+  const st=alunoCardioLoadPrescricao();
+  if(st&&st.protocolo){
+    const min=Math.round(profCardioCalcTotalSec(st.protocolo.fases)/60);
+    const tempoEl=$('aluno-cardio-tempo');
+    if(tempoEl&&min>0&&!((tempoEl.value||'')+'').trim())tempoEl.value=String(min);
+  }
+  alunoCardioPseAccBind();
+  window.scrollTo(0,0);
+}
 window.alunoCardioExecAvancar=function(){
   const st=alunoCardioLoadPrescricao();
   if(!st||!alunoCardioFasesPreenchidas(st.protocolo))return;
@@ -4241,10 +4260,7 @@ window.alunoCardioExecAvancar=function(){
     alunoCardioExecPaintStep(st,fasesAtivas,alunoCardioExecStepIdx);
     return;
   }
-  toast('Cardio conclu\u00eddo');
-  alunoCardioExecStepIdx=0;
-  alunoCardioExecTimerInitStep(null,-1);
-  goTo('home');
+  alunoCardioMostrarRegistro();
 };
 function alunoCardioRenderScreen(){
   const box=$('aluno-cardio-content');
@@ -4277,28 +4293,71 @@ function alunoCardioAppendHomeCard(grid){
 window.abrirCardioAluno=function(){
   alunoCardioExecTimerStop();
   alunoCardioExecStepIdx=0;
+  alunoCardioExecMode='protocolo';
+  alunoCardioLivreAtividade='';
   alunoCardioRenderScreen();
   goTo('cardio');
 };
-window.alunoCardioSalvarRegistro=function(){
-  const atividade=$('aluno-cardio-atividade');
-  const tempo=$('aluno-cardio-tempo');
-  const fcMedia=$('aluno-cardio-fc-media');
-  const pse=$('aluno-cardio-pse');
-  const obs=$('aluno-cardio-obs');
-  const payload={
-    atividade:atividade?atividade.value.trim():'',
-    tempoRealizado:tempo?tempo.value.trim():'',
-    fcMedia:fcMedia?fcMedia.value.trim():'',
-    pse:pse?pse.value.trim():'',
-    observacoes:obs?obs.value.trim():''
+function alunoCardioRegBuildPayload(){
+  const tempoEl=$('aluno-cardio-tempo');
+  const fcEl=$('aluno-cardio-fc-media');
+  const pseEl=$('aluno-cardio-pse');
+  const obsEl=$('aluno-cardio-obs');
+  const atividadeEl=$('aluno-cardio-atividade');
+  const tempoRealizado=parseInt((tempoEl&&tempoEl.value||'').trim(),10);
+  const pse=parseInt((pseEl&&pseEl.value||'').trim(),10);
+  const fcRaw=(fcEl&&fcEl.value||'').trim();
+  const fcParsed=fcRaw?parseInt(fcRaw,10):null;
+  const fcMedia=(fcParsed!=null&&!isNaN(fcParsed)&&fcParsed>0)?fcParsed:null;
+  const isLivre=alunoCardioExecMode==='livre';
+  let protocoloId=null,protocoloNome=null,atividade='',tempoEstimado=null;
+  if(isLivre){
+    atividade=((alunoCardioLivreAtividade||'')+'').trim()||(atividadeEl?atividadeEl.value.trim():'');
+  }else{
+    protocoloNome='Cardio';
+    atividade=protocoloNome;
+    const st=alunoCardioLoadPrescricao();
+    if(st&&st.protocolo){
+      const min=Math.round(profCardioCalcTotalSec(st.protocolo.fases)/60);
+      tempoEstimado=min>0?min:null;
+    }
+  }
+  return{
+    tipo:'cardio',
+    origem:isLivre?'livre':'protocolo',
+    atividade:atividade,
+    protocoloId:isLivre?null:protocoloId,
+    protocoloNome:isLivre?null:protocoloNome,
+    tempoEstimado:isLivre?null:tempoEstimado,
+    tempoRealizado:tempoRealizado,
+    fcMedia:fcMedia,
+    pse:pse,
+    observacao:(obsEl&&obsEl.value||'').trim(),
+    treinoNome:'Cardio',
+    dataPreview:new Date().toISOString()
   };
-  if(!payload.atividade){toast('Selecione o tipo de atividade');return;}
-  if(!payload.tempoRealizado||parseInt(payload.tempoRealizado,10)<=0){toast('Informe o tempo realizado');return;}
-  if(payload.pse===''||parseInt(payload.pse,10)<0||parseInt(payload.pse,10)>10){toast('Informe a PSE de 0 a 10');return;}
-  const msg='Registro de cardio ainda n\u00e3o salva nesta etapa.';
-  console.log(msg,payload);
-  toast(msg);
+}
+window.alunoCardioSalvarRegistro=function(){
+  const tempoEl=$('aluno-cardio-tempo');
+  const fcEl=$('aluno-cardio-fc-media');
+  const pseEl=$('aluno-cardio-pse');
+  const tempoRealizado=parseInt((tempoEl&&tempoEl.value||'').trim(),10);
+  const pse=parseInt((pseEl&&pseEl.value||'').trim(),10);
+  const fcRaw=(fcEl&&fcEl.value||'').trim();
+  if(!tempoRealizado||tempoRealizado<=0||isNaN(tempoRealizado)){toast('Informe o tempo realizado');return;}
+  if(isNaN(pse)||pse<0||pse>10){toast('Informe a PSE de 0 a 10');return;}
+  if(fcRaw){
+    const fcParsed=parseInt(fcRaw,10);
+    if(isNaN(fcParsed)||fcParsed<=0){toast('FC m\u00e9dia inv\u00e1lida');return;}
+  }
+  if(alunoCardioExecMode==='livre'){
+    const actEl=$('aluno-cardio-atividade');
+    const act=((alunoCardioLivreAtividade||'')+'').trim()||(actEl?actEl.value.trim():'');
+    if(!act){toast('Selecione uma atividade');return;}
+  }
+  const payload=alunoCardioRegBuildPayload();
+  console.log('[Cardio] payload registro:',payload);
+  toast('Payload montado \u2014 veja o console');
 };
 function profCardioRenderPanel(){
   const al=editorAluno||alunoSel;
