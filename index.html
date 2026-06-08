@@ -212,11 +212,27 @@ select.inp option{background:var(--bg3);}
 #screen-cardio .aluno-cardio-hub-placeholder-txt{margin:0;font-size:13px;line-height:1.45;color:var(--text2);}
 #screen-cardio .aluno-cardio-hub-empty{padding:14px 16px;font-size:13px;line-height:1.45;color:var(--text3);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;}
 #screen-cardio .aluno-cardio-hub-sessao-list{display:flex;flex-direction:column;gap:8px;}
-#screen-cardio .aluno-cardio-hub-sessao{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:14px 16px;background:var(--bg2);border:1px solid rgba(255,255,255,.08);border-radius:14px;}
-#screen-cardio .aluno-cardio-hub-sessao-main{flex:1;min-width:0;}
-#screen-cardio .aluno-cardio-hub-sessao-tit{font-size:15px;font-weight:700;color:var(--text);line-height:1.25;margin-bottom:4px;}
-#screen-cardio .aluno-cardio-hub-sessao-meta{font-size:13px;font-weight:500;font-family:'DM Mono',monospace;color:var(--text2);line-height:1.35;}
-#screen-cardio .aluno-cardio-hub-sessao-data{flex-shrink:0;font-size:12px;font-weight:600;color:var(--text3);white-space:nowrap;padding-top:2px;}
+#screen-cardio .aluno-cardio-hub-sessao-acc{border:1px solid rgba(255,255,255,.08);border-radius:14px;background:var(--bg2);overflow:hidden;transition:border-color .15s;}
+#screen-cardio .aluno-cardio-hub-sessao-acc--open{border-color:rgba(255,255,255,.14);}
+#screen-cardio .aluno-cardio-hub-sessao-hd{width:100%;display:block;padding:14px 16px;background:transparent;border:none;cursor:pointer;font-family:inherit;text-align:left;color:inherit;transition:background .14s;}
+#screen-cardio .aluno-cardio-hub-sessao-hd:hover{background:rgba(255,255,255,.03);}
+#screen-cardio .aluno-cardio-hub-sessao-hd-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+#screen-cardio .aluno-cardio-hub-sessao-ico{flex-shrink:0;font-size:18px;line-height:1;}
+#screen-cardio .aluno-cardio-hub-sessao-tit{flex:1;min-width:0;font-size:15px;font-weight:700;color:var(--text);line-height:1.25;}
+#screen-cardio .aluno-cardio-hub-sessao-pse{flex-shrink:0;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;font-family:'DM Mono',monospace;color:#0f0f0f;line-height:1.2;}
+#screen-cardio .aluno-cardio-hub-sessao-pse--lo{background:#5cb85c;}
+#screen-cardio .aluno-cardio-hub-sessao-pse--mid{background:#e8a838;}
+#screen-cardio .aluno-cardio-hub-sessao-pse--hi{background:#e87848;}
+#screen-cardio .aluno-cardio-hub-sessao-pse--max{background:#e05858;}
+#screen-cardio .aluno-cardio-hub-sessao-sub{font-size:13px;font-weight:500;font-family:'DM Mono',monospace;color:var(--text2);line-height:1.35;margin-bottom:4px;}
+#screen-cardio .aluno-cardio-hub-sessao-data{font-size:12px;font-weight:600;color:var(--text3);}
+#screen-cardio .aluno-cardio-hub-sessao-body{padding:0 16px 14px;border-top:1px solid rgba(255,255,255,.06);}
+#screen-cardio .aluno-cardio-hub-sessao-body[hidden]{display:none;}
+#screen-cardio .aluno-cardio-hub-sessao-dl{margin:12px 0 0;display:flex;flex-direction:column;gap:8px;}
+#screen-cardio .aluno-cardio-hub-sessao-row{display:flex;justify-content:space-between;gap:12px;font-size:13px;line-height:1.4;}
+#screen-cardio .aluno-cardio-hub-sessao-row dt{flex-shrink:0;font-weight:500;color:var(--text3);}
+#screen-cardio .aluno-cardio-hub-sessao-row dd{margin:0;flex:1;min-width:0;font-weight:600;color:var(--text);text-align:right;}
+#screen-cardio .aluno-cardio-hub-sessao-row--obs dd{text-align:right;white-space:pre-wrap;word-break:break-word;}
 #screen-cardio .aluno-cardio-wrap{display:flex;flex-direction:column;gap:18px;padding-bottom:24px;max-width:520px;margin:0 auto;}
 #screen-cardio .aluno-cardio-proto{background:var(--bg2);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:16px 18px 14px;box-shadow:0 1px 0 rgba(255,255,255,.03);}
 #screen-cardio .aluno-cardio-proto-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:12px;margin-bottom:10px;border-bottom:1px solid rgba(255,255,255,.07);}
@@ -4296,50 +4312,84 @@ function alunoCardioSyncChrome(){
   if(prog)prog.hidden=!isExec;
   if(pos&&!isExec)pos.textContent='';
 }
-function alunoCardioFmtSessaoRelativa(ts){
+function alunoCardioFmtSessaoDataCurta(ts){
   if(!ts)return'';
   const d=ts.toDate?ts.toDate():new Date(ts);
-  const now=new Date();
-  const startToday=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-  const startThat=new Date(d.getFullYear(),d.getMonth(),d.getDate());
-  const diffDays=Math.round((startToday-startThat)/86400000);
-  if(diffDays===0)return'Hoje';
-  if(diffDays===1)return'Ontem';
-  if(typeof fmtDate==='function')return fmtDate(ts);
-  return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
+  return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0');
 }
-function alunoCardioHubSessaoMetaTxt(row){
+function alunoCardioHubAtividadeIco(nome){
+  const n=((nome||'')+'').toLowerCase();
+  if(n.indexOf('escada')>=0||n.indexOf('step')>=0)return'\uD83E\uDE9C';
+  if(n.indexOf('corrida')>=0||n.indexOf('esteira')>=0)return'\uD83C\uDFC3';
+  if(n.indexOf('caminhada')>=0)return'\uD83D\uDEB6';
+  if(n.indexOf('bike')>=0||n.indexOf('bicicleta')>=0)return'\uD83D\uDEB4';
+  if(n.indexOf('el\u00edptico')>=0||n.indexOf('eliptico')>=0)return'\uD83C\uDFC3';
+  if(n.indexOf('remo')>=0)return'\uD83D\uDEA3';
+  if(n.indexOf('corda')>=0)return'\uD83E\uDD38';
+  return'\uD83C\uDFC3';
+}
+function alunoCardioHubSessaoSubTxt(row){
   const parts=[];
+  if(row.fcMedia!=null&&row.fcMedia>0)parts.push(row.fcMedia+' bpm');
   const tempo=row.tempoRealizado;
   if(tempo!=null&&tempo>0)parts.push(tempo+' min');
-  if(row.pse!=null&&row.pse!==''&&!isNaN(row.pse))parts.push('PSE '+row.pse);
-  if(row.fcMedia!=null&&row.fcMedia>0)parts.push(row.fcMedia+' bpm');
-  return parts.join(' \u00b7 ');
+  return parts.join(' \u2022 ');
 }
-function alunoCardioHubSessaoCardHtml(row){
+function alunoCardioHubSessaoDetRowHtml(lbl,val,obs){
+  if(val==null||val==='')return'';
+  return'<div class="aluno-cardio-hub-sessao-row'+(obs?' aluno-cardio-hub-sessao-row--obs':'')+'">'+
+    '<dt>'+esc(lbl)+'</dt><dd>'+esc(val)+'</dd></div>';
+}
+function alunoCardioHubSessaoCardHtml(row,idx){
   const tit=((row.atividade||row.protocoloNome||'')+'').trim()||'Cardio';
-  const meta=alunoCardioHubSessaoMetaTxt(row);
-  const when=alunoCardioFmtSessaoRelativa(row.data);
-  return'<div class="aluno-cardio-hub-sessao">'+
-    '<div class="aluno-cardio-hub-sessao-main">'+
-      '<div class="aluno-cardio-hub-sessao-tit">'+esc(tit)+'</div>'+
-      (meta?'<div class="aluno-cardio-hub-sessao-meta">'+esc(meta)+'</div>':'')+
+  const ico=alunoCardioHubAtividadeIco(tit);
+  const sub=alunoCardioHubSessaoSubTxt(row);
+  const when=alunoCardioFmtSessaoDataCurta(row.data);
+  const pse=row.pse;
+  const pseTone=alunoCardioExecPseBadgeTone(pse);
+  const pseBadge=(pse!=null&&pse!==''&&!isNaN(pse))
+    ?'<span class="aluno-cardio-hub-sessao-pse aluno-cardio-hub-sessao-pse--'+pseTone+'">PSE '+esc(pse)+'</span>'
+    :'';
+  const obs=((row.observacao||'')+'').trim();
+  const detHtml=
+    alunoCardioHubSessaoDetRowHtml('Atividade',tit)+
+    alunoCardioHubSessaoDetRowHtml('Tempo total',row.tempoRealizado!=null&&row.tempoRealizado>0?row.tempoRealizado+' min':'')+
+    alunoCardioHubSessaoDetRowHtml('FC m\u00e9dia',row.fcMedia!=null&&row.fcMedia>0?row.fcMedia+' bpm':'')+
+    alunoCardioHubSessaoDetRowHtml('PSE',pse!=null&&pse!==''&&!isNaN(pse)?String(pse):'')+
+    alunoCardioHubSessaoDetRowHtml('Observa\u00e7\u00e3o',obs,true);
+  return'<div class="aluno-cardio-hub-sessao-acc" id="aluno-cardio-sessao-'+idx+'">'+
+    '<button type="button" class="aluno-cardio-hub-sessao-hd" onclick="alunoCardioHubSessaoToggle('+idx+')" aria-expanded="false">'+
+      '<div class="aluno-cardio-hub-sessao-hd-top">'+
+        '<span class="aluno-cardio-hub-sessao-ico" aria-hidden="true">'+ico+'</span>'+
+        '<span class="aluno-cardio-hub-sessao-tit">'+esc(tit)+'</span>'+
+        pseBadge+
+      '</div>'+
+      (sub?'<div class="aluno-cardio-hub-sessao-sub">'+esc(sub)+'</div>':'')+
+      (when?'<div class="aluno-cardio-hub-sessao-data">'+esc(when)+'</div>':'')+
+    '</button>'+
+    '<div class="aluno-cardio-hub-sessao-body" hidden>'+
+      '<dl class="aluno-cardio-hub-sessao-dl">'+detHtml+'</dl>'+
     '</div>'+
-    (when?'<div class="aluno-cardio-hub-sessao-data">'+esc(when)+'</div>':'')+
   '</div>';
 }
+window.alunoCardioHubSessaoToggle=function(idx){
+  const acc=$('aluno-cardio-sessao-'+idx);
+  if(!acc)return;
+  const btn=acc.querySelector('.aluno-cardio-hub-sessao-hd');
+  const body=acc.querySelector('.aluno-cardio-hub-sessao-body');
+  if(!btn||!body)return;
+  const open=!acc.classList.contains('aluno-cardio-hub-sessao--open');
+  acc.classList.toggle('aluno-cardio-hub-sessao--open',open);
+  body.hidden=!open;
+  btn.setAttribute('aria-expanded',open?'true':'false');
+};
 async function alunoCardioHubLoadSessoes(){
   const el=$('aluno-cardio-hub-sessoes');
-  if(!el){
-    console.warn('[CardioHist] container #aluno-cardio-hub-sessoes n\u00e3o encontrado');
-    return;
-  }
+  if(!el)return;
   if(!me||!me.email){
-    console.warn('[CardioHist] me.email ausente — abortando busca');
     el.innerHTML='<div class="aluno-cardio-hub-empty">Nenhuma sess\u00e3o de cardio registrada ainda.</div>';
     return;
   }
-  console.log('[CardioHist] buscando em alunos/'+me.email+'/historico');
   try{
     const hQ=query(
       collection(db,'alunos',me.email,'historico'),
@@ -4348,24 +4398,13 @@ async function alunoCardioHubLoadSessoes(){
       limit(5)
     );
     const hS=await getDocs(hQ);
-    console.log('[CardioHist] docs encontrados:',hS.size);
-    if(!hS.empty){
-      const d=hS.docs[0].data();
-      console.log('[CardioHist] primeiro doc:',{
-        tipo:d.tipo,
-        atividade:d.atividade,
-        tempoRealizado:d.tempoRealizado,
-        pse:d.pse,
-        data:d.data
-      });
-    }
     if(hS.empty){
       el.innerHTML='<div class="aluno-cardio-hub-empty">Nenhuma sess\u00e3o de cardio registrada ainda.</div>';
       return;
     }
-    el.innerHTML='<div class="aluno-cardio-hub-sessao-list">'+hS.docs.map(function(doc){return alunoCardioHubSessaoCardHtml(doc.data());}).join('')+'</div>';
+    el.innerHTML='<div class="aluno-cardio-hub-sessao-list">'+hS.docs.map(function(doc,i){return alunoCardioHubSessaoCardHtml(doc.data(),i);}).join('')+'</div>';
   }catch(e){
-    console.warn('[CardioHist] erro na query:',e&&e.code,e&&e.message,e);
+    console.warn('alunoCardioHubLoadSessoes:',e);
     el.innerHTML='<div class="aluno-cardio-hub-empty">N\u00e3o foi poss\u00edvel carregar suas sess\u00f5es de cardio agora.</div>';
   }
 }
