@@ -4337,7 +4337,7 @@ function alunoCardioRegBuildPayload(){
     dataPreview:new Date().toISOString()
   };
 }
-window.alunoCardioSalvarRegistro=function(){
+window.alunoCardioSalvarRegistro=async function(){
   const tempoEl=$('aluno-cardio-tempo');
   const fcEl=$('aluno-cardio-fc-media');
   const pseEl=$('aluno-cardio-pse');
@@ -4355,9 +4355,18 @@ window.alunoCardioSalvarRegistro=function(){
     const act=((alunoCardioLivreAtividade||'')+'').trim()||(actEl?actEl.value.trim():'');
     if(!act){toast('Selecione uma atividade');return;}
   }
+  if(!me||!me.email){toast('Erro ao salvar cardio');return;}
   const payload=alunoCardioRegBuildPayload();
-  console.log('[Cardio] payload registro:',payload);
-  toast('Payload montado \u2014 veja o console');
+  const registro=Object.assign({},payload,{data:serverTimestamp()});
+  delete registro.dataPreview;
+  try{
+    await addDoc(collection(db,'alunos',me.email,'historico'),registro);
+    toast('Cardio salvo');
+    goTo('home');
+  }catch(e){
+    console.error('alunoCardioSalvarRegistro:',e);
+    toast('Erro ao salvar cardio');
+  }
 };
 function profCardioRenderPanel(){
   const al=editorAluno||alunoSel;
