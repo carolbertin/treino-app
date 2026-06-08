@@ -199,6 +199,18 @@ select.inp option{background:var(--bg3);}
 #screen-cardio .aluno-cardio-exec-timer-lbl--seg{font-size:15px;font-weight:600;color:rgba(255,255,255,.72);text-transform:none;letter-spacing:.01em;}
 #screen-cardio .aluno-cardio-exec-advance-wrap{margin-top:10px;}
 #screen-cardio .aluno-cardio-reg--exec-off{display:none!important;}
+#screen-cardio .aluno-cardio-hub{display:flex;flex-direction:column;gap:22px;padding-bottom:24px;max-width:520px;margin:0 auto;}
+#screen-cardio .aluno-cardio-hub-sec{display:flex;flex-direction:column;gap:10px;}
+#screen-cardio .aluno-cardio-hub-sec-tit{margin:0;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);}
+#screen-cardio .aluno-cardio-hub-proto-card{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 18px;background:var(--bg2);border:1px solid rgba(255,255,255,.09);border-radius:16px;}
+#screen-cardio .aluno-cardio-hub-proto-main{flex:1;min-width:0;}
+#screen-cardio .aluno-cardio-hub-proto-nome{font-size:16px;font-weight:700;color:var(--text);line-height:1.25;margin-bottom:4px;}
+#screen-cardio .aluno-cardio-hub-proto-tempo{font-size:13px;font-weight:600;font-family:'DM Mono',monospace;color:var(--text3);}
+#screen-cardio .aluno-cardio-hub-proto-btn{flex-shrink:0;padding:10px 18px;font-size:14px;}
+#screen-cardio .aluno-cardio-hub-placeholder{padding:16px 18px;background:var(--bg2);border:1px dashed rgba(255,255,255,.12);border-radius:16px;}
+#screen-cardio .aluno-cardio-hub-placeholder-tit{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;}
+#screen-cardio .aluno-cardio-hub-placeholder-txt{margin:0;font-size:13px;line-height:1.45;color:var(--text2);}
+#screen-cardio .aluno-cardio-hub-empty{padding:14px 16px;font-size:13px;line-height:1.45;color:var(--text3);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;}
 #screen-cardio .aluno-cardio-wrap{display:flex;flex-direction:column;gap:18px;padding-bottom:24px;max-width:520px;margin:0 auto;}
 #screen-cardio .aluno-cardio-proto{background:var(--bg2);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:16px 18px 14px;box-shadow:0 1px 0 rgba(255,255,255,.03);}
 #screen-cardio .aluno-cardio-proto-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:12px;margin-bottom:10px;border-bottom:1px solid rgba(255,255,255,.07);}
@@ -4009,6 +4021,7 @@ function alunoCardioExecLayoutHtml(st,fasesAtivas,stepIdx){
 let alunoCardioExecStepIdx=0;
 let alunoCardioExecMode='protocolo';
 let alunoCardioLivreAtividade='';
+let alunoCardioView='hub';
 const alunoCardioExecBloco={roundIdx:0,segIdx:0,stepIdx:-1};
 const alunoCardioExecTimer={intervalId:null,mode:'fase',status:'idle',remainingSec:0,totalSec:0,stepIdx:-1};
 function alunoCardioExecTimerInitBlocoSeg(bloco,roundIdx,segIdx){
@@ -4166,6 +4179,12 @@ window.alunoCardioExecVoltar=function(){
   alunoCardioExecTimer.status='idle';
   alunoCardioExecBloco.roundIdx=0;
   alunoCardioExecBloco.segIdx=0;
+  if(alunoCardioView==='exec'){
+    alunoCardioView='hub';
+    alunoCardioExecStepIdx=0;
+    alunoCardioRenderScreen();
+    return;
+  }
   goTo('home');
 };
 window.alunoCardioExecTimerToggle=function(){
@@ -4262,16 +4281,67 @@ window.alunoCardioExecAvancar=function(){
   }
   alunoCardioMostrarRegistro();
 };
-function alunoCardioRenderScreen(){
+function alunoCardioSyncChrome(){
+  const screen=$('screen-cardio');
+  const prog=screen&&screen.querySelector('.aluno-cardio-exec-prog');
+  const pos=$('aluno-cardio-topbar-pos');
+  const isExec=alunoCardioView==='exec';
+  if(screen)screen.classList.toggle('screen-cardio--exec',isExec);
+  if(prog)prog.hidden=!isExec;
+  if(pos&&!isExec)pos.textContent='';
+}
+function alunoCardioHubProtoCardHtml(st){
+  const totalTxt=profCardioFormatTotalDisplay(profCardioNormalizeProtocolo(st.protocolo).fases);
+  return'<div class="aluno-cardio-hub-proto-card">'+
+    '<div class="aluno-cardio-hub-proto-main">'+
+      '<div class="aluno-cardio-hub-proto-nome">Cardio</div>'+
+      '<div class="aluno-cardio-hub-proto-tempo">'+esc(totalTxt||'\u2014')+' estimados</div>'+
+    '</div>'+
+    '<button type="button" class="btn btn-primary aluno-cardio-hub-proto-btn" onclick="alunoCardioIniciarProtocolo()">Iniciar</button>'+
+  '</div>';
+}
+function alunoCardioHubHtml(){
+  const st=alunoCardioLoadPrescricao();
+  const hasProto=st&&alunoCardioFasesPreenchidas(st.protocolo);
+  const protoBody=hasProto
+    ?alunoCardioHubProtoCardHtml(st)
+    :'<div class="aluno-cardio-hub-empty">Nenhum protocolo de cardio dispon\u00edvel.</div>';
+  return'<div class="aluno-cardio-wrap aluno-cardio-hub" id="aluno-cardio-hub">'+
+    '<section class="aluno-cardio-hub-sec">'+
+      '<h2 class="aluno-cardio-hub-sec-tit">Protocolos prescritos</h2>'+
+      '<div class="aluno-cardio-hub-sec-body">'+protoBody+'</div>'+
+    '</section>'+
+    '<section class="aluno-cardio-hub-sec">'+
+      '<h2 class="aluno-cardio-hub-sec-tit">Cardio livre</h2>'+
+      '<div class="aluno-cardio-hub-sec-body">'+
+        '<div class="aluno-cardio-hub-placeholder">'+
+          '<div class="aluno-cardio-hub-placeholder-tit">Cardio livre</div>'+
+          '<p class="aluno-cardio-hub-placeholder-txt">Em breve voc\u00ea poder\u00e1 registrar um cardio sem prescri\u00e7\u00e3o.</p>'+
+        '</div>'+
+      '</div>'+
+    '</section>'+
+    '<section class="aluno-cardio-hub-sec">'+
+      '<h2 class="aluno-cardio-hub-sec-tit">\u00daltimas sess\u00f5es</h2>'+
+      '<div class="aluno-cardio-hub-sec-body">'+
+        '<div class="aluno-cardio-hub-empty">Nenhuma sess\u00e3o de cardio carregada ainda.</div>'+
+      '</div>'+
+    '</section>'+
+  '</div>';
+}
+function alunoCardioRenderHub(){
+  const box=$('aluno-cardio-content');
+  if(!box)return;
+  box.innerHTML=alunoCardioHubHtml();
+  alunoCardioExecSyncTopbar(0,0);
+}
+function alunoCardioRenderExec(){
   const box=$('aluno-cardio-content');
   if(!box)return;
   const st=alunoCardioLoadPrescricao();
   if(!st||!alunoCardioFasesPreenchidas(st.protocolo)){
-    alunoCardioExecStepIdx=0;
-    alunoCardioExecTimerStop();
-    alunoCardioExecTimer.status='idle';
-    alunoCardioExecSyncTopbar(0,0);
-    box.innerHTML='<div class="empty"><div class="empty-icon">\u2014</div><div class="empty-text">Nenhum protocolo de cardio dispon\u00edvel.</div></div>';
+    alunoCardioView='hub';
+    alunoCardioRenderHub();
+    alunoCardioSyncChrome();
     return;
   }
   const fasesAtivas=alunoCardioExecFasesAtivas(st);
@@ -4279,6 +4349,21 @@ function alunoCardioRenderScreen(){
   alunoCardioExecPaintStep(st,fasesAtivas,alunoCardioExecStepIdx);
   alunoCardioPseAccBind();
 }
+function alunoCardioRenderScreen(){
+  if(alunoCardioView==='exec')alunoCardioRenderExec();
+  else alunoCardioRenderHub();
+  alunoCardioSyncChrome();
+}
+window.alunoCardioIniciarProtocolo=function(){
+  const st=alunoCardioLoadPrescricao();
+  if(!st||!alunoCardioFasesPreenchidas(st.protocolo)){toast('Nenhum protocolo de cardio dispon\u00edvel');return;}
+  alunoCardioExecTimerStop();
+  alunoCardioExecStepIdx=0;
+  alunoCardioExecMode='protocolo';
+  alunoCardioLivreAtividade='';
+  alunoCardioView='exec';
+  alunoCardioRenderScreen();
+};
 function alunoCardioAppendHomeCard(grid){
   if(!grid)return;
   const st=alunoCardioLoadPrescricao();
@@ -4295,6 +4380,7 @@ window.abrirCardioAluno=function(){
   alunoCardioExecStepIdx=0;
   alunoCardioExecMode='protocolo';
   alunoCardioLivreAtividade='';
+  alunoCardioView='hub';
   alunoCardioRenderScreen();
   goTo('cardio');
 };
