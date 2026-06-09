@@ -210,6 +210,28 @@ select.inp option{background:var(--bg3);}
 #screen-cardio .aluno-cardio-hub-placeholder{padding:16px 18px;background:var(--bg2);border:1px dashed rgba(255,255,255,.12);border-radius:16px;}
 #screen-cardio .aluno-cardio-hub-placeholder-tit{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;}
 #screen-cardio .aluno-cardio-hub-placeholder-txt{margin:0;font-size:13px;line-height:1.45;color:var(--text2);}
+#screen-cardio .aluno-cardio-livre-pick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+#screen-cardio .aluno-cardio-livre-pick-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 10px;background:var(--bg2);border:1px solid rgba(255,255,255,.09);border-radius:14px;cursor:pointer;font-family:inherit;color:inherit;transition:background .14s,border-color .14s,transform .12s;}
+#screen-cardio .aluno-cardio-livre-pick-btn:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.16);}
+#screen-cardio .aluno-cardio-livre-pick-btn:active{transform:scale(.98);}
+#screen-cardio .aluno-cardio-livre-pick-ico{font-size:22px;line-height:1;}
+#screen-cardio .aluno-cardio-livre-pick-lbl{font-size:13px;font-weight:600;color:var(--text);line-height:1.25;text-align:center;}
+#screen-cardio .aluno-cardio-livre-outro{max-width:520px;margin:0 auto;padding-bottom:24px;}
+#screen-cardio .aluno-cardio-livre-outro-hint{margin:0 0 16px;font-size:15px;font-weight:600;color:var(--text);line-height:1.35;}
+#screen-cardio .aluno-cardio-livre-reg{max-width:520px;margin:0 auto;padding-bottom:24px;}
+#screen-cardio .aluno-cardio-livre-reg-atividade{display:flex;align-items:center;gap:12px;padding:14px 16px;margin-bottom:16px;background:var(--bg2);border:1px solid rgba(255,255,255,.09);border-radius:16px;}
+#screen-cardio .aluno-cardio-livre-reg-ico{font-size:24px;line-height:1;flex-shrink:0;}
+#screen-cardio .aluno-cardio-livre-reg-nome{font-size:17px;font-weight:700;color:var(--text);line-height:1.25;}
+#screen-cardio .aluno-cardio-livre-escolha{max-width:520px;margin:0 auto;padding-bottom:24px;}
+#screen-cardio .aluno-cardio-livre-escolha-hint{margin:0 0 16px;font-size:14px;font-weight:500;color:var(--text2);line-height:1.4;}
+#screen-cardio .aluno-cardio-livre-escolha-actions{display:flex;flex-direction:column;gap:10px;}
+#screen-cardio .aluno-cardio-livre-timer{max-width:520px;margin:0 auto;padding-bottom:24px;display:flex;flex-direction:column;align-items:center;min-height:calc(100dvh - 140px);}
+#screen-cardio .aluno-cardio-livre-timer-atividade{margin:0 0 32px;font-size:22px;font-weight:700;color:var(--text);line-height:1.2;text-align:center;}
+#screen-cardio .aluno-cardio-livre-timer-val{font-size:clamp(56px,18vw,72px);font-weight:700;font-family:'DM Mono',monospace;color:var(--text);line-height:1;letter-spacing:-.03em;margin-bottom:40px;}
+#screen-cardio .aluno-cardio-livre-timer-val--live{color:var(--accent);}
+#screen-cardio .aluno-cardio-livre-timer-actions{display:flex;flex-direction:column;gap:10px;width:100%;margin-top:auto;padding-top:24px;}
+#screen-cardio .aluno-cardio-livre-timer-row{display:flex;gap:10px;width:100%;}
+#screen-cardio .aluno-cardio-livre-timer-row .btn{flex:1;}
 #screen-cardio .aluno-cardio-hub-empty{padding:14px 16px;font-size:13px;line-height:1.45;color:var(--text3);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;}
 #screen-cardio .aluno-cardio-hub-sessao-list{display:flex;flex-direction:column;gap:8px;}
 #screen-cardio .aluno-cardio-hub-sessao-acc{border:1px solid rgba(255,255,255,.08);border-radius:14px;background:var(--bg2);overflow:hidden;transition:border-color .15s;}
@@ -3596,6 +3618,16 @@ const ALUNO_CARDIO_ATIVIDADES=[
   'Bike ao ar livre',
   'Outro'
 ];
+const ALUNO_CARDIO_LIVRE_PICK=[
+  {ico:'\uD83C\uDFC3',nome:'Corrida'},
+  {ico:'\uD83D\uDEB6',nome:'Caminhada'},
+  {ico:'\uD83D\uDEB4',nome:'Bicicleta'},
+  {ico:'\uD83E\uDE9C',nome:'Escada'},
+  {ico:'\uD83D\uDEA3',nome:'Remo'},
+  {ico:'\u2B55',nome:'El\u00edptico'},
+  {ico:'\uD83C\uDFCA',nome:'Nata\u00e7\u00e3o'},
+  {ico:'\u2795',nome:'Outro',outro:true}
+];
 const ALUNO_CARDIO_PSE_ESCALA=[
   {range:'0',lbl:'Nenhum esfor\u00e7o',desc:'Repouso total',tone:'0'},
   {range:'1',lbl:'Muito leve',desc:'Quase sem esfor\u00e7o. Fala normalmente.',tone:'1'},
@@ -4043,9 +4075,58 @@ function alunoCardioExecLayoutHtml(st,fasesAtivas,stepIdx){
 let alunoCardioExecStepIdx=0;
 let alunoCardioExecMode='protocolo';
 let alunoCardioLivreAtividade='';
+let alunoCardioLivreTempoMin=null;
 let alunoCardioView='hub';
 const alunoCardioExecBloco={roundIdx:0,segIdx:0,stepIdx:-1};
 const alunoCardioExecTimer={intervalId:null,mode:'fase',status:'idle',remainingSec:0,totalSec:0,stepIdx:-1};
+const alunoCardioLivreTimer={intervalId:null,status:'idle',elapsedSec:0,runStartTs:null,baseElapsed:0};
+function alunoCardioLivreTimerDisplayTxt(sec){
+  const s=Math.max(0,Math.floor(sec));
+  const m=Math.floor(s/60);
+  const r=s%60;
+  return String(m).padStart(2,'0')+':'+String(r).padStart(2,'0');
+}
+function alunoCardioLivreTimerStop(){
+  if(alunoCardioLivreTimer.intervalId!=null){
+    clearInterval(alunoCardioLivreTimer.intervalId);
+    alunoCardioLivreTimer.intervalId=null;
+  }
+}
+function alunoCardioLivreTimerReset(){
+  alunoCardioLivreTimerStop();
+  alunoCardioLivreTimer.status='idle';
+  alunoCardioLivreTimer.elapsedSec=0;
+  alunoCardioLivreTimer.runStartTs=null;
+  alunoCardioLivreTimer.baseElapsed=0;
+}
+function alunoCardioLivreTimerSyncElapsed(){
+  if(alunoCardioLivreTimer.status==='running'&&alunoCardioLivreTimer.runStartTs!=null){
+    alunoCardioLivreTimer.elapsedSec=alunoCardioLivreTimer.baseElapsed+Math.floor((Date.now()-alunoCardioLivreTimer.runStartTs)/1000);
+  }
+}
+function alunoCardioLivreTimerStartInterval(){
+  alunoCardioLivreTimerStop();
+  alunoCardioLivreTimer.intervalId=setInterval(function(){
+    if(alunoCardioLivreTimer.status!=='running')return;
+    alunoCardioLivreTimerSyncElapsed();
+    alunoCardioLivreTimerSyncUi();
+  },1000);
+}
+function alunoCardioLivreTimerSyncUi(){
+  const valEl=$('aluno-cardio-livre-timer-val');
+  const btnIni=$('aluno-cardio-livre-timer-ini');
+  const btnPausa=$('aluno-cardio-livre-timer-pausa');
+  if(valEl){
+    alunoCardioLivreTimerSyncElapsed();
+    valEl.textContent=alunoCardioLivreTimerDisplayTxt(alunoCardioLivreTimer.elapsedSec);
+    valEl.classList.toggle('aluno-cardio-livre-timer-val--live',alunoCardioLivreTimer.status==='running');
+  }
+  if(btnIni){
+    btnIni.textContent=alunoCardioLivreTimer.status==='paused'?'Retomar':'Iniciar';
+    btnIni.disabled=alunoCardioLivreTimer.status==='running';
+  }
+  if(btnPausa)btnPausa.disabled=alunoCardioLivreTimer.status!=='running';
+}
 function alunoCardioExecTimerInitBlocoSeg(bloco,roundIdx,segIdx){
   const seg=(bloco.segmentos||[])[segIdx];
   const sec=alunoCardioExecBlocoSegDurSec(seg);
@@ -4197,10 +4278,37 @@ function alunoCardioExecTimerStartInterval(){
 }
 window.alunoCardioExecVoltar=function(){
   alunoCardioExecTimerStop();
+  alunoCardioLivreTimerStop();
   alunoCardioExecTimer.mode='fase';
   alunoCardioExecTimer.status='idle';
   alunoCardioExecBloco.roundIdx=0;
   alunoCardioExecBloco.segIdx=0;
+  if(alunoCardioView==='livre-registro'){
+    alunoCardioView='livre-escolha';
+    alunoCardioLivreTempoMin=null;
+    alunoCardioRenderScreen();
+    return;
+  }
+  if(alunoCardioView==='livre-timer'){
+    alunoCardioLivreTimerReset();
+    alunoCardioView='livre-escolha';
+    alunoCardioRenderScreen();
+    return;
+  }
+  if(alunoCardioView==='livre-escolha'){
+    alunoCardioView='hub';
+    alunoCardioExecMode='protocolo';
+    alunoCardioLivreAtividade='';
+    alunoCardioLivreTempoMin=null;
+    alunoCardioRenderScreen();
+    return;
+  }
+  if(alunoCardioView==='livre-outro'){
+    alunoCardioView='hub';
+    alunoCardioLivreAtividade='';
+    alunoCardioRenderScreen();
+    return;
+  }
   if(alunoCardioView==='exec'){
     alunoCardioView='hub';
     alunoCardioExecStepIdx=0;
@@ -4323,10 +4431,82 @@ function alunoCardioHubAtividadeIco(nome){
   if(n.indexOf('corrida')>=0||n.indexOf('esteira')>=0)return'\uD83C\uDFC3';
   if(n.indexOf('caminhada')>=0)return'\uD83D\uDEB6';
   if(n.indexOf('bike')>=0||n.indexOf('bicicleta')>=0)return'\uD83D\uDEB4';
-  if(n.indexOf('el\u00edptico')>=0||n.indexOf('eliptico')>=0)return'\uD83C\uDFC3';
+  if(n.indexOf('el\u00edptico')>=0||n.indexOf('eliptico')>=0)return'\u2B55';
+  if(n.indexOf('nata')>=0)return'\uD83C\uDFCA';
   if(n.indexOf('remo')>=0)return'\uD83D\uDEA3';
   if(n.indexOf('corda')>=0)return'\uD83E\uDD38';
   return'\uD83C\uDFC3';
+}
+function alunoCardioLivrePickHtml(){
+  const btns=ALUNO_CARDIO_LIVRE_PICK.map(function(a){
+    const onclick=a.outro
+      ?'alunoCardioLivreEscolherOutro()'
+      :"alunoCardioLivreEscolherAtividade('"+escJs(a.nome)+"')";
+    return'<button type="button" class="aluno-cardio-livre-pick-btn" onclick="'+onclick+'">'+
+      '<span class="aluno-cardio-livre-pick-ico" aria-hidden="true">'+a.ico+'</span>'+
+      '<span class="aluno-cardio-livre-pick-lbl">'+esc(a.nome)+'</span>'+
+    '</button>';
+  }).join('');
+  return'<div class="aluno-cardio-livre-pick">'+btns+'</div>';
+}
+function alunoCardioLivreOutroHtml(){
+  return'<div class="aluno-cardio-wrap aluno-cardio-livre-outro" id="aluno-cardio-livre-outro">'+
+    '<p class="aluno-cardio-livre-outro-hint">Qual atividade voc\u00ea fez?</p>'+
+    '<div class="field"><label for="aluno-cardio-livre-outro-inp">Atividade</label>'+
+      '<input class="inp" id="aluno-cardio-livre-outro-inp" type="text" placeholder="Ex.: HIIT, spinning\u2026" autocomplete="off"></div>'+
+    '<button type="button" class="btn btn-primary btn-full" onclick="alunoCardioLivreOutroContinuar()">Continuar</button>'+
+  '</div>';
+}
+function alunoCardioLivreAtividadeHeadHtml(){
+  const act=((alunoCardioLivreAtividade||'')+'').trim();
+  const ico=alunoCardioHubAtividadeIco(act);
+  return'<div class="aluno-cardio-livre-reg-atividade">'+
+    '<span class="aluno-cardio-livre-reg-ico" aria-hidden="true">'+ico+'</span>'+
+    '<span class="aluno-cardio-livre-reg-nome">'+esc(act)+'</span>'+
+  '</div>';
+}
+function alunoCardioLivreEscolhaHtml(){
+  return'<div class="aluno-cardio-wrap aluno-cardio-livre-escolha" id="aluno-cardio-livre-escolha">'+
+    alunoCardioLivreAtividadeHeadHtml()+
+    '<p class="aluno-cardio-livre-escolha-hint">Como deseja registrar?</p>'+
+    '<div class="aluno-cardio-livre-escolha-actions">'+
+      '<button type="button" class="btn btn-primary btn-full" onclick="alunoCardioLivreIniciarTimer()">Iniciar timer</button>'+
+      '<button type="button" class="btn btn-secondary btn-full" onclick="alunoCardioLivreRegistrarDireto()">J\u00e1 fiz, registrar</button>'+
+    '</div>'+
+  '</div>';
+}
+function alunoCardioLivreTimerHtml(){
+  const act=((alunoCardioLivreAtividade||'')+'').trim();
+  const st=alunoCardioLivreTimer.status;
+  const iniLbl=st==='paused'?'Retomar':'Iniciar';
+  const iniDis=st==='running'?' disabled':'';
+  const pausDis=st!=='running'?' disabled':'';
+  return'<div class="aluno-cardio-wrap aluno-cardio-livre-timer" id="aluno-cardio-livre-timer">'+
+    '<h2 class="aluno-cardio-livre-timer-atividade">'+esc(act)+'</h2>'+
+    '<div class="aluno-cardio-livre-timer-val" id="aluno-cardio-livre-timer-val" aria-live="polite">'+alunoCardioLivreTimerDisplayTxt(alunoCardioLivreTimer.elapsedSec)+'</div>'+
+    '<div class="aluno-cardio-livre-timer-actions">'+
+      '<div class="aluno-cardio-livre-timer-row">'+
+        '<button type="button" class="btn btn-primary" id="aluno-cardio-livre-timer-ini" onclick="alunoCardioLivreTimerIniciar()"'+iniDis+'>'+iniLbl+'</button>'+
+        '<button type="button" class="btn btn-secondary" id="aluno-cardio-livre-timer-pausa" onclick="alunoCardioLivreTimerPausar()"'+pausDis+'>Pausar</button>'+
+      '</div>'+
+      '<button type="button" class="btn btn-secondary btn-full" onclick="alunoCardioLivreTimerFinalizar()">Finalizar</button>'+
+    '</div>'+
+  '</div>';
+}
+function alunoCardioLivreRegHtml(){
+  return'<div class="aluno-cardio-wrap aluno-cardio-livre-reg" id="aluno-cardio-livre-reg">'+
+    alunoCardioLivreAtividadeHeadHtml()+
+    '<section class="aluno-cardio-reg">'+
+      '<h3 class="aluno-cardio-reg-tit">Seu registro</h3>'+
+      alunoCardioMetricsHtml()+
+      alunoCardioPseAccHtml()+
+      '<div class="field field--optional"><label for="aluno-cardio-obs">Observa\u00e7\u00f5es <span style="font-weight:400;color:var(--text3);">(opcional)</span></label>'+
+        '<textarea class="inp" id="aluno-cardio-obs" rows="3" placeholder="Como foi o cardio?"></textarea></div>'+
+      '<div class="aluno-cardio-reg-actions">'+
+        '<button type="button" class="btn btn-primary btn-full" onclick="alunoCardioSalvarRegistro()">Salvar cardio</button>'+
+      '</div>'+
+    '</section>'+
+  '</div>';
 }
 function alunoCardioHubSessaoSubTxt(row){
   const parts=[];
@@ -4423,7 +4603,7 @@ function alunoCardioHubHtml(){
   const hasProto=st&&alunoCardioFasesPreenchidas(st.protocolo);
   const protoBody=hasProto
     ?alunoCardioHubProtoCardHtml(st)
-    :'<div class="aluno-cardio-hub-empty">Nenhum protocolo de cardio dispon\u00edvel.</div>';
+    :'<div class="aluno-cardio-hub-empty">Nenhum protocolo prescrito no momento.</div>';
   return'<div class="aluno-cardio-wrap aluno-cardio-hub" id="aluno-cardio-hub">'+
     '<section class="aluno-cardio-hub-sec">'+
       '<h2 class="aluno-cardio-hub-sec-tit">Protocolos prescritos</h2>'+
@@ -4431,12 +4611,7 @@ function alunoCardioHubHtml(){
     '</section>'+
     '<section class="aluno-cardio-hub-sec">'+
       '<h2 class="aluno-cardio-hub-sec-tit">Cardio livre</h2>'+
-      '<div class="aluno-cardio-hub-sec-body">'+
-        '<div class="aluno-cardio-hub-placeholder">'+
-          '<div class="aluno-cardio-hub-placeholder-tit">Cardio livre</div>'+
-          '<p class="aluno-cardio-hub-placeholder-txt">Em breve voc\u00ea poder\u00e1 registrar um cardio sem prescri\u00e7\u00e3o.</p>'+
-        '</div>'+
-      '</div>'+
+      '<div class="aluno-cardio-hub-sec-body">'+alunoCardioLivrePickHtml()+'</div>'+
     '</section>'+
     '<section class="aluno-cardio-hub-sec">'+
       '<h2 class="aluno-cardio-hub-sec-tit">\u00daltimas sess\u00f5es</h2>'+
@@ -4452,6 +4627,38 @@ function alunoCardioRenderHub(){
   box.innerHTML=alunoCardioHubHtml();
   alunoCardioExecSyncTopbar(0,0);
   alunoCardioHubLoadSessoes();
+}
+function alunoCardioRenderLivreOutro(){
+  const box=$('aluno-cardio-content');
+  if(!box)return;
+  box.innerHTML=alunoCardioLivreOutroHtml();
+  alunoCardioExecSyncTopbar(0,0);
+  const inp=$('aluno-cardio-livre-outro-inp');
+  if(inp)setTimeout(function(){inp.focus();},80);
+}
+function alunoCardioRenderLivreEscolha(){
+  const box=$('aluno-cardio-content');
+  if(!box)return;
+  box.innerHTML=alunoCardioLivreEscolhaHtml();
+  alunoCardioExecSyncTopbar(0,0);
+}
+function alunoCardioRenderLivreTimer(){
+  const box=$('aluno-cardio-content');
+  if(!box)return;
+  box.innerHTML=alunoCardioLivreTimerHtml();
+  alunoCardioExecSyncTopbar(0,0);
+  alunoCardioLivreTimerSyncUi();
+}
+function alunoCardioRenderLivreRegistro(){
+  const box=$('aluno-cardio-content');
+  if(!box)return;
+  box.innerHTML=alunoCardioLivreRegHtml();
+  alunoCardioExecSyncTopbar(0,0);
+  alunoCardioPseAccBind();
+  if(alunoCardioLivreTempoMin!=null){
+    const tempoEl=$('aluno-cardio-tempo');
+    if(tempoEl)tempoEl.value=String(alunoCardioLivreTempoMin);
+  }
 }
 function alunoCardioRenderExec(){
   const box=$('aluno-cardio-content');
@@ -4470,35 +4677,115 @@ function alunoCardioRenderExec(){
 }
 function alunoCardioRenderScreen(){
   if(alunoCardioView==='exec')alunoCardioRenderExec();
+  else if(alunoCardioView==='livre-outro')alunoCardioRenderLivreOutro();
+  else if(alunoCardioView==='livre-escolha')alunoCardioRenderLivreEscolha();
+  else if(alunoCardioView==='livre-timer')alunoCardioRenderLivreTimer();
+  else if(alunoCardioView==='livre-registro')alunoCardioRenderLivreRegistro();
   else alunoCardioRenderHub();
   alunoCardioSyncChrome();
 }
+window.alunoCardioLivreEscolherAtividade=function(nome){
+  alunoCardioExecTimerStop();
+  alunoCardioLivreTimerReset();
+  alunoCardioLivreAtividade=((nome||'')+'').trim();
+  alunoCardioLivreTempoMin=null;
+  alunoCardioExecMode='livre';
+  alunoCardioView='livre-escolha';
+  alunoCardioRenderScreen();
+};
+window.alunoCardioLivreEscolherOutro=function(){
+  alunoCardioExecTimerStop();
+  alunoCardioLivreTimerReset();
+  alunoCardioLivreAtividade='';
+  alunoCardioLivreTempoMin=null;
+  alunoCardioView='livre-outro';
+  alunoCardioRenderScreen();
+};
+window.alunoCardioLivreOutroContinuar=function(){
+  const inp=$('aluno-cardio-livre-outro-inp');
+  const val=((inp&&inp.value)||'').trim();
+  if(!val){toast('Informe a atividade');return;}
+  alunoCardioLivreAtividade=val;
+  alunoCardioLivreTempoMin=null;
+  alunoCardioExecMode='livre';
+  alunoCardioView='livre-escolha';
+  alunoCardioRenderScreen();
+};
+window.alunoCardioLivreIniciarTimer=function(){
+  alunoCardioLivreTimerReset();
+  alunoCardioLivreTempoMin=null;
+  alunoCardioView='livre-timer';
+  alunoCardioRenderScreen();
+};
+window.alunoCardioLivreRegistrarDireto=function(){
+  alunoCardioLivreTimerStop();
+  alunoCardioLivreTempoMin=null;
+  alunoCardioView='livre-registro';
+  alunoCardioRenderScreen();
+};
+window.alunoCardioLivreTimerIniciar=function(){
+  if(alunoCardioLivreTimer.status==='running')return;
+  if(alunoCardioLivreTimer.status==='paused'){
+    alunoCardioLivreTimer.baseElapsed=alunoCardioLivreTimer.elapsedSec;
+  }else{
+    alunoCardioLivreTimer.baseElapsed=0;
+    alunoCardioLivreTimer.elapsedSec=0;
+  }
+  alunoCardioLivreTimer.runStartTs=Date.now();
+  alunoCardioLivreTimer.status='running';
+  alunoCardioLivreTimerStartInterval();
+  alunoCardioLivreTimerSyncUi();
+};
+window.alunoCardioLivreTimerPausar=function(){
+  if(alunoCardioLivreTimer.status!=='running')return;
+  alunoCardioLivreTimerSyncElapsed();
+  alunoCardioLivreTimerStop();
+  alunoCardioLivreTimer.status='paused';
+  alunoCardioLivreTimer.runStartTs=null;
+  alunoCardioLivreTimer.baseElapsed=alunoCardioLivreTimer.elapsedSec;
+  alunoCardioLivreTimerSyncUi();
+};
+window.alunoCardioLivreTimerFinalizar=function(){
+  alunoCardioLivreTimerSyncElapsed();
+  alunoCardioLivreTimerStop();
+  alunoCardioLivreTimer.status='idle';
+  const sec=alunoCardioLivreTimer.elapsedSec;
+  alunoCardioLivreTempoMin=sec>0?Math.max(1,Math.round(sec/60)):null;
+  alunoCardioView='livre-registro';
+  alunoCardioRenderScreen();
+};
 window.alunoCardioIniciarProtocolo=function(){
   const st=alunoCardioLoadPrescricao();
   if(!st||!alunoCardioFasesPreenchidas(st.protocolo)){toast('Nenhum protocolo de cardio dispon\u00edvel');return;}
   alunoCardioExecTimerStop();
+  alunoCardioLivreTimerReset();
   alunoCardioExecStepIdx=0;
   alunoCardioExecMode='protocolo';
   alunoCardioLivreAtividade='';
+  alunoCardioLivreTempoMin=null;
   alunoCardioView='exec';
   alunoCardioRenderScreen();
 };
 function alunoCardioAppendHomeCard(grid){
   if(!grid)return;
   const st=alunoCardioLoadPrescricao();
-  if(!st||!alunoCardioFasesPreenchidas(st.protocolo))return;
-  const totalTxt=profCardioFormatTotalDisplay(profCardioNormalizeProtocolo(st.protocolo).fases);
+  const hasProto=st&&alunoCardioFasesPreenchidas(st.protocolo);
+  const countTxt=hasProto
+    ?esc(profCardioFormatTotalDisplay(profCardioNormalizeProtocolo(st.protocolo).fases)||'\u2014')+' estimados'
+    :'Livre';
   const el=document.createElement('div');
   el.className='treino-card treino-card--cardio';
-  el.innerHTML='<div class="treino-nome">Cardio</div><div class="treino-count">'+esc(totalTxt||'\u2014')+' estimados</div>';
+  el.innerHTML='<div class="treino-nome">Cardio</div><div class="treino-count">'+countTxt+'</div>';
   el.onclick=abrirCardioAluno;
   grid.appendChild(el);
 }
 window.abrirCardioAluno=function(){
   alunoCardioExecTimerStop();
+  alunoCardioLivreTimerReset();
   alunoCardioExecStepIdx=0;
   alunoCardioExecMode='protocolo';
   alunoCardioLivreAtividade='';
+  alunoCardioLivreTempoMin=null;
   alunoCardioView='hub';
   alunoCardioRenderScreen();
   goTo('cardio');
