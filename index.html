@@ -236,8 +236,12 @@ select.inp option{background:var(--bg3);}
 #screen-cardio .aluno-cardio-hub-sessao-list{display:flex;flex-direction:column;gap:8px;}
 #screen-cardio .aluno-cardio-hub-sessao-acc{border:1px solid rgba(255,255,255,.08);border-radius:14px;background:var(--bg2);overflow:hidden;transition:border-color .15s;}
 #screen-cardio .aluno-cardio-hub-sessao-acc--open{border-color:rgba(255,255,255,.14);}
-#screen-cardio .aluno-cardio-hub-sessao-hd{width:100%;display:block;padding:14px 16px;background:transparent;border:none;cursor:pointer;font-family:inherit;text-align:left;color:inherit;transition:background .14s;}
+#screen-cardio .aluno-cardio-hub-sessao-hd-row{display:flex;align-items:stretch;}
+#screen-cardio .aluno-cardio-hub-sessao-hd{flex:1;min-width:0;display:block;padding:14px 16px;background:transparent;border:none;cursor:pointer;font-family:inherit;text-align:left;color:inherit;transition:background .14s;}
 #screen-cardio .aluno-cardio-hub-sessao-hd:hover{background:rgba(255,255,255,.03);}
+#screen-cardio .aluno-cardio-hub-sessao-del{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:40px;border:none;border-left:1px solid rgba(255,255,255,.06);background:transparent;color:rgba(255,255,255,.28);cursor:pointer;font-family:inherit;font-size:15px;transition:color .14s,background .14s;}
+#screen-cardio .aluno-cardio-hub-sessao-del:hover{color:rgba(255,120,120,.92);background:rgba(220,80,80,.08);}
+#screen-cardio .aluno-cardio-hub-sessao-del:active{opacity:.85;}
 #screen-cardio .aluno-cardio-hub-sessao-hd-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
 #screen-cardio .aluno-cardio-hub-sessao-ico{flex-shrink:0;font-size:18px;line-height:1;}
 #screen-cardio .aluno-cardio-hub-sessao-tit{flex:1;min-width:0;font-size:15px;font-weight:700;color:var(--text);line-height:1.25;}
@@ -1992,15 +1996,15 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-dica[hidden]{display:none!important;margin:0;padding:0;border:none;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-dica p{margin:0;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-presc{margin:0 10px 8px;padding:0;font-size:12px;line-height:1.45;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-presc-lbl{display:block;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:3px;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-presc-txt{display:block;font-size:13px;font-weight:500;line-height:1.4;color:rgba(255,255,255,.88);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--feeder .aluno-tecnica-sec-presc-txt{color:rgba(158,200,245,.92);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-tecnica-sec-presc-txt{color:rgba(196,182,248,.92);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--cluster .aluno-tecnica-sec-presc-txt{color:rgba(240,200,120,.92);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-presc-lbl{display:block;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.58);margin-bottom:3px;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-presc-txt{display:block;font-size:16px;font-weight:500;line-height:1.52;color:rgba(255,255,255,.94);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--feeder .aluno-tecnica-sec-presc-txt{color:rgba(175,215,250,.96);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-tecnica-sec-presc-txt{color:rgba(205,195,252,.96);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--cluster .aluno-tecnica-sec-presc-txt{color:rgba(245,210,135,.96);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-ordem{align-items:flex-start;justify-content:flex-start;text-align:left;padding:0 4px 0 0;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-ordem-txt{display:block;font-size:13px;font-weight:600;line-height:1.25;color:rgba(255,255,255,.78);font-family:inherit;text-align:left;white-space:nowrap;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--feeder .aluno-serie-ordem-txt{color:rgba(158,200,245,.9);}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-serie-ordem-txt{color:rgba(190,178,245,.9);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-ordem-txt{display:block;font-size:17px;font-weight:600;line-height:1.3;color:rgba(255,255,255,.92);font-family:inherit;text-align:left;white-space:nowrap;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--feeder .aluno-serie-ordem-txt{color:rgba(170,215,250,.95);}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--work .aluno-serie-ordem-txt{color:rgba(200,190,250,.95);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec--feeder .aluno-tecnica-sec-dica{
   background:rgba(91,159,212,.1);border:1px solid rgba(91,159,212,.32);
 }
@@ -2067,7 +2071,7 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1].aluno-ultimo-visivel .aluno-serie-row-main:not(.aluno-serie-row--cluster-sum){padding-bottom:18px;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-kg-ph{display:block;width:100%;height:44px;min-height:44px;align-self:center;box-sizing:border-box;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] > .aluno-serie-cols-head{display:none!important;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-body .aluno-serie-cols-head--sec{padding:5px 8px 4px;margin:0;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.64);background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.1);border-top:none;line-height:1.15;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-body .aluno-serie-cols-head--sec{padding:5px 8px 4px;margin:0;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.84);background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.1);border-top:none;line-height:1.25;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-body .aluno-serie-cols-head--sec>span{display:flex;align-items:center;justify-content:center;min-width:0;text-align:center;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-body .aluno-serie-cols-head--sec>span:first-child{justify-content:flex-start;text-align:left;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-body .aluno-serie-cols-head--sec>span:last-child{min-width:36px;}
@@ -2086,7 +2090,7 @@ select.inp option{background:var(--bg3);}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-presc-main{font-size:17px;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-presc-sub{font-size:12px;line-height:1.4;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-code{font-size:18px;}
-#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head{padding:7px 8px 5px;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.72);border-bottom:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);line-height:1.2;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head{padding:7px 8px 5px;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.84);border-bottom:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);line-height:1.25;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head>span{display:flex;align-items:center;justify-content:center;min-width:0;text-align:center;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head>span:first-child{justify-content:flex-start;text-align:left;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head span:last-child{text-align:center;}
@@ -2156,7 +2160,7 @@ select.inp option{background:var(--bg3);}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main:not(.aluno-serie-row-main--cluster-id):not(.aluno-serie-row-main--backoff-reg){grid-template-columns:minmax(0,1fr) minmax(52px,1.1fr) minmax(52px,1.1fr) 44px;gap:6px 4px;width:100%;max-width:100%;box-sizing:border-box;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-cols-head--sec.aluno-serie-cols-head--cluster-id,
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main--cluster-id{grid-template-columns:minmax(58px,0.55fr) minmax(0,1fr) minmax(52px,1.1fr) minmax(52px,1.1fr) 44px;gap:6px 4px;width:100%;max-width:100%;box-sizing:border-box;}
-  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-body .aluno-serie-cols-head--sec{padding:5px 6px 4px;font-size:9px;color:rgba(255,255,255,.68);}
+  #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-body .aluno-serie-cols-head--sec{padding:5px 6px 4px;font-size:13px;color:rgba(255,255,255,.86);}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-tecnica-sec-body .aluno-serie-cols-head--sec>span:last-child{min-width:44px;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row-main{min-height:68px;padding:10px 6px;align-items:center;}
   #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row--cluster .aluno-serie-row-main{min-height:68px;}
@@ -2685,6 +2689,17 @@ select.inp option{background:var(--bg3);}
     <div style="display:flex;gap:10px;">
       <button type="button" class="btn btn-secondary flex-1" id="aluno-excluir-treino-cancel" onclick="alunoMesFecharExcluirTreino()">Cancelar</button>
       <button type="button" class="btn btn-danger flex-1" id="aluno-excluir-treino-confirm" onclick="alunoMesConfirmarExcluirTreino()">Excluir registro</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bd modal-bd--stack" id="modal-aluno-excluir-cardio">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Excluir este registro de cardio?</div>
+    <div style="display:flex;gap:10px;">
+      <button type="button" class="btn btn-secondary flex-1" id="aluno-excluir-cardio-cancel" onclick="alunoCardioHubFecharExcluirSessao()">Cancelar</button>
+      <button type="button" class="btn btn-danger flex-1" id="aluno-excluir-cardio-confirm" onclick="alunoCardioHubConfirmarExcluirSessao()">Excluir</button>
     </div>
   </div>
 </div>
@@ -4520,7 +4535,7 @@ function alunoCardioHubSessaoDetRowHtml(lbl,val,obs){
   return'<div class="aluno-cardio-hub-sessao-row'+(obs?' aluno-cardio-hub-sessao-row--obs':'')+'">'+
     '<dt>'+esc(lbl)+'</dt><dd>'+esc(val)+'</dd></div>';
 }
-function alunoCardioHubSessaoCardHtml(row,idx){
+function alunoCardioHubSessaoCardHtml(row,idx,docId){
   const tit=((row.atividade||row.protocoloNome||'')+'').trim()||'Cardio';
   const ico=alunoCardioHubAtividadeIco(tit);
   const sub=alunoCardioHubSessaoSubTxt(row);
@@ -4537,16 +4552,22 @@ function alunoCardioHubSessaoCardHtml(row,idx){
     alunoCardioHubSessaoDetRowHtml('FC m\u00e9dia',row.fcMedia!=null&&row.fcMedia>0?row.fcMedia+' bpm':'')+
     alunoCardioHubSessaoDetRowHtml('PSE',pse!=null&&pse!==''&&!isNaN(pse)?String(pse):'')+
     alunoCardioHubSessaoDetRowHtml('Observa\u00e7\u00e3o',obs,true);
+  const delBtn=docId
+    ?'<button type="button" class="aluno-cardio-hub-sessao-del" onclick="alunoCardioHubAbrirExcluirSessao(\''+escJs(docId)+'\')" aria-label="Excluir registro de cardio" title="Excluir">\uD83D\uDDD1</button>'
+    :'';
   return'<div class="aluno-cardio-hub-sessao-acc" id="aluno-cardio-sessao-'+idx+'">'+
-    '<button type="button" class="aluno-cardio-hub-sessao-hd" onclick="alunoCardioHubSessaoToggle('+idx+')" aria-expanded="false">'+
-      '<div class="aluno-cardio-hub-sessao-hd-top">'+
-        '<span class="aluno-cardio-hub-sessao-ico" aria-hidden="true">'+ico+'</span>'+
-        '<span class="aluno-cardio-hub-sessao-tit">'+esc(tit)+'</span>'+
-        pseBadge+
-      '</div>'+
-      (sub?'<div class="aluno-cardio-hub-sessao-sub">'+esc(sub)+'</div>':'')+
-      (when?'<div class="aluno-cardio-hub-sessao-data">'+esc(when)+'</div>':'')+
-    '</button>'+
+    '<div class="aluno-cardio-hub-sessao-hd-row">'+
+      '<button type="button" class="aluno-cardio-hub-sessao-hd" onclick="alunoCardioHubSessaoToggle('+idx+')" aria-expanded="false">'+
+        '<div class="aluno-cardio-hub-sessao-hd-top">'+
+          '<span class="aluno-cardio-hub-sessao-ico" aria-hidden="true">'+ico+'</span>'+
+          '<span class="aluno-cardio-hub-sessao-tit">'+esc(tit)+'</span>'+
+          pseBadge+
+        '</div>'+
+        (sub?'<div class="aluno-cardio-hub-sessao-sub">'+esc(sub)+'</div>':'')+
+        (when?'<div class="aluno-cardio-hub-sessao-data">'+esc(when)+'</div>':'')+
+      '</button>'+
+      delBtn+
+    '</div>'+
     '<div class="aluno-cardio-hub-sessao-body" hidden>'+
       '<dl class="aluno-cardio-hub-sessao-dl">'+detHtml+'</dl>'+
     '</div>'+
@@ -4582,12 +4603,52 @@ async function alunoCardioHubLoadSessoes(){
       el.innerHTML='<div class="aluno-cardio-hub-empty">Nenhuma sess\u00e3o de cardio registrada ainda.</div>';
       return;
     }
-    el.innerHTML='<div class="aluno-cardio-hub-sessao-list">'+hS.docs.map(function(doc,i){return alunoCardioHubSessaoCardHtml(doc.data(),i);}).join('')+'</div>';
+    el.innerHTML='<div class="aluno-cardio-hub-sessao-list">'+hS.docs.map(function(doc,i){return alunoCardioHubSessaoCardHtml(doc.data(),i,doc.id);}).join('')+'</div>';
   }catch(e){
     console.warn('alunoCardioHubLoadSessoes:',e);
     el.innerHTML='<div class="aluno-cardio-hub-empty">N\u00e3o foi poss\u00edvel carregar suas sess\u00f5es de cardio agora.</div>';
   }
 }
+let alunoCardioExcluirSessaoCtx=null;
+let alunoCardioExcluirSessaoBusy=false;
+window.alunoCardioHubAbrirExcluirSessao=function(docId){
+  if(!docId||!me||!me.email)return;
+  alunoCardioExcluirSessaoCtx={docId:docId};
+  abrirModal('modal-aluno-excluir-cardio');
+};
+window.alunoCardioHubFecharExcluirSessao=function(){
+  if(alunoCardioExcluirSessaoBusy)return;
+  alunoCardioExcluirSessaoCtx=null;
+  fecharModal('modal-aluno-excluir-cardio');
+};
+window.alunoCardioHubConfirmarExcluirSessao=async function(){
+  const ctx=alunoCardioExcluirSessaoCtx;
+  if(!ctx||alunoCardioExcluirSessaoBusy||!me||!me.email)return;
+  const btn=$('aluno-excluir-cardio-confirm');
+  const cancel=$('aluno-excluir-cardio-cancel');
+  alunoCardioExcluirSessaoBusy=true;
+  if(btn){btn.disabled=true;btn.textContent='Excluindo\u2026';}
+  if(cancel)cancel.disabled=true;
+  try{
+    const ref=doc(db,'alunos',me.email,'historico',ctx.docId);
+    const snap=await getDoc(ref);
+    if(!snap.exists()){toast('Registro n\u00e3o encontrado');return;}
+    const data=snap.data();
+    if(data.tipo!=='cardio'){toast('S\u00f3 \u00e9 poss\u00edvel excluir registros de cardio');return;}
+    await deleteDoc(ref);
+    fecharModal('modal-aluno-excluir-cardio');
+    alunoCardioExcluirSessaoCtx=null;
+    toast('Registro exclu\u00eddo');
+    await alunoCardioHubLoadSessoes();
+  }catch(e){
+    console.error('alunoCardioHubConfirmarExcluirSessao:',e);
+    toast('Erro ao excluir registro');
+  }finally{
+    alunoCardioExcluirSessaoBusy=false;
+    if(btn){btn.disabled=false;btn.textContent='Excluir';}
+    if(cancel)cancel.disabled=false;
+  }
+};
 function alunoCardioHubProtoCardHtml(st){
   const totalTxt=profCardioFormatTotalDisplay(profCardioNormalizeProtocolo(st.protocolo).fases);
   return'<div class="aluno-cardio-hub-proto-card">'+
