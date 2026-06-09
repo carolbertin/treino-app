@@ -1844,6 +1844,18 @@ select.inp option{background:var(--bg3);}
 .academia-arquivada-nome{font-size:12px;color:var(--text2);line-height:1.35;flex:1;min-width:0;}
 .academia-arquivada-restaurar{flex-shrink:0;padding:5px 12px;border-radius:16px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text2);font-family:inherit;}
 .academia-arquivada-restaurar:hover{color:var(--accent);border-color:rgba(200,240,96,.28);background:rgba(200,240,96,.06);}
+.aluno-ex-academia-banner{display:flex;align-items:center;gap:6px;margin-bottom:14px;padding:10px 14px;border-radius:var(--rsm);border:1px solid rgba(242,176,76,.28);background:rgba(242,176,76,.06);}
+.aluno-ex-academia-banner[hidden]{display:none!important;}
+.aluno-ex-academia-lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#f2b04c;flex-shrink:0;}
+.aluno-ex-academia-nome{font-size:13px;font-weight:600;color:var(--text);line-height:1.3;}
+.aluno-modal-academia-sub{margin:0 0 18px;font-size:14px;line-height:1.5;color:var(--text2);}
+.aluno-modal-academia-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;max-height:min(42vh,280px);overflow-y:auto;}
+.aluno-modal-academia-opt{width:100%;display:flex;align-items:center;padding:14px 16px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:var(--bg3);color:var(--text);font-size:15px;font-weight:500;font-family:inherit;text-align:left;cursor:pointer;transition:border-color .14s,background .14s;}
+.aluno-modal-academia-opt:hover{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.05);}
+.aluno-modal-academia-opt--on{border-color:rgba(200,240,96,.45);background:rgba(200,240,96,.1);color:var(--accent);}
+.aluno-modal-academia-add{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px 16px;border:1px dashed rgba(255,255,255,.16);border-radius:12px;background:transparent;color:var(--text2);font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;transition:border-color .14s,color .14s;}
+.aluno-modal-academia-add:hover{border-color:rgba(200,240,96,.35);color:var(--accent);}
+.aluno-modal-academia-nova{margin-top:12px;}
 /* Back-off — passos em cards (só apresentação) */
 .aluno-backoff-guided{margin:12px 0 16px;max-width:100%;box-sizing:border-box;}
 .aluno-backoff-guided__title{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--backoff-color,#F0997B);margin:0 0 10px;padding:0 2px;}
@@ -2347,6 +2359,10 @@ select.inp option{background:var(--bg3);}
     <div class="aluno-exec-prog-fill" id="aluno-prog-fill"></div>
   </div>
   <div class="content content-pb aluno-exec-scroll" id="aluno-exec-scroll">
+    <div id="aluno-ex-academia-banner" class="aluno-ex-academia-banner" hidden>
+      <span class="aluno-ex-academia-lbl">Registrando em:</span>
+      <span class="aluno-ex-academia-nome" id="aluno-ex-academia-nome"></span>
+    </div>
     <div class="aluno-exec-legacy">
       <div class="video-wrap" id="video-wrap"><div class="video-ph">&#x25B6; Sem v&#xED;deo</div></div>
       <div id="img-ref-wrap"></div>
@@ -2706,6 +2722,28 @@ select.inp option{background:var(--bg3);}
   </div>
 </div>
 
+<div class="modal-bd modal-bd--stack" id="modal-aluno-academia-treino">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Onde vai treinar hoje?</div>
+    <p class="aluno-modal-academia-sub">O registro fica vinculado &#xE0; academia &#x2014; importante para acompanhar sua evolu&#xE7;&#xE3;o corretamente.</p>
+    <div id="aluno-modal-academia-list" class="aluno-modal-academia-list" role="listbox" aria-label="Academias"></div>
+    <button type="button" class="aluno-modal-academia-add" id="aluno-modal-academia-add-btn" onclick="alunoModalAcademiaMostrarNova()">+ Adicionar nova academia</button>
+    <div id="aluno-modal-academia-nova-wrap" class="aluno-modal-academia-nova" hidden>
+      <div class="field" style="margin-bottom:10px;">
+        <label for="aluno-modal-academia-nova-inp">Nome da academia</label>
+        <input class="inp" id="aluno-modal-academia-nova-inp" type="text" placeholder="Ex.: Smart Fit Pinheiros" autocomplete="off"
+          onkeydown="if(event.key==='Enter'){alunoModalAcademiaSalvarNova();}">
+      </div>
+      <button type="button" class="btn btn-secondary btn-full" onclick="alunoModalAcademiaSalvarNova()">Salvar academia</button>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:18px;">
+      <button type="button" class="btn btn-secondary flex-1" onclick="alunoModalAcademiaFechar()">Cancelar</button>
+      <button type="button" class="btn btn-primary flex-1" id="aluno-modal-academia-confirm" onclick="alunoModalAcademiaConfirmar()">Confirmar e abrir treino</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-bd" id="modal-limpar-historico">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -2908,6 +2946,8 @@ let academiaSelecionada=''; // academia escolhida para a sessão atual
 let academiaFiltroUltimoReg=''; // filtro manual da coluna Anterior (localStorage ult_reg_unidade_*)
 let academiaFiltroAnteriorManual=false; // true = pill/select escolheu; false = default auto da sessão
 let _academiaArquivarNome=null;
+let _alunoTreinoPendente=null;
+let _alunoModalAcademiaSel='';
 
 function academiaNomeKey(n){return((n||'')+'').trim().toLowerCase();}
 function academiasHistNormItem(x){return typeof x==='string'?((x||'')+'').trim():((x&&x.nome)||'').trim();}
@@ -5845,7 +5885,7 @@ async function initAluno(){
     (meAluno.treinos||[]).forEach(t=>{
       const el=document.createElement('div');el.className='treino-card';
       el.innerHTML='<div class="treino-nome">'+esc(t.nome)+'</div><div class="treino-count">'+(t.exercicios||[]).length+' exerc\u00edcios</div>';
-      el.onclick=()=>abrirTreino(t);grid.appendChild(el);
+      el.onclick=()=>abrirModalAcademiaTreino(t);grid.appendChild(el);
     });
     alunoCardioAppendHomeCard(grid);
   }catch(e){
@@ -6038,6 +6078,90 @@ function alunoRestaurarChecksPosRender(idx,nome){
   if(c&&c.dataset.alunoRowsV1)alunoSyncRowsProgress();
 }
 
+function syncAcademiaExercicioBanner(){
+  const banner=$('aluno-ex-academia-banner');
+  const nomeEl=$('aluno-ex-academia-nome');
+  const nome=(academiaSelecionada||'').trim();
+  if(!banner||!nomeEl)return;
+  if(nome){
+    banner.hidden=false;
+    nomeEl.textContent=nome;
+  }else{
+    banner.hidden=true;
+    nomeEl.textContent='';
+  }
+}
+function alunoRenderModalAcademiaTreino(){
+  const list=$('aluno-modal-academia-list');
+  const novaWrap=$('aluno-modal-academia-nova-wrap');
+  const addBtn=$('aluno-modal-academia-add-btn');
+  const inp=$('aluno-modal-academia-nova-inp');
+  const btn=$('aluno-modal-academia-confirm');
+  if(!list)return;
+  const academias=academiasAtivasRead();
+  if(!academias.length){
+    list.innerHTML='';
+    if(addBtn)addBtn.style.display='none';
+    if(novaWrap)novaWrap.hidden=false;
+    if(inp)setTimeout(function(){inp.focus();},80);
+    if(btn)btn.disabled=true;
+    return;
+  }
+  if(addBtn)addBtn.style.display='';
+  if(novaWrap)novaWrap.hidden=true;
+  if(inp)inp.value='';
+  list.innerHTML=academias.map(function(a){
+    const on=_alunoModalAcademiaSel===a?' aluno-modal-academia-opt--on':'';
+    return'<button type="button" class="aluno-modal-academia-opt'+on+'" role="option" aria-selected="'+(_alunoModalAcademiaSel===a?'true':'false')+'" onclick="alunoModalAcademiaSelecionar(\''+escJs(a)+'\')">'+esc(a)+'</button>';
+  }).join('');
+  if(btn)btn.disabled=!_alunoModalAcademiaSel;
+}
+window.abrirModalAcademiaTreino=function(t){
+  _alunoTreinoPendente=t;
+  const academias=academiasAtivasRead();
+  const last=((localStorage.getItem('academia_atual')||'')+'').trim();
+  _alunoModalAcademiaSel=last&&academias.indexOf(last)>=0?last:(academias[0]||'');
+  alunoRenderModalAcademiaTreino();
+  abrirModal('modal-aluno-academia-treino');
+};
+window.alunoModalAcademiaSelecionar=function(nome){
+  _alunoModalAcademiaSel=((nome||'')+'').trim();
+  alunoRenderModalAcademiaTreino();
+};
+window.alunoModalAcademiaMostrarNova=function(){
+  const novaWrap=$('aluno-modal-academia-nova-wrap');
+  if(novaWrap)novaWrap.hidden=false;
+  const inp=$('aluno-modal-academia-nova-inp');
+  if(inp)setTimeout(function(){inp.focus();},80);
+};
+window.alunoModalAcademiaSalvarNova=function(){
+  const inp=$('aluno-modal-academia-nova-inp');
+  const val=((inp&&inp.value)||'').trim();
+  if(!val){toast('Informe o nome da academia');return;}
+  adicionarAcademia(val);
+  _alunoModalAcademiaSel=val;
+  if(inp)inp.value='';
+  const novaWrap=$('aluno-modal-academia-nova-wrap');
+  if(novaWrap)novaWrap.hidden=true;
+  alunoRenderModalAcademiaTreino();
+};
+window.alunoModalAcademiaConfirmar=function(){
+  if(!_alunoModalAcademiaSel){toast('Selecione uma academia');return;}
+  const t=_alunoTreinoPendente;
+  if(!t)return;
+  academiaSelecionada=_alunoModalAcademiaSel;
+  localStorage.setItem('academia_atual',academiaSelecionada);
+  _alunoTreinoPendente=null;
+  fecharModal('modal-aluno-academia-treino');
+  abrirTreino(t);
+};
+window.alunoModalAcademiaFechar=function(){
+  _alunoTreinoPendente=null;
+  _alunoModalAcademiaSel='';
+  const novaWrap=$('aluno-modal-academia-nova-wrap');
+  if(novaWrap)novaWrap.hidden=true;
+  fecharModal('modal-aluno-academia-treino');
+};
 function abrirTreino(t){
   if(treinoAtual&&sessaoTreinoValidaHoje(sessaoTreinoAtual,treinoAtual.nome))persistirSessaoTreinoCompleta();
   treinoAtual=t;
@@ -6049,7 +6173,14 @@ function abrirTreino(t){
   $('btn-view-toggle').textContent='\u2261 Resumo';
   academiaSelecionada=localStorage.getItem('academia_atual')||'';
   iniciarOuRetomarSessaoTreino(t);
+  const academiaConfirmada=(academiaSelecionada||'').trim();
+  if(academiaConfirmada){
+    academiaSelecionada=academiaConfirmada;
+    if(sessaoTreinoAtual)sessaoTreinoAtual.academia=academiaConfirmada;
+    salvarSessaoTreinoLS();
+  }
   renderAcademiaSelector();
+  syncAcademiaExercicioBanner();
   renderInstrucoes();
   renderListaEx();
   goTo('treino');
@@ -6112,7 +6243,11 @@ function renderAcademiaSelector(){
     primeira.style.display='none';
     const btns=$('academia-selector-btns');
     const titReg=wrap.querySelector('.academia-registrando-tit');
-    if(titReg)titReg.style.display=academias.length?'':'none';
+    const nomeSel=(academiaSelecionada||'').trim();
+    if(titReg){
+      titReg.style.display=nomeSel||academias.length?'':'none';
+      titReg.textContent=nomeSel?'Registrando em: '+nomeSel:'Registrando em';
+    }
     if(btns){
       btns.style.display=academias.length?'':'none';
       btns.innerHTML='';
@@ -6133,6 +6268,7 @@ function renderAcademiaSelector(){
           }
           if(sessaoTreinoAtual&&treinoAtual)sessaoTreinoAtual.academia=academiaSelecionada||'';
           renderAcademiaSelector();
+          syncAcademiaExercicioBanner();
           if($('screen-exercicio')&&$('screen-exercicio').classList.contains('active'))carregarHistoricoEx();
         };
         const btnArq=document.createElement('button');
@@ -6182,6 +6318,7 @@ window.adicionarAcademia=nome=>{
   academiaSelecionada=nome; localStorage.setItem('academia_atual',nome);
   $('academia-primeira-wrap').style.display='none';
   renderAcademiaSelector();
+  syncAcademiaExercicioBanner();
 };
 
 window.abrirModalArquivarAcademia=nome=>{
@@ -6448,6 +6585,7 @@ async function abrirExercicio(ex,idx){
   alunoLoadAnteriorFiltroState();
   const scrEx=$('screen-exercicio');
   if(scrEx)scrEx.classList.add('screen-exercicio--exec-simple');
+  syncAcademiaExercicioBanner();
   goTo('exercicio');
   alunoRestaurarChecksPosRender(idx,ex.nome);
   alunoClearObsAnterior();
@@ -14356,6 +14494,7 @@ window.abrirEditor = idx => {
 
 document.querySelectorAll('.modal-bd').forEach(b=>b.addEventListener('click',e=>{
   if(e.target!==b)return;
+  if(b.id==='modal-aluno-academia-treino'){alunoModalAcademiaFechar();return;}
   b.classList.remove('open');
   if(b.id==='modal-ex'){delete b.dataset.profEditorExIdx;delete b.dataset.profEditorSubstIdx;}
 }));
