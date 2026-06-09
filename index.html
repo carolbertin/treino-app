@@ -388,10 +388,10 @@ select.inp option{background:var(--bg3);}
 .bloco-aluno-wrap--ativo .bloco-aluno-head{border-left-color:rgba(200,240,96,.85);box-shadow:0 4px 22px rgba(0,0,0,.32);}
 /* Foco exec-simple — borda forte, glow discreto (classe no .bloco-aluno-wrap) */
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo{
-  opacity:.85!important;box-shadow:none!important;filter:none;transition:opacity .24s ease;
+  opacity:.55!important;filter:saturate(.5) brightness(.78);box-shadow:none!important;transition:opacity .24s ease,filter .24s ease;
 }
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido{
-  opacity:.72!important;box-shadow:none!important;filter:saturate(.9);transition:opacity .24s ease;
+  opacity:.8!important;filter:saturate(.72);box-shadow:none!important;transition:opacity .24s ease,filter .24s ease;
 }
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual{
   opacity:1!important;position:relative;z-index:2;padding:4px;border-radius:14px;
@@ -465,9 +465,58 @@ select.inp option{background:var(--bg3);}
   border-color:rgba(190,184,252,.9);background:rgba(24,22,34,.97);
   box-shadow:0 6px 20px rgba(0,0,0,.3),0 0 18px rgba(175,169,236,.15),inset 0 0 0 1px rgba(190,184,252,.2);
 }
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-tecnica-sec,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-backoff-guided,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-drop-guided,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-rp-guided{
+  border-color:rgba(255,255,255,.04)!important;background:rgba(8,8,8,.92)!important;box-shadow:none!important;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-tecnica-sec-tit,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-backoff-guided__title,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-drop-guided__title,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-rp-guided__title{opacity:.42;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-tecnica-sec-presc-lbl,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-tecnica-sec-presc-txt,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-serie-ordem-txt,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-tecnica-sec-head,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-backoff-guided__tit,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-backoff-guided__body,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-drop-guided__tit,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-drop-guided__body{opacity:.38;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-tecnica-sec-dot{opacity:.35;box-shadow:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-tecnica-sec-help{
+  opacity:.32;border-color:rgba(255,255,255,.08)!important;background:rgba(255,255,255,.02)!important;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-serie-cols-head--sec,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-serie-cols-head{
+  opacity:.35;background:rgba(255,255,255,.02)!important;border-bottom-color:rgba(255,255,255,.04)!important;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-serie-inp,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-cluster-peso-inp,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-cluster-mini-inp{
+  opacity:.4;color:rgba(255,255,255,.3)!important;background:rgba(255,255,255,.025)!important;border-color:rgba(255,255,255,.05)!important;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-serie-check{
+  opacity:.35;background:rgba(255,255,255,.02)!important;border-color:rgba(255,255,255,.06)!important;color:rgba(255,255,255,.2)!important;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo .aluno-serie-row-main{background:transparent!important;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido .aluno-tecnica-sec,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido .aluno-backoff-guided,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido .aluno-drop-guided,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido .aluno-rp-guided{
+  border-color:rgba(96,200,120,.1)!important;background:rgba(12,16,12,.9)!important;box-shadow:none!important;
+}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido .aluno-tecnica-sec-tit,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido .aluno-backoff-guided__title,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido .aluno-drop-guided__title,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido .aluno-rp-guided__title{opacity:.65;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido .aluno-tecnica-sec-presc-txt,
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido .aluno-serie-ordem-txt{opacity:.58;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido .aluno-serie-row--done .aluno-serie-row-main{background:rgba(72,160,88,.06)!important;}
+#screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido .aluno-serie-check--done{opacity:.72;}
 #screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-atual{opacity:1;}
-#screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo{opacity:.85;transition:opacity .24s ease;}
-#screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido{opacity:.72;transition:opacity .24s ease;}
+#screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-inativo{opacity:.55;transition:opacity .24s ease,filter .24s ease;}
+#screen-exercicio #series-inputs[data-aluno-sec-v1] .bloco-aluno-wrap--foco-concluido{opacity:.8;transition:opacity .24s ease,filter .24s ease;}
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-row--exec-current .aluno-serie-row-main,
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-rows-v1] .aluno-serie-row--exec-current .aluno-serie-row-main,
 #screen-exercicio.screen-exercicio--exec-simple #series-inputs[data-aluno-sec-v1] .aluno-serie-row--exec-current .aluno-serie-check,
