@@ -915,6 +915,17 @@ select.inp option{background:var(--bg3);}
   #screen-prof-evolucao .prof-ev-pane-head{margin:0 0 20px;}
   #screen-prof-evolucao .prof-ev-pane-title{margin:0 0 6px;font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1.2;color:var(--text);}
   #screen-prof-evolucao .prof-ev-pane-meta{margin:0;font-size:13px;color:rgba(255,255,255,.42);line-height:1.4;}
+  #screen-prof-evolucao .prof-ev-pane-meta--drawer{margin:-4px 0 14px;}
+  .prof-ev-meta-row{display:inline-flex;align-items:center;flex-wrap:wrap;gap:6px;}
+  .prof-ev-meta-sep{color:rgba(255,255,255,.32);font-size:13px;line-height:1;}
+  .prof-ev-meta-sess{font-size:13px;color:rgba(255,255,255,.42);line-height:1.4;}
+  .prof-ev-acad-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 11px 5px 12px;border-radius:999px;border:1px solid rgba(110,210,200,.32);background:rgba(72,190,175,.12);color:#6ee7d8;font-size:12px;font-weight:600;font-family:inherit;line-height:1.25;cursor:pointer;transition:border-color .15s,background .15s,color .15s;vertical-align:middle;}
+  .prof-ev-acad-chip:hover{border-color:rgba(110,210,200,.48);background:rgba(72,190,175,.2);color:#99f0e6;}
+  .prof-ev-acad-chip-caret{font-size:9px;opacity:.75;line-height:1;}
+  .prof-ev-acad-menu-list{display:flex;flex-direction:column;gap:8px;margin-bottom:4px;}
+  .prof-ev-acad-menu-opt{width:100%;display:flex;align-items:center;padding:14px 16px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:var(--bg3);color:var(--text);font-size:15px;font-weight:500;font-family:inherit;text-align:left;cursor:pointer;transition:border-color .14s,background .14s;}
+  .prof-ev-acad-menu-opt:hover{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.05);}
+  .prof-ev-acad-menu-opt--on{border-color:rgba(110,210,200,.45);background:rgba(72,190,175,.14);color:#6ee7d8;}
   #screen-prof-evolucao .prof-ev-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px;}
   #screen-prof-evolucao .prof-ev-kpi-card{display:flex;flex-direction:column;gap:6px;padding:14px 14px 12px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;min-width:0;}
   #screen-prof-evolucao .prof-ev-kpi-lbl{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.38);}
@@ -2756,6 +2767,14 @@ select.inp option{background:var(--bg3);}
   </div>
 </div>
 
+<div class="modal-bd modal-bd--stack" id="modal-prof-ev-academia" style="z-index:1280;">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Filtrar por academia</div>
+    <div id="prof-ev-acad-menu-list" class="prof-ev-acad-menu-list" role="listbox" aria-label="Academias"></div>
+    <button type="button" class="btn btn-secondary btn-full" onclick="fecharModal('modal-prof-ev-academia')">Cancelar</button>
+  </div>
+</div>
 <div class="modal-bd modal-bd--stack" id="modal-prof-ev-excluir-registro">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -10352,6 +10371,9 @@ window.profEvAlunoOpen=function(al){
   profEvListAlunoId=al.id;
   profEvListItemsCache=[];
   profEvTreinoFiltro='';
+  profEvAcademiaFiltro='';
+  profEvAcademiasExList=[];
+  profEvHistoricoRawDocs=[];
   profEvTreinoExMap=profEvBuildTreinoExMap(al);
   profEvTreinoPillsRender(al);
   const searchInp=$('prof-ev-al-search');
@@ -12004,6 +12026,81 @@ let profEvListSeq=0;
 let profEvListItemsCache=[];
 let profEvTreinoFiltro='';
 let profEvTreinoExMap={};
+let profEvAcademiaFiltro='';
+let profEvAcademiasExList=[];
+let profEvHistoricoRawDocs=[];
+function profEvDocAcademiaNome(d){
+  return ((d&&(d.academia!=null?d.academia:''))+'').trim();
+}
+function profEvDocMatchesAcademiaFiltro(d,filtro){
+  const f=((filtro||'')+'').trim();
+  if(!f)return true;
+  const ac=profEvDocAcademiaNome(d);
+  if(!ac)return false;
+  return academiaNomeKey(ac)===academiaNomeKey(f);
+}
+function profEvExtractAcademiasFromDocs(docs){
+  const seen=new Map();
+  (docs||[]).forEach(d=>{
+    const ac=profEvDocAcademiaNome(d);
+    if(!ac)return;
+    const k=academiaNomeKey(ac);
+    if(!seen.has(k))seen.set(k,ac);
+  });
+  return Array.from(seen.values()).sort((a,b)=>a.localeCompare(b,'pt-BR',{sensitivity:'base'}));
+}
+function profEvAlunoListBuildItems(docs){
+  const byEx={};
+  (docs||[]).forEach(d=>{
+    const nome=((d.exercicioNome||'')+'').trim();
+    if(!nome||!d.data)return;
+    const work=profEvExtractWork(d);
+    if(!work)return;
+    if(!byEx[nome])byEx[nome]={nome,snaps:[]};
+    byEx[nome].snaps.push(work);
+  });
+  return Object.values(byEx).map(x=>{
+    x.snaps.sort((a,b)=>(b.data.seconds||0)-(a.data.seconds||0));
+    return x;
+  }).sort((a,b)=>(b.snaps[0].data.seconds||0)-(a.snaps[0].data.seconds||0));
+}
+function profEvPaneMetaHtml(chipLabel,sessTxt){
+  return'<span class="prof-ev-meta-row">'
+    +'<button type="button" class="prof-ev-acad-chip" onclick="profEvAcademiaAbrirMenu()">'
+    +'<span class="prof-ev-acad-chip-txt">'+esc(chipLabel)+'</span>'
+    +'<span class="prof-ev-acad-chip-caret" aria-hidden="true">\u25BC</span>'
+    +'</button>'
+    +(sessTxt?'<span class="prof-ev-meta-sep" aria-hidden="true">\u00b7</span><span class="prof-ev-meta-sess">'+esc(sessTxt)+'</span>':'')
+    +'</span>';
+}
+function profEvPaneMetaTargets(){
+  const t=[];
+  if(profEvUseSplitPane()){
+    const inner=$('prof-ev-al-pane-inner');
+    if(inner)t.push(inner);
+  }else if(profEvIsAlunoEvolucaoScreenActive()){
+    const body=$('prof-ev-drawer-body');
+    if(body)t.push(body);
+  }
+  return t;
+}
+window.profEvAcademiaAbrirMenu=function(){
+  const list=$('prof-ev-acad-menu-list');
+  if(!list)return;
+  const active=profEvAcademiaFiltro||'';
+  let html='<button type="button" class="prof-ev-acad-menu-opt'+(!active?' prof-ev-acad-menu-opt--on':'')+'" onclick="profEvAcademiaFilterSet(\'\')">Todas academias</button>';
+  (profEvAcademiasExList||[]).forEach(n=>{
+    const on=active===n?' prof-ev-acad-menu-opt--on':'';
+    html+='<button type="button" class="prof-ev-acad-menu-opt'+on+'" onclick="profEvAcademiaFilterSet(\''+escJs(n)+'\')">'+esc(n)+'</button>';
+  });
+  list.innerHTML=html;
+  abrirModal('modal-prof-ev-academia');
+};
+window.profEvAcademiaFilterSet=function(nome){
+  profEvAcademiaFiltro=((nome||'')+'').trim();
+  fecharModal('modal-prof-ev-academia');
+  if(profEvDrawerMode==='list'&&profEvDrawerExNome)profEvDrawerLoadHistorico(profEvDrawerExNome);
+};
 /** type="module": clique na lista de evolução via delegação (onclick inline não vê o módulo). */
 function profEvAlListClickDelegation(ev){
   const item=ev.target&&ev.target.closest?ev.target.closest('.prof-ev-al-item'):null;
@@ -12060,6 +12157,7 @@ function profEvUseSplitPane(){
 }
 function profEvPaneInnerHtmlDrawer(){
   return'<p class="prof-ev-ex-nome prof-ev-pane-ex-nome">\u2014</p>'
+    +'<div class="prof-ev-pane-meta prof-ev-pane-meta--drawer" hidden></div>'
     +'<div class="prof-ev-resumo-wrap prof-ev-pane-resumo" aria-live="polite"></div>'
     +'<section class="prof-ev-sec"><h3 class="prof-ev-sec-tit">Evolu\u00e7\u00e3o de carga</h3><div class="prof-ev-pane-chart" aria-live="polite"></div></section>'
     +'<section class="prof-ev-sec"><h3 class="prof-ev-sec-tit">\u00daltimo registro</h3><div class="prof-ev-pane-ultimo" aria-live="polite"></div></section>'
@@ -12069,7 +12167,7 @@ function profEvPaneInnerHtmlDrawer(){
 function profEvPaneInnerHtmlSplit(){
   return'<header class="prof-ev-pane-head">'
     +'<h1 class="prof-ev-pane-title prof-ev-pane-ex-nome">\u2014</h1>'
-    +'<p class="prof-ev-pane-meta"></p>'
+    +'<div class="prof-ev-pane-meta" hidden></div>'
     +'</header>'
     +'<div class="prof-ev-pane-resumo" aria-live="polite"></div>'
     +'<section class="prof-ev-sec"><h3 class="prof-ev-sec-tit">Evolu\u00e7\u00e3o de carga</h3><div class="prof-ev-pane-chart prof-ev-pane-chart--wide" aria-live="polite"></div></section>'
@@ -12080,10 +12178,20 @@ function profEvEnsurePaneInited(el){
   if(!el)return;
   const split=el.id==='prof-ev-al-pane-inner';
   if(split){
-    if(el.querySelector('.prof-ev-pane-head'))return;
+    const head=el.querySelector('.prof-ev-pane-head');
+    if(head){
+      const meta=head.querySelector('.prof-ev-pane-meta');
+      if(meta&&meta.tagName==='P'){
+        const div=document.createElement('div');
+        div.className='prof-ev-pane-meta';
+        div.hidden=true;
+        meta.replaceWith(div);
+      }
+      return;
+    }
     el.innerHTML=profEvPaneInnerHtmlSplit();
   }else{
-    if(el.querySelector('.prof-ev-pane-resumo')&&el.querySelector('.prof-ev-pane-ultimo'))return;
+    if(el.querySelector('.prof-ev-pane-resumo')&&el.querySelector('.prof-ev-pane-ultimo')&&el.querySelector('.prof-ev-pane-meta'))return;
     el.innerHTML=profEvPaneInnerHtmlDrawer();
   }
 }
@@ -12251,23 +12359,17 @@ async function profEvAlunoListRender(containerEl,al){
     const hQ=query(collection(db,'alunos',al.id,'historico'),orderBy('data','desc'),limit(400));
     const hS=await getDocs(hQ);
     if(seq!==profEvListSeq)return;
-    const byEx={};
+    const rawDocs=[];
     hS.forEach(snap=>{
       const d=snap.data();
-      const nome=((d.exercicioNome||'')+'').trim();
-      if(!nome||!d.data)return;
-      const work=profEvExtractWork(d);
-      if(!work)return;
-      if(!byEx[nome])byEx[nome]={nome,snaps:[]};
-      byEx[nome].snaps.push(work);
+      if(d&&d.data)rawDocs.push(d);
     });
-    const items=Object.values(byEx).map(x=>{
-      x.snaps.sort((a,b)=>(b.data.seconds||0)-(a.data.seconds||0));
-      return x;
-    }).sort((a,b)=>(b.snaps[0].data.seconds||0)-(a.snaps[0].data.seconds||0));
+    const isEvList=containerEl.id==='prof-ev-al-list';
+    if(isEvList)profEvHistoricoRawDocs=rawDocs;
+    const items=profEvAlunoListBuildItems(rawDocs);
     if(!items.length){
       profEvListItemsCache=[];
-      if(containerEl.id==='prof-ev-al-list'){
+      if(isEvList){
         const searchInp=$('prof-ev-al-search');
         if(searchInp)searchInp.value='';
         profEvTreinoFiltro='';
@@ -12276,7 +12378,6 @@ async function profEvAlunoListRender(containerEl,al){
       containerEl.innerHTML='<div class="empty"><div class="empty-icon">&#x1F4CA;</div><div class="empty-text text-sm">Nenhum exerc\u00edcio com registro Work ainda</div></div>';
       return;
     }
-    const isEvList=containerEl.id==='prof-ev-al-list';
     if(isEvList){
       profEvListItemsCache=items;
       const searchInp=$('prof-ev-al-search');
@@ -12537,17 +12638,18 @@ function profEvPaneResumoHtml(workSnaps){
   return profEvUseSplitPane()?profEvKpisHtml(workSnaps):profEvResumoHtml(workSnaps);
 }
 function profEvPaneUpdateMeta(workSnaps){
-  if(!profEvUseSplitPane())return;
-  const el=$('prof-ev-al-pane-inner');
-  if(!el)return;
-  const meta=el.querySelector('.prof-ev-pane-meta');
-  if(!meta)return;
+  if(profEvDrawerMode!=='list')return;
+  const showChip=(profEvAcademiasExList||[]).length>0;
+  const chipLabel=profEvAcademiaFiltro||'Todas academias';
   const m=profEvWorkMetrics(workSnaps);
-  if(!m.has){meta.textContent='';return;}
-  const parts=[];
-  if(m.academia)parts.push(m.academia);
-  parts.push(m.sessoes+' sess\u00e3o'+(m.sessoes>1?'es':''));
-  meta.textContent=parts.join(' \u2022 ');
+  const sessTxt=m.has?(m.sessoes+' sess\u00e3o'+(m.sessoes>1?'es':'')):(showChip?'0 sess\u00f5es':'');
+  profEvPaneMetaTargets().forEach(root=>{
+    const meta=root.querySelector('.prof-ev-pane-meta');
+    if(!meta)return;
+    if(!showChip){meta.hidden=true;meta.innerHTML='';return;}
+    meta.hidden=false;
+    meta.innerHTML=profEvPaneMetaHtml(chipLabel,sessTxt);
+  });
 }
 function profEvSnapChartTip(snap){
   const s=profEvPickDisplaySerie(snap.series);
@@ -12692,16 +12794,21 @@ async function profEvDrawerLoadHistorico(exKey){
     if(seq!==profEvDrawerLoadSeq||!stillOpen)return;
     const empty='<p class="prof-ev-reg-empty">Nenhum registro Work ainda</p>';
     if(hS.empty){
+      if(profEvDrawerMode==='list')profEvAcademiasExList=[];
       profEvPaneUpdateMeta([]);
       profEvDrawerSetPane(profEvPaneResumoHtml([]),profEvChartHtml([]),empty,empty,'<p class="prof-ev-reg-empty">Nenhuma observa\u00e7\u00e3o</p>');
       return;
     }
-    const rawDocs=hS.docs.map(x=>{
+    let rawDocs=hS.docs.map(x=>{
       const d=x.data();
       if(!d.data)return null;
       return Object.assign({},d,{_docId:x.id});
     }).filter(Boolean)
       .sort((a,b)=>(b.data.seconds||0)-(a.data.seconds||0));
+    if(profEvDrawerMode==='list'){
+      profEvAcademiasExList=profEvExtractAcademiasFromDocs(rawDocs);
+      if(profEvAcademiaFiltro)rawDocs=rawDocs.filter(d=>profEvDocMatchesAcademiaFiltro(d,profEvAcademiaFiltro));
+    }
     const workSnaps=rawDocs.map(profEvExtractWork).filter(Boolean);
     const split=profEvUseSplitPane();
     const resumo=profEvPaneResumoHtml(workSnaps);
@@ -12749,6 +12856,8 @@ window.profEvDrawerOpenByNome=function(exNome){
   exNome=((exNome||'')+'').trim();
   if(!exNome)return;
   profEvDrawerMode='list';
+  profEvAcademiaFiltro='';
+  profEvAcademiasExList=[];
   profEvDrawerExNome=exNome;
   profEvDrawerExIdx=null;
   profEvDrawerSetUiOpen(!profEvUseSplitPane());
@@ -14250,6 +14359,9 @@ window.carregarEvolucao=async()=>{
   if(!al){listEl.innerHTML='';return;}
   alunoSel=al;
   profEvListAlunoId=al.id;
+  profEvAcademiaFiltro='';
+  profEvAcademiasExList=[];
+  profEvHistoricoRawDocs=[];
   await profEvAlunoListRender(listEl,al);
 };
 
