@@ -349,6 +349,7 @@ select.inp option{background:var(--bg3);}
 .ex-item.done{opacity:.5;}
 .ex-num{width:32px;height:32px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--text2);font-family:'DM Mono',monospace;flex-shrink:0;}
 .ex-item.done .ex-num{background:rgba(200,240,96,.12);color:var(--accent);}
+.ex-timer-ativo{font-size:11px;color:var(--accent);margin-top:3px;opacity:.88;font-weight:500;}
 .ex-info{flex:1;min-width:0;}
 .ex-nome{font-size:15px;font-weight:500;}
 .ex-meta{font-size:12px;color:var(--text2);margin-top:2px;}
@@ -5206,7 +5207,7 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const escJs=s=>String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\r|\n/g,' ');
 const toast=msg=>{$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2600);};
-const goTo=tela=>{try{if(typeof cancelRestTimerUI==='function')cancelRestTimerUI(false);}catch(_){}document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('screen-'+tela).classList.add('active');window.scrollTo(0,0);syncAlunoGuidedChrome();};
+const goTo=tela=>{try{if(tela==='treino'&&typeof restTimerIsActive==='function'&&restTimerIsActive())pauseRestTimerForNav();else if(tela!=='exercicio'&&typeof cancelRestTimerUI==='function'){cancelRestTimerUI(false);if(typeof alunoListaTimerTickStop==='function')alunoListaTimerTickStop();if(timerAtivo){clearInterval(timerAtivo);timerAtivo=null;}}}catch(_){}document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('screen-'+tela).classList.add('active');window.scrollTo(0,0);syncAlunoGuidedChrome();if(tela==='treino'&&typeof alunoListaTimerTickStart==='function')alunoListaTimerTickStart();};
 const abrirModal=id=>$(id).classList.add('open');
 const fecharModal=id=>$(id).classList.remove('open');
 const initials=n=>n?n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase():'?';
@@ -6511,10 +6512,12 @@ function renderListaEx(){
     exercicios.forEach((ex,i)=>{
       const feito=alunoExercicioListaConcluido(ex,i);
       const temSubst=(ex.substitutos||[]).filter(s=>s.nome).length>0;
+      const timerLbl=restTimerExIdx===i?alunoRestTimerListaLabel():null;
       const el=document.createElement('div');el.className='ex-item'+(feito?' done':'');
       el.innerHTML='<div class="ex-num">'+(feito?'\u2713':(i+1))+'</div>'
         +'<div class="ex-info">'
           +'<div class="ex-nome">'+esc(ex.nome)+'</div>'
+          +(timerLbl?'<div class="ex-timer-ativo">'+esc(timerLbl)+'</div>':'')
           +(temSubst?'<div class="ex-subst-link" data-idx="'+i+'">\u21B3 Ver substituto</div>':'')
         +'</div>'
         +'<span style="color:var(--text3);font-size:20px;flex-shrink:0;">\u203A</span>';
@@ -6539,11 +6542,13 @@ function renderListaEx(){
       const tipoPl=blPl.length>1
         ?(blPl.length+' etapas')
         :alunoCopyBloco(blPl[0]||{tipo:ex.tipo,tecnica:ex.tecnica,meta:ex.meta||'',obs:ex.obs||''},{blocoIndex:0,totalBlocos:Math.max(1,blPl.length)}).tituloAluno;
-      row.innerHTML='<div class="planilha-num">'+(feito?'\u2713':(i+1))+'</div><div class="planilha-nome">'+esc(ex.nome)+'</div><div class="planilha-tipo">'+esc(tipoPl)+'</div><div class="planilha-meta">'+esc(textoMetaListaAlunoSimples(ex))+'</div>';
+      const timerLbl=restTimerExIdx===i?alunoRestTimerListaLabel():null;
+      row.innerHTML='<div class="planilha-num">'+(feito?'\u2713':(i+1))+'</div><div class="planilha-nome">'+esc(ex.nome)+(timerLbl?'<div class="ex-timer-ativo">'+esc(timerLbl)+'</div>':'')+'</div><div class="planilha-tipo">'+esc(tipoPl)+'</div><div class="planilha-meta">'+esc(textoMetaListaAlunoSimples(ex))+'</div>';
       row.addEventListener('click',()=>abrirExercicio(ex,i));wrap.appendChild(row);
     });
     lista.appendChild(wrap);
   }
+  alunoListaTimerTickStart();
 }
 
 function labelTecnicaAluno(val){
@@ -6739,6 +6744,7 @@ async function abrirExercicio(ex,idx){
   if(scrEx)scrEx.classList.add('screen-exercicio--exec-simple');
   syncAcademiaExercicioBanner();
   goTo('exercicio');
+  resumeRestTimerForEx(idx);
   alunoRestaurarChecksPosRender(idx,ex.nome);
   alunoClearObsAnterior();
   carregarHistoricoEx();
@@ -8106,6 +8112,8 @@ let restTimerRAF=null;
 let restTimerStart=0;
 let restTimerTotalSeg=0;
 let restTimerOnComplete=null;
+let restTimerExIdx=null;
+let alunoListaTimerTickId=null;
 
 // Unilateral / entre lados (futuro): hoje `TECNICAS` tem um único `timer` por técnica (ex.: "Entre lados" = 45s).
 // Para evoluir, o lugar natural é separar `timerEntreSeries` vs `timerEntreLados` no bloco/exercício e usar
@@ -9803,6 +9811,76 @@ window.iniciarRestPause=(serieIdx,timerSeg,pref)=>{
 };
 
 // Fase 4 — RestTimer (RAF); exec-simple = barra no rodapé sem bloquear interação
+function restTimerIsActive(){
+  if(restTimerStart>0&&restTimerRemSeg()>0)return true;
+  if(timerAtivo)return true;
+  return false;
+}
+function alunoRestTimerListaLabel(){
+  if(restTimerExIdx==null)return null;
+  if(restTimerStart>0){
+    const rem=restTimerRemSeg();
+    if(rem>0)return'Timer ativo \xB7 '+rem+'s';
+  }
+  return null;
+}
+function alunoListaTimerTickStop(){
+  if(alunoListaTimerTickId){clearInterval(alunoListaTimerTickId);alunoListaTimerTickId=null;}
+}
+function alunoListaTimerTickStart(){
+  alunoListaTimerTickStop();
+  const scr=$('screen-treino');
+  if(!scr||!scr.classList.contains('active')||restTimerExIdx==null)return;
+  const tick=()=>{
+    const lbl=alunoRestTimerListaLabel();
+    if(!lbl){
+      alunoListaTimerTickStop();
+      if($('screen-treino')&&$('screen-treino').classList.contains('active'))renderListaEx();
+      return;
+    }
+    document.querySelectorAll('.ex-timer-ativo').forEach(el=>{el.textContent=lbl;});
+  };
+  tick();
+  alunoListaTimerTickId=setInterval(tick,1000);
+}
+function pauseRestTimerForNav(){
+  const ov=$('rest-timer-overlay');
+  if(ov){ov.style.display='none';ov.setAttribute('aria-hidden','true');}
+  syncRestTimerDock(false);
+  if(restTimerStart>0&&restTimerRemSeg()>0){
+    if(!restTimerRAF)restTimerRAF=requestAnimationFrame(tickRestOverlay);
+    return;
+  }
+  if(timerAtivo){
+    const el=$(activeTimerPrefix+'timer-descanso');
+    if(el)el.style.display='none';
+  }
+}
+function resumeRestTimerForEx(idx){
+  if(restTimerExIdx==null||restTimerExIdx!==idx)return;
+  if(restTimerStart>0){
+    const rem=restTimerRemSeg();
+    if(rem<=0){finishRestTimerOverlay();return;}
+    const ov=$('rest-timer-overlay');
+    if(ov){ov.style.display='flex';ov.setAttribute('aria-hidden','false');}
+    syncRestTimerDock(true);
+    const num=$('rest-timer-num');
+    if(num)num.textContent=String(rem);
+    const cir=$('rest-timer-circle');
+    if(cir){
+      const elapsed=Math.floor((Date.now()-restTimerStart)/1000);
+      const denom=Math.max(1,restTimerTotalSeg);
+      cir.style.strokeDashoffset=(326.7*Math.min(1,elapsed/denom)).toFixed(1);
+    }
+    if(!restTimerRAF)restTimerRAF=requestAnimationFrame(tickRestOverlay);
+    alunoListaTimerTickStop();
+    return;
+  }
+  if(timerAtivo){
+    const el=$(activeTimerPrefix+'timer-descanso');
+    if(el)el.style.display='block';
+  }
+}
 function syncRestTimerDock(on){
   const scr=$('screen-exercicio');
   if(scr)scr.classList.toggle('rest-timer-dock-active',!!on);
@@ -9817,10 +9895,15 @@ function finishRestTimerOverlay(){
   syncRestTimerDock(false);
   const cir=$('rest-timer-circle');
   if(cir)cir.style.strokeDashoffset='0';
+  restTimerStart=0;
+  restTimerTotalSeg=0;
+  restTimerExIdx=null;
+  alunoListaTimerTickStop();
   if(navigator.vibrate)try{navigator.vibrate(200);}catch(_){}
   const cb=restTimerOnComplete;
   restTimerOnComplete=null;
   setTimeout(()=>{if(cb)try{cb();}catch(e){console.warn(e);}},300);
+  if($('screen-treino')&&$('screen-treino').classList.contains('active'))renderListaEx();
 }
 function cancelRestTimerAnim(){
   if(restTimerRAF){cancelAnimationFrame(restTimerRAF);restTimerRAF=null;}
@@ -9832,6 +9915,10 @@ function cancelRestTimerUI(invokeCb){
   syncRestTimerDock(false);
   const cir=$('rest-timer-circle');
   if(cir)cir.style.strokeDashoffset='0';
+  restTimerStart=0;
+  restTimerTotalSeg=0;
+  restTimerExIdx=null;
+  alunoListaTimerTickStop();
   const cb=invokeCb?restTimerOnComplete:null;
   restTimerOnComplete=null;
   if(cb)try{cb();}catch(e){console.warn(e);}
@@ -9842,15 +9929,17 @@ function tickRestOverlay(){
   const ov=$('rest-timer-overlay');
   const num=$('rest-timer-num');
   const cir=$('rest-timer-circle');
-  if(!ov||ov.style.display!=='flex'){cancelRestTimerAnim();return;}
+  if(restTimerStart<=0){cancelRestTimerAnim();return;}
   const rem=restTimerRemSeg();
-  if(num)num.textContent=String(rem);
-  if(cir){
-    const elapsed=Math.floor((Date.now()-restTimerStart)/1000);
-    const denom=Math.max(1,restTimerTotalSeg);
-    cir.style.strokeDashoffset=(326.7*Math.min(1,elapsed/denom)).toFixed(1);
-  }
   if(rem<=0){finishRestTimerOverlay();return;}
+  if(ov&&ov.style.display==='flex'){
+    if(num)num.textContent=String(rem);
+    if(cir){
+      const elapsed=Math.floor((Date.now()-restTimerStart)/1000);
+      const denom=Math.max(1,restTimerTotalSeg);
+      cir.style.strokeDashoffset=(326.7*Math.min(1,elapsed/denom)).toFixed(1);
+    }
+  }
   restTimerRAF=requestAnimationFrame(tickRestOverlay);
 }
 
@@ -9858,6 +9947,7 @@ function armRestTimerOverlay(seg,proximoLabel,onFim){
   restTimerTotalSeg=Math.max(1,Math.floor(Number(seg))||0);
   restTimerOnComplete=typeof onFim==='function'?onFim:null;
   restTimerStart=Date.now();
+  restTimerExIdx=exAtual!=null&&exAtual.idx!=null?exAtual.idx:null;
   const ov=$('rest-timer-overlay');
   const num=$('rest-timer-num');
   const subEl=ov?ov.querySelector('.rest-timer-sub'):null;
@@ -9890,9 +9980,14 @@ window.pularRestTimer=function(){
   syncRestTimerDock(false);
   const cir=$('rest-timer-circle');
   if(cir)cir.style.strokeDashoffset='0';
+  restTimerStart=0;
+  restTimerTotalSeg=0;
+  restTimerExIdx=null;
+  alunoListaTimerTickStop();
   const cb=restTimerOnComplete;
   restTimerOnComplete=null;
   if(cb)try{cb();}catch(e){console.warn(e);}
+  if($('screen-treino')&&$('screen-treino').classList.contains('active'))renderListaEx();
 };
 
 window.startRestTimer=function(secs,onComplete){
@@ -9951,19 +10046,26 @@ function iniciarTimer(seg, proximoLabel, onFim, pref){
       clearInterval(timerAtivo);timerAtivo=null;
       el.style.display='none';
       valEl.style.color='var(--accent)';
+      restTimerExIdx=null;
+      alunoListaTimerTickStop();
+      if($('screen-treino')&&$('screen-treino').classList.contains('active'))renderListaEx();
       if(onFim) onFim();
       return;
     }
     restante--;
   };
   update();
+  restTimerExIdx=exAtual!=null&&exAtual.idx!=null?exAtual.idx:null;
   timerAtivo=setInterval(update,1000);
 }
 
 window.pularTimer=()=>{
   cancelRestTimerUI(false);
   if(timerAtivo){clearInterval(timerAtivo);timerAtivo=null;}
+  restTimerExIdx=null;
+  alunoListaTimerTickStop();
   const el=$(activeTimerPrefix+'timer-descanso');if(el)el.style.display='none';
+  if($('screen-treino')&&$('screen-treino').classList.contains('active'))renderListaEx();
 };
 
 // Série 1 sempre lidera: replica para TODAS as demais (mesmo que já preenchidas)
@@ -9999,7 +10101,6 @@ window.replicarPeso=(s,val,pref,meta)=>{
 };
 
 window.voltarListaTreinoAluno=()=>{
-  if(window.cancelRestTimerUI)cancelRestTimerUI(false);
   persistirSessaoTreinoCompleta();
   goTo('treino');
   renderListaEx();
