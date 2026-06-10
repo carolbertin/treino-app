@@ -1583,6 +1583,7 @@ select.inp option{background:var(--bg3);}
 .chart-val{font-size:10px;color:var(--text2);font-family:'DM Mono',monospace;}
 .modal-bd{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:flex-end;justify-content:center;}
 .modal-bd.modal-bd--stack{z-index:250;}
+#modal-academia-arquivar{z-index:280;}
 #modal-prof-ev-excluir-registro.modal-bd{z-index:1280;}
 .modal-bd.open{display:flex;}
 .modal{background:var(--bg2);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;border:1px solid var(--border);animation:slideUp .25s ease;}
@@ -1663,6 +1664,7 @@ select.inp option{background:var(--bg3);}
 .chart-val{font-size:10px;color:var(--text2);font-family:'DM Mono',monospace;}
 .modal-bd{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:flex-end;justify-content:center;}
 .modal-bd.modal-bd--stack{z-index:250;}
+#modal-academia-arquivar{z-index:280;}
 #modal-prof-ev-excluir-registro.modal-bd{z-index:1280;}
 .modal-bd.open{display:flex;}
 .modal{background:var(--bg2);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;border:1px solid var(--border);animation:slideUp .25s ease;}
@@ -1898,11 +1900,38 @@ select.inp option{background:var(--bg3);}
 .aluno-ex-academia-banner[hidden]{display:none!important;}
 .aluno-ex-academia-lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#f2b04c;flex-shrink:0;}
 .aluno-ex-academia-nome{font-size:13px;font-weight:600;color:var(--text);line-height:1.3;}
+.aluno-treino-academia-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;padding:10px 14px;border-radius:var(--rsm);border:1px solid rgba(242,176,76,.28);background:rgba(242,176,76,.06);}
+.aluno-treino-academia-bar[hidden]{display:none!important;}
+.aluno-treino-academia-info{display:flex;align-items:baseline;gap:6px;flex:1;min-width:0;}
+.aluno-treino-academia-lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#f2b04c;flex-shrink:0;}
+.aluno-treino-academia-nome{font-size:13px;font-weight:600;color:var(--text);line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;}
+.aluno-treino-academia-trocar{flex-shrink:0;padding:6px 14px;border-radius:16px;border:1px solid rgba(255,255,255,.14);background:transparent;color:rgba(255,255,255,.65);font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;transition:border-color .14s,color .14s,background .14s;}
+.aluno-treino-academia-trocar:hover{color:var(--accent);border-color:rgba(200,240,96,.3);background:rgba(200,240,96,.06);}
 .aluno-modal-academia-sub{margin:0 0 18px;font-size:14px;line-height:1.5;color:var(--text2);}
-.aluno-modal-academia-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;max-height:min(42vh,280px);overflow-y:auto;}
-.aluno-modal-academia-opt{width:100%;display:flex;align-items:center;padding:14px 16px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:var(--bg3);color:var(--text);font-size:15px;font-weight:500;font-family:inherit;text-align:left;cursor:pointer;transition:border-color .14s,background .14s;}
+.aluno-modal-academia-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;max-height:min(36vh,240px);overflow-y:auto;}
+.aluno-modal-academia-row{display:flex;align-items:stretch;gap:6px;}
+.aluno-modal-academia-row--edit{flex-direction:column;gap:8px;padding:10px 12px;border:1px solid rgba(200,240,96,.25);border-radius:12px;background:rgba(200,240,96,.04);}
+.aluno-modal-academia-opt{flex:1;min-width:0;display:flex;align-items:center;padding:14px 16px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:var(--bg3);color:var(--text);font-size:15px;font-weight:500;font-family:inherit;text-align:left;cursor:pointer;transition:border-color .14s,background .14s;}
 .aluno-modal-academia-opt:hover{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.05);}
 .aluno-modal-academia-opt--on{border-color:rgba(200,240,96,.45);background:rgba(200,240,96,.1);color:var(--accent);}
+.aluno-modal-academia-actions{display:flex;align-items:stretch;gap:4px;flex-shrink:0;}
+.aluno-modal-academia-act{display:flex;align-items:center;justify-content:center;width:40px;min-height:44px;padding:0;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:transparent;color:rgba(255,255,255,.38);font-size:15px;line-height:1;cursor:pointer;font-family:inherit;transition:border-color .14s,color .14s,background .14s;}
+.aluno-modal-academia-act:hover{color:rgba(255,255,255,.72);border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.04);}
+.aluno-modal-academia-act--arq{font-size:13px;}
+.aluno-modal-academia-act-ico{display:block;pointer-events:none;flex-shrink:0;}
+.aluno-modal-academia-edit-inp{width:100%;font-size:14px;padding:10px 12px;margin:0;}
+.aluno-modal-academia-edit-btns{display:flex;gap:8px;}
+.aluno-modal-academia-edit-btns .btn{flex:1;min-height:40px;font-size:13px;padding:8px 12px;}
+.aluno-modal-academia-arq{margin-top:4px;margin-bottom:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06);}
+.aluno-modal-academia-arq[hidden]{display:none!important;}
+.aluno-modal-academia-arq-acc{display:flex;align-items:center;gap:6px;width:100%;padding:6px 0;border:none;background:transparent;color:var(--text3);font-size:11px;font-weight:600;letter-spacing:.04em;cursor:pointer;font-family:inherit;text-align:left;}
+.aluno-modal-academia-arq-acc:hover{color:var(--text2);}
+.aluno-modal-academia-arq-panel{margin-top:4px;padding-left:2px;}
+.aluno-modal-academia-arq-panel[hidden]{display:none!important;}
+.aluno-modal-academia-arq-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0;}
+.aluno-modal-academia-arq-nome{font-size:12px;color:var(--text2);line-height:1.35;flex:1;min-width:0;}
+.aluno-modal-academia-arq-rest{flex-shrink:0;padding:5px 12px;border-radius:16px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text2);font-family:inherit;}
+.aluno-modal-academia-arq-rest:hover{color:var(--accent);border-color:rgba(200,240,96,.28);background:rgba(200,240,96,.06);}
 .aluno-modal-academia-add{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px 16px;border:1px dashed rgba(255,255,255,.16);border-radius:12px;background:transparent;color:var(--text2);font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;transition:border-color .14s,color .14s;}
 .aluno-modal-academia-add:hover{border-color:rgba(200,240,96,.35);color:var(--accent);}
 .aluno-modal-academia-nova{margin-top:12px;}
@@ -2376,20 +2405,12 @@ select.inp option{background:var(--bg3);}
   <div class="content content-pb">
     <div id="instrucoes-treino"></div>
     <div id="sessao-treino-hint" class="sessao-treino-hint" hidden></div>
-    <!-- Seletor de academia — aparece se houver academias salvas -->
-    <div id="academia-selector-wrap" style="display:none;margin-bottom:16px;">
-      <div class="academia-registrando-tit">Registrando em</div>
-      <div id="academia-selector-btns" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
-      <input class="inp" id="inp-academia-nova" type="text" placeholder="+ outra academia..." autocomplete="off"
-        style="margin-top:8px;font-size:13px;padding:9px 12px;"
-        onkeydown="if(event.key==='Enter'){adicionarAcademia(this.value);this.value='';}">
-      <div id="academia-arquivadas-wrap" class="academia-arquivadas-wrap" style="display:none;"></div>
-    </div>
-    <!-- Se não houver academias ainda -->
-    <div id="academia-primeira-wrap" style="margin-bottom:16px;">
-      <input class="inp" id="inp-academia-primeira" type="text" placeholder="Em qual academia vai treinar hoje? (opcional)"
-        autocomplete="off" style="font-size:13px;padding:9px 12px;"
-        onkeydown="if(event.key==='Enter'){adicionarAcademia(this.value);this.value='';}">
+    <div id="academia-treino-banner" class="aluno-treino-academia-bar">
+      <div class="aluno-treino-academia-info">
+        <span class="aluno-treino-academia-lbl">Registrando em:</span>
+        <span id="academia-treino-nome" class="aluno-treino-academia-nome"></span>
+      </div>
+      <button type="button" class="aluno-treino-academia-trocar" onclick="abrirModalTrocarAcademia()">Trocar</button>
     </div>
     <div id="ex-list"></div>
   </div>
@@ -2782,7 +2803,7 @@ select.inp option{background:var(--bg3);}
 <div class="modal-bd" id="modal-academia-arquivar">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-title">Arquivar academia?</div>
+    <div class="modal-title">Arquivar esta academia?</div>
     <p class="text-sm" style="line-height:1.5;margin-bottom:20px;">Os registros dessa academia ser&#xE3;o preservados no hist&#xF3;rico.</p>
     <div style="display:flex;gap:10px;"><button type="button" class="btn btn-secondary flex-1" onclick="cancelarArquivarAcademia()">Cancelar</button><button type="button" class="btn btn-primary flex-1" onclick="confirmarArquivarAcademia()">Arquivar</button></div>
   </div>
@@ -2794,6 +2815,7 @@ select.inp option{background:var(--bg3);}
     <div class="modal-title">Onde vai treinar hoje?</div>
     <p class="aluno-modal-academia-sub">O registro fica vinculado &#xE0; academia &#x2014; importante para acompanhar sua evolu&#xE7;&#xE3;o corretamente.</p>
     <div id="aluno-modal-academia-list" class="aluno-modal-academia-list" role="listbox" aria-label="Academias"></div>
+    <div id="aluno-modal-academia-arq-wrap" class="aluno-modal-academia-arq" hidden></div>
     <button type="button" class="aluno-modal-academia-add" id="aluno-modal-academia-add-btn" onclick="alunoModalAcademiaMostrarNova()">+ Adicionar nova academia</button>
     <div id="aluno-modal-academia-nova-wrap" class="aluno-modal-academia-nova" hidden>
       <div class="field" style="margin-bottom:10px;">
@@ -3061,6 +3083,9 @@ let academiaFiltroAnteriorManual=false; // true = pill/select escolheu; false = 
 let _academiaArquivarNome=null;
 let _alunoTreinoPendente=null;
 let _alunoModalAcademiaSel='';
+let _alunoModalAcademiaModo='';
+let _alunoModalAcademiaEditando='';
+let _alunoModalArqAccordionOpen=false;
 
 function academiaNomeKey(n){return((n||'')+'').trim().toLowerCase();}
 function academiasHistNormItem(x){return typeof x==='string'?((x||'')+'').trim():((x&&x.nome)||'').trim();}
@@ -6252,6 +6277,28 @@ function syncAcademiaExercicioBanner(){
     nomeEl.textContent='';
   }
 }
+function alunoModalAcademiaSyncUi(){
+  const btn=$('aluno-modal-academia-confirm');
+  const title=$('modal-aluno-academia-treino')?.querySelector('.modal-title');
+  if(btn)btn.textContent=_alunoModalAcademiaModo==='trocar'?'Confirmar':'Confirmar e abrir treino';
+  if(title)title.textContent=_alunoModalAcademiaModo==='trocar'?'Trocar academia':'Onde vai treinar hoje?';
+}
+function alunoModalAcademiaRenderArquivadas(){
+  const wrap=$('aluno-modal-academia-arq-wrap');
+  if(!wrap)return;
+  const arq=academiasArquivadasRead();
+  if(!arq.length){wrap.hidden=true;wrap.innerHTML='';return;}
+  wrap.hidden=false;
+  const open=_alunoModalArqAccordionOpen;
+  let html='<button type="button" class="aluno-modal-academia-arq-acc" aria-expanded="'+(open?'true':'false')+'" onclick="alunoModalAcademiaToggleArq()">'
+    +'<span>'+(open?'\u25BE':'\u25B8')+'</span><span>Academias arquivadas ('+arq.length+')</span></button>'
+    +'<div class="aluno-modal-academia-arq-panel"'+(open?'':' hidden')+'>';
+  arq.forEach(function(a){
+    html+='<div class="aluno-modal-academia-arq-row"><span class="aluno-modal-academia-arq-nome">'+esc(a)+'</span>'
+      +'<button type="button" class="aluno-modal-academia-arq-rest" onclick="alunoModalAcademiaRestaurar(\''+escJs(a)+'\')">Restaurar</button></div>';
+  });
+  wrap.innerHTML=html+'</div>';
+}
 function alunoRenderModalAcademiaTreino(){
   const list=$('aluno-modal-academia-list');
   const novaWrap=$('aluno-modal-academia-nova-wrap');
@@ -6259,6 +6306,8 @@ function alunoRenderModalAcademiaTreino(){
   const inp=$('aluno-modal-academia-nova-inp');
   const btn=$('aluno-modal-academia-confirm');
   if(!list)return;
+  alunoModalAcademiaSyncUi();
+  alunoModalAcademiaRenderArquivadas();
   const academias=academiasAtivasRead();
   if(!academias.length){
     list.innerHTML='';
@@ -6272,16 +6321,113 @@ function alunoRenderModalAcademiaTreino(){
   if(novaWrap)novaWrap.hidden=true;
   if(inp)inp.value='';
   list.innerHTML=academias.map(function(a){
+    if(_alunoModalAcademiaEditando===a){
+      return'<div class="aluno-modal-academia-row aluno-modal-academia-row--edit">'
+        +'<input class="inp aluno-modal-academia-edit-inp" id="aluno-modal-academia-edit-inp" type="text" value="'+esc(a)+'" autocomplete="off"'
+        +' onkeydown="if(event.key===\'Enter\'){alunoModalAcademiaSalvarEditar();}if(event.key===\'Escape\'){alunoModalAcademiaCancelarEditar();}">'
+        +'<div class="aluno-modal-academia-edit-btns">'
+        +'<button type="button" class="btn btn-primary" onclick="alunoModalAcademiaSalvarEditar()">Salvar</button>'
+        +'<button type="button" class="btn btn-secondary" onclick="alunoModalAcademiaCancelarEditar()">Cancelar</button>'
+        +'</div></div>';
+    }
     const on=_alunoModalAcademiaSel===a?' aluno-modal-academia-opt--on':'';
-    return'<button type="button" class="aluno-modal-academia-opt'+on+'" role="option" aria-selected="'+(_alunoModalAcademiaSel===a?'true':'false')+'" onclick="alunoModalAcademiaSelecionar(\''+escJs(a)+'\')">'+esc(a)+'</button>';
+    return'<div class="aluno-modal-academia-row">'
+      +'<button type="button" class="aluno-modal-academia-opt'+on+'" role="option" aria-selected="'+(_alunoModalAcademiaSel===a?'true':'false')+'" onclick="alunoModalAcademiaSelecionar(\''+escJs(a)+'\')">'+esc(a)+'</button>'
+      +'<div class="aluno-modal-academia-actions">'
+      +'<button type="button" class="aluno-modal-academia-act" title="Editar" aria-label="Editar '+esc(a)+'" onclick="alunoModalAcademiaIniciarEditar(\''+escJs(a)+'\')">&#9998;</button>'
+      +'<button type="button" class="aluno-modal-academia-act aluno-modal-academia-act--arq" title="Arquivar" aria-label="Arquivar '+esc(a)+'" onclick="event.stopPropagation();alunoModalAcademiaArquivar(\''+escJs(a)+'\')"><svg class="aluno-modal-academia-act-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M8 11l4 4 4-4"/><path d="M5 19h14"/></svg></button>'
+      +'</div></div>';
   }).join('');
   if(btn)btn.disabled=!_alunoModalAcademiaSel;
+  if(_alunoModalAcademiaEditando){
+    const editInp=$('aluno-modal-academia-edit-inp');
+    if(editInp)setTimeout(function(){editInp.focus();editInp.select();},80);
+  }
 }
+window.alunoModalAcademiaToggleArq=function(){
+  _alunoModalArqAccordionOpen=!_alunoModalArqAccordionOpen;
+  alunoModalAcademiaRenderArquivadas();
+};
+window.alunoModalAcademiaIniciarEditar=function(nome){
+  _alunoModalAcademiaEditando=((nome||'')+'').trim();
+  alunoRenderModalAcademiaTreino();
+};
+window.alunoModalAcademiaCancelarEditar=function(){
+  _alunoModalAcademiaEditando='';
+  alunoRenderModalAcademiaTreino();
+};
+window.renomearAcademia=function(nomeAntigo,nomeNovo){
+  nomeAntigo=((nomeAntigo||'')+'').trim();
+  nomeNovo=((nomeNovo||'')+'').trim();
+  if(!nomeAntigo||!nomeNovo)return false;
+  const kOld=academiaNomeKey(nomeAntigo);
+  const kNew=academiaNomeKey(nomeNovo);
+  if(kOld===kNew)return true;
+  const ativas=academiasAtivasRead();
+  const arq=academiasArquivadasRead();
+  if(ativas.some(function(a){return academiaNomeKey(a)===kNew;})||arq.some(function(a){return academiaNomeKey(a)===kNew;})){
+    toast('J\u00e1 existe uma academia com esse nome');
+    return false;
+  }
+  if(!ativas.some(function(a){return academiaNomeKey(a)===kOld;})){
+    toast('Academia n\u00e3o encontrada');
+    return false;
+  }
+  const hist=ativas.map(function(a){return academiaNomeKey(a)===kOld?nomeNovo:a;});
+  academiasAtivasWrite(hist);
+  if(academiaNomeKey(academiaSelecionada)===kOld){
+    academiaSelecionada=nomeNovo;
+    localStorage.setItem('academia_atual',nomeNovo);
+    if(sessaoTreinoAtual&&treinoAtual)sessaoTreinoAtual.academia=nomeNovo;
+    salvarSessaoTreinoLS();
+  }
+  if(academiaFiltroAnteriorManual&&academiaNomeKey(academiaFiltroUltimoReg)===kOld)alunoSetAnteriorFiltroManual(nomeNovo);
+  return true;
+};
+window.alunoModalAcademiaSalvarEditar=function(){
+  const inp=$('aluno-modal-academia-edit-inp');
+  const novo=((inp&&inp.value)||'').trim();
+  if(!novo){toast('Informe o nome da academia');return;}
+  const antigo=_alunoModalAcademiaEditando;
+  if(!antigo)return;
+  if(!renomearAcademia(antigo,novo))return;
+  if(academiaNomeKey(_alunoModalAcademiaSel)===academiaNomeKey(antigo))_alunoModalAcademiaSel=novo;
+  _alunoModalAcademiaEditando='';
+  alunoRenderModalAcademiaTreino();
+  renderAcademiaSelector();
+  syncAcademiaExercicioBanner();
+  toast('Academia atualizada');
+};
+window.alunoModalAcademiaArquivar=function(nome){
+  nome=((nome||'')+'').trim();
+  if(!nome)return;
+  _academiaArquivarNome=nome;
+  abrirModal('modal-academia-arquivar');
+};
+window.alunoModalAcademiaRestaurar=function(nome){
+  restaurarAcademia(nome);
+  const academias=academiasAtivasRead();
+  if(academias.indexOf(nome)>=0)_alunoModalAcademiaSel=nome;
+  alunoRenderModalAcademiaTreino();
+};
 window.abrirModalAcademiaTreino=function(t){
   _alunoTreinoPendente=t;
+  _alunoModalAcademiaModo='abrir';
+  _alunoModalAcademiaEditando='';
   const academias=academiasAtivasRead();
   const last=((localStorage.getItem('academia_atual')||'')+'').trim();
   _alunoModalAcademiaSel=last&&academias.indexOf(last)>=0?last:(academias[0]||'');
+  alunoRenderModalAcademiaTreino();
+  abrirModal('modal-aluno-academia-treino');
+};
+window.abrirModalTrocarAcademia=function(){
+  if(!treinoAtual)return;
+  _alunoTreinoPendente=treinoAtual;
+  _alunoModalAcademiaModo='trocar';
+  _alunoModalAcademiaEditando='';
+  const academias=academiasAtivasRead();
+  const atual=(academiaSelecionada||'').trim();
+  _alunoModalAcademiaSel=atual&&academias.indexOf(atual)>=0?atual:(academias[0]||'');
   alunoRenderModalAcademiaTreino();
   abrirModal('modal-aluno-academia-treino');
 };
@@ -6308,19 +6454,32 @@ window.alunoModalAcademiaSalvarNova=function(){
 };
 window.alunoModalAcademiaConfirmar=function(){
   if(!_alunoModalAcademiaSel){toast('Selecione uma academia');return;}
-  const t=_alunoTreinoPendente;
-  if(!t)return;
   academiaSelecionada=_alunoModalAcademiaSel;
   localStorage.setItem('academia_atual',academiaSelecionada);
+  if(sessaoTreinoAtual&&treinoAtual)sessaoTreinoAtual.academia=academiaSelecionada;
+  salvarSessaoTreinoLS();
+  const modo=_alunoModalAcademiaModo;
+  const t=_alunoTreinoPendente;
   _alunoTreinoPendente=null;
+  _alunoModalAcademiaModo='';
   fecharModal('modal-aluno-academia-treino');
+  if(modo==='trocar'){
+    renderAcademiaSelector();
+    syncAcademiaExercicioBanner();
+    if($('screen-exercicio')&&$('screen-exercicio').classList.contains('active'))carregarHistoricoEx();
+    return;
+  }
+  if(!t)return;
   abrirTreino(t);
 };
 window.alunoModalAcademiaFechar=function(){
   _alunoTreinoPendente=null;
   _alunoModalAcademiaSel='';
+  _alunoModalAcademiaModo='';
+  _alunoModalAcademiaEditando='';
   const novaWrap=$('aluno-modal-academia-nova-wrap');
   if(novaWrap)novaWrap.hidden=true;
+  alunoModalAcademiaSyncUi();
   fecharModal('modal-aluno-academia-treino');
 };
 function abrirTreino(t){
@@ -6391,67 +6550,15 @@ function renderAcademiaArquivadasSection(){
 }
 
 function renderAcademiaSelector(){
-  const academias=academiasAtivasRead();
-  const arquivadas=academiasArquivadasRead();
-  const wrap=$('academia-selector-wrap');
-  const primeira=$('academia-primeira-wrap');
+  const banner=$('academia-treino-banner');
+  const nomeEl=$('academia-treino-nome');
+  if(!banner||!nomeEl)return;
   if(academiaSelecionada&&academiaEstaArquivada(academiaSelecionada)){
     academiaSelecionada='';
     localStorage.removeItem('academia_atual');
   }
-  if(academias.length||arquivadas.length){
-    wrap.style.display='';
-    primeira.style.display='none';
-    const btns=$('academia-selector-btns');
-    const titReg=wrap.querySelector('.academia-registrando-tit');
-    const nomeSel=(academiaSelecionada||'').trim();
-    if(titReg){
-      titReg.style.display=nomeSel||academias.length?'':'none';
-      titReg.textContent=nomeSel?'Registrando em: '+nomeSel:'Registrando em';
-    }
-    if(btns){
-      btns.style.display=academias.length?'':'none';
-      btns.innerHTML='';
-      academias.forEach(a=>{
-        const chip=document.createElement('div');
-        chip.className='academia-chip'+(a===academiaSelecionada?' academia-chip--on':'');
-        const btn=document.createElement('button');
-        btn.type='button';
-        btn.className='academia-chip-btn';
-        btn.textContent=a;
-        btn.onclick=()=>{
-          if(a===academiaSelecionada){
-            academiaSelecionada='';
-            localStorage.removeItem('academia_atual');
-          }else{
-            academiaSelecionada=a;
-            localStorage.setItem('academia_atual',a);
-          }
-          if(sessaoTreinoAtual&&treinoAtual)sessaoTreinoAtual.academia=academiaSelecionada||'';
-          renderAcademiaSelector();
-          syncAcademiaExercicioBanner();
-          if($('screen-exercicio')&&$('screen-exercicio').classList.contains('active'))carregarHistoricoEx();
-        };
-        const btnArq=document.createElement('button');
-        btnArq.type='button';
-        btnArq.className='academia-chip-arquivar';
-        btnArq.setAttribute('aria-label','Arquivar academia '+a);
-        btnArq.textContent='\u00d7';
-        btnArq.onclick=e=>{e.stopPropagation();abrirModalArquivarAcademia(a);};
-        chip.appendChild(btn);
-        chip.appendChild(btnArq);
-        btns.appendChild(chip);
-      });
-    }
-    const inpNova=$('inp-academia-nova');
-    if(inpNova)inpNova.style.display='';
-    renderAcademiaArquivadasSection();
-  } else {
-    wrap.style.display='none';
-    primeira.style.display='';
-    const el=$('academia-arquivadas-wrap');
-    if(el){el.style.display='none';el.innerHTML='';}
-  }
+  const nome=(academiaSelecionada||'').trim();
+  nomeEl.textContent=nome||'\u2014';
 }
 
 window.restaurarAcademia=nome=>{
@@ -6464,6 +6571,7 @@ window.restaurarAcademia=nome=>{
   hist.unshift(nome);
   academiasAtivasWrite(hist.slice(0,10));
   renderAcademiaSelector();
+  if($('modal-aluno-academia-treino')&&$('modal-aluno-academia-treino').classList.contains('open'))alunoRenderModalAcademiaTreino();
   if($('screen-exercicio')&&$('screen-exercicio').classList.contains('active'))carregarHistoricoEx();
   toast('Academia restaurada');
 };
@@ -6477,7 +6585,6 @@ window.adicionarAcademia=nome=>{
   hist.unshift(nome);
   academiasAtivasWrite(hist);
   academiaSelecionada=nome; localStorage.setItem('academia_atual',nome);
-  $('academia-primeira-wrap').style.display='none';
   renderAcademiaSelector();
   syncAcademiaExercicioBanner();
 };
@@ -6505,9 +6612,18 @@ window.confirmarArquivarAcademia=()=>{
   if(academiaNomeKey(academiaSelecionada)===k){
     academiaSelecionada='';
     localStorage.removeItem('academia_atual');
+    if(sessaoTreinoAtual&&treinoAtual)sessaoTreinoAtual.academia='';
+    salvarSessaoTreinoLS();
   }
+  if(academiaNomeKey(_alunoModalAcademiaSel)===k){
+    const rest=academiasAtivasRead();
+    _alunoModalAcademiaSel=rest[0]||'';
+  }
+  if(academiaNomeKey(_alunoModalAcademiaEditando)===k)_alunoModalAcademiaEditando='';
   if(academiaFiltroAnteriorManual&&academiaNomeKey(academiaFiltroUltimoReg)===k)alunoSetAnteriorFiltroManual('');
   renderAcademiaSelector();
+  syncAcademiaExercicioBanner();
+  if($('modal-aluno-academia-treino')&&$('modal-aluno-academia-treino').classList.contains('open'))alunoRenderModalAcademiaTreino();
   if($('screen-exercicio')&&$('screen-exercicio').classList.contains('active'))carregarHistoricoEx();
   toast('Academia arquivada');
 };
@@ -14942,6 +15058,7 @@ window.abrirEditor = idx => {
 document.querySelectorAll('.modal-bd').forEach(b=>b.addEventListener('click',e=>{
   if(e.target!==b)return;
   if(b.id==='modal-aluno-academia-treino'){alunoModalAcademiaFechar();return;}
+  if(b.id==='modal-academia-arquivar'){cancelarArquivarAcademia();return;}
   b.classList.remove('open');
   if(b.id==='modal-ex'){delete b.dataset.profEditorExIdx;delete b.dataset.profEditorSubstIdx;}
 }));
