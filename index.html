@@ -678,6 +678,9 @@ select.inp option{background:var(--bg3);}
 #screen-editor.prof-editor-shell .prof-ed-nav-pill--cardio{border-color:rgba(72,160,220,.38);background:rgba(56,140,200,.14);color:rgba(168,218,252,.95);}
 #screen-editor.prof-editor-shell .prof-ed-nav-pill--cardio.active{background:rgba(56,140,200,.28);border-color:rgba(96,184,240,.55);color:#dff0ff;}
 #screen-editor.prof-editor-shell .prof-ed-cardio-panel{display:none;flex-direction:column;align-items:stretch;width:100%;padding:4px 0 32px;}
+#screen-editor.prof-editor-shell .prof-ed-cardio-save-wrap{margin-bottom:16px;padding:14px 16px;border-radius:14px;border:1px solid rgba(72,160,220,.28);background:rgba(56,140,200,.08);}
+#screen-editor.prof-editor-shell .prof-ed-cardio-save-btn{width:100%;}
+#screen-editor.prof-editor-shell .prof-ed-cardio-save-hint{margin:8px 0 0;font-size:12px;line-height:1.4;color:rgba(255,255,255,.42);text-align:center;}
 #screen-editor.prof-editor-shell .prof-ed-cardio-hero{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:20px 18px 18px;box-shadow:0 1px 0 rgba(255,255,255,.04);}
 #screen-editor.prof-editor-shell .prof-ed-cardio-idade-block{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.08);}
 #screen-editor.prof-editor-shell .prof-ed-cardio-fcmax{display:flex;align-items:center;gap:14px;margin-bottom:8px;}
@@ -901,6 +904,36 @@ select.inp option{background:var(--bg3);}
 #screen-prof-evolucao .prof-ev-treino-pill{padding:8px 14px;border-radius:999px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-family:inherit;font-size:12px;font-weight:500;line-height:1.2;cursor:pointer;transition:border-color .15s,background .15s,color .15s;}
 #screen-prof-evolucao .prof-ev-treino-pill:hover{border-color:rgba(255,255,255,.18);color:var(--text);}
 #screen-prof-evolucao .prof-ev-treino-pill--on{border-color:rgba(200,240,96,.35);background:rgba(200,240,96,.12);color:var(--accent);}
+#screen-prof-evolucao .prof-ev-mode-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px;}
+#screen-prof-evolucao .prof-ev-cardio-view{display:none;max-width:720px;}
+#screen-prof-evolucao .prof-ev-cardio-tit{margin:0 0 6px;font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--text);}
+#screen-prof-evolucao .prof-ev-cardio-sub{margin:0 0 16px;font-size:13px;color:var(--text3);line-height:1.4;}
+#screen-prof-evolucao.prof-ev--cardio-mode .prof-ev-aluno-split{display:none;}
+#screen-prof-evolucao.prof-ev--cardio-mode .prof-ev-cardio-view{display:block;}
+#screen-prof-evolucao .aluno-cardio-hub-empty{padding:14px 16px;font-size:13px;line-height:1.45;color:var(--text3);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-list{display:flex;flex-direction:column;gap:8px;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-acc{border:1px solid rgba(255,255,255,.08);border-radius:14px;background:var(--bg2);overflow:hidden;transition:border-color .15s;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-acc--open{border-color:rgba(255,255,255,.14);}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-hd-row{display:flex;align-items:stretch;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-hd{flex:1;min-width:0;display:block;padding:14px 16px;background:transparent;border:none;cursor:pointer;font-family:inherit;text-align:left;color:inherit;transition:background .14s;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-hd:hover{background:rgba(255,255,255,.03);}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-hd-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-ico{flex-shrink:0;font-size:18px;line-height:1;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-tit{flex:1;min-width:0;font-size:15px;font-weight:700;color:var(--text);line-height:1.25;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-pse{flex-shrink:0;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;font-family:'DM Mono',monospace;color:#0f0f0f;line-height:1.2;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-pse--lo{background:#5cb85c;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-pse--mid{background:#e8a838;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-pse--hi{background:#e87848;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-pse--max{background:#e05858;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-sub{font-size:13px;font-weight:500;font-family:'DM Mono',monospace;color:var(--text2);line-height:1.35;margin-bottom:4px;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-data{font-size:12px;font-weight:600;color:var(--text3);}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-body{padding:0 16px 14px;border-top:1px solid rgba(255,255,255,.06);}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-body[hidden]{display:none;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-dl{margin:12px 0 0;display:flex;flex-direction:column;gap:8px;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-row{display:flex;justify-content:space-between;gap:12px;font-size:13px;line-height:1.4;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-row dt{flex-shrink:0;font-weight:500;color:var(--text3);}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-row dd{margin:0;flex:1;min-width:0;font-weight:600;color:var(--text);text-align:right;}
+#screen-prof-evolucao .aluno-cardio-hub-sessao-row--obs dd{text-align:right;white-space:pre-wrap;word-break:break-word;}
 @media (min-width:900px){
   #screen-prof-evolucao .prof-ev-list-hint{display:block;}
   #screen-prof-evolucao .prof-ev-aluno-split{flex-direction:row;align-items:stretch;gap:0;min-height:calc(100vh - 56px);}
@@ -2492,6 +2525,10 @@ select.inp option{background:var(--bg3);}
   <div class="content content-pb">
     <div id="ed-nav-treinos" class="prof-ed-nav-treinos" role="tablist" aria-label="Treinos do aluno" hidden></div>
     <div id="ed-cardio-panel" class="prof-ed-cardio-panel" aria-live="polite">
+      <div class="prof-ed-cardio-save-wrap">
+        <button type="button" class="btn btn-primary prof-ed-cardio-save-btn" onclick="salvarTreino()">Salvar Cardio</button>
+        <p class="prof-ed-cardio-save-hint">Salve para sincronizar com o aluno.</p>
+      </div>
       <div class="prof-ed-cardio-hero">
         <div class="prof-ed-cardio-idade-block">
           <div class="prof-ed-cardio-fcmax">
@@ -2688,7 +2725,16 @@ select.inp option{background:var(--bg3);}
     <div class="prof-dash-topbar-spacer" aria-hidden="true"></div>
   </div>
   <div class="content content-pb prof-ev-aluno-content">
-    <div class="prof-ev-aluno-split">
+    <div class="prof-ev-mode-tabs" role="tablist" aria-label="Modo de evolução">
+      <button type="button" class="prof-ev-treino-pill prof-ev-mode-tab prof-ev-treino-pill--on" data-prof-ev-modo="musc" onclick="profEvSetModo('musc')">Musculação</button>
+      <button type="button" class="prof-ev-treino-pill prof-ev-mode-tab" data-prof-ev-modo="cardio" onclick="profEvSetModo('cardio')">Cardio</button>
+    </div>
+    <div id="prof-ev-cardio-view" class="prof-ev-cardio-view" aria-live="polite">
+      <h2 class="prof-ev-cardio-tit">Cardio</h2>
+      <p class="prof-ev-cardio-sub">Últimas sessões registradas pelo aluno</p>
+      <div id="prof-ev-cardio-sessoes"></div>
+    </div>
+    <div class="prof-ev-aluno-split" id="prof-ev-musc-view">
       <div class="prof-ev-aluno-list-col">
         <p class="prof-ev-list-hint">Selecione um exerc&#237;cio</p>
         <div id="prof-ev-treino-pills" class="prof-ev-treino-pills" hidden></div>
@@ -2922,6 +2968,45 @@ function slugifyChave(s){
     .replace(/^-+|-+$/g,'')||'item';
 }
 function treinoSessaoKey(nome){return slugifyChave(nome);}
+/**
+ * Ciclos/pastas de treino — alunos/{email}.
+ * Documento do aluno (futuro):
+ *   ciclos: [{ id, nome, ordem, visivelAluno, arquivado }]
+ * Treino (opcional):
+ *   { nome, obsGeral, exercicios, cicloId? }
+ * Sem ciclos[] ou sem cicloId no treino: comportamento legado inalterado.
+ */
+function getAlunoCiclos(al){
+  const raw=(al&&al.ciclos)||[];
+  if(!Array.isArray(raw)||!raw.length)return[];
+  const out=[];
+  const seen=new Set();
+  raw.forEach(function(c){
+    if(!c||typeof c!=='object')return;
+    const id=((c.id||'')+'').trim();
+    if(!id||seen.has(id))return;
+    seen.add(id);
+    out.push({
+      id,
+      nome:((c.nome||'')+'').trim(),
+      ordem:Number.isFinite(c.ordem)?c.ordem:0,
+      visivelAluno:c.visivelAluno!==false,
+      arquivado:!!c.arquivado
+    });
+  });
+  out.sort(function(a,b){
+    return(a.ordem-b.ordem)||a.nome.localeCompare(b.nome,'pt-BR',{sensitivity:'base'});
+  });
+  return out;
+}
+function getTreinoCicloId(t){
+  return t&&t.cicloId!=null?((t.cicloId||'')+'').trim():'';
+}
+function getCicloById(al,cicloId){
+  const id=((cicloId||'')+'').trim();
+  if(!id)return null;
+  return getAlunoCiclos(al).find(function(c){return c.id===id;})||null;
+}
 function exercicioSessaoKey(idx,nome){return String(idx)+'|'+treinoSessaoKey(nome);}
 function sessaoDataHojeLocal(){
   const d=new Date();
@@ -3203,6 +3288,43 @@ function profCardioPersistDraft(alId){
       protocolo:profCardioNormalizeProtocolo(st.protocolo)
     }));
   }catch(e){console.warn('cardio draft save:',e);}
+}
+/** Prescrição com conteúdo salvável (idade ou fases com duração). */
+function profCardioPrescricaoTemConteudo(st){
+  if(!st)return false;
+  const idade=st.idade!=null?Number(st.idade):NaN;
+  if(!isNaN(idade)&&idade>0)return true;
+  const proto=profCardioNormalizeProtocolo(st.protocolo);
+  return(Array.isArray(proto.fases)?proto.fases:[]).some(profCardioItemTemDuracao);
+}
+/** Estado do painel Cardio → campo alunos/{email}.cardio no Firestore. */
+function profCardioStateToFirestore(st){
+  const proto=profCardioNormalizeProtocolo(st&&st.protocolo);
+  const idade=st&&st.idade!=null&&!isNaN(Number(st.idade))?Number(st.idade):null;
+  return{
+    idade:idade,
+    protocolos:[proto],
+    protocoloAtivoIdx:0,
+    atualizadoEm:Date.now()
+  };
+}
+function profCardioNormalizeFirestoreDoc(raw){
+  if(!raw||typeof raw!=='object')return null;
+  const protocolos=(Array.isArray(raw.protocolos)?raw.protocolos:[])
+    .map(profCardioNormalizeProtocolo)
+    .filter(function(p){return p&&Array.isArray(p.fases)&&p.fases.length;});
+  if(!protocolos.length)return null;
+  let idx=parseInt(raw.protocoloAtivoIdx,10);
+  if(isNaN(idx)||idx<0||idx>=protocolos.length)idx=0;
+  const idadeRaw=raw.idade!=null?Number(raw.idade):null;
+  const idade=(idadeRaw!=null&&!isNaN(idadeRaw)&&idadeRaw>0)?idadeRaw:null;
+  return{idade:idade,protocolo:protocolos[idx],protocolos:protocolos,protocoloAtivoIdx:idx};
+}
+function profCardioFirestoreToPrescricao(raw){
+  const doc=profCardioNormalizeFirestoreDoc(raw);
+  if(!doc||!doc.protocolo)return null;
+  if(!profCardioPrescricaoTemConteudo({idade:doc.idade,protocolo:doc.protocolo}))return null;
+  return{idade:doc.idade,protocolo:doc.protocolo};
 }
 function profCardioGetState(alId){
   if(!alId)return{idade:null,protocolo:profCardioDefaultProtocolo()};
@@ -3704,17 +3826,22 @@ window.profCardioOnIdadeInput=function(){
 function alunoCardioLoadPrescricao(){
   const email=me&&me.email;
   if(!email)return null;
-  if(editorCardioStateByAluno[email]){
-    const st=profCardioGetState(email);
-    return{idade:st.idade,protocolo:profCardioNormalizeProtocolo(st.protocolo)};
-  }
+  const fb=meAluno&&meAluno.cardio?profCardioFirestoreToPrescricao(meAluno.cardio):null;
+  if(fb)return fb;
   try{
     const raw=localStorage.getItem(profCardioLsKey(email));
     if(!raw)return null;
     const d=JSON.parse(raw);
     if(!d||d.v!==1)return null;
-    return{idade:d.idade!=null?d.idade:null,protocolo:profCardioNormalizeProtocolo(d.protocolo)};
-  }catch(e){console.warn('aluno cardio load:',e);return null;}
+    const ls={idade:d.idade!=null?d.idade:null,protocolo:profCardioNormalizeProtocolo(d.protocolo)};
+    if(profCardioPrescricaoTemConteudo(ls))return ls;
+  }catch(e){console.warn('aluno cardio load:',e);}
+  if(editorCardioStateByAluno[email]){
+    const st=profCardioGetState(email);
+    const mem={idade:st.idade,protocolo:profCardioNormalizeProtocolo(st.protocolo)};
+    if(profCardioPrescricaoTemConteudo(mem))return mem;
+  }
+  return null;
 }
 function alunoCardioFasesPreenchidas(proto){
   return profCardioNormalizeProtocolo(proto).fases.some(profCardioItemTemDuracao);
@@ -4643,7 +4770,10 @@ function alunoCardioHubSessaoDetRowHtml(lbl,val,obs){
   return'<div class="aluno-cardio-hub-sessao-row'+(obs?' aluno-cardio-hub-sessao-row--obs':'')+'">'+
     '<dt>'+esc(lbl)+'</dt><dd>'+esc(val)+'</dd></div>';
 }
-function alunoCardioHubSessaoCardHtml(row,idx,docId){
+function cardioHubSessaoCardHtml(row,idx,opts){
+  opts=opts||{};
+  const accId=opts.accId||('aluno-cardio-sessao-'+idx);
+  const toggleCall=opts.toggleCall||('alunoCardioHubSessaoToggle('+idx+')');
   const tit=((row.atividade||row.protocoloNome||'')+'').trim()||'Cardio';
   const ico=alunoCardioHubAtividadeIco(tit);
   const sub=alunoCardioHubSessaoSubTxt(row);
@@ -4660,12 +4790,12 @@ function alunoCardioHubSessaoCardHtml(row,idx,docId){
     alunoCardioHubSessaoDetRowHtml('FC m\u00e9dia',row.fcMedia!=null&&row.fcMedia>0?row.fcMedia+' bpm':'')+
     alunoCardioHubSessaoDetRowHtml('PSE',pse!=null&&pse!==''&&!isNaN(pse)?String(pse):'')+
     alunoCardioHubSessaoDetRowHtml('Observa\u00e7\u00e3o',obs,true);
-  const delBtn=docId
-    ?'<button type="button" class="aluno-cardio-hub-sessao-del" onclick="alunoCardioHubAbrirExcluirSessao(\''+escJs(docId)+'\')" aria-label="Excluir registro de cardio" title="Excluir">\uD83D\uDDD1</button>'
+  const delBtn=opts.showDelete&&opts.docId
+    ?'<button type="button" class="aluno-cardio-hub-sessao-del" onclick="alunoCardioHubAbrirExcluirSessao(\''+escJs(opts.docId)+'\')" aria-label="Excluir registro de cardio" title="Excluir">\uD83D\uDDD1</button>'
     :'';
-  return'<div class="aluno-cardio-hub-sessao-acc" id="aluno-cardio-sessao-'+idx+'">'+
+  return'<div class="aluno-cardio-hub-sessao-acc" id="'+esc(accId)+'">'+
     '<div class="aluno-cardio-hub-sessao-hd-row">'+
-      '<button type="button" class="aluno-cardio-hub-sessao-hd" onclick="alunoCardioHubSessaoToggle('+idx+')" aria-expanded="false">'+
+      '<button type="button" class="aluno-cardio-hub-sessao-hd" onclick="'+toggleCall+'" aria-expanded="false">'+
         '<div class="aluno-cardio-hub-sessao-hd-top">'+
           '<span class="aluno-cardio-hub-sessao-ico" aria-hidden="true">'+ico+'</span>'+
           '<span class="aluno-cardio-hub-sessao-tit">'+esc(tit)+'</span>'+
@@ -4680,6 +4810,9 @@ function alunoCardioHubSessaoCardHtml(row,idx,docId){
       '<dl class="aluno-cardio-hub-sessao-dl">'+detHtml+'</dl>'+
     '</div>'+
   '</div>';
+}
+function alunoCardioHubSessaoCardHtml(row,idx,docId){
+  return cardioHubSessaoCardHtml(row,idx,{accId:'aluno-cardio-sessao-'+idx,toggleCall:'alunoCardioHubSessaoToggle('+idx+')',showDelete:!!docId,docId:docId});
 }
 window.alunoCardioHubSessaoToggle=function(idx){
   const acc=$('aluno-cardio-sessao-'+idx);
@@ -10365,6 +10498,67 @@ window.profDashVerEvolucao=function(){
   if(!al){toast('Selecione um aluno');return;}
   profEvAlunoOpen(al);
 };
+let profEvModo='musc';
+let profEvCardioLoadSeq=0;
+window.profEvSetModo=function(modo){
+  profEvModo=modo==='cardio'?'cardio':'musc';
+  const scr=$('screen-prof-evolucao');
+  if(scr)scr.classList.toggle('prof-ev--cardio-mode',profEvModo==='cardio');
+  document.querySelectorAll('.prof-ev-mode-tab').forEach(function(btn){
+    btn.classList.toggle('prof-ev-treino-pill--on',btn.dataset.profEvModo===profEvModo);
+  });
+  if(profEvModo==='cardio'){
+    profEvDrawerClose();
+    profEvAlunoPaneSetIdle(true);
+    profEvCardioLoadSessoes(alunoSel);
+  }
+};
+window.profEvCardioSessaoToggle=function(idx){
+  const acc=$('prof-ev-cardio-sessao-'+idx);
+  if(!acc)return;
+  const btn=acc.querySelector('.aluno-cardio-hub-sessao-hd');
+  const body=acc.querySelector('.aluno-cardio-hub-sessao-body');
+  if(!btn||!body)return;
+  const open=!acc.classList.contains('aluno-cardio-hub-sessao--open');
+  acc.classList.toggle('aluno-cardio-hub-sessao--open',open);
+  body.hidden=!open;
+  btn.setAttribute('aria-expanded',open?'true':'false');
+};
+async function profEvCardioLoadSessoes(al){
+  const el=$('prof-ev-cardio-sessoes');
+  if(!el)return;
+  const seq=++profEvCardioLoadSeq;
+  if(!al||!al.id){
+    el.innerHTML='<div class="aluno-cardio-hub-empty">Nenhuma sess\u00e3o de cardio registrada ainda.</div>';
+    return;
+  }
+  el.innerHTML='<p class="prof-ev-reg-loading">Carregando\u2026</p>';
+  try{
+    const hQ=query(
+      collection(db,'alunos',al.id,'historico'),
+      where('tipo','==','cardio'),
+      orderBy('data','desc'),
+      limit(10)
+    );
+    const hS=await getDocs(hQ);
+    if(seq!==profEvCardioLoadSeq)return;
+    if(hS.empty){
+      el.innerHTML='<div class="aluno-cardio-hub-empty">Nenhuma sess\u00e3o de cardio registrada ainda.</div>';
+      return;
+    }
+    el.innerHTML='<div class="aluno-cardio-hub-sessao-list">'+hS.docs.map(function(doc,i){
+      return cardioHubSessaoCardHtml(doc.data(),i,{
+        accId:'prof-ev-cardio-sessao-'+i,
+        toggleCall:'profEvCardioSessaoToggle('+i+')',
+        showDelete:false
+      });
+    }).join('')+'</div>';
+  }catch(e){
+    if(seq!==profEvCardioLoadSeq)return;
+    console.error('profEvCardioLoadSessoes: falha na query historico cardio (tipo + data desc). Verifique \u00edndice Firestore:',e);
+    el.innerHTML='<div class="aluno-cardio-hub-empty">N\u00e3o foi poss\u00edvel carregar as sess\u00f5es de cardio agora.</div>';
+  }
+}
 window.profEvAlunoOpen=function(al){
   if(!al)return;
   alunoSel=al;
@@ -10376,6 +10570,7 @@ window.profEvAlunoOpen=function(al){
   profEvHistoricoRawDocs=[];
   profEvTreinoExMap=profEvBuildTreinoExMap(al);
   profEvTreinoPillsRender(al);
+  profEvSetModo('musc');
   const searchInp=$('prof-ev-al-search');
   if(searchInp)searchInp.value='';
   profEvDrawerClose();
@@ -14301,14 +14496,36 @@ window.confirmarTipoCustom=()=>{
 };
 
 window.salvarTreino=async()=>{
-  if(editorTreinoIdx===PROF_EDITOR_IDX_CARDIO)return;
   if(!editorAluno){toast('Aluno n\u00e3o selecionado');return;}
+  profCardioSyncProtocoloFromDom();
+  const cardioSt=profCardioGetState(editorAluno.id);
+  const cardioTemConteudo=profCardioPrescricaoTemConteudo(cardioSt);
+  const isCardioTab=editorTreinoIdx===PROF_EDITOR_IDX_CARDIO;
+  if(isCardioTab){
+    if(!cardioTemConteudo){
+      toast(editorAluno.cardio?'Prescri\u00e7\u00e3o vazia \u2014 cardio existente preservado':'Nada para salvar');
+      return;
+    }
+    const treinosCardio=JSON.parse(JSON.stringify(editorAluno.treinos||[]));
+    const cardioDoc=profCardioStateToFirestore(cardioSt);
+    profCardioPersistDraft(editorAluno.id);
+    await updateDoc(doc(db,'alunos',editorAluno.id),{treinos:treinosCardio,cardio:cardioDoc});
+    const alId=editorAluno.id;
+    editorAluno.treinos=treinosCardio;
+    editorAluno.cardio=cardioDoc;
+    if(alunoSel&&alunoSel.id===alId){alunoSel.treinos=treinosCardio;alunoSel.cardio=cardioDoc;}
+    await carregarAlunos();
+    const alSync=alunosDB.find(function(a){return a.id===alId;});
+    if(alSync){editorAluno=alSync;alunoSel=alSync;}
+    toast('\u2713 Altera\u00e7\u00f5es salvas');
+    return;
+  }
   const nome=($('ed-nome-treino').value||'').trim();
   const obsGeral=($('ed-obs-geral').value||'').trim();
   const exs=editorExercicios||[];
   const editingIdx=editorTreinoIdx>=0;
   const novoDraft=editorTreinoIdx===-1&&(nome||exs.length);
-  if(!editingIdx&&!novoDraft&&!editorTreinosStructDirty&&!profEditorIsDirty()){
+  if(!editingIdx&&!novoDraft&&!editorTreinosStructDirty&&!profEditorIsDirty()&&!cardioTemConteudo){
     toast('Nada para salvar');
     return;
   }
@@ -14332,15 +14549,24 @@ window.salvarTreino=async()=>{
     }
     await carregarBanco();
   }
-  await updateDoc(doc(db,'alunos',editorAluno.id),{treinos});
+  const updatePayload={treinos:treinos};
+  if(cardioTemConteudo){
+    updatePayload.cardio=profCardioStateToFirestore(cardioSt);
+    profCardioPersistDraft(editorAluno.id);
+  }
+  await updateDoc(doc(db,'alunos',editorAluno.id),updatePayload);
   const alId=editorAluno.id;
   const wasNew=editorTreinoIdx===-1&&novoDraft;
   if(wasNew)editorTreinoIdx=treinos.length-1;
   editorAluno.treinos=treinos;
-  if(alunoSel&&alunoSel.id===alId)alunoSel.treinos=treinos;
+  if(updatePayload.cardio)editorAluno.cardio=updatePayload.cardio;
+  if(alunoSel&&alunoSel.id===alId){
+    alunoSel.treinos=treinos;
+    if(updatePayload.cardio)alunoSel.cardio=updatePayload.cardio;
+  }
   await carregarAlunos();
   const alSync=alunosDB.find(function(a){return a.id===alId;});
-  if(alSync){alSync.treinos=treinos;editorAluno=alSync;alunoSel=alSync;}
+  if(alSync){editorAluno=alSync;alunoSel=alSync;}
   if(treino)$('editor-title').textContent='Editar: '+treino.nome;
   editorTreinosStructDirty=false;
   profEditorSetBaseline();
