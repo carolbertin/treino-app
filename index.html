@@ -798,6 +798,33 @@ select.inp option{background:var(--bg3);}
 #screen-editor.prof-editor-shell .prof-cardio-al-preview-inst{margin:0;font-size:14px;line-height:1.5;color:rgba(255,255,255,.78);}
 #screen-editor.prof-editor-shell .prof-cardio-al-preview-inst+.prof-cardio-al-preview-inst{margin-top:4px;}
 #screen-editor.prof-editor-shell .prof-cardio-al-preview-inst--muted{color:rgba(255,255,255,.32);font-style:italic;}
+.editor-topbar-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.editor-preview-btn{font-size:12px!important;white-space:nowrap;padding:4px 8px!important;}
+#screen-editor.prof-editor-shell--cardio .editor-preview-btn{display:none!important;}
+.prof-al-preview-phone{max-width:390px;margin:0 auto 14px;border-radius:28px;border:2px solid rgba(255,255,255,.12);background:#0a0a0a;box-shadow:0 24px 64px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.04);overflow:hidden;}
+.prof-al-preview-phone-inner{max-height:min(72vh,640px);display:flex;flex-direction:column;background:var(--bg);}
+.prof-al-preview-topbar{padding:12px 16px 10px;border-bottom:0.5px solid rgba(255,255,255,.08);background:var(--bg);flex-shrink:0;}
+.prof-al-preview-topbar-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
+.prof-al-preview-topbar-tit{font-size:15px;font-weight:600;color:rgba(255,255,255,.92);line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.prof-al-preview-scroll{flex:1;overflow-y:auto;padding:14px 16px 20px;-webkit-overflow-scrolling:touch;}
+.prof-al-preview-draft{display:inline-block;margin-bottom:10px;padding:4px 10px;border-radius:999px;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--warn);border:1px solid rgba(240,168,48,.35);background:rgba(240,168,48,.08);}
+.prof-al-preview-draft[hidden]{display:none!important;}
+.prof-al-preview-instr{margin-bottom:14px;padding:12px 14px;border-radius:var(--rsm);border:1px solid rgba(200,240,96,.22);background:rgba(200,240,96,.05);}
+.prof-al-preview-instr-lbl{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.prof-al-preview-instr-txt{font-size:13px;line-height:1.55;color:var(--text2);white-space:pre-line;}
+.prof-al-preview-instr[hidden]{display:none!important;}
+.prof-al-preview-list{display:flex;flex-direction:column;gap:10px;}
+.prof-al-preview-ex-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg2);}
+.prof-al-preview-ex-num{flex-shrink:0;width:32px;height:32px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--text2);font-family:'DM Mono',monospace;}
+.prof-al-preview-ex-body{flex:1;min-width:0;}
+.prof-al-preview-ex-nome{font-size:15px;font-weight:500;line-height:1.3;color:var(--text);}
+.prof-al-preview-ex-tipo{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.35;}
+.prof-al-preview-ex-meta{font-size:12px;color:var(--text3);margin-top:2px;font-family:'DM Mono',monospace;line-height:1.35;}
+.prof-al-preview-ex-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.prof-al-preview-ex-badges span{font-size:10px;font-weight:600;padding:3px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);background:rgba(255,255,255,.04);}
+.prof-al-preview-ex-chevron{flex-shrink:0;font-size:18px;color:var(--text3);opacity:.45;}
+.prof-al-preview-empty{padding:28px 16px;text-align:center;font-size:14px;color:var(--text3);line-height:1.5;}
+.prof-al-preview-foot{margin:0 0 14px;font-size:12px;color:var(--text3);text-align:center;line-height:1.45;}
 #screen-editor.prof-editor-shell.prof-editor-shell--cardio .prof-ed-cardio-panel{display:flex;}
 #screen-editor.prof-editor-shell.prof-editor-shell--cardio .prof-ed-musc-wrap{display:none!important;}
 #screen-editor.prof-editor-shell.prof-editor-shell--cardio .topbar-action{display:none;}
@@ -1584,6 +1611,7 @@ select.inp option{background:var(--bg3);}
 .modal-bd{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:flex-end;justify-content:center;}
 .modal-bd.modal-bd--stack{z-index:250;}
 #modal-academia-arquivar{z-index:280;}
+#modal-prof-aluno-preview{z-index:300;}
 #modal-prof-ev-excluir-registro.modal-bd{z-index:1280;}
 .modal-bd.open{display:flex;}
 .modal{background:var(--bg2);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;border:1px solid var(--border);animation:slideUp .25s ease;}
@@ -1665,6 +1693,7 @@ select.inp option{background:var(--bg3);}
 .modal-bd{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:flex-end;justify-content:center;}
 .modal-bd.modal-bd--stack{z-index:250;}
 #modal-academia-arquivar{z-index:280;}
+#modal-prof-aluno-preview{z-index:300;}
 #modal-prof-ev-excluir-registro.modal-bd{z-index:1280;}
 .modal-bd.open{display:flex;}
 .modal{background:var(--bg2);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;border:1px solid var(--border);animation:slideUp .25s ease;}
@@ -2549,7 +2578,10 @@ select.inp option{background:var(--bg3);}
   <div class="topbar">
     <div style="width:44px;"></div>
     <div class="topbar-title" id="editor-title">Editar treino</div>
-    <button class="topbar-action" id="editor-save-btn" onclick="salvarTreino()">Salvar</button>
+    <div class="editor-topbar-actions">
+      <button type="button" class="topbar-action editor-preview-btn" id="editor-preview-btn" onclick="profAlunoPreviewOpen()">Ver como aluno</button>
+      <button class="topbar-action" id="editor-save-btn" onclick="salvarTreino()">Salvar</button>
+    </div>
   </div>
   <div id="editor-unsaved-hint" class="editor-unsaved-hint" hidden>Altera&#xE7;&#xE3;o n&#xE3;o salva</div>
   <div class="content content-pb">
@@ -2806,6 +2838,31 @@ select.inp option{background:var(--bg3);}
     <div class="modal-title">Arquivar esta academia?</div>
     <p class="text-sm" style="line-height:1.5;margin-bottom:20px;">Os registros dessa academia ser&#xE3;o preservados no hist&#xF3;rico.</p>
     <div style="display:flex;gap:10px;"><button type="button" class="btn btn-secondary flex-1" onclick="cancelarArquivarAcademia()">Cancelar</button><button type="button" class="btn btn-primary flex-1" onclick="confirmarArquivarAcademia()">Arquivar</button></div>
+  </div>
+</div>
+
+<div class="modal-bd modal-bd--stack" id="modal-prof-aluno-preview">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Ver como aluno</div>
+    <p class="prof-al-preview-foot">Somente leitura &middot; pr&#xE9;via do rascunho atual</p>
+    <div class="prof-al-preview-phone" role="region" aria-label="Pr&#xE9;via mobile da lista de exerc&#xED;cios">
+      <div class="prof-al-preview-phone-inner">
+        <div class="prof-al-preview-topbar">
+          <div class="prof-al-preview-topbar-lbl">Treino</div>
+          <div class="prof-al-preview-topbar-tit" id="prof-al-preview-treino-nome"></div>
+        </div>
+        <div class="prof-al-preview-scroll" id="prof-al-preview-scroll">
+          <span id="prof-al-preview-draft-badge" class="prof-al-preview-draft" hidden>Rascunho n&#xE3;o salvo</span>
+          <div id="prof-al-preview-instr" class="prof-al-preview-instr" hidden>
+            <div class="prof-al-preview-instr-lbl">Instru&#xE7;&#xF5;es</div>
+            <div class="prof-al-preview-instr-txt" id="prof-al-preview-instr-txt"></div>
+          </div>
+          <div id="prof-al-preview-list" class="prof-al-preview-list" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn btn-secondary btn-full" onclick="profAlunoPreviewClose()">Fechar</button>
   </div>
 </div>
 
@@ -11133,7 +11190,79 @@ function profSyncEditorShellModo(){
     scr.classList.toggle('prof-editor-shell--cardio',isCardio);
   }
   const addBtn=$('ed-add-exercicio-btn');if(addBtn)addBtn.hidden=!!profImportPreview||isCardio;
+  const prevBtn=$('editor-preview-btn');if(prevBtn)prevBtn.hidden=isCardio;
 }
+function profEditorBuildTreinoDraft(){
+  return{
+    nome:(($('ed-nome-treino')&&$('ed-nome-treino').value)||'').trim(),
+    obsGeral:(($('ed-obs-geral')&&$('ed-obs-geral').value)||'').trim(),
+    exercicios:JSON.parse(JSON.stringify(editorExercicios||[]))
+  };
+}
+function profAlunoPreviewRenderLista(treino){
+  const titleTop=$('prof-al-preview-treino-nome');
+  const draftBadge=$('prof-al-preview-draft-badge');
+  const instrWrap=$('prof-al-preview-instr');
+  const instrTxt=$('prof-al-preview-instr-txt');
+  const listEl=$('prof-al-preview-list');
+  const scrollEl=$('prof-al-preview-scroll');
+  if(titleTop)titleTop.textContent=(treino&&treino.nome)||'Treino';
+  if(draftBadge)draftBadge.hidden=!profEditorIsDirty();
+  const obs=((treino&&treino.obsGeral)||'').trim();
+  if(instrWrap&&instrTxt){
+    if(obs){
+      instrWrap.hidden=false;
+      instrTxt.textContent=obs;
+    }else{
+      instrWrap.hidden=true;
+      instrTxt.textContent='';
+    }
+  }
+  if(!listEl)return;
+  const exercicios=(treino&&treino.exercicios)||[];
+  if(!exercicios.length){
+    listEl.innerHTML='<div class="prof-al-preview-empty">Nenhum exerc\u00edcio neste treino.</div>';
+    if(scrollEl)scrollEl.scrollTop=0;
+    return;
+  }
+  listEl.innerHTML=exercicios.map(function(ex,i){
+    const blPl=normalizarExercicio(ex);
+    const tipoPl=blPl.length>1
+      ?(blPl.length+' etapas')
+      :alunoCopyBloco(blPl[0]||{tipo:ex.tipo,tecnica:ex.tecnica,meta:ex.meta||'',obs:ex.obs||''},{blocoIndex:0,totalBlocos:Math.max(1,blPl.length)}).tituloAluno;
+    const meta=textoMetaListaAlunoSimples(ex);
+    const resumo=alunoResumoPrescricaoCompacto(ex);
+    const temSubst=(ex.substitutos||[]).filter(function(s){return s&&s.nome;}).length>0;
+    const temVideo=!!mediaEmbed(ex.youtube);
+    const temObs=!!alunoObsProfessorAggregate(ex);
+    const badges=[];
+    if(temVideo)badges.push('V\u00eddeo');
+    if(temSubst)badges.push('Substituto');
+    if(temObs)badges.push('Obs. professor');
+    const badgesHtml=badges.length?'<div class="prof-al-preview-ex-badges">'+badges.map(function(b){return'<span>'+esc(b)+'</span>';}).join('')+'</div>':'';
+    const resumoHtml=resumo&&resumo!==meta?'<div class="prof-al-preview-ex-meta">'+esc(resumo)+'</div>':'';
+    return'<div class="prof-al-preview-ex-item">'
+      +'<div class="prof-al-preview-ex-num">'+(i+1)+'</div>'
+      +'<div class="prof-al-preview-ex-body">'
+      +'<div class="prof-al-preview-ex-nome">'+esc(ex.nome||'Exerc\u00edcio')+'</div>'
+      +'<div class="prof-al-preview-ex-tipo">'+esc(tipoPl)+'</div>'
+      +'<div class="prof-al-preview-ex-meta">'+esc(meta)+'</div>'
+      +resumoHtml
+      +badgesHtml
+      +'</div>'
+      +'<span class="prof-al-preview-ex-chevron" aria-hidden="true">\u203A</span>'
+      +'</div>';
+  }).join('');
+  if(scrollEl)scrollEl.scrollTop=0;
+}
+window.profAlunoPreviewOpen=function(){
+  if(editorTreinoIdx===PROF_EDITOR_IDX_CARDIO)return;
+  const treino=profEditorBuildTreinoDraft();
+  if(!treino.nome&&!treino.exercicios.length){toast('Adicione nome ou exerc\u00edcios para pr\u00e9-visualizar');return;}
+  profAlunoPreviewRenderLista(treino);
+  abrirModal('modal-prof-aluno-preview');
+};
+window.profAlunoPreviewClose=function(){fecharModal('modal-prof-aluno-preview');};
 /** Blocos para flatten (read-only; não persiste). */
 function profBlocosParaFlatten(ex){
   if(!ex)return[];
@@ -15058,6 +15187,7 @@ window.abrirEditor = idx => {
 document.querySelectorAll('.modal-bd').forEach(b=>b.addEventListener('click',e=>{
   if(e.target!==b)return;
   if(b.id==='modal-aluno-academia-treino'){alunoModalAcademiaFechar();return;}
+  if(b.id==='modal-prof-aluno-preview'){profAlunoPreviewClose();return;}
   if(b.id==='modal-academia-arquivar'){cancelarArquivarAcademia();return;}
   b.classList.remove('open');
   if(b.id==='modal-ex'){delete b.dataset.profEditorExIdx;delete b.dataset.profEditorSubstIdx;}
