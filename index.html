@@ -1764,8 +1764,10 @@ select.inp option{background:var(--bg3);}
 /* Execução aluno — superfície simplificada (ref. treino_aluno_simplificado.html) */
 #screen-exercicio.screen-exercicio--exec-simple{--exec-pad-x:20px;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-topbar{padding:14px var(--exec-pad-x) 12px;border-bottom:0.5px solid var(--border-subtle,rgba(255,255,255,.08));background:var(--bg);}
-#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-back{font-size:14px;color:rgba(255,255,255,.4);min-width:44px;min-height:44px;padding:4px 8px 4px 0;white-space:nowrap;flex-shrink:0;font-family:inherit;font-weight:400;cursor:pointer;}
-#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-back:active{color:rgba(255,255,255,.55);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-back{display:none!important;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-topbar{display:grid;grid-template-columns:minmax(4.5rem,1fr) auto minmax(4.5rem,1fr);align-items:center;}
+#screen-exercicio.screen-exercicio--exec-simple .topbar-title{grid-column:2;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-pos{grid-column:3;}
 #screen-exercicio.screen-exercicio--exec-simple .topbar-title{flex:1;text-align:center;font-size:15px;font-weight:500;color:rgba(255,255,255,.9);padding:0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-pos{font-size:13px;color:rgba(255,255,255,.3);min-width:4.5rem;text-align:right;white-space:nowrap;flex-shrink:0;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-prog-bar{height:3px;background:rgba(255,255,255,.08);flex-shrink:0;}
@@ -1867,8 +1869,11 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer .aluno-guided-action-bar,
 #screen-exercicio.screen-exercicio--exec-simple .aluno-guided-action-bar{position:static!important;left:auto!important;right:auto!important;bottom:auto!important;transform:none!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;background:none!important;border:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer .aluno-guided-action-bar[hidden]{display:block!important;}
-#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer .aluno-guided-btn-primary,
-#screen-exercicio.screen-exercicio--exec-simple .aluno-guided-btn-primary{width:100%!important;min-height:52px;border-radius:var(--radius);font-size:17px;font-weight:500;background:var(--accent);color:#1a2e00;box-shadow:none;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer-actions{display:flex;gap:10px;align-items:stretch;width:100%;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer-actions .aluno-guided-btn-primary,
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-footer-actions .aluno-guided-btn-primary{flex:1;min-width:0;width:auto!important;min-height:52px;border-radius:var(--radius);font-size:17px;font-weight:600;background:var(--accent);color:#1a2e00;box-shadow:0 2px 16px rgba(200,240,96,.22);}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-btn-voltar{flex:0 0 auto;min-width:96px;max-width:34%;min-height:52px;padding:0 18px;border-radius:var(--radius);border:1px solid rgba(255,255,255,.14);background:var(--bg3);color:rgba(255,255,255,.72);font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent;transition:background .15s,color .15s,transform .12s;}
+#screen-exercicio.screen-exercicio--exec-simple .aluno-exec-btn-voltar:active{background:rgba(255,255,255,.08);color:rgba(255,255,255,.88);transform:scale(.98);}
 #screen-exercicio.screen-exercicio--exec-simple .rest-timer-ov svg{display:none;}
 .academia-chip{display:inline-flex;align-items:stretch;gap:0;border-radius:20px;overflow:hidden;border:1px solid var(--border);background:var(--bg3);}
 .academia-chip--on{border-color:rgba(200,240,96,.3);background:rgba(200,240,96,.12);}
@@ -2461,7 +2466,10 @@ select.inp option{background:var(--bg3);}
   <button class="btn-salvar-fixo" onclick="salvarExercicioEVoltarLista()" aria-hidden="true" tabindex="-1">Salvar &#x2713;</button>
   <div id="aluno-exec-footer" class="aluno-exec-footer">
     <div id="aluno-guided-action-bar" class="aluno-guided-action-bar action-bar-v2">
-      <button type="button" id="aluno-guided-btn-primary" class="aluno-guided-btn-primary action-btn-v2"></button>
+      <div class="aluno-exec-footer-actions">
+        <button type="button" id="aluno-guided-btn-primary" class="aluno-guided-btn-primary action-btn-v2"></button>
+        <button type="button" id="aluno-exec-btn-voltar" class="aluno-exec-btn-voltar" onclick="voltarListaTreinoAluno()" aria-label="Voltar para a lista de exerc&#xED;cios">&#x2190; Voltar</button>
+      </div>
       <p id="aluno-guided-action-sub" class="aluno-guided-action-sub"></p>
     </div>
   </div>
