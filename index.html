@@ -1267,6 +1267,17 @@ select.inp option{background:var(--bg3);}
 #screen-editor.prof-editor-shell .prof-tbl-ex-head-tools .prof-tbl-ev-btn{font-size:16px;}
 #screen-editor.prof-editor-shell .prof-tbl-ex-head-tools .prof-tbl-ctx-btn:hover,#screen-editor.prof-editor-shell .prof-tbl-ex-head-tools .prof-tbl-prev-btn:hover{opacity:.9;background:rgba(255,255,255,.06);}
 #screen-editor.prof-editor-shell .prof-tbl-ex-head-tools .prof-tbl-ctx-btn--on{opacity:.92;background:rgba(255,255,255,.05);}
+#screen-editor.prof-editor-shell .prof-tbl-biset-badge{display:inline-flex;align-items:center;flex-shrink:0;padding:1px 6px;border-radius:999px;font-size:9px;font-weight:700;letter-spacing:.03em;color:var(--biset-color,#ED93B1);border:1px solid rgba(237,147,177,.45);background:rgba(237,147,177,.12);white-space:nowrap;}
+#screen-editor.prof-editor-shell .prof-tbl-biset-btn{display:inline-flex;align-items:center;justify-content:center;gap:3px;padding:0 6px;width:auto;min-width:29px;height:29px;font-size:10px;color:rgba(255,255,255,.45);border-radius:6px;background:transparent;}
+#screen-editor.prof-editor-shell .prof-tbl-biset-btn:hover{opacity:.9;background:rgba(255,255,255,.06);}
+#screen-editor.prof-editor-shell .prof-tbl-biset-btn--on{color:var(--biset-color,#ED93B1);background:rgba(237,147,177,.1);}
+#screen-editor.prof-editor-shell .prof-tbl-biset-btn--pending{color:var(--biset-color,#ED93B1);background:rgba(237,147,177,.18);box-shadow:0 0 0 1px rgba(237,147,177,.35);}
+#screen-editor.prof-editor-shell .prof-tbl-biset-ico{font-size:12px;line-height:1;}
+#screen-editor.prof-editor-shell .prof-tbl-biset-lbl{font-size:9px;font-weight:600;letter-spacing:.01em;}
+#screen-editor.prof-editor-shell .prof-tbl-ex-group--biset .prof-tbl-ex-card-body{border-color:rgba(237,147,177,.28);}
+#screen-editor.prof-editor-shell .prof-tbl-ex-group--biset-pending .prof-tbl-ex-card-body{border-color:rgba(237,147,177,.45);box-shadow:0 0 0 1px rgba(237,147,177,.2);}
+#screen-editor.prof-editor-shell .prof-tbl-ex-head-name{display:flex;align-items:center;gap:6px;min-width:0;}
+#screen-editor.prof-editor-shell .prof-tbl-ex-head-name .prof-tbl-ex-ac{flex:1;min-width:0;}
 #screen-editor.prof-editor-shell .prof-tbl-inner-wrap{padding-bottom:16px;}
 #screen-editor.prof-editor-shell .prof-tbl-ex-card-body{--prof-blk-tec:154px;--prof-blk-pres:224px;--prof-blk-rir:108px;--prof-blk-desc:88px;--prof-blk-g-tec-pres:2cm;--prof-blk-g-pres-rir:0.65cm;--prof-blk-g-rir-desc:0.65cm;--prof-blk-g-desc-act:1.4cm;}
 #screen-editor.prof-editor-shell .prof-tbl-ex-group.prof-tbl-ex-card{width:100%;}
@@ -1851,8 +1862,18 @@ select.inp option{background:var(--bg3);}
 #screen-exercicio.screen-exercicio--exec-simple .section-label{display:none!important;}
 .aluno-obs-anterior{display:none;margin:0 0 10px;padding:10px 12px 10px 13px;border-radius:var(--rsm);border:1px solid rgba(240,168,48,.28);border-left:3px solid rgba(240,168,48,.55);background:rgba(240,168,48,.06);}
 .aluno-obs-anterior:not([hidden]){display:block;}
-.aluno-obs-ant-lbl{margin:0 0 6px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);}
-.aluno-obs-ant-txt{margin:0;font-size:13px;line-height:1.5;color:var(--warn);white-space:pre-line;}
+.aluno-obs-ant-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:0;}
+.aluno-obs-ant-lbl{margin:0;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);}
+.aluno-obs-ant-toggle{padding:2px 6px;border:none;border-radius:var(--rsm);background:transparent;color:var(--text3);font-size:11px;font-family:inherit;cursor:pointer;line-height:1.4;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
+.aluno-obs-ant-toggle:active{color:var(--warn);}
+.aluno-obs-ant-preview{margin:6px 0 0;font-size:12px;line-height:1.45;color:var(--warn);opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.aluno-obs-ant-list{margin:8px 0 0;display:flex;flex-direction:column;gap:8px;}
+.aluno-obs-ant-list[hidden]{display:none!important;}
+.aluno-obs-ant-item{position:relative;padding:8px 28px 8px 10px;border-radius:var(--rsm);background:rgba(0,0,0,.12);}
+.aluno-obs-ant-item-meta{margin:0 0 4px;font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;}
+.aluno-obs-ant-item-txt{margin:0;font-size:13px;line-height:1.5;color:var(--warn);white-space:pre-line;word-break:break-word;}
+.aluno-obs-ant-del{position:absolute;top:6px;right:4px;width:24px;height:24px;padding:0;border:none;border-radius:var(--rsm);background:transparent;color:var(--text3);font-size:15px;line-height:1;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.aluno-obs-ant-del:active{color:var(--warn);}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-obs-wrap{margin-top:4px;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-obs-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;}
 #screen-exercicio.screen-exercicio--exec-simple .aluno-exec-obs-head label{margin:0;font-size:11px;color:var(--text3);}
@@ -5538,6 +5559,166 @@ function garantirBlocosEditor(ex){
     ex.blocos=[{tipo:ex.tipo||'Work set',tecnica:ex.tecnica||'work',meta:ex.meta||'',obs:ex.obs||''}];
   }
 }
+
+/**
+ * Modelo de exercício prescrito (editor / Firestore). Campo opcional para bi-set futuro.
+ * Dois exercícios com o mesmo biSetGrupo pertencem ao mesmo par bi-set.
+ * Exercícios legados sem biSetGrupo continuam válidos.
+ *
+ * @typedef {Object} ExercicioPrescrito
+ * @property {string} nome
+ * @property {string} [biSetGrupo] — id do grupo bi-set (ex.: "bs_abc123"); omitido = exercício avulso
+ * @property {string} [tipo]
+ * @property {string} [tecnica]
+ * @property {string} [meta]
+ * @property {string} [obs]
+ * @property {Array<{tipo?:string,tecnica?:string,meta?:string,obs?:string}>} [blocos]
+ * @property {Array<{nome?:string,youtube?:string,imagem?:string,obs?:string}>} [substitutos]
+ */
+
+/** @param {Partial<ExercicioPrescrito>|null|undefined} ex */
+function getBiSetGrupo(ex){
+  return ex&&ex.biSetGrupo!=null?String(ex.biSetGrupo).trim():'';
+}
+
+/** @param {Partial<ExercicioPrescrito>|null|undefined} ex */
+function isBiSetExercicio(ex){
+  return !!getBiSetGrupo(ex);
+}
+
+/** @param {Partial<ExercicioPrescrito>[]} exercicios @param {string} grupoId */
+function getBiSetExerciciosDoGrupo(exercicios,grupoId){
+  const g=((grupoId||'')+'').trim();
+  if(!g||!Array.isArray(exercicios))return[];
+  return exercicios.filter(ex=>getBiSetGrupo(ex)===g);
+}
+
+/** Gera id único para vincular dois exercícios em bi-set (futuro editor). */
+function criarBiSetGrupoId(){
+  return'bs_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+}
+
+/** Índice do exercício aguardando par bi-set no editor (null = nenhum). */
+let profBiSetLinkPendingIdx=null;
+
+function profBiSetNomeEx(exIdx){
+  const ex=editorExercicios[exIdx];
+  const n=ex&&((ex.nome||'')+'').trim();
+  return n||('Exerc\u00edcio '+(exIdx+1));
+}
+
+function profTblBiSetBadgeHtml(exIdx){
+  const ex=editorExercicios[exIdx];
+  if(!isBiSetExercicio(ex))return'';
+  return'<span class="prof-tbl-biset-badge" title="Exerc\u00edcio em bi-set">Bi-set</span>';
+}
+
+function profTblBiSetBtnHtml(exIdx){
+  const ex=editorExercicios[exIdx];
+  const linked=isBiSetExercicio(ex);
+  const pending=profBiSetLinkPendingIdx===exIdx;
+  const tip=linked?'Remover do bi-set':(pending?'Cancelar sele\u00e7\u00e3o bi-set':'Bi-set \u2014 selecionar para vincular');
+  let cls='prof-tbl-prev-btn prof-tbl-biset-btn';
+  if(linked)cls+=' prof-tbl-biset-btn--on';
+  if(pending)cls+=' prof-tbl-biset-btn--pending';
+  return'<button type="button" class="'+cls+'" aria-label="'+esc(tip)+'" title="'+esc(tip)+'" onclick="event.stopPropagation();profBiSetAcao('+exIdx+')">'
+    +'<span class="prof-tbl-biset-ico" aria-hidden="true">\uD83D\uDD17</span><span class="prof-tbl-biset-lbl">Bi-set</span></button>';
+}
+
+function profBiSetRefreshEx(exIdx){
+  profTblRefreshExRows(exIdx);
+}
+
+function profBiSetRefreshUi(){
+  document.querySelectorAll('#ed-exercicios .prof-tbl-ex-group[data-ex]').forEach(function(grp){
+    const exIdx=parseInt(grp.dataset.ex,10);
+    if(isNaN(exIdx))return;
+    const ex=editorExercicios[exIdx];
+    grp.classList.toggle('prof-tbl-ex-group--biset',!!isBiSetExercicio(ex));
+    grp.classList.toggle('prof-tbl-ex-group--biset-pending',profBiSetLinkPendingIdx===exIdx);
+    const badge=grp.querySelector('.prof-tbl-biset-badge');
+    const hasBadge=!!isBiSetExercicio(ex);
+    if(hasBadge&&!badge){
+      const nameEl=grp.querySelector('.prof-tbl-ex-head-name');
+      if(nameEl)nameEl.insertAdjacentHTML('afterbegin',profTblBiSetBadgeHtml(exIdx));
+    }else if(!hasBadge&&badge)badge.remove();
+    const btn=grp.querySelector('.prof-tbl-biset-btn');
+    if(btn){
+      const linked=isBiSetExercicio(ex);
+      const pending=profBiSetLinkPendingIdx===exIdx;
+      const tip=linked?'Remover do bi-set':(pending?'Cancelar sele\u00e7\u00e3o bi-set':'Bi-set \u2014 selecionar para vincular');
+      btn.classList.toggle('prof-tbl-biset-btn--on',linked);
+      btn.classList.toggle('prof-tbl-biset-btn--pending',pending);
+      btn.title=tip;
+      btn.setAttribute('aria-label',tip);
+    }
+  });
+}
+
+function profBiSetCriarVinculo(idxA,idxB){
+  const grupoId=criarBiSetGrupoId();
+  editorExercicios[idxA].biSetGrupo=grupoId;
+  editorExercicios[idxB].biSetGrupo=grupoId;
+  profBiSetRefreshEx(idxA);
+  profBiSetRefreshEx(idxB);
+  profEditorMarkStructDirty();
+  toast('\u2713 Bi-set criado');
+}
+
+function profBiSetRemoverVinculo(exIdx){
+  const ex=editorExercicios[exIdx];
+  if(!ex)return;
+  const grupo=getBiSetGrupo(ex);
+  if(!grupo)return;
+  const noGrupo=getBiSetExerciciosDoGrupo(editorExercicios,grupo);
+  const indices=noGrupo.map(function(e){return editorExercicios.indexOf(e);}).filter(function(i){return i>=0;});
+  delete ex.biSetGrupo;
+  const restantes=noGrupo.filter(function(e){return e!==ex;});
+  if(restantes.length===1)delete restantes[0].biSetGrupo;
+  indices.forEach(profBiSetRefreshEx);
+  if(profBiSetLinkPendingIdx===exIdx)profBiSetLinkPendingIdx=null;
+  profEditorMarkStructDirty();
+  toast('\u2713 Bi-set removido');
+}
+
+function profBiSetOnExRemoved(exIdx){
+  if(profBiSetLinkPendingIdx===exIdx)profBiSetLinkPendingIdx=null;
+  else if(profBiSetLinkPendingIdx!=null&&profBiSetLinkPendingIdx>exIdx)profBiSetLinkPendingIdx--;
+}
+
+window.profBiSetAcao=function(exIdx){
+  profTblCloseCtxPop();
+  profTblClosePreviewPop();
+  const ex=editorExercicios[exIdx];
+  if(!ex)return;
+  if(isBiSetExercicio(ex)){
+    if(confirm('Remover do bi-set?'))profBiSetRemoverVinculo(exIdx);
+    return;
+  }
+  if(profBiSetLinkPendingIdx===exIdx){
+    profBiSetLinkPendingIdx=null;
+    profBiSetRefreshUi();
+    return;
+  }
+  if(profBiSetLinkPendingIdx==null){
+    profBiSetLinkPendingIdx=exIdx;
+    profBiSetRefreshUi();
+    return;
+  }
+  const idxA=profBiSetLinkPendingIdx;
+  const idxB=exIdx;
+  if(idxA===idxB)return;
+  const exB=editorExercicios[idxB];
+  if(exB&&isBiSetExercicio(exB)){
+    toast('Este exerc\u00edcio j\u00e1 est\u00e1 em um bi-set. Remova o v\u00ednculo antes.');
+    return;
+  }
+  const msg='Criar bi-set com esses dois exerc\u00edcios?\n\n\u2022 '+profBiSetNomeEx(idxA)+'\n\u2022 '+profBiSetNomeEx(idxB);
+  if(!confirm(msg))return;
+  profBiSetCriarVinculo(idxA,idxB);
+  profBiSetLinkPendingIdx=null;
+  profBiSetRefreshUi();
+};
 /** Divide meta em prescrições separadas por ` + ` (evita quebrar `4+4+4`). */
 function splitMetaEmPrescricoes(meta,tecnica){
   const s=(meta||'').replace(/\s+/g,' ').trim();
@@ -7144,6 +7325,7 @@ async function abrirExercicio(ex,idx){
   goTo('exercicio');
   resumeRestTimerForEx(idx);
   alunoRestaurarChecksPosRender(idx,ex.nome);
+  alunoObsAnterioresExpanded=false;
   alunoClearObsAnterior();
   carregarHistoricoEx();
 }
@@ -7273,30 +7455,82 @@ window.alunoToggleAnteriorFiltroMenu=function(btn){
   setTimeout(()=>document.addEventListener('click',alunoCloseAnteriorFiltroMenuDoc,true),0);
 };
 
+let alunoObsAnterioresExpanded=false;
+let alunoObsHistoricoAtual=[];
+
+function alunoObsHistoricoFromDocs(allDocs){
+  if(!allDocs||!allDocs.length)return[];
+  return allDocs
+    .map(d=>({docId:d._docId||'',obs:((d.obs||'')+'').trim(),data:d.data}))
+    .filter(o=>o.obs&&o.docId);
+}
+
+function alunoObsResumo(txt,max){
+  const t=((txt||'')+'').trim().replace(/\s+/g,' ');
+  if(!t)return'';
+  const lim=max||72;
+  return t.length>lim?t.slice(0,lim-1)+'\u2026':t;
+}
+
 function alunoClearObsAnterior(){
   const box=$('aluno-obs-anterior');
   if(!box)return;
   box.hidden=true;
   box.innerHTML='';
+  alunoObsHistoricoAtual=[];
 }
 
-function alunoFindUltimaObsHistorico(allDocs){
-  if(!allDocs||!allDocs.length)return'';
-  for(let i=0;i<allDocs.length;i++){
-    const o=((allDocs[i].obs||'')+'').trim();
-    if(o)return o;
-  }
-  return'';
-}
-
-function alunoRenderObsAnterior(txt){
+function alunoRenderObsAnteriores(list){
   const box=$('aluno-obs-anterior');
   if(!box)return;
-  const t=((txt||'')+'').trim();
-  if(!t){alunoClearObsAnterior();return;}
+  alunoObsHistoricoAtual=Array.isArray(list)?list:[];
+  if(!alunoObsHistoricoAtual.length){alunoClearObsAnterior();return;}
   box.hidden=false;
-  box.innerHTML='<div class="aluno-obs-ant-lbl">Observa\u00E7\u00E3o anterior</div><div class="aluno-obs-ant-txt">'+esc(t).replace(/\n/g,'<br>')+'</div>';
+  const ultima=alunoObsHistoricoAtual[0];
+  const preview=alunoObsResumo(ultima.obs);
+  const toggleLbl=alunoObsAnterioresExpanded?'recolher':'expandir';
+  let html='<div class="aluno-obs-ant-head">'
+    +'<span class="aluno-obs-ant-lbl">Observa\u00e7\u00f5es anteriores</span>'
+    +'<button type="button" class="aluno-obs-ant-toggle" onclick="alunoToggleObsAnteriores()" aria-expanded="'+alunoObsAnterioresExpanded+'">'+toggleLbl+'</button>'
+    +'</div>';
+  if(!alunoObsAnterioresExpanded&&preview){
+    html+='<p class="aluno-obs-ant-preview">'+esc(preview)+'</p>';
+  }
+  html+='<div class="aluno-obs-ant-list"'+(alunoObsAnterioresExpanded?'':' hidden')+'>';
+  alunoObsHistoricoAtual.forEach(o=>{
+    html+='<div class="aluno-obs-ant-item">'
+      +'<p class="aluno-obs-ant-item-meta">'+esc(fmtDate(o.data))+'</p>'
+      +'<p class="aluno-obs-ant-item-txt">'+esc(o.obs).replace(/\n/g,'<br>')+'</p>'
+      +'<button type="button" class="aluno-obs-ant-del" onclick="alunoExcluirObsHistorico(\''+escJs(o.docId)+'\')" aria-label="Excluir observa\u00e7\u00e3o" title="Excluir">\u00d7</button>'
+      +'</div>';
+  });
+  html+='</div>';
+  box.innerHTML=html;
 }
+
+window.alunoToggleObsAnteriores=function(){
+  alunoObsAnterioresExpanded=!alunoObsAnterioresExpanded;
+  alunoRenderObsAnteriores(alunoObsHistoricoAtual);
+};
+
+window.alunoExcluirObsHistorico=async function(docId){
+  if(!docId||!me||!me.email)return;
+  if(!confirm('Excluir esta observa\u00e7\u00e3o?'))return;
+  try{
+    await updateDoc(doc(db,'alunos',me.email,'historico',docId),{obs:''});
+    alunoObsHistoricoAtual=alunoObsHistoricoAtual.filter(o=>o.docId!==docId);
+    if(!alunoObsHistoricoAtual.length){
+      alunoObsAnterioresExpanded=false;
+      alunoClearObsAnterior();
+    }else{
+      alunoRenderObsAnteriores(alunoObsHistoricoAtual);
+    }
+    toast('\u2713 Observa\u00e7\u00e3o exclu\u00edda');
+  }catch(e){
+    console.error('alunoExcluirObsHistorico:',e);
+    toast('\u274C Erro ao excluir observa\u00e7\u00e3o');
+  }
+};
 
 // Carrega histórico do exercício; coluna Anterior usa alunoAnteriorFiltroEfetivo (pill / default sessão)
 // Chamada ao abrir exercício e ao mudar o filtro de referência
@@ -7311,8 +7545,8 @@ async function carregarHistoricoEx(){
     const hQ=query(collection(db,'alunos',me.email,'historico'),where('exercicioNome','==',exAtual.nome),limit(80));
     const hS=await getDocs(hQ);
     if(!hS.empty){
-      const allDocs=hS.docs.map(d=>d.data()).filter(d=>d.data).sort((a,b)=>(b.data.seconds||0)-(a.data.seconds||0));
-      alunoRenderObsAnterior(alunoFindUltimaObsHistorico(allDocs));
+      const allDocs=hS.docs.map(d=>({...d.data(),_docId:d.id})).filter(d=>d.data).sort((a,b)=>(b.data.seconds||0)-(a.data.seconds||0));
+      alunoRenderObsAnteriores(alunoObsHistoricoFromDocs(allDocs));
       const nomeKey=n=>((n||'')+'').trim().toLowerCase();
       const arqSet=new Set(academiasArquivadasRead().map(academiaNomeKey));
       const unidadesMap=new Map();
@@ -11972,7 +12206,8 @@ function profTblBancoFilter(query,limit){
 function profTblExComboHtml(r){
   const v=((r.exercicio||'')+'').trim();
   const ev=esc(v);
-  return'<div class="prof-tbl-ex-ac" data-ex="'+r.exIdx+'">'
+  return profTblBiSetBadgeHtml(r.exIdx)
+    +'<div class="prof-tbl-ex-ac" data-ex="'+r.exIdx+'">'
     +'<input type="text" class="prof-tbl-ex-inp" value="'+ev+'" data-committed="'+ev+'" autocomplete="off" spellcheck="false"'
     +' data-ex="'+r.exIdx+'" aria-label="Exerc\u00edcio" aria-expanded="false" aria-autocomplete="list" role="combobox">'
     +'<ul class="prof-tbl-ac-list" role="listbox" hidden></ul></div>';
@@ -12710,6 +12945,7 @@ function profTblExHeadHtml(exIdx,headR,headBi){
     +'<div class="prof-tbl-ex-head-tools">'
     +profTblExHeadCtxHtml(headR)
     +'<div class="prof-tbl-ex-head-act">'
+    +profTblBiSetBtnHtml(exIdx)
     +'<button type="button" class="prof-tbl-prev-btn prof-tbl-ev-btn" data-ex-idx="'+exIdx+'" aria-label="Evolu\u00e7\u00e3o do exerc\u00edcio" title="Evolu\u00e7\u00e3o" onclick="event.stopPropagation();profEvDrawerOpen('+exIdx+')">\uD83D\uDCC8</button>'
     +'<button type="button" class="prof-tbl-prev-btn" aria-label="Ver preview do exerc\u00edcio" title="Preview aluno (exerc\u00edcio completo)" onclick="event.stopPropagation();profTblPreviewLinha('+exIdx+',-1,this)">\uD83D\uDC41</button>'
     +'<button type="button" class="prof-tbl-prev-btn prof-tbl-ex-del-btn" aria-label="Remover exerc\u00edcio" title="Remover exerc\u00edcio" onclick="event.stopPropagation();profTblDeleteExercicio('+exIdx+')">\u2715</button>'
@@ -12722,7 +12958,10 @@ function profTblExGroupHtml(exIdx,groupRows){
   var headBi=groupRows[0]?(groupRows[0].bi|0):0;
   var headR={exIdx:exIdx,bi:headBi,li:0,exercicio:nome,exShowNome:true};
   var blocks=groupRows.map(profTblBlockRowHtml).join('');
-  return'<div class="prof-tbl-ex-group prof-tbl-ex-card'+alt+'" data-ex="'+exIdx+'">'
+  var bisetCls='';
+  if(ex&&isBiSetExercicio(ex))bisetCls+=' prof-tbl-ex-group--biset';
+  if(profBiSetLinkPendingIdx===exIdx)bisetCls+=' prof-tbl-ex-group--biset-pending';
+  return'<div class="prof-tbl-ex-group prof-tbl-ex-card'+alt+bisetCls+'" data-ex="'+exIdx+'">'
     +'<div class="prof-tbl-ex-side">'
     +'<button type="button" class="prof-tbl-drag-handle" draggable="true" data-ex="'+exIdx+'" aria-label="Reordenar exerc\u00edcio" title="Arrastar para reordenar"><span class="prof-tbl-drag-dots" aria-hidden="true">\u22ee\u22ee</span></button>'
     +'</div>'
@@ -13672,7 +13911,14 @@ function profTblDeleteExercicio(exIdx){
   profTblCloseCtxPop();
   profTblClosePreviewPop();
   if(!confirm('Remover exerc\u00edcio?'))return;
+  const ex=editorExercicios[exIdx];
+  if(ex&&isBiSetExercicio(ex)){
+    const grupo=getBiSetGrupo(ex);
+    const outros=getBiSetExerciciosDoGrupo(editorExercicios,grupo).filter(function(e){return e!==ex;});
+    if(outros.length===1)delete outros[0].biSetGrupo;
+  }
   editorExercicios.splice(exIdx,1);
+  profBiSetOnExRemoved(exIdx);
   profEvDrawerOnExRemoved(exIdx);
   renderEditorTabelaReadOnly();
 }
