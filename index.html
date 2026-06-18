@@ -1267,15 +1267,33 @@ select.inp option{background:var(--bg3);}
 #screen-editor.prof-editor-shell .prof-tbl-ex-head-tools .prof-tbl-ev-btn{font-size:16px;}
 #screen-editor.prof-editor-shell .prof-tbl-ex-head-tools .prof-tbl-ctx-btn:hover,#screen-editor.prof-editor-shell .prof-tbl-ex-head-tools .prof-tbl-prev-btn:hover{opacity:.9;background:rgba(255,255,255,.06);}
 #screen-editor.prof-editor-shell .prof-tbl-ex-head-tools .prof-tbl-ctx-btn--on{opacity:.92;background:rgba(255,255,255,.05);}
-#screen-editor.prof-editor-shell .prof-tbl-biset-badge{display:inline-flex;align-items:center;flex-shrink:0;padding:1px 6px;border-radius:999px;font-size:9px;font-weight:700;letter-spacing:.03em;color:var(--biset-color,#ED93B1);border:1px solid rgba(237,147,177,.45);background:rgba(237,147,177,.12);white-space:nowrap;}
+#screen-editor.prof-editor-shell .prof-tbl-biset-badge{display:inline-flex;align-items:center;gap:3px;flex-shrink:0;padding:2px 7px;border-radius:999px;font-size:9px;font-weight:700;letter-spacing:.03em;color:var(--biset-color,#ED93B1);border:1px solid rgba(237,147,177,.5);background:rgba(237,147,177,.14);white-space:nowrap;}
+#screen-editor.prof-editor-shell .prof-tbl-biset-badge-ico{font-size:10px;line-height:1;opacity:.9;}
 #screen-editor.prof-editor-shell .prof-tbl-biset-btn{display:inline-flex;align-items:center;justify-content:center;gap:3px;padding:0 6px;width:auto;min-width:29px;height:29px;font-size:10px;color:rgba(255,255,255,.45);border-radius:6px;background:transparent;}
 #screen-editor.prof-editor-shell .prof-tbl-biset-btn:hover{opacity:.9;background:rgba(255,255,255,.06);}
 #screen-editor.prof-editor-shell .prof-tbl-biset-btn--on{color:var(--biset-color,#ED93B1);background:rgba(237,147,177,.1);}
 #screen-editor.prof-editor-shell .prof-tbl-biset-btn--pending{color:var(--biset-color,#ED93B1);background:rgba(237,147,177,.18);box-shadow:0 0 0 1px rgba(237,147,177,.35);}
 #screen-editor.prof-editor-shell .prof-tbl-biset-ico{font-size:12px;line-height:1;}
 #screen-editor.prof-editor-shell .prof-tbl-biset-lbl{font-size:9px;font-weight:600;letter-spacing:.01em;}
-#screen-editor.prof-editor-shell .prof-tbl-ex-group--biset .prof-tbl-ex-card-body{border-color:rgba(237,147,177,.28);}
-#screen-editor.prof-editor-shell .prof-tbl-ex-group--biset-pending .prof-tbl-ex-card-body{border-color:rgba(237,147,177,.45);box-shadow:0 0 0 1px rgba(237,147,177,.2);}
+#screen-editor.prof-editor-shell .prof-tbl-biset-wrap{margin:6px 0 14px;padding:10px 12px 12px;border-radius:14px;border:1px solid rgba(237,147,177,.24);background:linear-gradient(180deg,rgba(237,147,177,.07) 0%,rgba(237,147,177,.02) 100%);box-shadow:inset 0 1px 0 rgba(237,147,177,.1);}
+#screen-editor.prof-editor-shell .prof-tbl-biset-wrap .prof-tbl-ex-group{margin:0;}
+#screen-editor.prof-editor-shell .prof-tbl-biset-wrap .prof-tbl-ex-group+.prof-tbl-ex-group{margin-top:0;}
+#screen-editor.prof-editor-shell .prof-tbl-ex-group--biset .prof-tbl-ex-card-body{border-color:rgba(237,147,177,.38);border-left:3px solid var(--biset-color,#ED93B1);background:linear-gradient(135deg,rgba(237,147,177,.09) 0%,#1c1c1c 48%);box-shadow:0 0 0 1px rgba(237,147,177,.08);}
+#screen-editor.prof-editor-shell .prof-tbl-ex-group--biset.prof-tbl-ex-group--alt .prof-tbl-ex-card-body{background:linear-gradient(135deg,rgba(237,147,177,.09) 0%,#202020 48%);}
+#screen-editor.prof-editor-shell .prof-tbl-ex-group--biset-first .prof-tbl-ex-card-body{border-bottom-left-radius:6px;border-bottom-right-radius:6px;}
+#screen-editor.prof-editor-shell .prof-tbl-ex-group--biset-second .prof-tbl-ex-card-body{border-top-left-radius:6px;border-top-right-radius:6px;}
+#screen-editor.prof-editor-shell .prof-tbl-ex-group--biset-pending .prof-tbl-ex-card-body{border-color:rgba(237,147,177,.5);box-shadow:0 0 0 1px rgba(237,147,177,.24);}
+#screen-editor.prof-editor-shell .prof-tbl-biset-bridge{display:flex;align-items:center;gap:10px;margin:6px 0;padding:0 8px;}
+#screen-editor.prof-editor-shell .prof-tbl-biset-bridge-line{flex:1;height:1px;background:var(--biset-color,#ED93B1);opacity:.32;}
+#screen-editor.prof-editor-shell .prof-tbl-biset-bridge-pill{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 12px;border-radius:999px;border:1px solid rgba(237,147,177,.42);background:rgba(237,147,177,.12);text-align:center;white-space:nowrap;}
+#screen-editor.prof-editor-shell .prof-tbl-biset-bridge-ico{font-size:12px;line-height:1;}
+#screen-editor.prof-editor-shell .prof-tbl-biset-bridge-tit{font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--biset-color,#ED93B1);}
+#screen-editor.prof-editor-shell .prof-tbl-biset-bridge-sub{font-size:9px;font-weight:500;color:rgba(255,255,255,.48);letter-spacing:.01em;}
+#screen-editor.prof-editor-shell .prof-tbl-biset-callout{display:flex;align-items:flex-start;gap:8px;margin:0 var(--prof-card-inset-x,1cm) 8px;padding:8px 10px;border-radius:8px;background:rgba(237,147,177,.1);border:1px solid rgba(237,147,177,.28);}
+#screen-editor.prof-editor-shell .prof-tbl-biset-callout-ico{flex-shrink:0;font-size:13px;line-height:1.2;opacity:.9;}
+#screen-editor.prof-editor-shell .prof-tbl-biset-callout-body{display:flex;flex-direction:column;gap:2px;min-width:0;}
+#screen-editor.prof-editor-shell .prof-tbl-biset-callout-tit{font-size:11px;font-weight:700;letter-spacing:.03em;color:var(--biset-color,#ED93B1);}
+#screen-editor.prof-editor-shell .prof-tbl-biset-callout-sub{font-size:10px;line-height:1.35;color:rgba(255,255,255,.52);}
 #screen-editor.prof-editor-shell .prof-tbl-ex-head-name{display:flex;align-items:center;gap:6px;min-width:0;}
 #screen-editor.prof-editor-shell .prof-tbl-ex-head-name .prof-tbl-ex-ac{flex:1;min-width:0;}
 #screen-editor.prof-editor-shell .prof-tbl-inner-wrap{padding-bottom:16px;}
@@ -5607,10 +5625,52 @@ function profBiSetNomeEx(exIdx){
   return n||('Exerc\u00edcio '+(exIdx+1));
 }
 
+function profBiSetParIdx(exIdx){
+  const ex=editorExercicios[exIdx];
+  if(!ex||!isBiSetExercicio(ex))return-1;
+  const noGrupo=getBiSetExerciciosDoGrupo(editorExercicios,getBiSetGrupo(ex));
+  const par=noGrupo.find(function(e){return e!==ex;});
+  return par?editorExercicios.indexOf(par):-1;
+}
+
+function profTblBiSetVisualContext(exIdx,order,orderPos){
+  const ex=editorExercicios[exIdx];
+  if(!ex||!isBiSetExercicio(ex))return null;
+  const parIdx=profBiSetParIdx(exIdx);
+  const pos=orderPos!=null?orderPos:(order?order.indexOf(exIdx):-1);
+  const parPos=parIdx>=0&&order?order.indexOf(parIdx):-1;
+  const adjacentBelow=parPos===pos+1;
+  const adjacentAbove=parPos===pos-1;
+  return{parIdx,adjacentBelow,adjacentAbove,showCallout:!(adjacentBelow||adjacentAbove)};
+}
+
+function profTblBiSetBridgeHtml(){
+  return'<div class="prof-tbl-biset-bridge" role="note" aria-label="Bi-set">'
+    +'<div class="prof-tbl-biset-bridge-line" aria-hidden="true"></div>'
+    +'<div class="prof-tbl-biset-bridge-pill">'
+    +'<span class="prof-tbl-biset-bridge-ico" aria-hidden="true">\uD83D\uDD17</span>'
+    +'<span class="prof-tbl-biset-bridge-tit">Bi-set</span>'
+    +'<span class="prof-tbl-biset-bridge-sub">Fa\u00e7a os dois em sequ\u00eancia</span>'
+    +'</div>'
+    +'<div class="prof-tbl-biset-bridge-line" aria-hidden="true"></div>'
+    +'</div>';
+}
+
+function profTblBiSetCalloutHtml(exIdx,vis){
+  const parIdx=vis&&vis.parIdx>=0?vis.parIdx:profBiSetParIdx(exIdx);
+  const sub=parIdx>=0?('Com: '+profBiSetNomeEx(parIdx)):'Fa\u00e7a os dois em sequ\u00eancia';
+  return'<div class="prof-tbl-biset-callout" role="note">'
+    +'<span class="prof-tbl-biset-callout-ico" aria-hidden="true">\uD83D\uDD17</span>'
+    +'<span class="prof-tbl-biset-callout-body">'
+    +'<strong class="prof-tbl-biset-callout-tit">Bi-set</strong>'
+    +'<span class="prof-tbl-biset-callout-sub">'+esc(sub)+'</span>'
+    +'</span></div>';
+}
+
 function profTblBiSetBadgeHtml(exIdx){
   const ex=editorExercicios[exIdx];
   if(!isBiSetExercicio(ex))return'';
-  return'<span class="prof-tbl-biset-badge" title="Exerc\u00edcio em bi-set">Bi-set</span>';
+  return'<span class="prof-tbl-biset-badge" title="Exerc\u00edcio em bi-set"><span class="prof-tbl-biset-badge-ico" aria-hidden="true">\uD83D\uDD17</span>Bi-set</span>';
 }
 
 function profTblBiSetBtnHtml(exIdx){
@@ -5626,7 +5686,7 @@ function profTblBiSetBtnHtml(exIdx){
 }
 
 function profBiSetRefreshEx(exIdx){
-  profTblRefreshExRows(exIdx);
+  renderEditorTabelaReadOnly();
 }
 
 function profBiSetRefreshUi(){
@@ -5659,8 +5719,7 @@ function profBiSetCriarVinculo(idxA,idxB){
   const grupoId=criarBiSetGrupoId();
   editorExercicios[idxA].biSetGrupo=grupoId;
   editorExercicios[idxB].biSetGrupo=grupoId;
-  profBiSetRefreshEx(idxA);
-  profBiSetRefreshEx(idxB);
+  renderEditorTabelaReadOnly();
   profEditorMarkStructDirty();
   toast('\u2713 Bi-set criado');
 }
@@ -5671,12 +5730,11 @@ function profBiSetRemoverVinculo(exIdx){
   const grupo=getBiSetGrupo(ex);
   if(!grupo)return;
   const noGrupo=getBiSetExerciciosDoGrupo(editorExercicios,grupo);
-  const indices=noGrupo.map(function(e){return editorExercicios.indexOf(e);}).filter(function(i){return i>=0;});
   delete ex.biSetGrupo;
   const restantes=noGrupo.filter(function(e){return e!==ex;});
   if(restantes.length===1)delete restantes[0].biSetGrupo;
-  indices.forEach(profBiSetRefreshEx);
   if(profBiSetLinkPendingIdx===exIdx)profBiSetLinkPendingIdx=null;
+  renderEditorTabelaReadOnly();
   profEditorMarkStructDirty();
   toast('\u2713 Bi-set removido');
 }
@@ -12951,21 +13009,26 @@ function profTblExHeadHtml(exIdx,headR,headBi){
     +'<button type="button" class="prof-tbl-prev-btn prof-tbl-ex-del-btn" aria-label="Remover exerc\u00edcio" title="Remover exerc\u00edcio" onclick="event.stopPropagation();profTblDeleteExercicio('+exIdx+')">\u2715</button>'
     +'</div></div></div></div>';
 }
-function profTblExGroupHtml(exIdx,groupRows){
+function profTblExGroupHtml(exIdx,groupRows,bisetVis){
   var alt=(exIdx|0)%2===1?' prof-tbl-ex-group--alt':'';
   var ex=editorExercicios[exIdx];
   var nome=((ex&&ex.nome)||(groupRows[0]&&groupRows[0].exercicio)||'').trim();
   var headBi=groupRows[0]?(groupRows[0].bi|0):0;
   var headR={exIdx:exIdx,bi:headBi,li:0,exercicio:nome,exShowNome:true};
   var blocks=groupRows.map(profTblBlockRowHtml).join('');
+  var vis=bisetVis!=null?bisetVis:profTblBiSetVisualContext(exIdx);
   var bisetCls='';
   if(ex&&isBiSetExercicio(ex))bisetCls+=' prof-tbl-ex-group--biset';
   if(profBiSetLinkPendingIdx===exIdx)bisetCls+=' prof-tbl-ex-group--biset-pending';
-  return'<div class="prof-tbl-ex-group prof-tbl-ex-card'+alt+bisetCls+'" data-ex="'+exIdx+'">'
+  if(vis&&vis.adjacentBelow)bisetCls+=' prof-tbl-ex-group--biset-first';
+  if(vis&&vis.adjacentAbove)bisetCls+=' prof-tbl-ex-group--biset-second';
+  var callout=vis&&vis.showCallout?profTblBiSetCalloutHtml(exIdx,vis):'';
+  return'<div class="prof-tbl-ex-group prof-tbl-ex-card'+alt+bisetCls+'" data-ex="'+exIdx+'"'+((vis&&getBiSetGrupo(ex))?' data-biset-grupo="'+esc(getBiSetGrupo(ex))+'"':'')+'>'
     +'<div class="prof-tbl-ex-side">'
     +'<button type="button" class="prof-tbl-drag-handle" draggable="true" data-ex="'+exIdx+'" aria-label="Reordenar exerc\u00edcio" title="Arrastar para reordenar"><span class="prof-tbl-drag-dots" aria-hidden="true">\u22ee\u22ee</span></button>'
     +'</div>'
     +'<div class="prof-tbl-ex-card-body">'
+    +callout
     +profTblExHeadHtml(exIdx,headR,headBi)
     +'<div class="prof-tbl-inner-wrap">'
     +'<div class="prof-tbl-blocks" role="group" aria-label="Blocos do exerc\u00edcio">'
@@ -12989,7 +13052,25 @@ function profTblRowsToHtml(rows){
     if(!groups[r.exIdx]){groups[r.exIdx]=[];order.push(r.exIdx);}
     groups[r.exIdx].push(r);
   });
-  return order.map(function(exIdx){return profTblExGroupHtml(exIdx,groups[exIdx]);}).join('');
+  var out=[];
+  for(var i=0;i<order.length;i++){
+    var exIdx=order[i];
+    var vis=profTblBiSetVisualContext(exIdx,order,i);
+    if(vis&&vis.adjacentAbove)continue;
+    if(vis&&vis.adjacentBelow){
+      var exIdx2=order[i+1];
+      var vis2=profTblBiSetVisualContext(exIdx2,order,i+1);
+      out.push('<div class="prof-tbl-biset-wrap" data-biset-grupo="'+esc(getBiSetGrupo(editorExercicios[exIdx]))+'">'
+        +profTblExGroupHtml(exIdx,groups[exIdx],vis)
+        +profTblBiSetBridgeHtml()
+        +profTblExGroupHtml(exIdx2,groups[exIdx2],vis2)
+        +'</div>');
+      i++;
+    }else{
+      out.push(profTblExGroupHtml(exIdx,groups[exIdx],vis));
+    }
+  }
+  return out.join('');
 }
 function profTblAddBloco(exIdx){
   profTblCloseCtxPop();
