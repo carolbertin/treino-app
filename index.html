@@ -364,6 +364,23 @@ select.inp option{background:var(--bg3);}
 .ex-info{flex:1;min-width:0;}
 .ex-nome{font-size:15px;font-weight:500;}
 .ex-meta{font-size:12px;color:var(--text2);margin-top:2px;}
+.aluno-biset-wrap{margin-bottom:12px;padding:12px 14px 10px;border-radius:var(--radius);border:1px solid rgba(237,147,177,.32);background:linear-gradient(180deg,rgba(237,147,177,.1) 0%,rgba(237,147,177,.03) 100%);box-shadow:inset 0 1px 0 rgba(237,147,177,.1);}
+.aluno-biset-hd{margin:0 0 10px;text-align:center;}
+.aluno-biset-hd-tit{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--biset-color,#ED93B1);}
+.aluno-biset-hd-ico{font-size:13px;line-height:1;}
+.aluno-biset-hd-sub{display:block;margin-top:4px;font-size:11px;font-weight:500;line-height:1.4;color:rgba(255,255,255,.5);}
+.aluno-biset-wrap .ex-item{margin-bottom:8px;border-color:rgba(237,147,177,.22);background:rgba(237,147,177,.05);}
+.aluno-biset-wrap .ex-item:last-child{margin-bottom:0;}
+.aluno-biset-wrap .ex-item:hover{border-color:rgba(237,147,177,.45);background:rgba(237,147,177,.1);}
+.aluno-biset-wrap .planilha-row{border-color:rgba(237,147,177,.12);}
+.aluno-biset-wrap .planilha-row:last-child{border-bottom:none;}
+.aluno-biset-tag{display:inline-block;margin-top:4px;font-size:11px;font-weight:500;line-height:1.35;color:var(--biset-color,#ED93B1);opacity:.92;}
+.ex-item--biset{border-color:rgba(237,147,177,.24);}
+.ex-item--biset:hover{border-color:rgba(237,147,177,.42);}
+.planilha-row--biset{background:rgba(237,147,177,.04);}
+.planilha-row--biset:hover{background:rgba(237,147,177,.08);}
+.aluno-ex-biset-badge{display:inline-flex;align-items:center;gap:5px;margin:0 0 8px;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:600;color:var(--biset-color,#ED93B1);border:1px solid rgba(237,147,177,.38);background:rgba(237,147,177,.1);}
+.aluno-ex-biset-badge-ico{font-size:12px;line-height:1;}
 .planilha-view{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px;}
 .planilha-header{display:grid;grid-template-columns:28px 1fr 90px 80px;gap:0;background:var(--bg3);padding:8px 12px;border-bottom:1px solid var(--border);}
 .planilha-header span{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;}
@@ -2561,6 +2578,7 @@ select.inp option{background:var(--bg3);}
       <div class="presc-meta-discreta" id="aluno-exec-meta-discreta"></div>
     </div>
     <header id="aluno-ex-header" class="aluno-ex-header">
+      <div id="aluno-ex-biset-badge-wrap"></div>
       <h2 class="aluno-ex-header-name" id="aluno-ex-header-name"></h2>
       <p class="aluno-ex-header-presc" id="aluno-ex-header-presc"></p>
       <div class="aluno-ex-header-actions" id="aluno-ex-header-actions"></div>
@@ -5616,6 +5634,52 @@ function criarBiSetGrupoId(){
   return'bs_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 }
 
+/** Índice do parceiro bi-set na lista do treino (aluno). */
+function alunoBiSetParIdx(idx,exercicios){
+  const list=exercicios||(treinoAtual&&treinoAtual.exercicios)||[];
+  const ex=list[idx];
+  if(!ex||!isBiSetExercicio(ex))return-1;
+  const noGrupo=getBiSetExerciciosDoGrupo(list,getBiSetGrupo(ex));
+  const par=noGrupo.find(function(e){return e!==ex;});
+  return par?list.indexOf(par):-1;
+}
+
+function alunoBiSetVisualContext(idx,exercicios){
+  const list=exercicios||(treinoAtual&&treinoAtual.exercicios)||[];
+  const ex=list[idx];
+  if(!ex||!isBiSetExercicio(ex))return null;
+  const parIdx=alunoBiSetParIdx(idx,list);
+  const adjacentBelow=parIdx===idx+1;
+  const adjacentAbove=parIdx===idx-1;
+  return{parIdx,adjacentBelow,adjacentAbove,showTag:!(adjacentBelow||adjacentAbove)};
+}
+
+function alunoBiSetParNome(idx,exercicios){
+  const parIdx=alunoBiSetParIdx(idx,exercicios);
+  if(parIdx<0)return'';
+  const list=exercicios||(treinoAtual&&treinoAtual.exercicios)||[];
+  return((list[parIdx]&&list[parIdx].nome)||'').trim();
+}
+
+function alunoBiSetHdrHtml(){
+  return'<div class="aluno-biset-hd" role="note">'
+    +'<div class="aluno-biset-hd-tit"><span class="aluno-biset-hd-ico" aria-hidden="true">\uD83D\uDD17</span>BI-SET</div>'
+    +'<span class="aluno-biset-hd-sub">Fa\u00e7a os dois em sequ\u00eancia.<br>Descanse ap\u00f3s o segundo.</span>'
+    +'</div>';
+}
+
+function alunoBiSetTagHtml(idx,exercicios){
+  const nome=alunoBiSetParNome(idx,exercicios);
+  if(!nome)return'';
+  return'<div class="aluno-biset-tag">Bi-set com: '+esc(nome)+'</div>';
+}
+
+function alunoExBiSetBadgeHtml(idx){
+  const nome=alunoBiSetParNome(idx);
+  if(!nome)return'';
+  return'<div class="aluno-ex-biset-badge" role="note"><span class="aluno-ex-biset-badge-ico" aria-hidden="true">\uD83D\uDD17</span>Bi-set com '+esc(nome)+'</div>';
+}
+
 /** Índice do exercício aguardando par bi-set no editor (null = nenhum). */
 let profBiSetLinkPendingIdx=null;
 
@@ -7146,46 +7210,87 @@ function renderListaEx(){
   const exercicios=treinoAtual.exercicios||[];
   if(!exercicios.length){lista.innerHTML='<div class="empty"><div class="empty-icon">\uD83D\uDCCB</div><div class="empty-text">Nenhum exerc\xEDcio</div></div>';return;}
   if(viewDetalhado){
-    exercicios.forEach((ex,i)=>{
-      const feito=alunoExercicioListaConcluido(ex,i);
-      const temSubst=(ex.substitutos||[]).filter(s=>s.nome).length>0;
-      const timerLbl=restTimerExIdx===i?alunoRestTimerListaLabel():null;
-      const el=document.createElement('div');el.className='ex-item'+(feito?' done':'');
-      el.innerHTML='<div class="ex-num">'+(feito?'\u2713':(i+1))+'</div>'
-        +'<div class="ex-info">'
-          +'<div class="ex-nome">'+esc(ex.nome)+'</div>'
-          +(timerLbl?'<div class="ex-timer-ativo">'+esc(timerLbl)+'</div>':'')
-          +(temSubst?'<div class="ex-subst-link" data-idx="'+i+'">\u21B3 Ver substituto</div>':'')
-        +'</div>'
-        +'<span style="color:var(--text3);font-size:20px;flex-shrink:0;">\u203A</span>';
-      el.addEventListener('click',e=>{
-        // Clique no badge de substituto abre modal sem entrar no exercício
-        if(e.target.classList.contains('ex-subst-link')){
-          e.stopPropagation();
-          verSubstituto(parseInt(e.target.dataset.idx));
-          return;
-        }
-        abrirExercicio(ex,i);
-      });
-      lista.appendChild(el);
-    });
+    for(var i=0;i<exercicios.length;i++){
+      var vis=alunoBiSetVisualContext(i,exercicios);
+      if(vis&&vis.adjacentAbove)continue;
+      if(vis&&vis.adjacentBelow){
+        var wrap=document.createElement('div');
+        wrap.className='aluno-biset-wrap';
+        wrap.innerHTML=alunoBiSetHdrHtml();
+        wrap.appendChild(alunoRenderExItemEl(exercicios,i));
+        wrap.appendChild(alunoRenderExItemEl(exercicios,i+1));
+        lista.appendChild(wrap);
+        i++;
+      }else{
+        lista.appendChild(alunoRenderExItemEl(exercicios,i));
+      }
+    }
   } else {
     const wrap=document.createElement('div');wrap.className='planilha-view';
     wrap.innerHTML='<div class="planilha-header"><span>#</span><span>Exerc\xEDcio</span><span>Tipo</span><span>S\xE9ries</span></div>';
-    exercicios.forEach((ex,i)=>{
-      const feito=alunoExercicioListaConcluido(ex,i);
-      const row=document.createElement('div');row.className='planilha-row'+(feito?' done':'');
-      const blPl=normalizarExercicio(ex);
-      const tipoPl=blPl.length>1
-        ?(blPl.length+' etapas')
-        :alunoCopyBloco(blPl[0]||{tipo:ex.tipo,tecnica:ex.tecnica,meta:ex.meta||'',obs:ex.obs||''},{blocoIndex:0,totalBlocos:Math.max(1,blPl.length)}).tituloAluno;
-      const timerLbl=restTimerExIdx===i?alunoRestTimerListaLabel():null;
-      row.innerHTML='<div class="planilha-num">'+(feito?'\u2713':(i+1))+'</div><div class="planilha-nome">'+esc(ex.nome)+(timerLbl?'<div class="ex-timer-ativo">'+esc(timerLbl)+'</div>':'')+'</div><div class="planilha-tipo">'+esc(tipoPl)+'</div><div class="planilha-meta">'+esc(textoMetaListaAlunoSimples(ex))+'</div>';
-      row.addEventListener('click',()=>abrirExercicio(ex,i));wrap.appendChild(row);
-    });
+    for(var j=0;j<exercicios.length;j++){
+      var visP=alunoBiSetVisualContext(j,exercicios);
+      if(visP&&visP.adjacentAbove)continue;
+      if(visP&&visP.adjacentBelow){
+        var bisetWrap=document.createElement('div');
+        bisetWrap.className='aluno-biset-wrap';
+        bisetWrap.innerHTML=alunoBiSetHdrHtml();
+        bisetWrap.appendChild(alunoRenderPlanilhaRowEl(exercicios,j));
+        bisetWrap.appendChild(alunoRenderPlanilhaRowEl(exercicios,j+1));
+        wrap.appendChild(bisetWrap);
+        j++;
+      }else{
+        wrap.appendChild(alunoRenderPlanilhaRowEl(exercicios,j));
+      }
+    }
     lista.appendChild(wrap);
   }
   alunoListaTimerTickStart();
+}
+
+function alunoRenderExItemEl(exercicios,i){
+  const ex=exercicios[i];
+  const feito=alunoExercicioListaConcluido(ex,i);
+  const temSubst=(ex.substitutos||[]).filter(s=>s.nome).length>0;
+  const timerLbl=restTimerExIdx===i?alunoRestTimerListaLabel():null;
+  const vis=alunoBiSetVisualContext(i,exercicios);
+  const el=document.createElement('div');
+  el.className='ex-item'+(feito?' done':'')+(vis&&vis.showTag?' ex-item--biset':'');
+  el.innerHTML='<div class="ex-num">'+(feito?'\u2713':(i+1))+'</div>'
+    +'<div class="ex-info">'
+      +'<div class="ex-nome">'+esc(ex.nome)+'</div>'
+      +(vis&&vis.showTag?alunoBiSetTagHtml(i,exercicios):'')
+      +(timerLbl?'<div class="ex-timer-ativo">'+esc(timerLbl)+'</div>':'')
+      +(temSubst?'<div class="ex-subst-link" data-idx="'+i+'">\u21B3 Ver substituto</div>':'')
+    +'</div>'
+    +'<span style="color:var(--text3);font-size:20px;flex-shrink:0;">\u203A</span>';
+  el.addEventListener('click',e=>{
+    if(e.target.classList.contains('ex-subst-link')){
+      e.stopPropagation();
+      verSubstituto(parseInt(e.target.dataset.idx));
+      return;
+    }
+    abrirExercicio(ex,i);
+  });
+  return el;
+}
+
+function alunoRenderPlanilhaRowEl(exercicios,i){
+  const ex=exercicios[i];
+  const feito=alunoExercicioListaConcluido(ex,i);
+  const vis=alunoBiSetVisualContext(i,exercicios);
+  const row=document.createElement('div');
+  row.className='planilha-row'+(feito?' done':'')+(vis&&vis.showTag?' planilha-row--biset':'');
+  const blPl=normalizarExercicio(ex);
+  const tipoPl=blPl.length>1
+    ?(blPl.length+' etapas')
+    :alunoCopyBloco(blPl[0]||{tipo:ex.tipo,tecnica:ex.tecnica,meta:ex.meta||'',obs:ex.obs||''},{blocoIndex:0,totalBlocos:Math.max(1,blPl.length)}).tituloAluno;
+  const timerLbl=restTimerExIdx===i?alunoRestTimerListaLabel():null;
+  row.innerHTML='<div class="planilha-num">'+(feito?'\u2713':(i+1))+'</div><div class="planilha-nome">'+esc(ex.nome)
+    +(vis&&vis.showTag?alunoBiSetTagHtml(i,exercicios):'')
+    +(timerLbl?'<div class="ex-timer-ativo">'+esc(timerLbl)+'</div>':'')+'</div><div class="planilha-tipo">'+esc(tipoPl)+'</div><div class="planilha-meta">'+esc(textoMetaListaAlunoSimples(ex))+'</div>';
+  row.addEventListener('click',()=>abrirExercicio(ex,i));
+  return row;
 }
 
 function labelTecnicaAluno(val){
@@ -7283,6 +7388,8 @@ function paintAlunoExHeader(ex,idx){
   const nomeEl=$('aluno-ex-header-name');
   const prescEl=$('aluno-ex-header-presc');
   const actsEl=$('aluno-ex-header-actions');
+  const bisetWrap=$('aluno-ex-biset-badge-wrap');
+  if(bisetWrap)bisetWrap.innerHTML=alunoExBiSetBadgeHtml(idx);
   if(!nomeEl&&!prescEl)return;
   if(nomeEl)nomeEl.textContent=ex.nome||'';
   if(prescEl)prescEl.textContent=alunoResumoPrescricaoCompacto(ex);
