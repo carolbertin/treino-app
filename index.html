@@ -129,6 +129,19 @@ select.inp option{background:var(--bg3);}
 .last-session{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin:0 20px 20px;}
 .last-session-label{font-size:11px;color:var(--text3);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
 .treino-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 20px 20px;}
+.aluno-home-cab{grid-column:1/-1;display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:4px;}
+.aluno-home-cab-back{padding:0;border:none;background:transparent;color:#60a8f0;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.aluno-home-cab-back:active{opacity:.75;}
+.aluno-home-cab-tit{margin:0;font-size:18px;font-weight:600;line-height:1.25;color:var(--text);}
+.aluno-home-sec-tit{grid-column:1/-1;margin:8px 0 2px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);}
+.aluno-home-pasta-card{display:flex;flex-direction:column;align-items:flex-start;gap:6px;background:#2a2a2e;border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:16px 14px;cursor:pointer;transition:border-color .15s,transform .15s;text-align:left;-webkit-tap-highlight-color:transparent;}
+.aluno-home-pasta-card:active{transform:scale(.98);}
+.aluno-home-pasta-card:hover{border-color:rgba(255,255,255,.14);}
+.aluno-home-pasta-ico{display:flex;color:var(--pasta-ico,#60a8f0);line-height:0;margin-bottom:4px;}
+.aluno-home-pasta-ico svg{display:block;}
+.aluno-home-pasta-nome{font-size:15px;font-weight:600;line-height:1.3;color:rgba(255,255,255,.95);word-break:break-word;}
+.aluno-home-pasta-count{font-size:12px;color:rgba(255,255,255,.4);}
+.aluno-home-pasta-card--gerais .aluno-home-pasta-ico{color:rgba(255,255,255,.45);}
 .treino-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px 16px;cursor:pointer;transition:all .18s;text-align:center;}
 .treino-card:hover{border-color:var(--accent);transform:translateY(-2px);}.treino-card:active{transform:scale(.96);}
 .treino-letra{font-size:32px;font-weight:600;color:var(--accent);font-family:'DM Mono',monospace;}
@@ -634,6 +647,50 @@ select.inp option{background:var(--bg3);}
 #screen-editor.prof-editor-shell > .content.content-pb{padding:14px 16px 96px;}
 #screen-editor.prof-editor-shell #ed-musc-wrap > .field,
 #screen-editor.prof-editor-shell #ed-musc-wrap > hr.divider{max-width:720px;}
+#screen-prof-ciclos{background:var(--bg);}
+#screen-prof-ciclos .prof-ciclos-topbar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border-subtle,rgba(255,255,255,.08));}
+#screen-prof-ciclos .prof-ciclos-back{flex:0 0 auto;padding:8px 4px 8px 0;border:none;background:transparent;color:#60a8f0;font-size:14px;font-family:inherit;cursor:pointer;white-space:nowrap;}
+#screen-prof-ciclos .prof-ciclos-back:active{opacity:.75;}
+#screen-prof-ciclos .prof-ciclos-topbar .topbar-title{flex:1;text-align:center;font-size:16px;font-weight:600;padding:0 4px;color:rgba(255,255,255,.95);}
+#screen-prof-ciclos .prof-ciclos-nova-btn{flex:0 0 auto;padding:8px 0 8px 4px;border:none;background:transparent;color:#60a8f0;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;white-space:nowrap;}
+#screen-prof-ciclos .prof-ciclos-nova-btn:active{opacity:.75;}
+#screen-prof-ciclos .prof-ciclos-content{padding:16px 18px 100px;max-width:640px;margin:0 auto;}
+#screen-prof-ciclos .prof-ciclos-sec-tit{margin:0 0 14px;font-size:13px;font-weight:500;color:rgba(255,255,255,.42);}
+#screen-prof-ciclos .prof-ciclos-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:8px;}
+@media(min-width:520px){#screen-prof-ciclos .prof-ciclos-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}}
+#screen-prof-ciclos .prof-ciclos-card-wrap{position:relative;min-width:0;}
+#screen-prof-ciclos .prof-ciclos-card{display:flex;flex-direction:column;align-items:flex-start;gap:0;width:100%;min-height:158px;padding:16px 14px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:#2a2a2e;color:var(--text);font-family:inherit;text-align:left;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+#screen-prof-ciclos .prof-ciclos-card-open{display:flex;flex-direction:column;align-items:flex-start;gap:0;width:100%;flex:1;padding:0;border:none;background:transparent;color:inherit;font-family:inherit;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+#screen-prof-ciclos .prof-ciclos-card-open:active{opacity:.8;}
+#screen-prof-ciclos .prof-ciclos-card-wrap:not(.prof-ciclos-card-wrap--arq) .prof-ciclos-card:hover{border-color:rgba(255,255,255,.14);}
+#screen-prof-ciclos .prof-ciclos-card-ico-wrap{position:relative;display:inline-flex;margin-bottom:12px;line-height:0;}
+#screen-prof-ciclos .prof-ciclos-card-ico{display:flex;align-items:center;justify-content:center;color:var(--ciclo-ico,#93c5fd);line-height:1;}
+#screen-prof-ciclos .prof-ciclos-card-ico svg{display:block;width:36px;height:36px;}
+#screen-prof-ciclos .prof-ciclos-card-badge{position:absolute;top:-5px;right:-9px;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;line-height:1;border:2px solid #2a2a2e;box-sizing:border-box;}
+#screen-prof-ciclos .prof-ciclos-card-badge--on{background:#4ade80;color:#14532d;}
+#screen-prof-ciclos .prof-ciclos-card-badge--off{background:rgba(255,255,255,.18);color:rgba(255,255,255,.55);}
+#screen-prof-ciclos .prof-ciclos-card-nome{font-size:14px;font-weight:600;line-height:1.3;color:rgba(255,255,255,.95);word-break:break-word;margin-bottom:4px;}
+#screen-prof-ciclos .prof-ciclos-card-count{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:0;}
+#screen-prof-ciclos .prof-ciclos-card-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin-top:auto;padding-top:12px;}
+#screen-prof-ciclos .prof-ciclos-card-vis-lbl{font-size:11px;line-height:1.3;color:rgba(255,255,255,.42);}
+#screen-prof-ciclos .prof-ciclos-card-toggle{position:relative;flex-shrink:0;width:42px;height:26px;border-radius:13px;border:none;padding:0;background:rgba(255,255,255,.16);cursor:pointer;transition:background .2s;}
+#screen-prof-ciclos .prof-ciclos-card-toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s;pointer-events:none;}
+#screen-prof-ciclos .prof-ciclos-card-toggle--on{background:#4ade80;}
+#screen-prof-ciclos .prof-ciclos-card-toggle--on::after{transform:translateX(16px);}
+#screen-prof-ciclos .prof-ciclos-card-wrap--arq .prof-ciclos-card-toggle{cursor:default;pointer-events:none;}
+#screen-prof-ciclos .prof-ciclos-card-ren{position:absolute;top:10px;right:10px;width:26px;height:26px;padding:0;border:none;border-radius:8px;background:transparent;color:rgba(255,255,255,.28);font-size:17px;line-height:1;cursor:pointer;font-family:inherit;z-index:1;}
+#screen-prof-ciclos .prof-ciclos-card-ren:hover{color:rgba(255,255,255,.65);background:rgba(255,255,255,.06);}
+#screen-prof-ciclos .prof-ciclos-sem-sec{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06);}
+#screen-prof-ciclos .prof-ciclos-sem-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:rgba(255,255,255,.55);font-family:inherit;font-size:13px;cursor:pointer;text-align:left;}
+#screen-prof-ciclos .prof-ciclos-sem-btn:active{background:rgba(255,255,255,.06);}
+#screen-prof-ciclos .prof-ciclos-sem-count{font-size:12px;color:rgba(255,255,255,.35);}
+#screen-prof-ciclos .prof-ciclos-migrar-btn{display:block;width:100%;margin-top:10px;padding:10px 14px;border-radius:10px;border:1px dashed rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.38);font-family:inherit;font-size:12px;line-height:1.4;cursor:pointer;text-align:left;transition:color .15s,border-color .15s,background .15s;}
+#screen-prof-ciclos .prof-ciclos-migrar-btn:hover{color:rgba(255,255,255,.55);border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.03);}
+#screen-prof-ciclos .prof-ciclos-migrar-btn:active{background:rgba(255,255,255,.05);}
+#screen-prof-ciclos .prof-ciclos-arq-sec{margin-top:28px;}
+#screen-prof-ciclos .prof-ciclos-arq-tit{margin:0 0 14px;font-size:13px;font-weight:500;color:rgba(255,255,255,.42);}
+#screen-prof-ciclos .prof-ciclos-arq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+#screen-prof-ciclos .prof-ciclos-card-wrap--arq .prof-ciclos-card{opacity:.55;cursor:default;pointer-events:none;}
 @media(min-width:768px){
   #screen-editor.prof-editor-shell > .topbar,
   #screen-editor.prof-editor-shell > .editor-unsaved-hint,
@@ -2867,6 +2924,20 @@ select.inp option{background:var(--bg3);}
   </div>
 </div>
 
+<div id="screen-prof-ciclos" class="screen">
+  <div class="topbar prof-ciclos-topbar">
+    <button type="button" class="prof-ciclos-back" id="prof-ciclos-back-btn" onclick="profCiclosFechar()">&#x2190; Aluno</button>
+    <div class="topbar-title" id="prof-ciclos-topbar-nome">Treinos</div>
+    <button type="button" class="prof-ciclos-nova-btn" onclick="profCiclosNovo()">+ Nova</button>
+  </div>
+  <div class="content content-pb prof-ciclos-content">
+    <h2 class="prof-ciclos-sec-tit">Pastas</h2>
+    <div id="prof-ciclos-grid" class="prof-ciclos-grid" aria-live="polite"></div>
+    <div id="prof-ciclos-sem-pasta" aria-live="polite"></div>
+    <div id="prof-ciclos-arquivados" aria-live="polite"></div>
+  </div>
+</div>
+
 <div id="screen-prof-evolucao" class="screen">
   <div class="topbar">
     <button type="button" class="prof-dash-back" style="width:auto;flex:0 0 auto;" onclick="fecharProfEvolucao()">&#x2190; Voltar</button>
@@ -3182,6 +3253,332 @@ function getCicloById(al,cicloId){
   if(!id)return null;
   return getAlunoCiclos(al).find(function(c){return c.id===id;})||null;
 }
+function getCicloByNome(al,nome){
+  const alvo=((nome||'')+'').trim().toLowerCase();
+  if(!alvo)return null;
+  return getAlunoCiclos(al).find(function(c){
+    return((c.nome||'')+'').trim().toLowerCase()===alvo;
+  })||null;
+}
+function profCiclosTreinosSemPasta(al){
+  return(al.treinos||[]).filter(function(t){return !getTreinoCicloId(t);});
+}
+function alunoTreinoVisivelNaHome(t,al){
+  if(!al)return true;
+  const ciclos=getAlunoCiclos(al);
+  if(!ciclos.length)return true;
+  const cicloId=getTreinoCicloId(t);
+  if(!cicloId)return true;
+  const ciclo=getCicloById(al,cicloId);
+  if(!ciclo)return true;
+  return ciclo.visivelAluno!==false;
+}
+function alunoCiclosVisiveisParaHome(al){
+  return getAlunoCiclos(al).filter(function(c){return !c.arquivado&&c.visivelAluno!==false;});
+}
+function alunoHomeUsaPastas(al){
+  return getAlunoCiclos(al).length>0;
+}
+function alunoTreinosGerais(al){
+  return(al.treinos||[]).filter(function(t){return !getTreinoCicloId(t);});
+}
+function alunoTreinosDaPasta(al,cicloId){
+  const id=((cicloId||'')+'').trim();
+  return(al.treinos||[]).filter(function(t){return getTreinoCicloId(t)===id;});
+}
+
+function criarCicloId(){
+  return'c_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+}
+
+function profCiclosAlunoAtual(){
+  return editorAluno||alunoSel;
+}
+
+function profCiclosListaFromAluno(al){
+  return getAlunoCiclos(al).map(function(c){
+    return{id:c.id,nome:c.nome,ordem:c.ordem,visivelAluno:c.visivelAluno!==false,arquivado:!!c.arquivado};
+  });
+}
+
+function profCiclosSyncMemoria(ciclos){
+  const lista=JSON.parse(JSON.stringify(ciclos||[]));
+  const al=profCiclosAlunoAtual();
+  if(!al)return;
+  al.ciclos=lista;
+  if(alunoSel&&alunoSel.id===al.id)alunoSel.ciclos=lista;
+  const ix=alunosDB.findIndex(function(a){return a.id===al.id;});
+  if(ix>=0)alunosDB[ix].ciclos=lista;
+}
+
+async function profCiclosPersist(ciclos){
+  const al=profCiclosAlunoAtual();
+  if(!al||!al.id)throw new Error('aluno');
+  const lista=JSON.parse(JSON.stringify(ciclos||[]));
+  profCiclosSyncMemoria(lista);
+  await updateDoc(doc(db,'alunos',al.id),{ciclos:lista});
+}
+
+function profCiclosTreinosSyncMemoria(treinos){
+  const lista=JSON.parse(JSON.stringify(treinos||[]));
+  const al=profCiclosAlunoAtual();
+  if(!al)return;
+  al.treinos=lista;
+  if(alunoSel&&alunoSel.id===al.id)alunoSel.treinos=lista;
+  const ix=alunosDB.findIndex(function(a){return a.id===al.id;});
+  if(ix>=0)alunosDB[ix].treinos=lista;
+}
+
+async function profCiclosTreinosPersist(treinos){
+  const al=profCiclosAlunoAtual();
+  if(!al||!al.id)throw new Error('aluno');
+  const lista=JSON.parse(JSON.stringify(treinos||[]));
+  profCiclosTreinosSyncMemoria(lista);
+  await updateDoc(doc(db,'alunos',al.id),{treinos:lista});
+}
+
+const PROF_CICLO_CARD_CORES=[
+  {ico:'#60a8f0'},
+  {ico:'#4ade80'},
+  {ico:'#f0a830'},
+  {ico:'#5eead4'},
+  {ico:'#a78bfa'},
+  {ico:'#f472b6'}
+];
+const PROF_CICLO_FOLDER_SVG='<svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" aria-hidden="true"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>';
+
+function profCiclosCardHtml(c,idx,count,opts){
+  opts=opts||{};
+  const arquivado=!!opts.arquivado;
+  const cor=PROF_CICLO_CARD_CORES[idx%PROF_CICLO_CARD_CORES.length];
+  const vis=c.visivelAluno!==false;
+  const badgeCls=vis?'prof-ciclos-card-badge--on':'prof-ciclos-card-badge--off';
+  const badgeTxt=vis?'\u2713':'\u2212';
+  const toggleCls=vis?' prof-ciclos-card-toggle--on':'';
+  const wrapCls=arquivado?' prof-ciclos-card-wrap--arq':'';
+  const visLbl=vis?'\ud83d\udc41 Vis\u00edvel para aluno':'Oculta para aluno';
+  const renBtn=arquivado?'':'<button type="button" class="prof-ciclos-card-ren" onclick="profCiclosRenomear(\''+escJs(c.id)+'\')" aria-label="Renomear pasta">\u22ef</button>';
+  const openStart=arquivado
+    ?'<div class="prof-ciclos-card-open">'
+    :'<button type="button" class="prof-ciclos-card-open" onclick="profCiclosAbrirPasta(\''+escJs(c.id)+'\')">';
+  const openEnd=arquivado?'</div>':'</button>';
+  const toggleBtn=arquivado
+    ?'<span class="prof-ciclos-card-toggle'+toggleCls+'" aria-hidden="true"></span>'
+    :'<button type="button" class="prof-ciclos-card-toggle'+toggleCls+'" onclick="profCiclosToggleVisibilidade(\''+escJs(c.id)+'\')" aria-label="'+(vis?'Ocultar pasta do aluno':'Mostrar pasta para o aluno')+'"></button>';
+  return'<article class="prof-ciclos-card-wrap'+wrapCls+'">'
+    +renBtn
+    +'<div class="prof-ciclos-card" style="--ciclo-ico:'+cor.ico+'">'
+    +openStart
+    +'<span class="prof-ciclos-card-ico-wrap"><span class="prof-ciclos-card-ico">'+PROF_CICLO_FOLDER_SVG+'</span><span class="prof-ciclos-card-badge '+badgeCls+'" aria-hidden="true">'+badgeTxt+'</span></span>'
+    +'<span class="prof-ciclos-card-nome">'+esc(c.nome||'(sem nome)')+'</span>'
+    +'<span class="prof-ciclos-card-count">'+count+' treino'+(count!==1?'s':'')+'</span>'
+    +openEnd
+    +'<div class="prof-ciclos-card-foot"><span class="prof-ciclos-card-vis-lbl">'+visLbl+'</span>'+toggleBtn+'</div>'
+    +'</div>'
+    +'</article>';
+}
+
+function profCicloCountTreinos(al,cicloId){
+  return(al.treinos||[]).filter(function(t){
+    const tc=getTreinoCicloId(t);
+    return cicloId===''?!tc:tc===cicloId;
+  }).length;
+}
+
+function profEditorTreinoPassaFiltroCiclo(tr){
+  if(profEditorCicloAtivoId==null)return true;
+  const tc=getTreinoCicloId(tr);
+  if(profEditorCicloAtivoId==='')return !tc;
+  return tc===profEditorCicloAtivoId;
+}
+
+function profEditorCicloAtivoLabel(){
+  if(profEditorCicloAtivoId==null)return'';
+  if(profEditorCicloAtivoId==='')return'Sem pasta';
+  const al=editorAluno||alunoSel;
+  const c=al?getCicloById(al,profEditorCicloAtivoId):null;
+  return c?(c.nome||'Pasta'):'Pasta';
+}
+
+function profEditorTituloSuffix(){
+  const lbl=profEditorCicloAtivoLabel();
+  return lbl?(' \u00b7 '+lbl):'';
+}
+
+function profCiclosRender(){
+  const grid=$('prof-ciclos-grid');
+  if(!grid)return;
+  const al=profCiclosAlunoAtual();
+  if(!al){grid.innerHTML='';$('prof-ciclos-sem-pasta')&&($('prof-ciclos-sem-pasta').innerHTML='');$('prof-ciclos-arquivados')&&($('prof-ciclos-arquivados').innerHTML='');return;}
+  const ciclos=getAlunoCiclos(al);
+  const ativos=ciclos.filter(function(c){return !c.arquivado;});
+  const arquivados=ciclos.filter(function(c){return c.arquivado;});
+  let html='';
+  ativos.forEach(function(c,i){html+=profCiclosCardHtml(c,i,profCicloCountTreinos(al,c.id));});
+  grid.innerHTML=html;
+  const semWrap=$('prof-ciclos-sem-pasta');
+  const semCount=profCiclosTreinosSemPasta(al).length;
+  if(semWrap){
+    if(semCount>0){
+      const destino=getCicloByNome(al,'TREINO 1');
+      let semHtml='<section class="prof-ciclos-sem-sec"><div class="prof-ciclos-sem-btn" style="cursor:default;pointer-events:none"><span class="prof-ciclos-sem-lbl">Sem pasta</span><span class="prof-ciclos-sem-count">'+semCount+' treino'+(semCount!==1?'s':'')+'</span></div>';
+      if(destino){
+        semHtml+='<button type="button" class="prof-ciclos-migrar-btn" onclick="profCiclosMigrarSemPasta()">Mover treinos sem pasta para TREINO 1</button>';
+      }
+      semHtml+='</section>';
+      semWrap.innerHTML=semHtml;
+    }else{
+      semWrap.innerHTML='';
+    }
+  }
+  const arqWrap=$('prof-ciclos-arquivados');
+  if(arqWrap){
+    if(arquivados.length){
+      let arqHtml='<section class="prof-ciclos-arq-sec"><h3 class="prof-ciclos-arq-tit">Arquivados</h3><div class="prof-ciclos-arq-grid">';
+      arquivados.forEach(function(c,i){
+        const count=profCicloCountTreinos(al,c.id);
+        arqHtml+=profCiclosCardHtml(c,i,count,{arquivado:true});
+      });
+      arqHtml+='</div></section>';
+      arqWrap.innerHTML=arqHtml;
+    }else{
+      arqWrap.innerHTML='';
+    }
+  }
+}
+
+window.profCiclosAbrirPasta=function(cicloId){
+  const al=profCiclosAlunoAtual();
+  if(!al){toast('Selecione um aluno');return;}
+  const cid=cicloId==null?'':String(cicloId);
+  if(cid&&!getCicloById(al,cid)){toast('Pasta n\u00e3o encontrada');return;}
+  editorAluno=al;
+  editorTreinosStructDirty=false;
+  profEditorCicloAtivoId=cid;
+  const treinos=al.treinos||[];
+  let idx=-1;
+  for(let i=0;i<treinos.length;i++){
+    if(profEditorTreinoPassaFiltroCiclo(treinos[i])){idx=i;break;}
+  }
+  goTo('editor');
+  profEditorLoadTreinoIdx(idx);
+};
+
+window.profCiclosAbrir=function(){
+  const al=alunoSel;
+  if(!al){toast('Selecione um aluno');return;}
+  editorAluno=al;
+  profEditorCicloAtivoId=null;
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  const scr=$('screen-prof-ciclos');
+  if(scr)scr.classList.add('active');
+  const tit=$('prof-ciclos-topbar-nome');
+  const back=$('prof-ciclos-back-btn');
+  if(tit)tit.textContent='Treinos';
+  if(back){
+    const nomeCurto=((al.nome||'Aluno')+'').trim().split(/\s+/)[0]||'Aluno';
+    back.textContent='\u2190 '+nomeCurto;
+  }
+  profCiclosRender();
+  window.scrollTo(0,0);
+};
+
+window.profCiclosFechar=function(){
+  profEditorCicloAtivoId=null;
+  if(alunoSel)abrirDetalheAluno(alunoSel);
+  else fecharDetalheAlunoDash();
+};
+
+window.profCiclosNovo=async function(){
+  const al=profCiclosAlunoAtual();
+  if(!al)return;
+  const nome=prompt('Nome do novo ciclo:','');
+  if(nome===null)return;
+  const n=((nome||'')+'').trim();
+  if(!n){toast('Informe um nome');return;}
+  const atual=profCiclosListaFromAluno(al);
+  const ordem=atual.length?Math.max.apply(null,atual.map(function(c){return c.ordem;}))+1:0;
+  const lista=atual.concat([{id:criarCicloId(),nome:n,ordem:ordem,visivelAluno:true,arquivado:false}]);
+  try{
+    await profCiclosPersist(lista);
+    profCiclosRender();
+    toast('\u2713 Ciclo criado');
+  }catch(e){
+    console.error('profCiclosNovo:',e);
+    toast('\u274C Erro ao salvar ciclo');
+  }
+};
+
+window.profCiclosMigrarSemPasta=async function(){
+  const al=profCiclosAlunoAtual();
+  if(!al)return;
+  const destino=getCicloByNome(al,'TREINO 1');
+  if(!destino){toast('Pasta TREINO 1 n\u00e3o encontrada');return;}
+  const sem=profCiclosTreinosSemPasta(al);
+  if(!sem.length)return;
+  const msg='Mover '+sem.length+' treino'+(sem.length!==1?'s':'')+' sem pasta para a pasta TREINO 1?';
+  if(!confirm(msg))return;
+  const treinos=JSON.parse(JSON.stringify(al.treinos||[]));
+  let movidos=0;
+  treinos.forEach(function(t){
+    if(!getTreinoCicloId(t)){
+      t.cicloId=destino.id;
+      movidos++;
+    }
+  });
+  if(!movidos)return;
+  try{
+    await profCiclosTreinosPersist(treinos);
+    profCiclosRender();
+    toast('\u2713 '+movidos+' treino'+(movidos!==1?'s':'')+' movido'+(movidos!==1?'s':'')+' para TREINO 1');
+  }catch(e){
+    console.error('profCiclosMigrarSemPasta:',e);
+    toast('\u274C Erro ao mover treinos');
+  }
+};
+
+window.profCiclosToggleVisibilidade=async function(cicloId){
+  const al=profCiclosAlunoAtual();
+  if(!al)return;
+  const ciclo=getCicloById(al,cicloId);
+  if(!ciclo)return;
+  const novoVis=!(ciclo.visivelAluno!==false);
+  const lista=profCiclosListaFromAluno(al).map(function(c){
+    if(c.id===cicloId)return Object.assign({},c,{visivelAluno:novoVis});
+    return c;
+  });
+  try{
+    await profCiclosPersist(lista);
+    profCiclosRender();
+    toast(novoVis?'\u2713 Pasta vis\u00edvel para o aluno':'\u2713 Pasta oculta para o aluno');
+  }catch(e){
+    console.error('profCiclosToggleVisibilidade:',e);
+    toast('\u274C Erro ao salvar visibilidade');
+  }
+};
+
+window.profCiclosRenomear=async function(cicloId){
+  const al=profCiclosAlunoAtual();
+  if(!al)return;
+  const ciclo=getCicloById(al,cicloId);
+  if(!ciclo)return;
+  const nome=prompt('Renomear ciclo:',ciclo.nome||'');
+  if(nome===null)return;
+  const n=((nome||'')+'').trim();
+  if(!n){toast('Informe um nome');return;}
+  const lista=profCiclosListaFromAluno(al).map(function(c){
+    if(c.id===cicloId)return Object.assign({},c,{nome:n});
+    return c;
+  });
+  try{
+    await profCiclosPersist(lista);
+    profCiclosRender();
+    toast('\u2713 Ciclo renomeado');
+  }catch(e){
+    console.error('profCiclosRenomear:',e);
+    toast('\u274C Erro ao renomear ciclo');
+  }
+};
 function exercicioSessaoKey(idx,nome){return String(idx)+'|'+treinoSessaoKey(nome);}
 function sessaoDataHojeLocal(){
   const d=new Date();
@@ -3218,7 +3615,7 @@ function criarSessaoTreinoNova(t){
 }
 
 let sessaoTreinoAtual=null;
-let me=null,meAluno=null,treinoAtual=null,exAtual=null,exFeitosHoje=new Set();
+let me=null,meAluno=null,alunoHomeCicloAtivoId=null,treinoAtual=null,exAtual=null,exFeitosHoje=new Set();
 let alunoActiveBlockIndex=0,alunoGuidedLastStepDone=false;
 let alunoState={blockIdx:0,blocksDone:[],seriesDone:{},seriesData:{},seqStep:{},seqData:{},timerActive:false,timerInterval:null};
 let academiaSelecionada=''; // academia escolhida para a sessão atual
@@ -3274,7 +3671,7 @@ function academiaEstaArquivada(nome){
 let alunoMostrarUltimoReg=false; // toggle visual: refs abaixo dos inputs (não altera filtro/histórico)
 let exSubstitutoIdx=null;   // índice do exercício sendo substituído na sessão
 let viewDetalhado=true;
-let bancoDB=[],alunosDB=[],alunoSel=null,editorAluno=null,editorTreinoIdx=null;
+let bancoDB=[],alunosDB=[],alunoSel=null,editorAluno=null,editorTreinoIdx=null,profEditorCicloAtivoId=null;
 const PROF_EDITOR_IDX_CARDIO=-2;
 const PROF_CARDIO_ZONAS_PCT=[
   {n:1,pctMin:50,pctMax:60},
@@ -6444,6 +6841,7 @@ async function initAluno(){
       return;
     }
     meAluno={id:me.email,...snap.data()};
+    alunoHomeCicloAtivoId=null;
     try{
       const pathHist='alunos/'+me.email+'/historico';
       fsDiag('initAluno','Tentando ler: '+pathHist,{
@@ -6713,11 +7111,105 @@ function alunoRenderTreinoCard(t){
   el.onclick=()=>alunoClicarTreinoHome(t);
   return el;
 }
+function alunoHomeRenderCabecalho(grid,titulo,comVoltar){
+  const el=document.createElement('div');
+  el.className='aluno-home-cab';
+  if(comVoltar){
+    el.innerHTML='<button type="button" class="aluno-home-cab-back" onclick="alunoHomeVoltarPastas()">\u2190 Pastas</button><h2 class="aluno-home-cab-tit">'+esc(titulo)+'</h2>';
+  }else{
+    el.innerHTML='<h2 class="aluno-home-cab-tit">'+esc(titulo)+'</h2>';
+  }
+  grid.appendChild(el);
+}
+function alunoHomeRenderSecTitulo(grid,titulo){
+  const el=document.createElement('div');
+  el.className='aluno-home-sec-tit';
+  el.textContent=titulo;
+  grid.appendChild(el);
+}
+function alunoRenderPastaCard(c,idx){
+  const cor=PROF_CICLO_CARD_CORES[idx%PROF_CICLO_CARD_CORES.length];
+  const count=alunoTreinosDaPasta(meAluno,c.id).length;
+  const el=document.createElement('div');
+  el.className='aluno-home-pasta-card';
+  el.style.setProperty('--pasta-ico',cor.ico);
+  el.innerHTML='<span class="aluno-home-pasta-ico">'+PROF_CICLO_FOLDER_SVG+'</span>'
+    +'<span class="aluno-home-pasta-nome">'+esc(c.nome||'Pasta')+'</span>'
+    +'<span class="aluno-home-pasta-count">'+count+' treino'+(count!==1?'s':'')+'</span>';
+  el.onclick=function(){
+    alunoHomeCicloAtivoId=c.id;
+    alunoRenderTreinoGrid();
+    const grid=$('treino-grid');
+    if(grid)window.scrollTo(0,grid.offsetTop-12);
+  };
+  return el;
+}
+function alunoRenderPastaGeraisCard(count){
+  const el=document.createElement('div');
+  el.className='aluno-home-pasta-card aluno-home-pasta-card--gerais';
+  el.innerHTML='<span class="aluno-home-pasta-ico">'+PROF_CICLO_FOLDER_SVG+'</span>'
+    +'<span class="aluno-home-pasta-nome">Treinos gerais</span>'
+    +'<span class="aluno-home-pasta-count">'+count+' treino'+(count!==1?'s':'')+'</span>';
+  el.onclick=function(){
+    alunoHomeCicloAtivoId='__gerais__';
+    alunoRenderTreinoGrid();
+    const grid=$('treino-grid');
+    if(grid)window.scrollTo(0,grid.offsetTop-12);
+  };
+  return el;
+}
+window.alunoHomeVoltarPastas=function(){
+  alunoHomeCicloAtivoId=null;
+  alunoRenderTreinoGrid();
+  const grid=$('treino-grid');
+  if(grid)window.scrollTo(0,grid.offsetTop-12);
+};
 function alunoRenderTreinoGrid(){
   const grid=$('treino-grid');
   if(!grid||!meAluno)return;
   grid.innerHTML='';
-  (meAluno.treinos||[]).forEach(t=>grid.appendChild(alunoRenderTreinoCard(t)));
+  if(!alunoHomeUsaPastas(meAluno)){
+    (meAluno.treinos||[]).forEach(function(t){grid.appendChild(alunoRenderTreinoCard(t));});
+    alunoCardioAppendHomeCard(grid);
+    return;
+  }
+  const visiveis=alunoCiclosVisiveisParaHome(meAluno);
+  const gerais=alunoTreinosGerais(meAluno);
+  const cicloAtivo=alunoHomeCicloAtivoId;
+  if(cicloAtivo==='__gerais__'){
+    alunoHomeRenderCabecalho(grid,'Treinos gerais',visiveis.length>=2);
+    gerais.forEach(function(t){grid.appendChild(alunoRenderTreinoCard(t));});
+    alunoCardioAppendHomeCard(grid);
+    return;
+  }
+  if(cicloAtivo){
+    const ciclo=getCicloById(meAluno,cicloAtivo);
+    alunoHomeRenderCabecalho(grid,ciclo?(ciclo.nome||'Pasta'):'Pasta',visiveis.length>=2);
+    alunoTreinosDaPasta(meAluno,cicloAtivo).forEach(function(t){grid.appendChild(alunoRenderTreinoCard(t));});
+    alunoCardioAppendHomeCard(grid);
+    return;
+  }
+  if(visiveis.length>=2){
+    visiveis.forEach(function(c,i){grid.appendChild(alunoRenderPastaCard(c,i));});
+    if(gerais.length)grid.appendChild(alunoRenderPastaGeraisCard(gerais.length));
+    alunoCardioAppendHomeCard(grid);
+    return;
+  }
+  if(visiveis.length===1){
+    const c=visiveis[0];
+    alunoHomeRenderCabecalho(grid,c.nome||'Pasta',false);
+    alunoTreinosDaPasta(meAluno,c.id).forEach(function(t){grid.appendChild(alunoRenderTreinoCard(t));});
+    if(gerais.length){
+      alunoHomeRenderSecTitulo(grid,'Treinos gerais');
+      gerais.forEach(function(t){grid.appendChild(alunoRenderTreinoCard(t));});
+    }
+    alunoCardioAppendHomeCard(grid);
+    return;
+  }
+  if(gerais.length){
+    alunoHomeRenderCabecalho(grid,'Treinos gerais',false);
+    gerais.forEach(function(t){grid.appendChild(alunoRenderTreinoCard(t));});
+  }
   alunoCardioAppendHomeCard(grid);
 }
 
@@ -11392,14 +11884,7 @@ window.fecharDetalheAlunoDash=function(){
   switchTab('alunos');
 };
 window.editarTreinosAluno=function(){
-  const al=alunoSel;
-  if(!al){toast('Selecione um aluno');return;}
-  editorAluno=al;
-  editorTreinosStructDirty=false;
-  const treinos=al.treinos||[];
-  const idx=treinos.length?0:-1;
-  goTo('editor');
-  profEditorLoadTreinoIdx(idx);
+  profCiclosAbrir();
 };
 window.profDashVerEvolucao=function(){
   const al=alunoSel;
@@ -11610,6 +12095,7 @@ function profRenderEditorTreinoNav(){
   nav.hidden=false;
   nav.innerHTML='';
   treinos.forEach(function(tr,i){
+    if(!profEditorTreinoPassaFiltroCiclo(tr))return;
     const pill=document.createElement('div');
     pill.className='prof-ed-nav-pill'+(i===editorTreinoIdx?' active':'');
     pill.setAttribute('role','tab');
@@ -11636,17 +12122,19 @@ function profRenderEditorTreinoNav(){
     pill.appendChild(del);
     nav.appendChild(pill);
   });
-  const cardio=document.createElement('div');
-  cardio.className='prof-ed-nav-pill prof-ed-nav-pill--cardio'+(editorTreinoIdx===PROF_EDITOR_IDX_CARDIO?' active':'');
-  cardio.setAttribute('role','tab');
-  cardio.setAttribute('aria-selected',editorTreinoIdx===PROF_EDITOR_IDX_CARDIO?'true':'false');
-  const cardioMain=document.createElement('button');
-  cardioMain.type='button';
-  cardioMain.className='prof-ed-nav-pill__main';
-  cardioMain.textContent='Cardio';
-  cardioMain.onclick=function(){profEditorNavTreino(PROF_EDITOR_IDX_CARDIO);};
-  cardio.appendChild(cardioMain);
-  nav.appendChild(cardio);
+  if(profEditorCicloAtivoId==null){
+    const cardio=document.createElement('div');
+    cardio.className='prof-ed-nav-pill prof-ed-nav-pill--cardio'+(editorTreinoIdx===PROF_EDITOR_IDX_CARDIO?' active':'');
+    cardio.setAttribute('role','tab');
+    cardio.setAttribute('aria-selected',editorTreinoIdx===PROF_EDITOR_IDX_CARDIO?'true':'false');
+    const cardioMain=document.createElement('button');
+    cardioMain.type='button';
+    cardioMain.className='prof-ed-nav-pill__main';
+    cardioMain.textContent='Cardio';
+    cardioMain.onclick=function(){profEditorNavTreino(PROF_EDITOR_IDX_CARDIO);};
+    cardio.appendChild(cardioMain);
+    nav.appendChild(cardio);
+  }
   const add=document.createElement('button');
   add.type='button';
   add.className='prof-ed-nav-pill prof-ed-nav-pill--add'+(editorTreinoIdx===-1?' active':'');
@@ -11680,7 +12168,7 @@ function profEditorLoadTreinoIdx(idx,opts){
     $('ed-nome-treino').value='';
     $('ed-obs-geral').value='';
     editorExercicios=[];
-    $('editor-title').textContent='Novo treino';
+    $('editor-title').textContent='Novo treino'+profEditorTituloSuffix();
   }else{
     const t=(al.treinos||[])[idx];
     if(!t)return;
@@ -11688,7 +12176,7 @@ function profEditorLoadTreinoIdx(idx,opts){
     $('ed-obs-geral').value=t.obsGeral||'';
     editorExercicios=JSON.parse(JSON.stringify(t.exercicios||[]));
     editorExercicios.forEach(function(ex){if(Array.isArray(ex.blocos)&&ex.blocos.length)syncParentDoPrimeiroBloco(ex);});
-    $('editor-title').textContent='Editar: '+(t.nome||'Treino');
+    $('editor-title').textContent='Editar: '+(t.nome||'Treino')+profEditorTituloSuffix();
   }
   profSyncEditorShellModo();
   renderTodosExercicios();
@@ -11780,6 +12268,7 @@ window.profEditorConfirmDeleteTreino=function(){
 window.novoTreinoParaAluno=()=>{
   editorAluno=alunoSel;
   editorTreinosStructDirty=false;
+  profEditorCicloAtivoId=null;
   goTo('editor');
   profEditorLoadTreinoIdx(-1);
   setTimeout(function(){document.querySelectorAll('.modal-bd').forEach(function(m){m.classList.remove('open');});},50);
@@ -11788,6 +12277,7 @@ window.abrirEditor=idx=>{
   const al=alunoSel;
   editorAluno=al;
   editorTreinosStructDirty=false;
+  profEditorCicloAtivoId=null;
   goTo('editor');
   profEditorLoadTreinoIdx(idx);
   setTimeout(function(){document.querySelectorAll('.modal-bd').forEach(function(m){m.classList.remove('open');});},50);
@@ -11796,6 +12286,9 @@ window.fecharEditor=async()=>{
   if(profEditorHasUnsavedChanges()&&!confirm('H\u00e1 altera\u00e7\u00f5es n\u00e3o salvas. Sair sem salvar?'))return;
   profEvDrawerClose();
   profImportDiscardPreview(false);
+  const voltarPastas=profEditorCicloAtivoId!=null;
+  profEditorCicloAtivoId=null;
+  if(voltarPastas){profCiclosAbrir();return;}
   if(editorAluno)await abrirDetalheAluno(editorAluno);
   else{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('screen-prof').classList.add('active');switchTab('alunos');}
 };
@@ -15552,6 +16045,12 @@ window.salvarTreino=async()=>{
     editorExercicios.forEach(ex=>{garantirBlocosEditor(ex);syncParentDoPrimeiroBloco(ex);});
     editorExercicios.forEach(preencherGruposSnapshotDoBanco);
     treino={nome,obsGeral,exercicios:JSON.parse(JSON.stringify(editorExercicios))};
+    if(editorTreinoIdx>=0){
+      const prevCiclo=getTreinoCicloId(treinos[editorTreinoIdx]);
+      if(prevCiclo)treino.cicloId=prevCiclo;
+    }else if(profEditorCicloAtivoId!=null&&profEditorCicloAtivoId!==''){
+      treino.cicloId=profEditorCicloAtivoId;
+    }
     (treino.exercicios||[]).forEach(preencherGruposSnapshotDoBanco);
     if(editorTreinoIdx===-1)treinos.push(treino);
     else treinos[editorTreinoIdx]=treino;
@@ -15582,7 +16081,7 @@ window.salvarTreino=async()=>{
   await carregarAlunos();
   const alSync=alunosDB.find(function(a){return a.id===alId;});
   if(alSync){editorAluno=alSync;alunoSel=alSync;}
-  if(treino)$('editor-title').textContent='Editar: '+treino.nome;
+  if(treino)$('editor-title').textContent='Editar: '+treino.nome+profEditorTituloSuffix();
   editorTreinosStructDirty=false;
   profEditorSetBaseline();
   profRenderEditorTreinoNav();
