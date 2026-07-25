@@ -680,6 +680,8 @@ select.inp option{background:var(--bg3);}
 #screen-prof-ciclos .prof-ciclos-card-wrap--arq .prof-ciclos-card-toggle{cursor:default;pointer-events:none;}
 #screen-prof-ciclos .prof-ciclos-card-ren{position:absolute;top:10px;right:10px;width:26px;height:26px;padding:0;border:none;border-radius:8px;background:transparent;color:rgba(255,255,255,.28);font-size:17px;line-height:1;cursor:pointer;font-family:inherit;z-index:1;}
 #screen-prof-ciclos .prof-ciclos-card-ren:hover{color:rgba(255,255,255,.65);background:rgba(255,255,255,.06);}
+#screen-prof-ciclos .prof-ciclos-card-dup{display:block;width:100%;margin-top:6px;padding:0;border:none;background:transparent;color:rgba(255,255,255,.32);font-family:inherit;font-size:11px;font-weight:500;text-align:left;cursor:pointer;transition:color .15s;}
+#screen-prof-ciclos .prof-ciclos-card-dup:hover{color:rgba(255,255,255,.55);}
 #screen-prof-ciclos .prof-ciclos-sem-sec{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06);}
 #screen-prof-ciclos .prof-ciclos-sem-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:rgba(255,255,255,.55);font-family:inherit;font-size:13px;cursor:pointer;text-align:left;}
 #screen-prof-ciclos .prof-ciclos-sem-btn:active{background:rgba(255,255,255,.06);}
@@ -3358,6 +3360,7 @@ function profCiclosCardHtml(c,idx,count,opts){
   const wrapCls=arquivado?' prof-ciclos-card-wrap--arq':'';
   const visLbl=vis?'\ud83d\udc41 Vis\u00edvel para aluno':'Oculta para aluno';
   const renBtn=arquivado?'':'<button type="button" class="prof-ciclos-card-ren" onclick="profCiclosRenomear(\''+escJs(c.id)+'\')" aria-label="Renomear pasta">\u22ef</button>';
+  const dupBtn=arquivado?'':'<button type="button" class="prof-ciclos-card-dup" onclick="profCiclosDuplicar(\''+escJs(c.id)+'\')">Duplicar</button>';
   const openStart=arquivado
     ?'<div class="prof-ciclos-card-open">'
     :'<button type="button" class="prof-ciclos-card-open" onclick="profCiclosAbrirPasta(\''+escJs(c.id)+'\')">';
@@ -3373,6 +3376,7 @@ function profCiclosCardHtml(c,idx,count,opts){
     +'<span class="prof-ciclos-card-nome">'+esc(c.nome||'(sem nome)')+'</span>'
     +'<span class="prof-ciclos-card-count">'+count+' treino'+(count!==1?'s':'')+'</span>'
     +openEnd
+    +dupBtn
     +'<div class="prof-ciclos-card-foot"><span class="prof-ciclos-card-vis-lbl">'+visLbl+'</span>'+toggleBtn+'</div>'
     +'</div>'
     +'</article>';
@@ -3383,6 +3387,23 @@ function profCicloCountTreinos(al,cicloId){
     const tc=getTreinoCicloId(t);
     return cicloId===''?!tc:tc===cicloId;
   }).length;
+}
+function profCiclosNomesTreinosExistentes(al){
+  const set=new Set();
+  (al.treinos||[]).forEach(function(t){
+    const n=((t.nome||'')+'').trim().toLowerCase();
+    if(n)set.add(n);
+  });
+  return set;
+}
+function profCiclosNomeTreinoUnico(nomeBase,nomesUsados){
+  const base=((nomeBase||'')+'').trim()||'Treino';
+  if(!nomesUsados.has(base.toLowerCase()))return base;
+  let candidato=base+' (c\u00f3pia)';
+  if(!nomesUsados.has(candidato.toLowerCase()))return candidato;
+  let n=2;
+  while(nomesUsados.has((base+' (c\u00f3pia '+n+')').toLowerCase()))n++;
+  return base+' (c\u00f3pia '+n+')';
 }
 
 function profEditorTreinoPassaFiltroCiclo(tr){
@@ -3554,6 +3575,44 @@ window.profCiclosToggleVisibilidade=async function(cicloId){
   }catch(e){
     console.error('profCiclosToggleVisibilidade:',e);
     toast('\u274C Erro ao salvar visibilidade');
+  }
+};
+
+window.profCiclosDuplicar=async function(cicloId){
+  const al=profCiclosAlunoAtual();
+  if(!al)return;
+  const origem=getCicloById(al,cicloId);
+  if(!origem)return;
+  const nomeOrig=((origem.nome||'Pasta')+'').trim();
+  const nomePadrao=nomeOrig+' \u2014 c\u00f3pia';
+  const nome=prompt('Nome da nova pasta:',nomePadrao);
+  if(nome===null)return;
+  const n=((nome||'')+'').trim();
+  if(!n){toast('Informe um nome');return;}
+  const novoId=criarCicloId();
+  const atual=profCiclosListaFromAluno(al);
+  const ordem=atual.length?Math.max.apply(null,atual.map(function(c){return c.ordem;}))+1:0;
+  const novoCiclo={id:novoId,nome:n,ordem:ordem,visivelAluno:origem.visivelAluno!==false,arquivado:false};
+  const origTreinos=(al.treinos||[]).filter(function(t){return getTreinoCicloId(t)===cicloId;});
+  const treinos=JSON.parse(JSON.stringify(al.treinos||[]));
+  const nomesUsados=profCiclosNomesTreinosExistentes(al);
+  origTreinos.forEach(function(t){
+    const copia=JSON.parse(JSON.stringify(t));
+    copia.cicloId=novoId;
+    copia.nome=profCiclosNomeTreinoUnico(copia.nome,nomesUsados);
+    nomesUsados.add(copia.nome.trim().toLowerCase());
+    treinos.push(copia);
+  });
+  const listaCiclos=atual.concat([novoCiclo]);
+  try{
+    await profCiclosPersist(listaCiclos);
+    await profCiclosTreinosPersist(treinos);
+    profCiclosRender();
+    const qtd=origTreinos.length;
+    toast('\u2713 Pasta duplicada'+(qtd?' com '+qtd+' treino'+(qtd!==1?'s':''):''));
+  }catch(e){
+    console.error('profCiclosDuplicar:',e);
+    toast('\u274C Erro ao duplicar pasta');
   }
 };
 
@@ -15183,12 +15242,18 @@ function profImportParseSheetToTreino(sh){
     skipped:parsed.skipped||0
   };
 }
-function profImportFindTreinoIdxByNome(al,nome){
+function profImportFindTreinoIdxByNome(al,nome,cicloId){
   var treinos=(al&&al.treinos)||[];
-  var n=(nome||'').trim().toLowerCase();
+  var n=((nome||'')+'').trim().toLowerCase();
   if(!n)return-1;
+  var cid=((cicloId||'')+'').trim();
   for(var i=0;i<treinos.length;i++){
-    if(((treinos[i].nome||'')+'').trim().toLowerCase()===n)return i;
+    if(((treinos[i].nome||'')+'').trim().toLowerCase()!==n)continue;
+    if(cid){
+      if(getTreinoCicloId(treinos[i])===cid)return i;
+      continue;
+    }
+    return i;
   }
   return-1;
 }
@@ -15199,8 +15264,16 @@ function profEditorFlushCurrentTreinoLocal(){
   var nome=($('ed-nome-treino')&&$('ed-nome-treino').value||'').trim();
   var obsGeral=($('ed-obs-geral')&&$('ed-obs-geral').value||'').trim();
   if(editorTreinoIdx===-1&&!nome&&!(editorExercicios||[]).length)return;
-  var treino={nome:nome||'Treino',obsGeral:obsGeral,exercicios:JSON.parse(JSON.stringify(editorExercicios||[]))};
   if(!al.treinos)al.treinos=[];
+  var prev=editorTreinoIdx>=0?al.treinos[editorTreinoIdx]:null;
+  var cicloId=getTreinoCicloId(prev);
+  if(!cicloId&&getCicloById(al,profEditorCicloAtivoId))cicloId=((profEditorCicloAtivoId||'')+'').trim();
+  var treino=Object.assign({},prev&&typeof prev==='object'?prev:{},{
+    nome:nome||'Treino',
+    obsGeral:obsGeral,
+    exercicios:JSON.parse(JSON.stringify(editorExercicios||[]))
+  });
+  if(cicloId)treino.cicloId=cicloId;
   if(editorTreinoIdx===-1)al.treinos.push(treino);
   else al.treinos[editorTreinoIdx]=treino;
   editorAluno=al;
@@ -15634,10 +15707,12 @@ function profImportApplyAllToEditor(){
   if(!al){toast('Abra o editor de um aluno');return;}
   profEditorFlushCurrentTreinoLocal();
   if(!al.treinos)al.treinos=[];
+  var cicloAtivo=getCicloById(al,profEditorCicloAtivoId)?((profEditorCicloAtivoId||'')+'').trim():'';
   var created=0,updated=0,firstIdx=null;
   profImportPreview.treinos.forEach(function(t){
     var treino={nome:t.nome||t.sheetName,obsGeral:t.obsGeral||'',exercicios:JSON.parse(JSON.stringify(t.exercicios||[]))};
-    var idx=profImportFindTreinoIdxByNome(al,treino.nome);
+    if(cicloAtivo)treino.cicloId=cicloAtivo;
+    var idx=profImportFindTreinoIdxByNome(al,treino.nome,cicloAtivo);
     if(idx>=0){al.treinos[idx]=treino;updated++;if(firstIdx===null)firstIdx=idx;}
     else{al.treinos.push(treino);created++;if(firstIdx===null)firstIdx=al.treinos.length-1;}
   });
