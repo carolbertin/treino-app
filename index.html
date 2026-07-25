@@ -6090,6 +6090,173 @@ function criarBiSetGrupoId(){
   return'bs_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 }
 
+/**
+ * Helper puro — próximo passo conceitual do bi-set (v1, pares simples).
+ * Sem DOM, timer, sessão, Firebase ou mutação. Ainda não ligado à execução.
+ * @param {{exercicios:any[],exIdx:number,bi:any,s:any,nSeriesA:number,nSeriesB:number}} opts
+ */
+function alunoBiSetNextStep(opts){
+  const out={
+    kind:'legado',
+    role:null,
+    parIdx:-1,
+    targetExIdx:null,
+    targetBi:null,
+    targetS:null,
+    startRest:false,
+    restFrom:null,
+    reason:'sem_biset_valido'
+  };
+  opts=opts||{};
+  const exercicios=opts.exercicios;
+  if(!Array.isArray(exercicios)){out.reason='exercicios_invalido';return out;}
+  const exIdx=opts.exIdx;
+  if(!Number.isInteger(exIdx)||exIdx<0||exIdx>=exercicios.length){out.reason='exIdx_invalido';return out;}
+  const ex=exercicios[exIdx];
+  if(!ex||typeof ex!=='object'){out.reason='exercicio_ausente';return out;}
+  const grupo=getBiSetGrupo(ex);
+  if(!grupo){out.reason='sem_biset_valido';return out;}
+  const membrosIdx=[];
+  for(let i=0;i<exercicios.length;i++){
+    if(getBiSetGrupo(exercicios[i])===grupo)membrosIdx.push(i);
+  }
+  if(membrosIdx.length!==2){out.reason='grupo_invalido';return out;}
+  const idxA=Math.min(membrosIdx[0],membrosIdx[1]);
+  const idxB=Math.max(membrosIdx[0],membrosIdx[1]);
+  if(exIdx!==idxA&&exIdx!==idxB){out.reason='exIdx_fora_do_par';return out;}
+
+  const biN=Number(opts.bi);
+  if(!Number.isInteger(biN)||biN!==0){out.reason='bloco_nao_suportado';return out;}
+
+  const sRaw=opts.s;
+  if(sRaw==null||sRaw===''){out.reason='serie_invalida';return out;}
+  const sStr=String(sRaw).trim();
+  if(sStr===''||sStr==='c'||sStr.indexOf('cb')===0||sStr==='rp'||!/^-?\d+$/.test(sStr)){
+    out.reason='serie_especial';
+    return out;
+  }
+  const serieIdx=parseInt(sStr,10);
+  if(!Number.isInteger(serieIdx)||serieIdx<0){out.reason='serie_invalida';return out;}
+
+  const nA=Number(opts.nSeriesA);
+  const nB=Number(opts.nSeriesB);
+  if(!Number.isInteger(nA)||nA<=0||!Number.isInteger(nB)||nB<=0){out.reason='nSeries_invalido';return out;}
+
+  const shared=Math.min(nA,nB);
+  const role=exIdx===idxA?'A':'B';
+  const parIdx=exIdx===idxA?idxB:idxA;
+  const nSelf=role==='A'?nA:nB;
+  if(serieIdx>=nSelf){out.reason='serie_fora_faixa';return out;}
+
+  if(role==='A'){
+    if(serieIdx<shared){
+      return{
+        kind:'abrir_parceiro',
+        role:'A',
+        parIdx:idxB,
+        targetExIdx:idxB,
+        targetBi:0,
+        targetS:serieIdx,
+        startRest:false,
+        restFrom:null,
+        reason:'a_para_b'
+      };
+    }
+    // Excedente de A: B já terminou as séries compartilhadas.
+    if(serieIdx+1<nA){
+      return{
+        kind:'continuar_local',
+        role:'A',
+        parIdx:idxB,
+        targetExIdx:idxA,
+        targetBi:0,
+        targetS:null,
+        startRest:false,
+        restFrom:null,
+        reason:'a_excedente'
+      };
+    }
+    return{
+      kind:'fim_par',
+      role:'A',
+      parIdx:idxB,
+      targetExIdx:null,
+      targetBi:null,
+      targetS:null,
+      startRest:false,
+      restFrom:null,
+      reason:'fim_sem_serie_restante'
+    };
+  }
+
+  if(serieIdx<shared){
+    const nextA=serieIdx+1;
+    if(nextA<nA){
+      return{
+        kind:'descanso_entao_parceiro',
+        role:'B',
+        parIdx:idxA,
+        targetExIdx:idxA,
+        targetBi:0,
+        targetS:nextA,
+        startRest:true,
+        restFrom:'B',
+        reason:nextA<shared?'b_para_proxima_rodada':'b_para_a_excedente'
+      };
+    }
+    // A sem série futura; se B ainda tem excedente, não é fim_par.
+    if(serieIdx+1<nB){
+      return{
+        kind:'continuar_local',
+        role:'B',
+        parIdx:idxA,
+        targetExIdx:idxB,
+        targetBi:0,
+        targetS:null,
+        startRest:false,
+        restFrom:null,
+        reason:'b_excedente_apos_compartilhadas'
+      };
+    }
+    return{
+      kind:'fim_par',
+      role:'B',
+      parIdx:idxA,
+      targetExIdx:null,
+      targetBi:null,
+      targetS:null,
+      startRest:false,
+      restFrom:null,
+      reason:'fim_sem_serie_restante'
+    };
+  }
+  // Excedente de B.
+  if(serieIdx+1<nB){
+    return{
+      kind:'continuar_local',
+      role:'B',
+      parIdx:idxA,
+      targetExIdx:idxB,
+      targetBi:0,
+      targetS:null,
+      startRest:false,
+      restFrom:null,
+      reason:'b_excedente'
+    };
+  }
+  return{
+    kind:'fim_par',
+    role:'B',
+    parIdx:idxA,
+    targetExIdx:null,
+    targetBi:null,
+    targetS:null,
+    startRest:false,
+    restFrom:null,
+    reason:'fim_sem_serie_restante'
+  };
+}
+
 /** Índice do parceiro bi-set na lista do treino (aluno). */
 function alunoBiSetParIdx(idx,exercicios){
   const list=exercicios||(treinoAtual&&treinoAtual.exercicios)||[];
