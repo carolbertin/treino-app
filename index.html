@@ -15691,6 +15691,30 @@ function profImportApplyToEditor(){
     toast('Nada para importar');
     return;
   }
+  var al=editorAluno||alunoSel;
+  var cicloAtivo=al&&getCicloById(al,profEditorCicloAtivoId)?((profEditorCicloAtivoId||'')+'').trim():'';
+  if(cicloAtivo){
+    if(!al){toast('Abra o editor de um aluno');return;}
+    profEditorFlushCurrentTreinoLocal();
+    if(!al.treinos)al.treinos=[];
+    var nome=((profImportPreview.treinoNameSuggest||profImportPreview.sheetName||'')+'').trim()||'Treino';
+    var treino={
+      nome:nome,
+      obsGeral:((profImportPreview.obsGeral||'')+'').trim(),
+      exercicios:profImportFinalizeExercicios(profImportPreview.exercicios),
+      cicloId:cicloAtivo
+    };
+    al.treinos.push(treino);
+    editorAluno=al;
+    if(alunoSel&&alunoSel.id===al.id)alunoSel=al;
+    profEditorMarkStructDirty();
+    var newIdx=al.treinos.length-1;
+    var n=treino.exercicios.length;
+    profImportDiscardPreview(false);
+    profEditorLoadTreinoIdx(newIdx,{keepDirty:true});
+    toast('Novo treino importado ('+n+' exerc\u00edcio'+(n!==1?'s':'')+') \u2014 clique em Salvar');
+    return;
+  }
   var sug=profImportPreview.treinoNameSuggest||profImportPreview.sheetName;
   if(sug)profImportSuggestTreinoNome(sug);
   editorExercicios=profImportFinalizeExercicios(profImportPreview.exercicios);
