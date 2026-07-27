@@ -692,10 +692,17 @@ select.inp option{background:var(--bg3);}
 #screen-prof-ciclos .prof-ciclos-card-ren:hover{color:rgba(255,255,255,.65);background:rgba(255,255,255,.06);}
 #screen-prof-ciclos .prof-ciclos-card-dup{display:block;width:100%;margin-top:6px;padding:0;border:none;background:transparent;color:rgba(255,255,255,.32);font-family:inherit;font-size:11px;font-weight:500;text-align:left;cursor:pointer;transition:color .15s;}
 #screen-prof-ciclos .prof-ciclos-card-dup:hover{color:rgba(255,255,255,.55);}
+#screen-prof-ciclos .prof-ciclos-card-del{display:block;width:100%;margin-top:4px;padding:0;border:none;background:transparent;color:rgba(255,85,85,.45);font-family:inherit;font-size:11px;font-weight:500;text-align:left;cursor:pointer;transition:color .15s;}
+#screen-prof-ciclos .prof-ciclos-card-del:hover{color:rgba(255,85,85,.85);}
 #screen-prof-ciclos .prof-ciclos-sem-sec{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06);}
 #screen-prof-ciclos .prof-ciclos-sem-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:rgba(255,255,255,.55);font-family:inherit;font-size:13px;cursor:pointer;text-align:left;}
 #screen-prof-ciclos .prof-ciclos-sem-btn:active{background:rgba(255,255,255,.06);}
 #screen-prof-ciclos .prof-ciclos-sem-count{font-size:12px;color:rgba(255,255,255,.35);}
+#screen-prof-ciclos .prof-ciclos-sem-list{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px;}
+#screen-prof-ciclos .prof-ciclos-sem-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);}
+#screen-prof-ciclos .prof-ciclos-sem-item-nome{font-size:13px;font-weight:500;color:rgba(255,255,255,.88);line-height:1.35;word-break:break-word;min-width:0;flex:1;}
+#screen-prof-ciclos .prof-ciclos-sem-item-del{flex-shrink:0;padding:0;border:none;background:transparent;color:rgba(255,85,85,.55);font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;transition:color .15s;}
+#screen-prof-ciclos .prof-ciclos-sem-item-del:hover{color:rgba(255,85,85,.9);}
 #screen-prof-ciclos .prof-ciclos-migrar-btn{display:block;width:100%;margin-top:10px;padding:10px 14px;border-radius:10px;border:1px dashed rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.38);font-family:inherit;font-size:12px;line-height:1.4;cursor:pointer;text-align:left;transition:color .15s,border-color .15s,background .15s;}
 #screen-prof-ciclos .prof-ciclos-migrar-btn:hover{color:rgba(255,255,255,.55);border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.03);}
 #screen-prof-ciclos .prof-ciclos-migrar-btn:active{background:rgba(255,255,255,.05);}
@@ -3370,7 +3377,8 @@ function profCiclosCardHtml(c,idx,count,opts){
   const wrapCls=arquivado?' prof-ciclos-card-wrap--arq':'';
   const visLbl=vis?'\ud83d\udc41 Vis\u00edvel para aluno':'Oculta para aluno';
   const renBtn=arquivado?'':'<button type="button" class="prof-ciclos-card-ren" onclick="profCiclosRenomear(\''+escJs(c.id)+'\')" aria-label="Renomear pasta">\u22ef</button>';
-  const dupBtn=arquivado?'':'<button type="button" class="prof-ciclos-card-dup" onclick="profCiclosDuplicar(\''+escJs(c.id)+'\')">Duplicar</button>';
+  const dupBtn=arquivado?'':'<button type="button" class="prof-ciclos-card-dup" onclick="event.stopPropagation();profCiclosDuplicar(\''+escJs(c.id)+'\')">Duplicar</button>';
+  const delBtn=arquivado?'':'<button type="button" class="prof-ciclos-card-del" onclick="event.stopPropagation();profCiclosExcluir(\''+escJs(c.id)+'\')">Excluir pasta</button>';
   const openStart=arquivado
     ?'<div class="prof-ciclos-card-open">'
     :'<button type="button" class="prof-ciclos-card-open" onclick="profCiclosAbrirPasta(\''+escJs(c.id)+'\')">';
@@ -3387,6 +3395,7 @@ function profCiclosCardHtml(c,idx,count,opts){
     +'<span class="prof-ciclos-card-count">'+count+' treino'+(count!==1?'s':'')+'</span>'
     +openEnd
     +dupBtn
+    +delBtn
     +'<div class="prof-ciclos-card-foot"><span class="prof-ciclos-card-vis-lbl">'+visLbl+'</span>'+toggleBtn+'</div>'
     +'</div>'
     +'</article>';
@@ -3448,11 +3457,24 @@ function profCiclosRender(){
   ativos.forEach(function(c,i){html+=profCiclosCardHtml(c,i,profCicloCountTreinos(al,c.id));});
   grid.innerHTML=html;
   const semWrap=$('prof-ciclos-sem-pasta');
-  const semCount=profCiclosTreinosSemPasta(al).length;
+  const semTreinos=[];
+  (al.treinos||[]).forEach(function(t,ti){
+    if(!getTreinoCicloId(t))semTreinos.push({t:t,idx:ti});
+  });
+  const semCount=semTreinos.length;
   if(semWrap){
     if(semCount>0){
       const destino=getCicloByNome(al,'TREINO 1');
       let semHtml='<section class="prof-ciclos-sem-sec"><div class="prof-ciclos-sem-btn" style="cursor:default;pointer-events:none"><span class="prof-ciclos-sem-lbl">Sem pasta</span><span class="prof-ciclos-sem-count">'+semCount+' treino'+(semCount!==1?'s':'')+'</span></div>';
+      semHtml+='<ul class="prof-ciclos-sem-list">';
+      semTreinos.forEach(function(item){
+        const nome=((item.t.nome||'')+'').trim()||'(sem nome)';
+        semHtml+='<li class="prof-ciclos-sem-item">'
+          +'<span class="prof-ciclos-sem-item-nome">'+esc(nome)+'</span>'
+          +'<button type="button" class="prof-ciclos-sem-item-del" onclick="profCiclosExcluirTreinoSemPasta('+item.idx+')">Excluir treino</button>'
+          +'</li>';
+      });
+      semHtml+='</ul>';
       if(destino){
         semHtml+='<button type="button" class="prof-ciclos-migrar-btn" onclick="profCiclosMigrarSemPasta()">Mover treinos sem pasta para TREINO 1</button>';
       }
@@ -3623,6 +3645,73 @@ window.profCiclosDuplicar=async function(cicloId){
   }catch(e){
     console.error('profCiclosDuplicar:',e);
     toast('\u274C Erro ao duplicar pasta');
+  }
+};
+
+window.profCiclosExcluir=async function(cicloId){
+  const al=profCiclosAlunoAtual();
+  if(!al)return;
+  const cid=((cicloId||'')+'').trim();
+  if(!cid)return;
+  const ciclo=getCicloById(al,cid);
+  if(!ciclo)return;
+  const qtd=profCicloCountTreinos(al,cid);
+  const msg='Excluir esta pasta?\n\n'
+    +'Todos os treinos desta pasta ser\u00e3o exclu\u00eddos permanentemente'
+    +(qtd?' ('+qtd+' treino'+(qtd!==1?'s':'')+')':'')
+    +'.\n\n'
+    +'Esta a\u00e7\u00e3o n\u00e3o poder\u00e1 ser desfeita.';
+  if(!confirm(msg))return;
+  const listaCiclos=profCiclosListaFromAluno(al).filter(function(c){return c.id!==cid;});
+  const treinos=(al.treinos||[]).filter(function(t){return getTreinoCicloId(t)!==cid;});
+  const estavaAberta=profEditorCicloAtivoId!=null&&String(profEditorCicloAtivoId)===cid;
+  try{
+    await profCiclosPersist(listaCiclos);
+    await profCiclosTreinosPersist(treinos);
+    if(estavaAberta){
+      profEditorCicloAtivoId=null;
+      profCiclosAbrir();
+    }else{
+      profCiclosRender();
+    }
+    toast('\u2713 Pasta exclu\u00edda');
+  }catch(e){
+    console.error('profCiclosExcluir:',e);
+    toast('\u274C Erro ao excluir pasta');
+  }
+};
+
+/** Exclui imediatamente um treino da se\u00e7\u00e3o Sem pasta (sem cicloId). */
+window.profCiclosExcluirTreinoSemPasta=async function(treinoIdx){
+  const al=profCiclosAlunoAtual();
+  if(!al)return;
+  const idx=Number(treinoIdx);
+  if(!Number.isInteger(idx)||idx<0)return;
+  const t=(al.treinos||[])[idx];
+  if(!t)return;
+  if(getTreinoCicloId(t)){
+    toast('S\u00f3 \u00e9 poss\u00edvel excluir treinos sem pasta');
+    return;
+  }
+  const nome=((t.nome||'')+'').trim()||'este treino';
+  const msg='Excluir este treino?\n\n'
+    +'"'+nome+'"\n\n'
+    +'Esta a\u00e7\u00e3o n\u00e3o poder\u00e1 ser desfeita.';
+  if(!confirm(msg))return;
+  const treinos=(al.treinos||[]).slice();
+  treinos.splice(idx,1);
+  try{
+    await profCiclosTreinosPersist(treinos);
+    if(editorTreinoIdx===idx){
+      editorTreinoIdx=-1;
+    }else if(typeof editorTreinoIdx==='number'&&editorTreinoIdx>idx){
+      editorTreinoIdx--;
+    }
+    profCiclosRender();
+    toast('\u2713 Treino exclu\u00eddo');
+  }catch(e){
+    console.error('profCiclosExcluirTreinoSemPasta:',e);
+    toast('\u274C Erro ao excluir treino');
   }
 };
 
