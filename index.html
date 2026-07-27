@@ -6126,7 +6126,7 @@ function alunoBiSetNextStep(opts){
   if(exIdx!==idxA&&exIdx!==idxB){out.reason='exIdx_fora_do_par';return out;}
 
   const biN=Number(opts.bi);
-  if(!Number.isInteger(biN)||biN!==0){out.reason='bloco_nao_suportado';return out;}
+  if(!Number.isInteger(biN)||biN<0){out.reason='bloco_nao_suportado';return out;}
 
   const sRaw=opts.s;
   if(sRaw==null||sRaw===''){out.reason='serie_invalida';return out;}
@@ -6142,6 +6142,88 @@ function alunoBiSetNextStep(opts){
   const nB=Number(opts.nSeriesB);
   if(!Number.isInteger(nA)||nA<=0||!Number.isInteger(nB)||nB<=0){out.reason='nSeries_invalido';return out;}
 
+  // Fim do bloco atual: só decide se há próximo índice em blocos[] (mesma ordem da prescrição).
+  // Não reimplementa Feeder/Work/Cluster — usa o próximo bi da lista.
+  const resolveAposFimBloco=function(role){
+    const lenA=normalizarExercicio(exercicios[idxA]).length;
+    const lenB=normalizarExercicio(exercicios[idxB]).length;
+    const nextBi=biN+1;
+    const proximoBlocoEncontrado=(nextBi<lenA||nextBi<lenB)?nextBi:null;
+    let stepOut;
+    if(proximoBlocoEncontrado==null){
+      stepOut={
+        kind:'fim_par',
+        role:role,
+        parIdx:role==='A'?idxB:idxA,
+        targetExIdx:null,
+        targetBi:null,
+        targetS:null,
+        startRest:false,
+        restFrom:null,
+        reason:'fim_sem_serie_restante'
+      };
+    }else if(nextBi<lenA){
+      if(role==='A'){
+        stepOut={
+          kind:'continuar_local',
+          role:'A',
+          parIdx:idxB,
+          targetExIdx:idxA,
+          targetBi:nextBi,
+          targetS:0,
+          startRest:false,
+          restFrom:null,
+          reason:'proximo_bloco'
+        };
+      }else{
+        stepOut={
+          kind:'descanso_entao_parceiro',
+          role:'B',
+          parIdx:idxA,
+          targetExIdx:idxA,
+          targetBi:nextBi,
+          targetS:0,
+          startRest:true,
+          restFrom:'B',
+          reason:'proximo_bloco'
+        };
+      }
+    }else if(role==='B'){
+      stepOut={
+        kind:'continuar_local',
+        role:'B',
+        parIdx:idxA,
+        targetExIdx:idxB,
+        targetBi:nextBi,
+        targetS:0,
+        startRest:false,
+        restFrom:null,
+        reason:'proximo_bloco'
+      };
+    }else{
+      stepOut={
+        kind:'abrir_parceiro',
+        role:'A',
+        parIdx:idxB,
+        targetExIdx:idxB,
+        targetBi:nextBi,
+        targetS:0,
+        startRest:false,
+        restFrom:null,
+        reason:'proximo_bloco'
+      };
+    }
+    console.log('[M2.5-diag]',{
+      fim_bloco:true,
+      blocoAtual:biN,
+      proximoBlocoEncontrado:proximoBlocoEncontrado,
+      targetBi:stepOut.targetBi,
+      targetExIdx:stepOut.targetExIdx,
+      reason:stepOut.reason
+    });
+    return stepOut;
+  };
+
   const shared=Math.min(nA,nB);
   const role=exIdx===idxA?'A':'B';
   const parIdx=exIdx===idxA?idxB:idxA;
@@ -6155,7 +6237,7 @@ function alunoBiSetNextStep(opts){
         role:'A',
         parIdx:idxB,
         targetExIdx:idxB,
-        targetBi:0,
+        targetBi:biN,
         targetS:serieIdx,
         startRest:false,
         restFrom:null,
@@ -6169,24 +6251,14 @@ function alunoBiSetNextStep(opts){
         role:'A',
         parIdx:idxB,
         targetExIdx:idxA,
-        targetBi:0,
+        targetBi:biN,
         targetS:null,
         startRest:false,
         restFrom:null,
         reason:'a_excedente'
       };
     }
-    return{
-      kind:'fim_par',
-      role:'A',
-      parIdx:idxB,
-      targetExIdx:null,
-      targetBi:null,
-      targetS:null,
-      startRest:false,
-      restFrom:null,
-      reason:'fim_sem_serie_restante'
-    };
+    return resolveAposFimBloco('A');
   }
 
   if(serieIdx<shared){
@@ -6197,7 +6269,7 @@ function alunoBiSetNextStep(opts){
         role:'B',
         parIdx:idxA,
         targetExIdx:idxA,
-        targetBi:0,
+        targetBi:biN,
         targetS:nextA,
         startRest:true,
         restFrom:'B',
@@ -6211,24 +6283,14 @@ function alunoBiSetNextStep(opts){
         role:'B',
         parIdx:idxA,
         targetExIdx:idxB,
-        targetBi:0,
+        targetBi:biN,
         targetS:null,
         startRest:false,
         restFrom:null,
         reason:'b_excedente_apos_compartilhadas'
       };
     }
-    return{
-      kind:'fim_par',
-      role:'B',
-      parIdx:idxA,
-      targetExIdx:null,
-      targetBi:null,
-      targetS:null,
-      startRest:false,
-      restFrom:null,
-      reason:'fim_sem_serie_restante'
-    };
+    return resolveAposFimBloco('B');
   }
   // Excedente de B.
   if(serieIdx+1<nB){
@@ -6237,24 +6299,14 @@ function alunoBiSetNextStep(opts){
       role:'B',
       parIdx:idxA,
       targetExIdx:idxB,
-      targetBi:0,
+      targetBi:biN,
       targetS:null,
       startRest:false,
       restFrom:null,
       reason:'b_excedente'
     };
   }
-  return{
-    kind:'fim_par',
-    role:'B',
-    parIdx:idxA,
-    targetExIdx:null,
-    targetBi:null,
-    targetS:null,
-    startRest:false,
-    restFrom:null,
-    reason:'fim_sem_serie_restante'
-  };
+  return resolveAposFimBloco('B');
 }
 
 /** Índice do parceiro bi-set na lista do treino (aluno). */
@@ -9470,22 +9522,26 @@ window.alunoCheckSerieRow=function(bi,s,nSeries,timerSeg,pref){
       for(let i=0;i<list.length;i++){if(getBiSetGrupo(list[i])===g)mi.push(i);}
       if(mi.length===2){
         const iA=Math.min(mi[0],mi[1]),iB=Math.max(mi[0],mi[1]);
-        const countEx=function(ex){
+        const countEx=function(ex,biIdx){
           const bl=normalizarExercicio(ex);
-          if(bl.length!==1)return 0;
-          const b=bl[0];
+          const biN=Number(biIdx);
+          if(!bl.length||!Number.isInteger(biN)||biN<0||biN>=bl.length)return 0;
+          // séries do bloco atual (bi) — necessário p/ Feeder→Work
+          const b=bl[biN];
           const pr=interpretarPrescricao(b.meta||'');
-          const tec=alunoTecnicaParaTranslator(b);
-          const tip=((b.tipo||'')+'').toLowerCase();
-          if(typeof alunoUsaRenderSerieRows==='function'&&!alunoUsaRenderSerieRows(tec,tip))return 0;
-          if(pr.modoLinhas&&pr.linhas&&pr.linhas.length)return pr.linhas.length;
-          return Math.max(1,pr.series||parseSeries(b.meta||'')||1);
+          if(pr.modoLinhas&&pr.linhas&&pr.linhas.length){
+            return Math.max(1,pr.linhas.length|0);
+          }
+          const raw=pr.series!=null?pr.series:parseSeries(b.meta||'');
+          const n=parseInt(raw,10);
+          return Number.isInteger(n)&&n>0?n:1;
         };
-        nA=countEx(list[iA]);nB=countEx(list[iB]);
+        nA=countEx(list[iA],bi);nB=countEx(list[iB],bi);
         const nArg=Number(nSeries);
-        if(Number(bi)===0&&Number.isInteger(nArg)&&nArg>0){
-          if(curIdx===iA)nA=nArg;
-          if(curIdx===iB)nB=nArg;
+        if(Number.isFinite(nArg)&&nArg>0){
+          const nFix=Math.max(1,Math.floor(nArg));
+          if(curIdx===iA)nA=nFix;
+          if(curIdx===iB)nB=nFix;
         }
         helperCalled=true;
         step=alunoBiSetNextStep({exercicios:list,exIdx:curIdx,bi:bi,s:s,nSeriesA:nA,nSeriesB:nB});
