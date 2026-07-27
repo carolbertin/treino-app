@@ -9436,7 +9436,10 @@ function alunoProximoTimerLabel(bi,s,nSeries){
 window.alunoCheckSerieRow=function(bi,s,nSeries,timerSeg,pref){
   pref=pref!=null?String(pref):'';
   const row=document.querySelector('.aluno-serie-row[data-bi="'+bi+'"][data-s="'+s+'"]');
-  if(!row)return;
+  if(!row){
+    console.log('[M2.2-diag] ABORT row_nao_encontrada',{bi:bi,s:s});
+    return;
+  }
   const chk=row.querySelector('.aluno-serie-check');
   if(row.classList.contains('aluno-serie-row--done')){
     row.classList.remove('aluno-serie-row--done');
@@ -9445,6 +9448,7 @@ window.alunoCheckSerieRow=function(bi,s,nSeries,timerSeg,pref){
     salvarSessaoTreinoLS();
     alunoSyncRowsProgress();
     alunoRefreshExecFocoVisual();
+    console.log('[M2.2-diag] ABORT uncheck_serie',{bi:bi,s:s});
     return;
   }
   row.classList.add('aluno-serie-row--done');
@@ -9453,11 +9457,16 @@ window.alunoCheckSerieRow=function(bi,s,nSeries,timerSeg,pref){
   // M2 — bi-set: alternância via helper (sem timer/descanso nesta etapa)
   const list=(treinoAtual&&treinoAtual.exercicios)||[];
   const curIdx=exAtual!=null&&exAtual.idx!=null?exAtual.idx:-1;
+  const curNome=exAtual&&exAtual.nome!=null?String(exAtual.nome):'';
   let step={kind:'legado'};
+  let g='';
+  let mi=[];
+  let nA=null,nB=null;
+  let helperCalled=false;
+  let gateSkip='';
   if(curIdx>=0&&list[curIdx]&&typeof alunoBiSetNextStep==='function'){
-    const g=getBiSetGrupo(list[curIdx]);
+    g=getBiSetGrupo(list[curIdx]);
     if(g){
-      const mi=[];
       for(let i=0;i<list.length;i++){if(getBiSetGrupo(list[i])===g)mi.push(i);}
       if(mi.length===2){
         const iA=Math.min(mi[0],mi[1]),iB=Math.max(mi[0],mi[1]);
@@ -9472,23 +9481,59 @@ window.alunoCheckSerieRow=function(bi,s,nSeries,timerSeg,pref){
           if(pr.modoLinhas&&pr.linhas&&pr.linhas.length)return pr.linhas.length;
           return Math.max(1,pr.series||parseSeries(b.meta||'')||1);
         };
-        let nA=countEx(list[iA]),nB=countEx(list[iB]);
+        nA=countEx(list[iA]);nB=countEx(list[iB]);
         const nArg=Number(nSeries);
         if(Number(bi)===0&&Number.isInteger(nArg)&&nArg>0){
           if(curIdx===iA)nA=nArg;
           if(curIdx===iB)nB=nArg;
         }
+        helperCalled=true;
         step=alunoBiSetNextStep({exercicios:list,exIdx:curIdx,bi:bi,s:s,nSeriesA:nA,nSeriesB:nB});
+      }else{
+        gateSkip='mi.length!==2';
       }
+    }else{
+      gateSkip='sem_biSetGrupo';
     }
+  }else{
+    gateSkip=!list[curIdx]?'sem_exercicio_atual':(typeof alunoBiSetNextStep!=='function'?'helper_ausente':'curIdx_invalido');
   }
+  console.log('[M2.2-diag]',{
+    curIdx:curIdx,
+    curNome:curNome,
+    bi:bi,
+    s:s,
+    nSeriesArg:nSeries,
+    biSetGrupo:g,
+    mi:mi.slice(),
+    miLength:mi.length,
+    nSeriesA:nA,
+    nSeriesB:nB,
+    helperCalled:helperCalled,
+    gateSkip:gateSkip||null,
+    step:step?{
+      kind:step.kind,
+      reason:step.reason,
+      role:step.role,
+      parIdx:step.parIdx,
+      targetExIdx:step.targetExIdx,
+      targetBi:step.targetBi,
+      targetS:step.targetS,
+      startRest:step.startRest,
+      restFrom:step.restFrom
+    }:null,
+    blocosA:mi.length===2?normalizarExercicio(list[Math.min(mi[0],mi[1])]).length:null,
+    blocosB:mi.length===2?normalizarExercicio(list[Math.max(mi[0],mi[1])]).length:null
+  });
   if(step.kind==='abrir_parceiro'||step.kind==='descanso_entao_parceiro'){
+    console.log('[M2.2-diag] RAMO_ABRIR_PARCEIRO',{kind:step.kind,targetExIdx:step.targetExIdx,targetBi:step.targetBi,targetS:step.targetS});
     persistirExercicioAtualNaSessao();
     salvarSessaoTreinoLS();
     alunoSyncRowsProgress();
     alunoRefreshExecFocoVisual();
     const parEx=list[step.targetExIdx];
     if(parEx&&step.targetExIdx!=null){
+      console.log('[M2.2-diag] CHAMA_abrirExercicio',{targetExIdx:step.targetExIdx,parNome:parEx.nome||''});
       abrirExercicio(parEx,step.targetExIdx);
       const tBi=step.targetBi!=null?step.targetBi:0;
       const tS=step.targetS;
@@ -9499,10 +9544,13 @@ window.alunoCheckSerieRow=function(bi,s,nSeries,timerSeg,pref){
           if(tr)tr.scrollIntoView({behavior:'smooth',block:'nearest'});
         },80);
       }
+    }else{
+      console.log('[M2.2-diag] ABORT parEx_invalido',{targetExIdx:step.targetExIdx,parEx:!!parEx});
     }
     return;
   }
 
+  console.log('[M2.2-diag] RAMO_LEGADO_SEM_NAVEGACAO',{kind:step.kind,reason:step.reason||gateSkip||'default_legado'});
   if(alunoHasProximaLinhaApos(bi,s)){
     const segN=Math.max(0,Number(timerSeg)||0);
     if(segN>0)iniciarTimer(segN,alunoProximoTimerLabel(bi,s,nSeries),undefined,pref);
