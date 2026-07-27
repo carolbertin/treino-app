@@ -607,6 +607,8 @@ select.inp option{background:var(--bg3);}
 }
 .ex-subst-link{font-size:12px;color:var(--info);margin-top:4px;cursor:pointer;display:inline-block;}
 .ex-subst-link:hover{text-decoration:underline;}
+.ex-subst-ativo-lbl{font-size:11px;color:var(--text3);margin-top:3px;line-height:1.35;}
+.planilha-nome .ex-subst-ativo-lbl{white-space:normal;margin-top:2px;}
 .ultimo-reg{background:var(--bg3);border-radius:var(--rsm);padding:14px;margin-bottom:20px;}
 .ultimo-reg-label{font-size:11px;color:var(--text3);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
 .ultimo-reg-valor{font-size:18px;font-weight:600;font-family:'DM Mono',monospace;color:var(--accent);}
@@ -7162,7 +7164,13 @@ function salvarSessaoTreinoLS(){
   sessaoTreinoAtual.data=sessaoDataHojeLocal();
   sessaoTreinoAtual.treinoKey=treinoSessaoKey(treinoAtual.nome);
   sessaoTreinoAtual.atualizadaEm=Date.now();
-  try{localStorage.setItem(sessaoLsKey(treinoAtual.nome),JSON.stringify(sessaoTreinoAtual));}catch(e){console.warn('sessao treino save:',e);}
+  // exAtivoExecucao é só runtime (mesmo objeto de usarSubstituto); não persiste schema novo
+  const ativoExec=sessaoTreinoAtual.exAtivoExecucao;
+  try{
+    delete sessaoTreinoAtual.exAtivoExecucao;
+    localStorage.setItem(sessaoLsKey(treinoAtual.nome),JSON.stringify(sessaoTreinoAtual));
+  }catch(e){console.warn('sessao treino save:',e);}
+  if(ativoExec)sessaoTreinoAtual.exAtivoExecucao=ativoExec;
 }
 
 function alunoSnapshotSeriesDoneDom(){
@@ -7232,8 +7240,42 @@ function alunoRascunhoExercicioConcluido(idx,nome,ex){
   return esperadas.every(k=>!!sd[k]);
 }
 
+/** Rascunho da sessão pelo exIdx (prescrito ou substituto ativo) — não depende só do nome. */
+function alunoRascunhoSessaoPorIdx(idx){
+  if(!sessaoTreinoValidaHoje(sessaoTreinoAtual,treinoAtual&&treinoAtual.nome))return null;
+  const exs=sessaoTreinoAtual.exercicios;
+  if(!exs||typeof exs!=='object')return null;
+  const ativo=typeof alunoExAtivoExecucaoGet==='function'?alunoExAtivoExecucaoGet(idx):null;
+  if(ativo){
+    const dAt=exs[exercicioSessaoKey(idx,ativo.nome)];
+    if(dAt)return dAt;
+  }
+  const prescrito=(treinoAtual&&treinoAtual.exercicios||[])[idx];
+  if(prescrito){
+    const dPr=exs[exercicioSessaoKey(idx,prescrito.nome)];
+    if(dPr)return dPr;
+  }
+  const keys=Object.keys(exs);
+  for(let i=0;i<keys.length;i++){
+    const d=exs[keys[i]];
+    if(d&&Number(d.idx)===Number(idx))return d;
+  }
+  return null;
+}
+
+function alunoRascunhoExercicioConcluidoPorIdx(idx,ex){
+  const draft=alunoRascunhoSessaoPorIdx(idx);
+  if(!draft||!draft.seriesDone||typeof draft.seriesDone!=='object')return false;
+  const esperadas=alunoSeriesDoneKeysEsperadasEx(ex);
+  if(!esperadas.length)return false;
+  const sd=draft.seriesDone;
+  return esperadas.every(k=>!!sd[k]);
+}
+
 function alunoExercicioListaConcluido(ex,idx){
-  return exFeitosHoje.has(idx)||alunoRascunhoExercicioConcluido(idx,ex.nome,ex);
+  if(exFeitosHoje.has(idx))return true;
+  const ativo=typeof alunoExAtivoExecucaoGet==='function'?alunoExAtivoExecucaoGet(idx):null;
+  return alunoRascunhoExercicioConcluidoPorIdx(idx,ativo||ex);
 }
 
 function persistirExercicioAtualNaSessao(){
@@ -8020,15 +8062,19 @@ function renderListaEx(){
 
 function alunoRenderExItemEl(exercicios,i){
   const ex=exercicios[i];
+  const ativo=typeof alunoExAtivoExecucaoGet==='function'?alunoExAtivoExecucaoGet(i):null;
+  const usouSubst=!!(ativo&&ativo.exercicioOriginal);
+  const nomeAtivo=usouSubst?ativo.nome:ex.nome;
   const feito=alunoExercicioListaConcluido(ex,i);
-  const temSubst=(ex.substitutos||[]).filter(s=>s.nome).length>0;
+  const temSubst=!usouSubst&&(ex.substitutos||[]).filter(s=>s.nome).length>0;
   const timerLbl=restTimerExIdx===i?alunoRestTimerListaLabel():null;
   const vis=alunoBiSetVisualContext(i,exercicios);
   const el=document.createElement('div');
   el.className='ex-item'+(feito?' done':'')+(vis&&vis.showTag?' ex-item--biset':'');
   el.innerHTML='<div class="ex-num">'+(feito?'\u2713':(i+1))+'</div>'
     +'<div class="ex-info">'
-      +'<div class="ex-nome">'+esc(ex.nome)+'</div>'
+      +'<div class="ex-nome">'+esc(nomeAtivo)+'</div>'
+      +(usouSubst?'<div class="ex-subst-ativo-lbl">Substituindo: '+esc(ex.nome)+'</div>':'')
       +(vis&&vis.showTag?alunoBiSetTagHtml(i,exercicios):'')
       +(timerLbl?'<div class="ex-timer-ativo">'+esc(timerLbl)+'</div>':'')
       +(temSubst?'<div class="ex-subst-link" data-idx="'+i+'">\u21B3 Ver substituto</div>':'')
@@ -8040,13 +8086,17 @@ function alunoRenderExItemEl(exercicios,i){
       verSubstituto(parseInt(e.target.dataset.idx));
       return;
     }
-    abrirExercicio(ex,i);
+    const abrir=typeof alunoExParaAbrir==='function'?alunoExParaAbrir(i):ex;
+    abrirExercicio(abrir,i);
   });
   return el;
 }
 
 function alunoRenderPlanilhaRowEl(exercicios,i){
   const ex=exercicios[i];
+  const ativo=typeof alunoExAtivoExecucaoGet==='function'?alunoExAtivoExecucaoGet(i):null;
+  const usouSubst=!!(ativo&&ativo.exercicioOriginal);
+  const nomeAtivo=usouSubst?ativo.nome:ex.nome;
   const feito=alunoExercicioListaConcluido(ex,i);
   const vis=alunoBiSetVisualContext(i,exercicios);
   const row=document.createElement('div');
@@ -8056,10 +8106,14 @@ function alunoRenderPlanilhaRowEl(exercicios,i){
     ?(blPl.length+' etapas')
     :alunoCopyBloco(blPl[0]||{tipo:ex.tipo,tecnica:ex.tecnica,meta:ex.meta||'',obs:ex.obs||''},{blocoIndex:0,totalBlocos:Math.max(1,blPl.length)}).tituloAluno;
   const timerLbl=restTimerExIdx===i?alunoRestTimerListaLabel():null;
-  row.innerHTML='<div class="planilha-num">'+(feito?'\u2713':(i+1))+'</div><div class="planilha-nome">'+esc(ex.nome)
+  row.innerHTML='<div class="planilha-num">'+(feito?'\u2713':(i+1))+'</div><div class="planilha-nome">'+esc(nomeAtivo)
+    +(usouSubst?'<div class="ex-subst-ativo-lbl">Substituindo: '+esc(ex.nome)+'</div>':'')
     +(vis&&vis.showTag?alunoBiSetTagHtml(i,exercicios):'')
     +(timerLbl?'<div class="ex-timer-ativo">'+esc(timerLbl)+'</div>':'')+'</div><div class="planilha-tipo">'+esc(tipoPl)+'</div><div class="planilha-meta">'+esc(textoMetaListaAlunoSimples(ex))+'</div>';
-  row.addEventListener('click',()=>abrirExercicio(ex,i));
+  row.addEventListener('click',()=>{
+    const abrir=typeof alunoExParaAbrir==='function'?alunoExParaAbrir(i):ex;
+    abrirExercicio(abrir,i);
+  });
   return row;
 }
 
@@ -9587,10 +9641,17 @@ window.alunoCheckSerieRow=function(bi,s,nSeries,timerSeg,pref){
     salvarSessaoTreinoLS();
     alunoSyncRowsProgress();
     alunoRefreshExecFocoVisual();
-    const parEx=list[step.targetExIdx];
-    if(parEx&&step.targetExIdx!=null){
-      console.log('[M2.2-diag] CHAMA_abrirExercicio',{targetExIdx:step.targetExIdx,parNome:parEx.nome||''});
-      abrirExercicio(parEx,step.targetExIdx);
+    const tIdx=step.targetExIdx;
+    const parEx=typeof alunoExParaAbrir==='function'?alunoExParaAbrir(tIdx):list[tIdx];
+    if(parEx&&tIdx!=null){
+      console.log('[M2.7-diag]',{
+        targetExIdx:tIdx,
+        objetoResolvido:parEx,
+        ehSubstituto:!!(parEx&&parEx.exercicioOriginal),
+        nomeExibido:parEx&&parEx.nome!=null?String(parEx.nome):''
+      });
+      console.log('[M2.2-diag] CHAMA_abrirExercicio',{targetExIdx:tIdx,parNome:parEx.nome||''});
+      abrirExercicio(parEx,tIdx);
       const tBi=step.targetBi!=null?step.targetBi:0;
       const tS=step.targetS;
       if(tS!=null){
@@ -11881,6 +11942,32 @@ window.verSubstituto=(exIdx)=>{
   abrirModal('modal-subst');
 };
 
+/** Exercício ativo na execução (mesmo objeto de usarSubstituto); não altera treinoAtual.exercicios. */
+function alunoExAtivoExecucaoGet(idx){
+  if(!sessaoTreinoValidaHoje(sessaoTreinoAtual,treinoAtual&&treinoAtual.nome))return null;
+  const m=sessaoTreinoAtual.exAtivoExecucao;
+  if(!m||typeof m!=='object')return null;
+  const ex=m[idx];
+  return ex&&ex.exercicioOriginal?ex:null;
+}
+function alunoExAtivoExecucaoSet(idx,ex){
+  if(!sessaoTreinoValidaHoje(sessaoTreinoAtual,treinoAtual&&treinoAtual.nome))return;
+  if(!sessaoTreinoAtual.exAtivoExecucao||typeof sessaoTreinoAtual.exAtivoExecucao!=='object')
+    sessaoTreinoAtual.exAtivoExecucao={};
+  if(ex&&ex.exercicioOriginal){
+    sessaoTreinoAtual.exAtivoExecucao[idx]=ex;
+    exSubstitutoIdx=idx;
+  }else{
+    delete sessaoTreinoAtual.exAtivoExecucao[idx];
+    if(exSubstitutoIdx===idx)exSubstitutoIdx=null;
+  }
+}
+/** Resolve o exercício a abrir por idx: substituto ativo da execução, senão o prescrito. */
+function alunoExParaAbrir(idx){
+  const prescrito=(treinoAtual&&treinoAtual.exercicios||[])[idx];
+  return alunoExAtivoExecucaoGet(idx)||prescrito;
+}
+
 window.usarSubstituto=(exIdx,substIdx)=>{
   const exOriginal=(treinoAtual.exercicios||[])[exIdx];
   if(!exOriginal) return;
@@ -11896,6 +11983,7 @@ window.usarSubstituto=(exIdx,substIdx)=>{
     exercicioOriginal:exOriginal.nome, // referência para o professor
     idx:exIdx
   };
+  alunoExAtivoExecucaoSet(exIdx,exSubst);
   fecharModal('modal-subst');
   abrirExercicio(exSubst,exIdx);
 };
@@ -11903,6 +11991,7 @@ window.usarSubstituto=(exIdx,substIdx)=>{
 window.voltarExercicioPrincipal=function(exIdx){
   const exOriginal=(treinoAtual.exercicios||[])[exIdx];
   if(!exOriginal)return;
+  alunoExAtivoExecucaoSet(exIdx,null);
   fecharModal('modal-subst');
   abrirExercicio(exOriginal,exIdx);
 };
