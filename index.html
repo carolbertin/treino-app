@@ -394,6 +394,14 @@ select.inp option{background:var(--bg3);}
 .planilha-row--biset:hover{background:rgba(237,147,177,.08);}
 .aluno-ex-biset-badge{display:inline-flex;align-items:center;gap:5px;margin:0 0 8px;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:600;color:var(--biset-color,#ED93B1);border:1px solid rgba(237,147,177,.38);background:rgba(237,147,177,.1);}
 .aluno-ex-biset-badge-ico{font-size:12px;line-height:1;}
+.aluno-biset-aviso{position:fixed;inset:0;z-index:9990;display:flex;align-items:center;justify-content:center;padding:28px 22px;background:rgba(0,0,0,.55);opacity:0;transition:opacity .2s ease;pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.aluno-biset-aviso--in{opacity:1;}
+.aluno-biset-aviso--out{opacity:0;pointer-events:none;}
+.aluno-biset-aviso-box{width:100%;max-width:340px;padding:28px 24px 26px;border-radius:var(--radius);background:var(--bg2);border:1px solid rgba(237,147,177,.35);box-shadow:0 16px 48px rgba(0,0,0,.45),0 0 0 1px rgba(237,147,177,.08);text-align:center;transform:translateY(8px) scale(.98);transition:transform .22s ease;pointer-events:none;}
+.aluno-biset-aviso--in .aluno-biset-aviso-box{transform:translateY(0) scale(1);}
+.aluno-biset-aviso-tit{font-size:15px;font-weight:700;letter-spacing:.02em;color:var(--biset-color,#ED93B1);margin-bottom:10px;}
+.aluno-biset-aviso-sub{font-size:13px;line-height:1.4;color:var(--text2);margin-bottom:12px;}
+.aluno-biset-aviso-nome{font-size:22px;font-weight:600;line-height:1.3;color:var(--text);letter-spacing:-.02em;}
 .planilha-view{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px;}
 .planilha-header{display:grid;grid-template-columns:28px 1fr 90px 80px;gap:0;background:var(--bg3);padding:8px 12px;border-bottom:1px solid var(--border);}
 .planilha-header span{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;}
@@ -6311,6 +6319,49 @@ function alunoBiSetNextStep(opts){
   return resolveAposFimBloco('B');
 }
 
+/** Overlay antes da abertura automática no bi-set (só UI; não altera a lógica). */
+function alunoBiSetAvisoTroca(opts,onDone){
+  opts=opts||{};
+  const modo=opts.modo==='voltar'?'voltar':'trocar';
+  const nome=((opts.nome!=null?opts.nome:'')+'').trim()||'\u2014';
+  const prev=document.getElementById('aluno-biset-aviso');
+  if(prev&&prev.parentNode)prev.parentNode.removeChild(prev);
+  const el=document.createElement('div');
+  el.id='aluno-biset-aviso';
+  el.className='aluno-biset-aviso';
+  el.setAttribute('role','status');
+  el.setAttribute('aria-live','polite');
+  const tit=modo==='voltar'?'Hora de voltar':'Hora de trocar de exerc\xEDcio';
+  const sub=modo==='voltar'?'Continue o exerc\xEDcio:':'Enquanto este m\xFAsculo descansa, fa\xE7a:';
+  el.innerHTML='<div class="aluno-biset-aviso-box">'
+    +'<div class="aluno-biset-aviso-tit">'+esc(tit)+'</div>'
+    +'<div class="aluno-biset-aviso-sub">'+esc(sub)+'</div>'
+    +'<div class="aluno-biset-aviso-nome">'+esc(nome)+'</div>'
+    +'</div>';
+  document.body.appendChild(el);
+  let fechado=false;
+  let timerAuto=null;
+  let timerOut=null;
+  const fechar=function(){
+    if(fechado)return;
+    fechado=true;
+    if(timerAuto)clearTimeout(timerAuto);
+    if(timerOut)clearTimeout(timerOut);
+    el.removeEventListener('pointerdown',fechar);
+    el.removeEventListener('click',fechar);
+    el.classList.remove('aluno-biset-aviso--in');
+    el.classList.add('aluno-biset-aviso--out');
+    timerOut=setTimeout(function(){
+      if(el.parentNode)el.parentNode.removeChild(el);
+      if(typeof onDone==='function')onDone();
+    },200);
+  };
+  el.addEventListener('pointerdown',fechar);
+  el.addEventListener('click',fechar);
+  requestAnimationFrame(function(){el.classList.add('aluno-biset-aviso--in');});
+  timerAuto=setTimeout(fechar,5000);
+}
+
 /** Índice do parceiro bi-set na lista do treino (aluno). */
 function alunoBiSetParIdx(idx,exercicios){
   const list=exercicios||(treinoAtual&&treinoAtual.exercicios)||[];
@@ -9651,15 +9702,27 @@ window.alunoCheckSerieRow=function(bi,s,nSeries,timerSeg,pref){
         nomeExibido:parEx&&parEx.nome!=null?String(parEx.nome):''
       });
       console.log('[M2.2-diag] CHAMA_abrirExercicio',{targetExIdx:tIdx,parNome:parEx.nome||''});
-      abrirExercicio(parEx,tIdx);
       const tBi=step.targetBi!=null?step.targetBi:0;
       const tS=step.targetS;
-      if(tS!=null){
-        setTimeout(function(){
-          alunoRefreshExecFocoVisual();
-          const tr=document.querySelector('.aluno-serie-row[data-bi="'+tBi+'"][data-s="'+String(tS)+'"]');
-          if(tr)tr.scrollIntoView({behavior:'smooth',block:'nearest'});
-        },80);
+      const abrirPar=function(){
+        abrirExercicio(parEx,tIdx);
+        if(tS!=null){
+          setTimeout(function(){
+            alunoRefreshExecFocoVisual();
+            const tr=document.querySelector('.aluno-serie-row[data-bi="'+tBi+'"][data-s="'+String(tS)+'"]');
+            if(tr)tr.scrollIntoView({behavior:'smooth',block:'nearest'});
+          },80);
+        }
+      };
+      // Aviso visual antes da abertura automática (não altera a lógica do bi-set)
+      if(typeof alunoBiSetAvisoTroca==='function'){
+        const modoVoltar=step.role==='B';
+        alunoBiSetAvisoTroca({
+          modo:modoVoltar?'voltar':'trocar',
+          nome:parEx.nome!=null?String(parEx.nome):''
+        },abrirPar);
+      }else{
+        abrirPar();
       }
     }else{
       console.log('[M2.2-diag] ABORT parEx_invalido',{targetExIdx:step.targetExIdx,parEx:!!parEx});
