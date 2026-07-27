@@ -9449,6 +9449,60 @@ window.alunoCheckSerieRow=function(bi,s,nSeries,timerSeg,pref){
   }
   row.classList.add('aluno-serie-row--done');
   if(chk)chk.classList.add('aluno-serie-check--done');
+
+  // M2 — bi-set: alternância via helper (sem timer/descanso nesta etapa)
+  const list=(treinoAtual&&treinoAtual.exercicios)||[];
+  const curIdx=exAtual!=null&&exAtual.idx!=null?exAtual.idx:-1;
+  let step={kind:'legado'};
+  if(curIdx>=0&&list[curIdx]&&typeof alunoBiSetNextStep==='function'){
+    const g=getBiSetGrupo(list[curIdx]);
+    if(g){
+      const mi=[];
+      for(let i=0;i<list.length;i++){if(getBiSetGrupo(list[i])===g)mi.push(i);}
+      if(mi.length===2){
+        const iA=Math.min(mi[0],mi[1]),iB=Math.max(mi[0],mi[1]);
+        const countEx=function(ex){
+          const bl=normalizarExercicio(ex);
+          if(bl.length!==1)return 0;
+          const b=bl[0];
+          const pr=interpretarPrescricao(b.meta||'');
+          const tec=alunoTecnicaParaTranslator(b);
+          const tip=((b.tipo||'')+'').toLowerCase();
+          if(typeof alunoUsaRenderSerieRows==='function'&&!alunoUsaRenderSerieRows(tec,tip))return 0;
+          if(pr.modoLinhas&&pr.linhas&&pr.linhas.length)return pr.linhas.length;
+          return Math.max(1,pr.series||parseSeries(b.meta||'')||1);
+        };
+        let nA=countEx(list[iA]),nB=countEx(list[iB]);
+        const nArg=Number(nSeries);
+        if(Number(bi)===0&&Number.isInteger(nArg)&&nArg>0){
+          if(curIdx===iA)nA=nArg;
+          if(curIdx===iB)nB=nArg;
+        }
+        step=alunoBiSetNextStep({exercicios:list,exIdx:curIdx,bi:bi,s:s,nSeriesA:nA,nSeriesB:nB});
+      }
+    }
+  }
+  if(step.kind==='abrir_parceiro'||step.kind==='descanso_entao_parceiro'){
+    persistirExercicioAtualNaSessao();
+    salvarSessaoTreinoLS();
+    alunoSyncRowsProgress();
+    alunoRefreshExecFocoVisual();
+    const parEx=list[step.targetExIdx];
+    if(parEx&&step.targetExIdx!=null){
+      abrirExercicio(parEx,step.targetExIdx);
+      const tBi=step.targetBi!=null?step.targetBi:0;
+      const tS=step.targetS;
+      if(tS!=null){
+        setTimeout(function(){
+          alunoRefreshExecFocoVisual();
+          const tr=document.querySelector('.aluno-serie-row[data-bi="'+tBi+'"][data-s="'+String(tS)+'"]');
+          if(tr)tr.scrollIntoView({behavior:'smooth',block:'nearest'});
+        },80);
+      }
+    }
+    return;
+  }
+
   if(alunoHasProximaLinhaApos(bi,s)){
     const segN=Math.max(0,Number(timerSeg)||0);
     if(segN>0)iniciarTimer(segN,alunoProximoTimerLabel(bi,s,nSeries),undefined,pref);
