@@ -394,6 +394,13 @@ select.inp option{background:var(--bg3);}
 .planilha-row--biset:hover{background:rgba(237,147,177,.08);}
 .aluno-ex-biset-badge{display:inline-flex;align-items:center;gap:5px;margin:0 0 8px;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:600;color:var(--biset-color,#ED93B1);border:1px solid rgba(237,147,177,.38);background:rgba(237,147,177,.1);}
 .aluno-ex-biset-badge-ico{font-size:12px;line-height:1;}
+.aluno-biset-ctx{display:none;margin:0 0 12px;padding:14px 14px 13px;border-radius:var(--radius);border:1px solid rgba(237,147,177,.32);background:rgba(237,147,177,.07);box-sizing:border-box;}
+.aluno-biset-ctx:not([hidden]){display:block;}
+.aluno-biset-ctx-badge{display:inline-flex;align-items:center;gap:5px;margin:0 0 10px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--biset-color,#ED93B1);border:1px solid rgba(237,147,177,.4);background:rgba(237,147,177,.12);}
+.aluno-biset-ctx-badge-ico{font-size:12px;line-height:1;opacity:.95;}
+.aluno-biset-ctx-txt{margin:0;font-size:17px;font-weight:500;line-height:1.45;color:rgba(255,255,255,.88);}
+.aluno-biset-ctx-txt + .aluno-biset-ctx-txt{margin-top:6px;}
+.aluno-biset-ctx-nome{color:var(--biset-color,#ED93B1);font-weight:600;}
 .aluno-biset-aviso{position:fixed;inset:0;z-index:9990;display:flex;align-items:center;justify-content:center;padding:28px 22px;background:rgba(0,0,0,.55);opacity:0;transition:opacity .2s ease;pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .aluno-biset-aviso--in{opacity:1;}
 .aluno-biset-aviso--out{opacity:0;pointer-events:none;}
@@ -688,12 +695,15 @@ select.inp option{background:var(--bg3);}
 #screen-prof-ciclos .prof-ciclos-card-toggle--on{background:#4ade80;}
 #screen-prof-ciclos .prof-ciclos-card-toggle--on::after{transform:translateX(16px);}
 #screen-prof-ciclos .prof-ciclos-card-wrap--arq .prof-ciclos-card-toggle{cursor:default;pointer-events:none;}
-#screen-prof-ciclos .prof-ciclos-card-ren{position:absolute;top:10px;right:10px;width:26px;height:26px;padding:0;border:none;border-radius:8px;background:transparent;color:rgba(255,255,255,.28);font-size:17px;line-height:1;cursor:pointer;font-family:inherit;z-index:1;}
+#screen-prof-ciclos .prof-ciclos-card-actions{position:absolute;top:8px;right:8px;display:flex;align-items:center;gap:2px;z-index:1;}
+#screen-prof-ciclos .prof-ciclos-card-ren,
+#screen-prof-ciclos .prof-ciclos-card-del{position:static;top:auto;right:auto;width:26px;height:26px;padding:0;border:none;border-radius:8px;background:transparent;color:rgba(255,255,255,.28);font-size:17px;line-height:1;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;transition:color .15s,background .15s;}
 #screen-prof-ciclos .prof-ciclos-card-ren:hover{color:rgba(255,255,255,.65);background:rgba(255,255,255,.06);}
+#screen-prof-ciclos .prof-ciclos-card-del svg{display:block;width:15px;height:15px;}
+#screen-prof-ciclos .prof-ciclos-card-del:hover,
+#screen-prof-ciclos .prof-ciclos-card-del:active{color:rgba(255,85,85,.9);background:rgba(255,85,85,.1);}
 #screen-prof-ciclos .prof-ciclos-card-dup{display:block;width:100%;margin-top:6px;padding:0;border:none;background:transparent;color:rgba(255,255,255,.32);font-family:inherit;font-size:11px;font-weight:500;text-align:left;cursor:pointer;transition:color .15s;}
 #screen-prof-ciclos .prof-ciclos-card-dup:hover{color:rgba(255,255,255,.55);}
-#screen-prof-ciclos .prof-ciclos-card-del{display:block;width:100%;margin-top:4px;padding:0;border:none;background:transparent;color:rgba(255,85,85,.45);font-family:inherit;font-size:11px;font-weight:500;text-align:left;cursor:pointer;transition:color .15s;}
-#screen-prof-ciclos .prof-ciclos-card-del:hover{color:rgba(255,85,85,.85);}
 #screen-prof-ciclos .prof-ciclos-sem-sec{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06);}
 #screen-prof-ciclos .prof-ciclos-sem-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:rgba(255,255,255,.55);font-family:inherit;font-size:13px;cursor:pointer;text-align:left;}
 #screen-prof-ciclos .prof-ciclos-sem-btn:active{background:rgba(255,255,255,.06);}
@@ -2653,6 +2663,7 @@ select.inp option{background:var(--bg3);}
       </div>
       <div class="presc-meta-discreta" id="aluno-exec-meta-discreta"></div>
     </div>
+    <div id="aluno-biset-ctx" class="aluno-biset-ctx" hidden></div>
     <header id="aluno-ex-header" class="aluno-ex-header">
       <div id="aluno-ex-biset-badge-wrap"></div>
       <h2 class="aluno-ex-header-name" id="aluno-ex-header-name"></h2>
@@ -3365,6 +3376,7 @@ const PROF_CICLO_CARD_CORES=[
   {ico:'#f472b6'}
 ];
 const PROF_CICLO_FOLDER_SVG='<svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" aria-hidden="true"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>';
+const PROF_CICLO_TRASH_SVG='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
 
 function profCiclosCardHtml(c,idx,count,opts){
   opts=opts||{};
@@ -3376,9 +3388,11 @@ function profCiclosCardHtml(c,idx,count,opts){
   const toggleCls=vis?' prof-ciclos-card-toggle--on':'';
   const wrapCls=arquivado?' prof-ciclos-card-wrap--arq':'';
   const visLbl=vis?'\ud83d\udc41 Vis\u00edvel para aluno':'Oculta para aluno';
-  const renBtn=arquivado?'':'<button type="button" class="prof-ciclos-card-ren" onclick="profCiclosRenomear(\''+escJs(c.id)+'\')" aria-label="Renomear pasta">\u22ef</button>';
+  const actions=arquivado?'':('<div class="prof-ciclos-card-actions">'
+    +'<button type="button" class="prof-ciclos-card-del" onclick="event.stopPropagation();profCiclosExcluir(\''+escJs(c.id)+'\')" aria-label="Excluir pasta">'+PROF_CICLO_TRASH_SVG+'</button>'
+    +'<button type="button" class="prof-ciclos-card-ren" onclick="event.stopPropagation();profCiclosRenomear(\''+escJs(c.id)+'\')" aria-label="Mais op\u00e7\u00f5es">\u22ef</button>'
+    +'</div>');
   const dupBtn=arquivado?'':'<button type="button" class="prof-ciclos-card-dup" onclick="event.stopPropagation();profCiclosDuplicar(\''+escJs(c.id)+'\')">Duplicar</button>';
-  const delBtn=arquivado?'':'<button type="button" class="prof-ciclos-card-del" onclick="event.stopPropagation();profCiclosExcluir(\''+escJs(c.id)+'\')">Excluir pasta</button>';
   const openStart=arquivado
     ?'<div class="prof-ciclos-card-open">'
     :'<button type="button" class="prof-ciclos-card-open" onclick="profCiclosAbrirPasta(\''+escJs(c.id)+'\')">';
@@ -3387,7 +3401,7 @@ function profCiclosCardHtml(c,idx,count,opts){
     ?'<span class="prof-ciclos-card-toggle'+toggleCls+'" aria-hidden="true"></span>'
     :'<button type="button" class="prof-ciclos-card-toggle'+toggleCls+'" onclick="profCiclosToggleVisibilidade(\''+escJs(c.id)+'\')" aria-label="'+(vis?'Ocultar pasta do aluno':'Mostrar pasta para o aluno')+'"></button>';
   return'<article class="prof-ciclos-card-wrap'+wrapCls+'">'
-    +renBtn
+    +actions
     +'<div class="prof-ciclos-card" style="--ciclo-ico:'+cor.ico+'">'
     +openStart
     +'<span class="prof-ciclos-card-ico-wrap"><span class="prof-ciclos-card-ico">'+PROF_CICLO_FOLDER_SVG+'</span><span class="prof-ciclos-card-badge '+badgeCls+'" aria-hidden="true">'+badgeTxt+'</span></span>'
@@ -3395,7 +3409,6 @@ function profCiclosCardHtml(c,idx,count,opts){
     +'<span class="prof-ciclos-card-count">'+count+' treino'+(count!==1?'s':'')+'</span>'
     +openEnd
     +dupBtn
-    +delBtn
     +'<div class="prof-ciclos-card-foot"><span class="prof-ciclos-card-vis-lbl">'+visLbl+'</span>'+toggleBtn+'</div>'
     +'</div>'
     +'</article>';
@@ -8354,6 +8367,7 @@ function paintAlunoExHeader(ex,idx){
   const actsEl=$('aluno-ex-header-actions');
   const bisetWrap=$('aluno-ex-biset-badge-wrap');
   if(bisetWrap)bisetWrap.innerHTML=alunoExBiSetBadgeHtml(idx);
+  paintAlunoBiSetCtx(ex,idx);
   if(!nomeEl&&!prescEl)return;
   if(nomeEl)nomeEl.textContent=ex.nome||'';
   if(prescEl)prescEl.textContent=alunoResumoPrescricaoCompacto(ex);
@@ -8386,6 +8400,64 @@ function paintAlunoExHeader(ex,idx){
     }
   }
   document.querySelectorAll('#aluno-ex-header-actions .aluno-ex-chip--on').forEach(b=>b.classList.remove('aluno-ex-chip--on'));
+}
+
+/** Nome ativo na execu\u00e7\u00e3o (substituto ou prescrito) via resolvers existentes. */
+function alunoNomeAtivoPorIdx(idx){
+  if(exAtual&&Number(exAtual.idx)===Number(idx)&&exAtual.nome!=null&&String(exAtual.nome).trim())
+    return String(exAtual.nome).trim();
+  const ativo=typeof alunoExAtivoExecucaoGet==='function'?alunoExAtivoExecucaoGet(idx):null;
+  if(ativo&&ativo.nome!=null&&String(ativo.nome).trim())return String(ativo.nome).trim();
+  const aberto=typeof alunoExParaAbrir==='function'?alunoExParaAbrir(idx):null;
+  if(aberto&&aberto.nome!=null&&String(aberto.nome).trim())return String(aberto.nome).trim();
+  return'';
+}
+
+/** Card de contexto do bi-set (s\u00f3 visual). N\u00e3o altera navega\u00e7\u00e3o. */
+function paintAlunoBiSetCtx(ex,idx){
+  const box=$('aluno-biset-ctx');
+  if(!box)return;
+  const cur=ex||exAtual;
+  if(!cur||!isBiSetExercicio(cur)){
+    box.hidden=true;
+    box.innerHTML='';
+    return;
+  }
+  const list=(treinoAtual&&treinoAtual.exercicios)||[];
+  const curIdx=idx!=null?idx:(exAtual&&exAtual.idx);
+  if(curIdx==null||curIdx<0){
+    box.hidden=true;
+    box.innerHTML='';
+    return;
+  }
+  const parIdx=alunoBiSetParIdx(curIdx,list);
+  if(parIdx<0){
+    box.hidden=true;
+    box.innerHTML='';
+    return;
+  }
+  const idxA=Math.min(curIdx,parIdx);
+  const idxB=Math.max(curIdx,parIdx);
+  const role=curIdx===idxA?'A':'B';
+  const nomeA=alunoNomeAtivoPorIdx(idxA)||'Exerc\u00edcio A';
+  const nomeB=alunoNomeAtivoPorIdx(idxB)||'Exerc\u00edcio B';
+  const nomeCur=(exAtual&&Number(exAtual.idx)===Number(curIdx)&&exAtual.nome)
+    ?String(exAtual.nome).trim()
+    :alunoNomeAtivoPorIdx(curIdx);
+  let badgeLbl,line1,line2;
+  if(role==='A'){
+    badgeLbl='BI-SET \u00b7 S\u00c9RIE ATUAL';
+    line1='De volta ao <span class="aluno-biset-ctx-nome">'+esc(nomeCur||nomeA)+'</span>.';
+    line2='Ap\u00f3s terminar, continue no <span class="aluno-biset-ctx-nome">'+esc(nomeB)+'</span>.';
+  }else{
+    badgeLbl='BI-SET \u00b7 AGORA O SEGUNDO';
+    line1='<span class="aluno-biset-ctx-nome">'+esc(nomeA)+'</span> conclu\u00edda.';
+    line2='Agora fa\u00e7a o <span class="aluno-biset-ctx-nome">'+esc(nomeCur||nomeB)+'</span>.';
+  }
+  box.innerHTML='<div class="aluno-biset-ctx-badge"><span class="aluno-biset-ctx-badge-ico" aria-hidden="true">\uD83D\uDD17</span>'+esc(badgeLbl)+'</div>'
+    +'<p class="aluno-biset-ctx-txt">'+line1+'</p>'
+    +'<p class="aluno-biset-ctx-txt">'+line2+'</p>';
+  box.hidden=false;
 }
 
 window.alunoExHeaderToggleVideo=function(){
